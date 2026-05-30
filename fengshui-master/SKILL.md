@@ -1,6 +1,6 @@
 ---
 name: fengshui-master
-description: "Use when applying traditional Chinese feng shui to spaces or cross-domain decisions: homes, offices, shops, land, floor plans, finance, investing, business, brand, career, product, learning, wellbeing, relationships, entrances, beds, desks, kitchens, remedies, date selection, luopan bearings, ming gua, xuan kong flying stars, yin house, bagua, five phases, form school, compass school, eight mansions, san he, san yuan, or culturally grounded feng shui explanations."
+description: "Use when applying traditional Chinese feng shui to spaces or cross-domain decisions: homes, offices, shops, land, floor plans, structured floor-plan JSON, finance, investing, business, brand, career, product, learning, wellbeing, relationships, entrances, beds, desks, kitchens, remedies, date selection, luopan bearings, ming gua, xuan kong flying stars, yin house, bagua, five phases, form school, compass school, eight mansions, san he, san yuan, or culturally grounded feng shui explanations."
 ---
 
 # FengShui Master
@@ -25,6 +25,7 @@ For quick requests, proceed with stated assumptions and mark them clearly.
    - Use `scripts/domain_router.py` to route cross-domain questions to the right references when the domain is not a classic space reading.
    - Use `references/domain-adapters.md` when applying feng shui to finance, business, brand, career, product, learning, wellbeing, relationships, negotiation, or other non-spatial domains.
    - Use `references/finance-adapter.md` for investment, trading, portfolio, budgeting, wealth, cash flow, business finance, market timing, or crypto questions.
+   - Use `references/floorplan-schema.md` when the user can provide structured room/site annotations or wants repeatable plan analysis.
    - Use `references/foundation.md` for yin-yang, qi, five phases, bagua, stems/branches, and 24 mountains.
    - Use `references/forms-and-environment.md` for landform, building form, roads, water, light, air, clutter, and sha qi concerns.
    - Use `references/schools.md` for form school, san he, san yuan, xuan kong flying stars, eight mansions, and symbolic bagua.
@@ -49,6 +50,7 @@ For quick requests, proceed with stated assumptions and mark them clearly.
 | Finance, investing, trading, budgeting, wealth, cash flow | `references/finance-adapter.md` plus `references/ethics-and-limits.md` |
 | Business, brand, career, product, learning, wellbeing, relationships, negotiation | `references/domain-adapters.md` |
 | Cross-domain routing | Run `python fengshui-master/scripts/domain_router.py "<question>"` |
+| Structured floor-plan, office, shop, room, or site JSON | `references/floorplan-schema.md`; run `python fengshui-master/scripts/analyze_floorplan.py <json>` |
 | Basic terms, bagua, five phases, qi, yin-yang, 24 mountains | `references/foundation.md` |
 | Roads, rivers, mountains, building shapes, external sha, landscape | `references/forms-and-environment.md` |
 | Which feng shui school to apply | `references/schools.md` |
@@ -119,6 +121,14 @@ python fengshui-master/scripts/domain_router.py "Should I buy this stock next mo
 ```
 
 For finance, always use the domain's real constraints first and feng shui as a symbolic support lens only.
+
+Use `scripts/analyze_floorplan.py` when the user provides a structured floor-plan JSON:
+
+```bash
+python fengshui-master/scripts/analyze_floorplan.py fengshui-master/assets/sample-floorplan.json --pretty
+```
+
+Treat the result as an intake and form-analysis scaffold. Continue with visual evidence, compass verification, and user constraints when needed.
 
 ## Common Mistakes
 

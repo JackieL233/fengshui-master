@@ -22,6 +22,7 @@ class SkillInventoryTest(unittest.TestCase):
             "sample-readings.md",
             "domain-adapters.md",
             "finance-adapter.md",
+            "floorplan-schema.md",
             "ethics-and-limits.md",
             "sources.md",
         ]
@@ -41,6 +42,7 @@ class SkillInventoryTest(unittest.TestCase):
             "periods.py",
             "flying_stars.py",
             "domain_router.py",
+            "analyze_floorplan.py",
         ]:
             with self.subTest(filename=filename):
                 self.assertTrue((SKILL / "scripts" / filename).exists())

@@ -1,0 +1,111 @@
+{
+  "name": "Sample compact apartment",
+  "type": "residential",
+  "facing_degrees": 180,
+  "north_degrees": 0,
+  "units": "meters",
+  "bounds": {
+    "width": 10,
+    "height": 8
+  },
+  "rooms": [
+    {
+      "id": "entry",
+      "type": "entry",
+      "name": "Entry",
+      "x": 4.2,
+      "y": 0,
+      "width": 1.6,
+      "height": 1.2
+    },
+    {
+      "id": "living",
+      "type": "living",
+      "name": "Living Room",
+      "x": 2,
+      "y": 1.2,
+      "width": 6,
+      "height": 3.2
+    },
+    {
+      "id": "bedroom",
+      "type": "bedroom",
+      "name": "Bedroom",
+      "x": 0,
+      "y": 4.4,
+      "width": 4.8,
+      "height": 3.6
+    },
+    {
+      "id": "kitchen",
+      "type": "kitchen",
+      "name": "Kitchen",
+      "x": 7,
+      "y": 4.4,
+      "width": 3,
+      "height": 2
+    },
+    {
+      "id": "bath",
+      "type": "bathroom",
+      "name": "Bathroom",
+      "x": 4.8,
+      "y": 4.4,
+      "width": 2.2,
+      "height": 2
+    }
+  ],
+  "features": [
+    {
+      "id": "front-door",
+      "type": "door",
+      "room": "entry",
+      "x": 5,
+      "y": 0,
+      "facing_degrees": 180
+    },
+    {
+      "id": "rear-window",
+      "type": "window",
+      "room": "living",
+      "x": 5,
+      "y": 4.4,
+      "facing_degrees": 0
+    },
+    {
+      "id": "bed",
+      "type": "bed",
+      "room": "bedroom",
+      "x": 1.2,
+      "y": 6.4,
+      "head_degrees": 270
+    },
+    {
+      "id": "desk",
+      "type": "desk",
+      "room": "living",
+      "x": 7,
+      "y": 2.4,
+      "facing_degrees": 90
+    },
+    {
+      "id": "stove",
+      "type": "stove",
+      "room": "kitchen",
+      "x": 8.5,
+      "y": 5.1,
+      "facing_degrees": 180
+    },
+    {
+      "id": "sink",
+      "type": "sink",
+      "room": "kitchen",
+      "x": 7.5,
+      "y": 5.1
+    }
+  ],
+  "notes": [
+    "Synthetic example for tests and documentation.",
+    "Door and rear window are intentionally aligned."
+  ]
+}

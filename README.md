@@ -1,6 +1,6 @@
 # FengShui Master
 
-FengShui Master is an open Codex skill for traditional Chinese feng shui analysis. It provides structured workflows, reference material, and deterministic helpers for analyzing homes, offices, shops, rooms, land, floor plans, entrances, beds, desks, kitchens, directions, timing, xuan kong scaffolds, environmental form, and cross-domain decisions such as finance, business, brand, career, product, learning, and wellbeing.
+FengShui Master is an open Codex skill for traditional Chinese feng shui analysis. It provides structured workflows, reference material, deterministic helpers, and a JSON floor-plan intake format for analyzing homes, offices, shops, rooms, land, floor plans, entrances, beds, desks, kitchens, directions, timing, xuan kong scaffolds, environmental form, and cross-domain decisions such as finance, business, brand, career, product, learning, and wellbeing.
 
 The project treats feng shui as a traditional cultural and spatial-analysis system. It does not present symbolic readings as guaranteed predictions.
 
@@ -16,6 +16,7 @@ The project treats feng shui as a traditional cultural and spatial-analysis syst
 - Yin house boundaries: cemetery and burial-site intake, conservative form reading, ethics and safety.
 - Cross-domain adapters: finance, business, brand, career, product, learning, wellbeing, relationships, and negotiation.
 - Finance adapter: symbolic feng shui lens for investing, portfolio, budget, cash flow, and market-timing questions with strong financial guardrails.
+- Structured floor-plan input: JSON schema, sample plan, and analyzer for repeatable room/site intake.
 - Glossary and case patterns: Chinese terminology, response templates, comparison matrices.
 - Safety and ethics: high-stakes claims, cultural respect, modern building constraints.
 - Tooling: compass bearing to 24-mountain conversion, ming gua lookup, san yuan period lookup, basic flying-star scaffold.
@@ -34,7 +35,8 @@ The project treats feng shui as a traditional cultural and spatial-analysis syst
 | Yin house / burial sites | Partially covered | Boundaries and conservative form reading included; advanced lineage formulas not automated |
 | Cross-domain application | Partially covered | Finance, business, brand, career, product, learning, wellbeing, relationships, and negotiation adapter included |
 | Finance / investing lens | Partially covered | Symbolic decision-support framework included; no investment recommendation engine |
-| Image, map, or floor-plan auto parsing | Not covered | Skill can analyze provided evidence, but no computer-vision or GIS parser is included |
+| Structured floor-plan JSON | Fully covered | Schema, sample, and intake analyzer included |
+| Image, map, or floor-plan auto parsing | Partially covered | Structured JSON is supported; raw computer-vision or GIS parsing is not included |
 | Full bazi / four pillars | Not covered | Only ming gua is included; bazi is intentionally outside current scope |
 
 ## Repository Layout
@@ -57,6 +59,7 @@ fengshui-master/
     sample-readings.md
     domain-adapters.md
     finance-adapter.md
+    floorplan-schema.md
     ethics-and-limits.md
     sources.md
   scripts/
@@ -65,6 +68,9 @@ fengshui-master/
     periods.py
     flying_stars.py
     domain_router.py
+    analyze_floorplan.py
+  assets/
+    sample-floorplan.json
 tests/
   test_luopan.py
   test_minggua.py
@@ -136,6 +142,14 @@ python fengshui-master/scripts/domain_router.py "Should I buy this stock next mo
 
 The router points Codex to the correct references and guardrails; it does not make the decision.
 
+Analyze a structured floor-plan JSON:
+
+```bash
+python fengshui-master/scripts/analyze_floorplan.py fengshui-master/assets/sample-floorplan.json --pretty
+```
+
+The JSON format is documented in `fengshui-master/references/floorplan-schema.md`.
+
 ## Validate
 
 Run the standard-library tests:
@@ -157,6 +171,7 @@ This is a comprehensive v1 skill with clear boundaries. Contributions are welcom
 - Primary-source references and careful summaries.
 - Additional lineage-specific notes with school labels.
 - More deterministic tools, such as full natal flying-star charting, almanac-backed date selection, or floor-plan annotation.
+- Additional sample floor plans for residential, office, retail, restaurant, site, and yin-house cases.
 - Additional domain adapters for law-adjacent decisions, education, health-adjacent wellbeing, and product strategy.
 - Example analyses and test fixtures.
 
