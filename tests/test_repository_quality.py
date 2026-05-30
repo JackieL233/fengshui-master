@@ -14,6 +14,7 @@ PR_TEMPLATE = ROOT / ".github" / "pull_request_template.md"
 README_ZH = ROOT / "README.zh-CN.md"
 DEPLOYMENT = ROOT / "DEPLOYMENT.md"
 REPOSITORY_METADATA = ROOT / ".github" / "repository-metadata.yml"
+PORTABLE_SKILL = ROOT / "PORTABLE_SKILL.md"
 
 
 class RepositoryQualityTest(unittest.TestCase):
@@ -80,6 +81,52 @@ class RepositoryQualityTest(unittest.TestCase):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, chinese_readme)
 
+    def test_project_is_positioned_as_portable_ai_skill(self):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        chinese_readme = README_ZH.read_text(encoding="utf-8")
+        metadata = REPOSITORY_METADATA.read_text(encoding="utf-8")
+
+        for phrase in [
+            "portable AI skill",
+            "Codex-compatible",
+            "general agent capability pack",
+            "PORTABLE_SKILL.md",
+            "Codex Installation",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, readme)
+
+        for phrase in [
+            "通用 AI Skill",
+            "兼容 Codex",
+            "智能体能力包",
+            "PORTABLE_SKILL.md",
+            "Codex 安装",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, chinese_readme)
+
+        for phrase in ["ai-skill", "agent-skill", "portable-skill", "codex-skill"]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, metadata)
+
+    def test_portable_skill_guide_exists(self):
+        self.assertTrue(PORTABLE_SKILL.exists())
+        guide = PORTABLE_SKILL.read_text(encoding="utf-8")
+
+        for phrase in [
+            "Portable AI Skill",
+            "System Instruction",
+            "Use With Any Agent",
+            "Codex Compatibility",
+            "通用 AI Skill",
+            "系统指令",
+            "任意智能体",
+            "兼容 Codex",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, guide)
+
     def test_deployment_docs_and_metadata_are_present(self):
         self.assertTrue(DEPLOYMENT.exists())
         deployment = DEPLOYMENT.read_text(encoding="utf-8")
@@ -97,7 +144,7 @@ class RepositoryQualityTest(unittest.TestCase):
         metadata = REPOSITORY_METADATA.read_text(encoding="utf-8")
         for phrase in [
             "fengshui-master",
-            "Comprehensive Codex skill",
+            "Portable AI skill",
             "feng-shui",
             "wuxing",
             "traditional-chinese-culture",

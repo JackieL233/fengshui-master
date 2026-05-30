@@ -2,7 +2,9 @@
 
 [中文说明](README.zh-CN.md)
 
-FengShui Master is an open Codex skill for traditional Chinese feng shui and broad wuxing symbolic analysis. It provides structured workflows, reference material, deterministic helpers, and a JSON floor-plan intake format for analyzing homes, offices, shops, rooms, land, floor plans, entrances, beds, desks, kitchens, directions, timing, xuan kong scaffolds, environmental form, life patterns, auspiciousness, inauspiciousness, and cross-domain decisions such as finance, business, brand, career, product, learning, and wellbeing.
+FengShui Master is a portable AI skill and general agent capability pack for traditional Chinese feng shui and broad wuxing symbolic analysis. It is Codex-compatible through `fengshui-master/SKILL.md`, but the knowledge base, workflows, scripts, examples, and guardrails are designed to work with any capable LLM, agent framework, assistant, or local automation environment.
+
+It provides structured workflows, reference material, deterministic helpers, portable system instructions, and a JSON floor-plan intake format for analyzing homes, offices, shops, rooms, land, floor plans, entrances, beds, desks, kitchens, directions, timing, xuan kong scaffolds, environmental form, life patterns, auspiciousness, inauspiciousness, and cross-domain decisions such as finance, business, brand, career, product, learning, and wellbeing.
 
 The project treats feng shui as a traditional cultural, spatial, and symbolic-analysis system. It does not present symbolic readings as guaranteed predictions.
 
@@ -17,19 +19,19 @@ fengshui-master
 Suggested short description:
 
 ```text
-Comprehensive Codex skill for traditional Chinese feng shui, wuxing, auspiciousness, and cross-domain symbolic analysis.
+Portable AI skill and Codex-compatible capability pack for traditional Chinese feng shui, wuxing, auspiciousness, spatial analysis, and cross-domain symbolic decision support.
 ```
 
 Suggested Chinese description:
 
 ```text
-全面的 Codex 风水 Skill，覆盖传统风水、五行、吉凶、空间分析与跨领域象义分析。
+通用 AI Skill 与兼容 Codex 的风水智能体能力包，覆盖传统风水、五行、吉凶、空间分析与跨领域象义决策支持。
 ```
 
 Suggested topics:
 
 ```text
-feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditional-chinese-culture, codex-skill, symbolic-analysis, spatial-analysis, cultural-analysis, auspiciousness
+feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditional-chinese-culture, ai-skill, agent-skill, portable-skill, codex-skill, symbolic-analysis, spatial-analysis, cultural-analysis, auspiciousness
 ```
 
 ## What This Skill Covers
@@ -85,6 +87,9 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 ## Repository Layout
 
 ```text
+PORTABLE_SKILL.md
+README.md
+README.zh-CN.md
 fengshui-master/
   SKILL.md
   agents/openai.yaml
@@ -144,7 +149,18 @@ tests/
   test_skill_inventory.py
 ```
 
-## Install as a Local Codex Skill
+## Portable Usage
+
+Use [`PORTABLE_SKILL.md`](PORTABLE_SKILL.md) when you want FengShui Master outside Codex. It contains a copyable system instruction, required operating rules, report structure, domain routing guidance, and Chinese instructions for any AI agent or assistant.
+
+Common integration patterns:
+
+- **ChatGPT, Claude, Gemini, local LLMs, or custom agents**: paste the "System Instruction" from `PORTABLE_SKILL.md`, then provide the relevant files from `fengshui-master/references/` as retrieval context.
+- **Agent frameworks**: expose `fengshui-master/scripts/` as tools and let the agent read `PORTABLE_SKILL.md` plus the routed reference files.
+- **RAG systems**: index `fengshui-master/references/`, keep `PORTABLE_SKILL.md` as the top-level behavior policy, and keep `fengshui-master/SKILL.md` as the Codex adapter.
+- **Manual use**: run `create_brief.py`, `domain_router.py`, and `generate_report.py` from the command line to create structured analysis scaffolds before writing the final answer.
+
+## Codex Installation
 
 Copy or symlink the `fengshui-master/` folder into your Codex skills directory.
 
@@ -164,12 +180,14 @@ Then ask Codex to use `$fengshui-master`.
 
 ## Example Prompts
 
-- `Use $fengshui-master to review this apartment floor plan from a form-school perspective.`
-- `Use $fengshui-master to analyze my desk placement. The desk faces 92 degrees and the door is behind my left side.`
-- `Use $fengshui-master to compare two retail storefronts for customer flow and entrance quality.`
-- `Use $fengshui-master to analyze my career phase through five phases and 趋吉避凶 planning.`
-- `Use $fengshui-master to review this investment decision through finance-first analysis and feng shui symbolism.`
-- `Use $fengshui-master to explain the difference between san he, san yuan, xuan kong, and ba zhai.`
+- `Use FengShui Master to review this apartment floor plan from a form-school perspective.`
+- `Use FengShui Master to analyze my desk placement. The desk faces 92 degrees and the door is behind my left side.`
+- `Use FengShui Master to compare two retail storefronts for customer flow and entrance quality.`
+- `Use FengShui Master to analyze my career phase through five phases and 趋吉避凶 planning.`
+- `Use FengShui Master to review this investment decision through finance-first analysis and feng shui symbolism.`
+- `Use FengShui Master to explain the difference between san he, san yuan, xuan kong, and ba zhai.`
+
+In Codex, the same prompts can use `$fengshui-master`.
 
 ## Luopan Helper
 

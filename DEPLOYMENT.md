@@ -1,6 +1,6 @@
 # Deployment / 开源部署
 
-This checklist is the release playbook for publishing FengShui Master to GitHub.
+This checklist is the release playbook for publishing FengShui Master to GitHub as a portable AI skill, general agent capability pack, and Codex-compatible skill.
 
 本文件是 FengShui Master 发布到 GitHub 的中英双语部署清单。
 
@@ -27,19 +27,19 @@ fengshui-master
 Description:
 
 ```text
-Comprehensive Codex skill for traditional Chinese feng shui, wuxing, auspiciousness, and cross-domain symbolic analysis.
+Portable AI skill and Codex-compatible capability pack for traditional Chinese feng shui, wuxing, auspiciousness, spatial analysis, and cross-domain symbolic decision support.
 ```
 
 中文简介：
 
 ```text
-全面的 Codex 风水 Skill，覆盖传统风水、五行、吉凶、空间分析与跨领域象义分析。
+通用 AI Skill 与兼容 Codex 的风水智能体能力包，覆盖传统风水、五行、吉凶、空间分析与跨领域象义决策支持。
 ```
 
 Topics:
 
 ```text
-feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditional-chinese-culture, codex-skill, symbolic-analysis, spatial-analysis, cultural-analysis, auspiciousness
+feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditional-chinese-culture, ai-skill, agent-skill, portable-skill, codex-skill, symbolic-analysis, spatial-analysis, cultural-analysis, auspiciousness
 ```
 
 ## Before Push / 推送前检查
@@ -69,6 +69,7 @@ Recommended browser settings:
 - Visibility: Public.
 - Do not initialize with README, `.gitignore`, or license because this repository already contains them.
 - Description: use the metadata description above.
+- Topics: include `ai-skill`, `agent-skill`, `portable-skill`, and `codex-skill`.
 
 ## Push / 推送
 
@@ -88,6 +89,7 @@ The local branch is currently `master`. The push command publishes it as remote 
 Open the repository page and verify:
 
 - README renders in English and links to `README.zh-CN.md`.
+- `PORTABLE_SKILL.md` is visible and explains platform-independent use.
 - Chinese README renders correctly.
 - License is visible.
 - GitHub Actions starts and passes.

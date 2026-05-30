@@ -58,6 +58,7 @@ def audit_skill_inventory(errors: list[str]) -> None:
 def audit_referenced_files_exist(errors: list[str]) -> None:
     searchable = [
         ROOT / "README.md",
+        ROOT / "PORTABLE_SKILL.md",
         ROOT / "CONTRIBUTING.md",
         SKILL / "SKILL.md",
         *sorted((SKILL / "references").glob("*.md")),
@@ -99,6 +100,49 @@ def audit_github_files(errors: list[str]) -> None:
             fail(errors, f"missing {path.relative_to(ROOT)}")
 
 
+def audit_portable_skill_positioning(errors: list[str]) -> None:
+    readme = read(ROOT / "README.md")
+    chinese = read(ROOT / "README.zh-CN.md")
+    metadata = read(ROOT / ".github" / "repository-metadata.yml")
+    portable_path = ROOT / "PORTABLE_SKILL.md"
+
+    if not portable_path.exists():
+        fail(errors, "missing PORTABLE_SKILL.md")
+        return
+
+    portable = read(portable_path)
+    for term in [
+        "Portable AI Skill",
+        "System Instruction",
+        "Use With Any Agent",
+        "Codex Compatibility",
+        "通用 AI Skill",
+        "系统指令",
+        "任意智能体",
+        "兼容 Codex",
+    ]:
+        if term not in portable:
+            fail(errors, f"PORTABLE_SKILL.md missing {term}")
+
+    for term in [
+        "portable AI skill",
+        "Codex-compatible",
+        "general agent capability pack",
+        "PORTABLE_SKILL.md",
+        "Codex Installation",
+    ]:
+        if term not in readme:
+            fail(errors, f"README.md missing portable positioning term {term}")
+
+    for term in ["通用 AI Skill", "智能体能力包", "兼容 Codex", "PORTABLE_SKILL.md", "Codex 安装"]:
+        if term not in chinese:
+            fail(errors, f"README.zh-CN.md missing portable positioning term {term}")
+
+    for term in ["Portable AI skill", "ai-skill", "agent-skill", "portable-skill", "codex-skill"]:
+        if term not in metadata:
+            fail(errors, f"repository metadata missing portable term {term}")
+
+
 def audit_bilingual_docs(errors: list[str]) -> None:
     english = read(ROOT / "README.md")
     chinese_path = ROOT / "README.zh-CN.md"
@@ -112,7 +156,7 @@ def audit_bilingual_docs(errors: list[str]) -> None:
     for term in ["风水", "五行", "金融", "免责声明", "GitHub Actions"]:
         if term not in chinese:
             fail(errors, f"README.zh-CN.md missing {term}")
-    for topic in ["feng-shui", "wuxing", "codex-skill", "symbolic-analysis"]:
+    for topic in ["feng-shui", "wuxing", "ai-skill", "agent-skill", "portable-skill", "codex-skill", "symbolic-analysis"]:
         if topic not in english or topic not in chinese:
             fail(errors, f"README metadata missing topic {topic}")
 
@@ -132,7 +176,7 @@ def audit_deployment_docs(errors: list[str]) -> None:
     for term in ["git remote add origin", "git push -u origin master:main", "部署", "GitHub Actions"]:
         if term not in deployment:
             fail(errors, f"DEPLOYMENT.md missing {term}")
-    for term in ["fengshui-master", "Comprehensive Codex skill", "feng-shui", "wuxing", "symbolic-analysis"]:
+    for term in ["fengshui-master", "Portable AI skill", "feng-shui", "wuxing", "ai-skill", "agent-skill", "portable-skill", "codex-skill", "symbolic-analysis"]:
         if term not in metadata:
             fail(errors, f"repository metadata missing {term}")
 
@@ -166,6 +210,7 @@ def main() -> int:
     audit_skill_inventory(errors)
     audit_referenced_files_exist(errors)
     audit_github_files(errors)
+    audit_portable_skill_positioning(errors)
     audit_bilingual_docs(errors)
     audit_deployment_docs(errors)
     audit_guardrails(errors)

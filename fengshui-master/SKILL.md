@@ -9,6 +9,8 @@ description: "Use when applying traditional Chinese feng shui and broad wuxing s
 
 Use FengShui Master to provide culturally grounded feng shui and broad Chinese symbolic analysis without presenting symbolic judgments as guaranteed outcomes. Combine traditional frameworks, observable spatial facts, life/event context, user intent, and modern safety constraints.
 
+This file is the Codex-compatible entry point for a broader portable AI skill. For platform-independent agent instructions, see the repository-level `PORTABLE_SKILL.md`.
+
 Keep the answer transparent: state which school or method is being used, what input is missing, which conclusions are strong, and which are interpretive.
 
 ## First Move

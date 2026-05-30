@@ -2,8 +2,8 @@ repository:
   name: fengshui-master
   visibility: public
   default_branch: main
-  description: "Comprehensive Codex skill for traditional Chinese feng shui, wuxing, auspiciousness, and cross-domain symbolic analysis."
-  description_zh: "全面的 Codex 风水 Skill，覆盖传统风水、五行、吉凶、空间分析与跨领域象义分析。"
+  description: "Portable AI skill and Codex-compatible capability pack for traditional Chinese feng shui, wuxing, auspiciousness, spatial analysis, and cross-domain symbolic decision support."
+  description_zh: "通用 AI Skill 与兼容 Codex 的风水智能体能力包，覆盖传统风水、五行、吉凶、空间分析与跨领域象义决策支持。"
   homepage: ""
   topics:
     - feng-shui
@@ -13,6 +13,9 @@ repository:
     - bagua
     - chinese-metaphysics
     - traditional-chinese-culture
+    - ai-skill
+    - agent-skill
+    - portable-skill
     - codex-skill
     - symbolic-analysis
     - spatial-analysis
