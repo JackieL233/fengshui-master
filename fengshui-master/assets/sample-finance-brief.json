@@ -1,0 +1,46 @@
+{
+  "question": "Should I buy this stock next month using feng shui?",
+  "domain": "finance",
+  "references": [
+    "references/finance-adapter.md",
+    "references/domain-adapters.md",
+    "references/five-phase-domain-map.md",
+    "references/ethics-and-limits.md",
+    "references/timing-and-date-selection.md"
+  ],
+  "guardrails": [
+    "This is not financial advice.",
+    "Do not guarantee profit, timing, or risk-free outcomes.",
+    "Use feng shui as a symbolic decision-support lens alongside real financial analysis."
+  ],
+  "lenses": [
+    "yin-yang balance",
+    "five-phase relationships",
+    "timing and activation",
+    "form, flow, and containment",
+    "risk and remedy hierarchy"
+  ],
+  "missing_inputs": [
+    "decision type",
+    "time horizon",
+    "risk tolerance",
+    "liquidity needs",
+    "existing allocation or concentration",
+    "financial thesis and downside condition"
+  ],
+  "report_sections": [
+    "Inputs and assumptions",
+    "Financial reality check",
+    "Risk posture",
+    "Feng shui symbolic layer",
+    "Practical adjustments",
+    "Boundaries and missing data"
+  ],
+  "floorplan_analysis": null,
+  "answer_contract": [
+    "Separate real-world constraints from feng shui symbolism.",
+    "State method, assumptions, and missing inputs before conclusions.",
+    "Prioritize low-risk, reversible actions.",
+    "Do not present symbolic readings as guaranteed outcomes."
+  ]
+}

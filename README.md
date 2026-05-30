@@ -18,6 +18,7 @@ The project treats feng shui as a traditional cultural, spatial, and symbolic-an
 - Yin house boundaries: cemetery and burial-site intake, conservative form reading, ethics and safety.
 - Cross-domain adapters: finance, business, brand, career, product, learning, wellbeing, relationships, and negotiation.
 - Finance adapter: symbolic feng shui lens for investing, portfolio, budget, cash flow, and market-timing questions with strong financial guardrails.
+- Consultation brief protocol: route questions, identify references, list missing inputs, apply guardrails, and define report sections before substantial readings.
 - Structured floor-plan input: JSON schema, sample plan, and analyzer for repeatable room/site intake.
 - Glossary and case patterns: Chinese terminology, response templates, comparison matrices.
 - Safety and ethics: high-stakes claims, cultural respect, modern building constraints.
@@ -40,6 +41,7 @@ The project treats feng shui as a traditional cultural, spatial, and symbolic-an
 | Yin house / burial sites | Partially covered | Boundaries and conservative form reading included; advanced lineage formulas not automated |
 | Cross-domain application | Fully covered | General adapter plus life/omen and five-phase maps included for non-spatial questions |
 | Finance / investing lens | Partially covered | Symbolic decision-support framework included; no investment recommendation engine |
+| Consultation brief generation | Fully covered | JSON brief generator combines domain routing, guardrails, missing inputs, and optional floor-plan analysis |
 | Structured floor-plan JSON | Fully covered | Schema, sample, and intake analyzer included |
 | Image, map, or floor-plan auto parsing | Partially covered | Structured JSON is supported; raw computer-vision or GIS parsing is not included |
 | Full bazi / four pillars | Not covered | Life-pattern symbolism and ming gua are included; complete bazi charting is intentionally outside current scope |
@@ -62,6 +64,7 @@ fengshui-master/
     glossary.md
     case-patterns.md
     sample-readings.md
+    consultation-brief.md
     domain-adapters.md
     finance-adapter.md
     life-and-omen-adapter.md
@@ -73,12 +76,14 @@ fengshui-master/
     luopan.py
     minggua.py
     ganzhi.py
+    create_brief.py
     periods.py
     flying_stars.py
     domain_router.py
     analyze_floorplan.py
   assets/
     sample-floorplan.json
+    sample-finance-brief.json
 tests/
   test_luopan.py
   test_minggua.py
@@ -115,6 +120,20 @@ Then ask Codex to use `$fengshui-master`.
 - `Use $fengshui-master to explain the difference between san he, san yuan, xuan kong, and ba zhai.`
 
 ## Luopan Helper
+
+Create a consultation brief for substantial readings:
+
+```bash
+python fengshui-master/scripts/create_brief.py "Should I buy this stock next month using feng shui?" --pretty
+```
+
+Attach a structured floor plan when available:
+
+```bash
+python fengshui-master/scripts/create_brief.py "Review this apartment layout" --floorplan fengshui-master/assets/sample-floorplan.json --pretty
+```
+
+The brief defines references, guardrails, missing inputs, and report sections. It is not the final reading.
 
 Convert a compass bearing into a 24-mountain sector:
 

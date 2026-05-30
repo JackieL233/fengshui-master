@@ -20,6 +20,7 @@ class SkillInventoryTest(unittest.TestCase):
             "glossary.md",
             "case-patterns.md",
             "sample-readings.md",
+            "consultation-brief.md",
             "domain-adapters.md",
             "finance-adapter.md",
             "life-and-omen-adapter.md",
@@ -44,6 +45,7 @@ class SkillInventoryTest(unittest.TestCase):
             "periods.py",
             "flying_stars.py",
             "ganzhi.py",
+            "create_brief.py",
             "domain_router.py",
             "analyze_floorplan.py",
         ]:
