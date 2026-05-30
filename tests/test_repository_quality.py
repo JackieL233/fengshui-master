@@ -11,6 +11,7 @@ AUDIT_REPOSITORY = ROOT / ".github" / "scripts" / "audit_repository.py"
 ISSUE_TEMPLATE = ROOT / ".github" / "ISSUE_TEMPLATE" / "feature_request.md"
 BUG_TEMPLATE = ROOT / ".github" / "ISSUE_TEMPLATE" / "bug_report.md"
 PR_TEMPLATE = ROOT / ".github" / "pull_request_template.md"
+README_ZH = ROOT / "README.zh-CN.md"
 
 
 class RepositoryQualityTest(unittest.TestCase):
@@ -55,6 +56,27 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("GitHub Actions", readme)
         self.assertIn(".github/workflows/ci.yml", readme)
         self.assertIn(".github/scripts/audit_repository.py", readme)
+
+    def test_bilingual_readme_and_github_metadata_are_present(self):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertIn("README.zh-CN.md", readme)
+        self.assertIn("GitHub Repository Metadata", readme)
+
+        for phrase in [
+            "traditional-chinese-culture",
+            "feng-shui",
+            "wuxing",
+            "codex-skill",
+            "symbolic-analysis",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, readme)
+
+        self.assertTrue(README_ZH.exists())
+        chinese_readme = README_ZH.read_text(encoding="utf-8")
+        for phrase in ["FengShui Master", "风水", "五行", "金融", "免责声明", "GitHub Actions"]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, chinese_readme)
 
     def test_open_source_templates_exist(self):
         for path in [ISSUE_TEMPLATE, BUG_TEMPLATE, PR_TEMPLATE]:

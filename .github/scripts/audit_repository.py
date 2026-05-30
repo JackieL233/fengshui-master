@@ -99,6 +99,24 @@ def audit_github_files(errors: list[str]) -> None:
             fail(errors, f"missing {path.relative_to(ROOT)}")
 
 
+def audit_bilingual_docs(errors: list[str]) -> None:
+    english = read(ROOT / "README.md")
+    chinese_path = ROOT / "README.zh-CN.md"
+    if not chinese_path.exists():
+        fail(errors, "missing README.zh-CN.md")
+        return
+
+    chinese = read(chinese_path)
+    if "README.zh-CN.md" not in english:
+        fail(errors, "README.md must link README.zh-CN.md")
+    for term in ["风水", "五行", "金融", "免责声明", "GitHub Actions"]:
+        if term not in chinese:
+            fail(errors, f"README.zh-CN.md missing {term}")
+    for topic in ["feng-shui", "wuxing", "codex-skill", "symbolic-analysis"]:
+        if topic not in english or topic not in chinese:
+            fail(errors, f"README metadata missing topic {topic}")
+
+
 def audit_guardrails(errors: list[str]) -> None:
     required_terms = [
         "not financial advice",
@@ -128,6 +146,7 @@ def main() -> int:
     audit_skill_inventory(errors)
     audit_referenced_files_exist(errors)
     audit_github_files(errors)
+    audit_bilingual_docs(errors)
     audit_guardrails(errors)
 
     if errors:

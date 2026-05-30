@@ -1,8 +1,36 @@
 # FengShui Master
 
+[中文说明](README.zh-CN.md)
+
 FengShui Master is an open Codex skill for traditional Chinese feng shui and broad wuxing symbolic analysis. It provides structured workflows, reference material, deterministic helpers, and a JSON floor-plan intake format for analyzing homes, offices, shops, rooms, land, floor plans, entrances, beds, desks, kitchens, directions, timing, xuan kong scaffolds, environmental form, life patterns, auspiciousness, inauspiciousness, and cross-domain decisions such as finance, business, brand, career, product, learning, and wellbeing.
 
 The project treats feng shui as a traditional cultural, spatial, and symbolic-analysis system. It does not present symbolic readings as guaranteed predictions.
+
+## GitHub Repository Metadata
+
+Suggested repository name:
+
+```text
+fengshui-master
+```
+
+Suggested short description:
+
+```text
+Comprehensive Codex skill for traditional Chinese feng shui, wuxing, auspiciousness, and cross-domain symbolic analysis.
+```
+
+Suggested Chinese description:
+
+```text
+全面的 Codex 风水 Skill，覆盖传统风水、五行、吉凶、空间分析与跨领域象义分析。
+```
+
+Suggested topics:
+
+```text
+feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditional-chinese-culture, codex-skill, symbolic-analysis, spatial-analysis, cultural-analysis, auspiciousness
+```
 
 ## What This Skill Covers
 
