@@ -24,6 +24,9 @@ jobs:
       - name: Validate skill metadata
         run: python .github/scripts/quick_validate.py fengshui-master
 
+      - name: Audit repository consistency
+        run: python .github/scripts/audit_repository.py
+
       - name: Smoke test domain router
         run: python fengshui-master/scripts/domain_router.py "Should I buy this stock next month?" --pretty
 
