@@ -49,6 +49,10 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
    - Use `references/brand-adapter.md` for brand strategy, naming, logo, colors, tone, launch identity, campaigns, and product positioning.
    - Use `references/career-adapter.md` for career direction, promotion, interviews, leadership, negotiation, job search, and work environment support.
    - Use `references/relationship-adapter.md` for romantic, family, friendship, team, roommate, communication, shared-space, and conflict questions.
+   - Use `references/product-adapter.md` for product strategy, onboarding, UX flow, activation, retention, roadmap, and product-market-fit questions.
+   - Use `references/learning-adapter.md` for study plans, exams, practice routines, focus, memory, learning environments, and review cycles.
+   - Use `references/wellbeing-adapter.md` for sleep, stress, focus, energy, burnout, health-adjacent environments, and ergonomics.
+   - Use `references/legal-adjacent-adapter.md` for contracts, disputes, compliance, leases, employment terms, and legal-risk preparation.
    - Use `references/floorplan-schema.md` when the user can provide structured room/site annotations or wants repeatable plan analysis.
    - Use `references/foundation.md` for yin-yang, qi, five phases, bagua, stems/branches, and 24 mountains.
    - Use `references/forms-and-environment.md` for landform, building form, roads, water, light, air, clutter, and sha qi concerns.
@@ -78,6 +82,10 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
 | Brand, naming, logo, colors, launch, campaign, product positioning | `references/brand-adapter.md` plus `references/five-phase-domain-map.md` |
 | Career, promotion, job search, interview, negotiation, leadership | `references/career-adapter.md` plus `references/life-and-omen-adapter.md` if symbolic timing is requested |
 | Relationship, family, romance, friendship, roommate, communication, conflict | `references/relationship-adapter.md` plus `references/ethics-and-limits.md` |
+| Product strategy, onboarding, UX, activation, retention, roadmap | `references/product-adapter.md` plus `references/five-phase-domain-map.md` |
+| Learning, study, exams, focus, memory, practice routines | `references/learning-adapter.md` plus `references/wellbeing-adapter.md` if sleep/stress is involved |
+| Sleep, stress, focus, energy, burnout, health-adjacent environment | `references/wellbeing-adapter.md` plus `references/ethics-and-limits.md` |
+| Contract, dispute, compliance, lease, legal-adjacent risk | `references/legal-adjacent-adapter.md` plus `references/ethics-and-limits.md` |
 | Business, brand, career, product, learning, wellbeing, relationships, negotiation | `references/domain-adapters.md` |
 | Substantial consultation, cross-domain question, finance/life/space brief | `references/consultation-brief.md`; run `python fengshui-master/scripts/create_brief.py "<question>"` |
 | Markdown report scaffold or reusable deliverable | `references/reporting-protocol.md`; run `python fengshui-master/scripts/generate_report.py "<question>"` |

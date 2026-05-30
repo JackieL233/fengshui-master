@@ -45,6 +45,10 @@ For deeper common domains, load the specialized adapter:
 | Brand | `brand-adapter.md` |
 | Career | `career-adapter.md` |
 | Relationships | `relationship-adapter.md` |
+| Product | `product-adapter.md` |
+| Learning | `learning-adapter.md` |
+| Wellbeing | `wellbeing-adapter.md` |
+| Legal-adjacent | `legal-adjacent-adapter.md` |
 | Life pattern / omen | `life-and-omen-adapter.md` |
 
 ## Domain Map

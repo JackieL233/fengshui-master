@@ -18,7 +18,7 @@ The project treats feng shui as a traditional cultural, spatial, and symbolic-an
 - Yin house boundaries: cemetery and burial-site intake, conservative form reading, ethics and safety.
 - Cross-domain adapters: finance, business, brand, career, product, learning, wellbeing, relationships, and negotiation.
 - Finance adapter: symbolic feng shui lens for investing, portfolio, budget, cash flow, and market-timing questions with strong financial guardrails.
-- Business, brand, career, and relationship adapters: specialized non-spatial workflows with native-domain constraints and feng shui symbolism kept separate.
+- Business, brand, career, relationship, product, learning, wellbeing, and legal-adjacent adapters: specialized non-spatial workflows with native-domain constraints and feng shui symbolism kept separate.
 - Consultation brief protocol: route questions, identify references, list missing inputs, apply guardrails, and define report sections before substantial readings.
 - Reporting protocol: generate Markdown report scaffolds from briefs for reusable deliverables and examples.
 - Structured floor-plan input: JSON schema, sample plan, and analyzer for repeatable room/site intake.
@@ -45,6 +45,7 @@ The project treats feng shui as a traditional cultural, spatial, and symbolic-an
 | Cross-domain application | Fully covered | General adapter plus life/omen and five-phase maps included for non-spatial questions |
 | Finance / investing lens | Partially covered | Symbolic decision-support framework included; no investment recommendation engine |
 | Business / brand / career / relationship adapters | Fully covered | Specialized references cover strategy, identity, work path, communication, and shared-space questions |
+| Product / learning / wellbeing / legal-adjacent adapters | Fully covered | Specialized references cover UX flow, study planning, health-adjacent environment, and legal-risk preparation |
 | Consultation brief generation | Fully covered | JSON brief generator combines domain routing, guardrails, missing inputs, and optional floor-plan analysis |
 | Markdown report generation | Fully covered | Report scaffold generator creates reusable Markdown outputs from consultation briefs |
 | Structured floor-plan JSON | Fully covered | Schema, sample, and intake analyzer included |
@@ -77,6 +78,10 @@ fengshui-master/
     brand-adapter.md
     career-adapter.md
     relationship-adapter.md
+    product-adapter.md
+    learning-adapter.md
+    wellbeing-adapter.md
+    legal-adjacent-adapter.md
     life-and-omen-adapter.md
     five-phase-domain-map.md
     floorplan-schema.md

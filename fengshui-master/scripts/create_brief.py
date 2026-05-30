@@ -63,6 +63,13 @@ DOMAIN_MISSING_INPUTS = {
         "budget, runway, staffing, and regulatory constraints",
         "current bottleneck or leakage",
     ],
+    "product": [
+        "product type and target user",
+        "main product goal or metric",
+        "user journey or funnel",
+        "current friction, drop-off, or confusion",
+        "engineering, accessibility, privacy, and platform constraints",
+    ],
     "career": [
         "career goal",
         "current role and constraints",
@@ -77,11 +84,25 @@ DOMAIN_MISSING_INPUTS = {
         "shared-space context",
         "communication constraints and boundaries",
     ],
+    "learning": [
+        "subject, level, and deadline",
+        "learning goal",
+        "current schedule and bottleneck",
+        "study environment and distraction context",
+        "feedback or practice-test data",
+    ],
     "wellbeing": [
         "specific wellbeing concern",
         "sleep, light, air, noise, and ergonomic context",
         "medical or safety issues already identified",
         "professional care constraints",
+    ],
+    "legal_adjacent": [
+        "decision type",
+        "hard deadlines and required procedures",
+        "stakeholders and incentives",
+        "documents or clauses the user can summarize",
+        "whether qualified legal help is involved",
     ],
     "general": [
         "native domain",
@@ -133,6 +154,14 @@ DOMAIN_SECTIONS = {
         "Operational adjustments",
         "Boundaries and missing data",
     ],
+    "product": [
+        "Inputs and assumptions",
+        "Product reality layer",
+        "Flow and leakage diagnosis",
+        "Feng shui symbolic layer",
+        "Product adjustments",
+        "Boundaries and missing data",
+    ],
     "career": [
         "Inputs and assumptions",
         "Career reality layer",
@@ -149,6 +178,14 @@ DOMAIN_SECTIONS = {
         "Low-risk adjustments",
         "Boundaries and missing data",
     ],
+    "learning": [
+        "Inputs and assumptions",
+        "Learning reality layer",
+        "Environment and attention flow",
+        "Five-phase study balance",
+        "Practical learning plan",
+        "Boundaries and missing data",
+    ],
     "wellbeing": [
         "Inputs and assumptions",
         "Wellbeing reality layer",
@@ -156,6 +193,14 @@ DOMAIN_SECTIONS = {
         "Risk checks",
         "Low-risk adjustments",
         "Medical and safety boundaries",
+    ],
+    "legal_adjacent": [
+        "Inputs and assumptions",
+        "Legal reality first",
+        "Risk map",
+        "Feng shui symbolic layer",
+        "Preparation actions",
+        "Legal boundary and missing data",
     ],
     "general": [
         "Inputs and assumptions",

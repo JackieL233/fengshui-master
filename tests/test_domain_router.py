@@ -54,6 +54,32 @@ class DomainRouterTest(unittest.TestCase):
         self.assertEqual(data["domain"], "relationship")
         self.assertIn("references/relationship-adapter.md", data["references"])
 
+    def test_product_routes_to_product_adapter(self):
+        data = run_router("Use feng shui to improve this product onboarding flow")
+
+        self.assertEqual(data["domain"], "product")
+        self.assertIn("references/product-adapter.md", data["references"])
+
+    def test_learning_routes_to_learning_adapter(self):
+        data = run_router("Use feng shui and five phases to improve my study plan")
+
+        self.assertEqual(data["domain"], "learning")
+        self.assertIn("references/learning-adapter.md", data["references"])
+
+    def test_wellbeing_routes_to_wellbeing_adapter(self):
+        data = run_router("Use feng shui to improve my sleep and stress")
+
+        self.assertEqual(data["domain"], "wellbeing")
+        self.assertIn("references/wellbeing-adapter.md", data["references"])
+        self.assertIn("Do not diagnose or treat medical conditions.", data["guardrails"])
+
+    def test_legal_adjacent_routes_to_legal_adapter(self):
+        data = run_router("Use feng shui to think about this contract and legal dispute")
+
+        self.assertEqual(data["domain"], "legal_adjacent")
+        self.assertIn("references/legal-adjacent-adapter.md", data["references"])
+        self.assertIn("Do not provide legal advice.", data["guardrails"])
+
     def test_space_defaults_to_classic_feng_shui(self):
         data = run_router("Analyze my bedroom layout and mirror placement")
 
