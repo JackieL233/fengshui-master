@@ -25,12 +25,21 @@ python fengshui-master/scripts/create_brief.py "<question>" --pretty
 
 Load `references/consultation-brief.md` if the brief needs interpretation or adaptation.
 
+When the user wants a reusable written deliverable, generate a Markdown report scaffold:
+
+```bash
+python fengshui-master/scripts/generate_report.py "<question>"
+```
+
+Load `references/reporting-protocol.md` before turning a scaffold into a final answer.
+
 ## Workflow
 
 1. Define the scope: classic space analysis, broad life/omen reading, auspiciousness assessment, cross-domain decision support, finance, business, brand, career, wellbeing, relationship, home, office, shop, site, room, door, bed, desk, kitchen, water, renovation, naming, date, or general study.
 2. Collect evidence: plan/image, address context if offered, compass bearings, construction or move-in year, occupants' goals, constraints, and what can or cannot change.
 3. Choose frameworks:
    - Use `references/consultation-brief.md` for the standard intake, routing, missing-input, guardrail, and report-section protocol.
+   - Use `references/reporting-protocol.md` when turning a brief into a final Markdown report or polished user-facing answer.
    - Use `scripts/domain_router.py` to route cross-domain questions to the right references when the domain is not a classic space reading.
    - Use `references/life-and-omen-adapter.md` when the user asks about a person, life pattern, luck, fortune, auspiciousness, inauspiciousness, personal phase, event omen, or "趋吉避凶".
    - Use `references/five-phase-domain-map.md` when translating wuxing into careers, industries, finance, brand, product, relationships, negotiation, learning, or personal patterns.
@@ -63,6 +72,7 @@ Load `references/consultation-brief.md` if the brief needs interpretation or ada
 | Finance, investing, trading, budgeting, wealth, cash flow | `references/finance-adapter.md` plus `references/ethics-and-limits.md` |
 | Business, brand, career, product, learning, wellbeing, relationships, negotiation | `references/domain-adapters.md` |
 | Substantial consultation, cross-domain question, finance/life/space brief | `references/consultation-brief.md`; run `python fengshui-master/scripts/create_brief.py "<question>"` |
+| Markdown report scaffold or reusable deliverable | `references/reporting-protocol.md`; run `python fengshui-master/scripts/generate_report.py "<question>"` |
 | Cross-domain routing | Run `python fengshui-master/scripts/domain_router.py "<question>"` |
 | Structured floor-plan, office, shop, room, or site JSON | `references/floorplan-schema.md`; run `python fengshui-master/scripts/analyze_floorplan.py <json>` |
 | Basic terms, bagua, five phases, qi, yin-yang, 24 mountains | `references/foundation.md` |
@@ -110,6 +120,20 @@ python fengshui-master/scripts/create_brief.py "Review this apartment layout" --
 ```
 
 Treat the brief as an intake contract, not the final answer.
+
+Use `scripts/generate_report.py` to turn a consultation brief into a Markdown report scaffold:
+
+```bash
+python fengshui-master/scripts/generate_report.py "Should I buy this stock next month using feng shui?"
+```
+
+Write a sample file:
+
+```bash
+python fengshui-master/scripts/generate_report.py "Should I buy this stock next month using feng shui?" --output fengshui-master/assets/sample-finance-report.md
+```
+
+Use the generated report as a scaffold. Remove placeholder text and fill sections only with supplied evidence, transparent assumptions, and clearly labeled traditional interpretations.
 
 Use `scripts/luopan.py` when converting a compass degree into one of the 24 mountains. Example:
 
