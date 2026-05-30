@@ -10,6 +10,7 @@ Use this file for the conceptual grammar behind FengShui Master: qi, yin-yang, f
 - Bagua
 - Heavenly Stems and Earthly Branches
 - 24 Mountains
+- Nine Palace Grid
 - Compass Inputs
 - Practical Interpretation Rules
 
@@ -149,6 +150,28 @@ The 24 mountains divide the compass into 24 sectors of 15 degrees each. Use them
 
 Run `scripts/luopan.py` for deterministic conversion.
 
+## Nine Palace Grid
+
+Use the nine palace grid when discussing xuan kong flying stars, annual stars, or compass-sector floor-plan overlays.
+
+| Palace | Later-heaven direction | Trigram | Phase |
+| --- | --- | --- | --- |
+| 1 | north | kan | water |
+| 2 | southwest | kun | earth |
+| 3 | east | zhen | wood |
+| 4 | southeast | xun | wood |
+| 5 | center | center | earth |
+| 6 | northwest | qian | metal |
+| 7 | west | dui | metal |
+| 8 | northeast | gen | earth |
+| 9 | south | li | fire |
+
+Grid use:
+
+- Align the grid to a reliable north arrow for compass-based work.
+- Do not use the same grid as a door-aligned bagua without saying the method changed.
+- For flying stars, the grid is only a container; chart construction also needs period and facing/sitting assumptions.
+
 ## Compass Inputs
 
 Clarify what the bearing represents:
@@ -172,3 +195,9 @@ Compass hygiene:
 - Use five-phase remedies lightly: material, color, shape, light, water, plant, sound, or use-pattern.
 - Avoid adding water, mirrors, plants, or bright colors as universal cures. They can be wrong by room, direction, safety, maintenance, or user preference.
 - Prefer reversible interventions: declutter, lighting, circulation, furniture placement, repair, cleaning, privacy, acoustic control.
+
+## Related Tools
+
+- Use `scripts/luopan.py` for 24-mountain lookup.
+- Use `scripts/minggua.py` for common eight mansions personal gua lookup.
+- Use `scripts/periods.py` for common san yuan / xuan kong period lookup.

@@ -10,8 +10,11 @@ The project treats feng shui as a traditional cultural and spatial-analysis syst
 - Form analysis: landform, roads, water, buildings, entrances, circulation, sha qi, light, air, clutter.
 - School selection: form school, compass school, san he, san yuan, xuan kong flying stars, eight mansions, symbolic bagua.
 - Scenario workflows: residential, office, retail, restaurant, site selection, bedroom, desk, floor plan, renovation.
+- Remedies and adjustments: mirrors, plants, screens, water, color, five-phase balancing, safe intervention ladder.
+- Timing: san yuan periods, xuan kong inputs, annual/monthly layer cautions, date-selection intake.
+- Glossary and case patterns: Chinese terminology, response templates, comparison matrices.
 - Safety and ethics: high-stakes claims, cultural respect, modern building constraints.
-- Tooling: compass bearing to 24-mountain conversion.
+- Tooling: compass bearing to 24-mountain conversion, ming gua lookup, san yuan period lookup.
 
 ## Repository Layout
 
@@ -24,10 +27,16 @@ fengshui-master/
     forms-and-environment.md
     schools.md
     analysis-templates.md
+    remedies.md
+    timing-and-date-selection.md
+    glossary.md
+    case-patterns.md
     ethics-and-limits.md
     sources.md
   scripts/
     luopan.py
+    minggua.py
+    periods.py
 tests/
   test_luopan.py
 ```
@@ -66,6 +75,18 @@ python fengshui-master/scripts/luopan.py 187 --pretty
 ```
 
 The helper only maps bearings. It does not judge auspiciousness by itself.
+
+Calculate a common Eight Mansions ming gua:
+
+```bash
+python fengshui-master/scripts/minggua.py 1990 --sex male --pretty
+```
+
+Look up a common San Yuan / Xuan Kong 20-year period:
+
+```bash
+python fengshui-master/scripts/periods.py 2026 --pretty
+```
 
 ## Validate
 

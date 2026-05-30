@@ -11,6 +11,7 @@ Use this file to choose and explain a method. The goal is not to force one schoo
 - San Yuan
 - Xuan Kong Flying Stars
 - Eight Mansions
+- Personal Ming Gua
 - Symbolic or Door-Aligned Bagua
 - Combining Methods
 
@@ -129,6 +130,23 @@ Use for:
 Limit:
 
 - Do not use eight mansions alone to override severe form issues, safety, or functional needs.
+
+## Personal Ming Gua
+
+Use ming gua for personal favorable and unfavorable directions in eight mansions.
+
+Tool:
+
+```bash
+python fengshui-master/scripts/minggua.py 1990 --sex male --pretty
+```
+
+Important cautions:
+
+- The common simple formula uses Gregorian birth year.
+- Some lineages use li chun as the year boundary; ask when the birthday is near early February.
+- Gua 5 is usually converted to gua 2 for male and gua 8 for female in common practice.
+- Do not infer gender identity. If the user does not want a sex-based convention, explain that this particular formula requires a traditional binary convention and offer non-personal analysis instead.
 
 ## Symbolic or Door-Aligned Bagua
 
