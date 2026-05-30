@@ -239,6 +239,14 @@ Run the Codex skill validator if available:
 python C:/Users/Administrator/.codex/skills/.system/skill-creator/scripts/quick_validate.py fengshui-master
 ```
 
+## GitHub Actions
+
+The repository includes [`.github/workflows/ci.yml`](.github/workflows/ci.yml). On pushes and pull requests, GitHub Actions runs:
+
+- `python -m unittest discover -s tests`
+- portable skill metadata validation via `.github/scripts/quick_validate.py`
+- smoke tests for the domain router, consultation brief generator, and report generator
+
 ## Project Status
 
 This is a comprehensive v1 skill with clear boundaries. Contributions are welcome for:

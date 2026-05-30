@@ -39,3 +39,5 @@ If you have the Codex skill-creator tools installed, also run:
 ```bash
 python C:/Users/Administrator/.codex/skills/.system/skill-creator/scripts/quick_validate.py fengshui-master
 ```
+
+GitHub Actions also runs the CI workflow in `.github/workflows/ci.yml` for pushes and pull requests. It executes the unit test suite, portable skill metadata validation, and smoke tests for the main CLI helpers.

@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run unit tests
+        run: python -m unittest discover -s tests
+
+      - name: Validate skill metadata
+        run: python .github/scripts/quick_validate.py fengshui-master
+
+      - name: Smoke test domain router
+        run: python fengshui-master/scripts/domain_router.py "Should I buy this stock next month?" --pretty
+
+      - name: Smoke test consultation brief
+        run: python fengshui-master/scripts/create_brief.py "Use feng shui to improve my sleep and stress" --pretty
+
+      - name: Smoke test report generator
+        run: python fengshui-master/scripts/generate_report.py "Use feng shui to review this product onboarding flow"
