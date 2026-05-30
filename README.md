@@ -21,7 +21,7 @@ The project treats feng shui as a traditional cultural, spatial, and symbolic-an
 - Structured floor-plan input: JSON schema, sample plan, and analyzer for repeatable room/site intake.
 - Glossary and case patterns: Chinese terminology, response templates, comparison matrices.
 - Safety and ethics: high-stakes claims, cultural respect, modern building constraints.
-- Tooling: compass bearing to 24-mountain conversion, ming gua lookup, san yuan period lookup, basic flying-star scaffold.
+- Tooling: compass bearing to 24-mountain conversion, ming gua lookup, Gregorian-year ganzhi scaffold, san yuan period lookup, basic flying-star scaffold.
 
 ## Coverage Matrix
 
@@ -29,6 +29,7 @@ The project treats feng shui as a traditional cultural, spatial, and symbolic-an
 | --- | --- | --- |
 | Core concepts, terms, five phases, bagua, 24 mountains | Fully covered | Reference material and luopan helper included |
 | Broad life / omen / auspiciousness analysis | Fully covered | Symbolic life-pattern and ji/xiong adapter included; not deterministic fate-telling |
+| Ganzhi year scaffold | Fully covered | Heavenly stem, earthly branch, zodiac, phase, and yin-yang helper included; not complete bazi |
 | Five-phase cross-domain mapping | Fully covered | Careers, industries, finance, brand, product, relationship, learning, and negotiation mappings included |
 | Form school for homes, offices, shops, land, rooms | Fully covered | Practical outside-to-inside workflow included |
 | Remedies and adjustments | Fully covered | Prioritizes repair, safety, reversibility, and symbolic clarity |
@@ -71,6 +72,7 @@ fengshui-master/
   scripts/
     luopan.py
     minggua.py
+    ganzhi.py
     periods.py
     flying_stars.py
     domain_router.py
@@ -127,6 +129,14 @@ Calculate a common Eight Mansions ming gua:
 ```bash
 python fengshui-master/scripts/minggua.py 1990 --sex male --pretty
 ```
+
+Look up a Gregorian-year heavenly stem / earthly branch scaffold:
+
+```bash
+python fengshui-master/scripts/ganzhi.py 2026 --pretty
+```
+
+This helper is year-level symbolic context only. It is not a complete bazi chart and requires li chun or lunar-year boundary confirmation near year transitions.
 
 Look up a common San Yuan / Xuan Kong 20-year period:
 

@@ -200,4 +200,5 @@ Compass hygiene:
 
 - Use `scripts/luopan.py` for 24-mountain lookup.
 - Use `scripts/minggua.py` for common eight mansions personal gua lookup.
+- Use `scripts/ganzhi.py` for a Gregorian-year stem/branch scaffold.
 - Use `scripts/periods.py` for common san yuan / xuan kong period lookup.

@@ -70,6 +70,7 @@ For quick requests, proceed with stated assumptions and mark them clearly.
 | Classical sources, research posture, adding new references | `references/sources.md` |
 | Compass bearing to 24 mountains | Run `python fengshui-master/scripts/luopan.py <degrees>` |
 | Birth-year ming gua / eight mansions personal directions | Run `python fengshui-master/scripts/minggua.py <year> --sex <male|female>` |
+| Gregorian year to heavenly stem / earthly branch scaffold | Run `python fengshui-master/scripts/ganzhi.py <year>` |
 | San yuan / xuan kong 20-year period | Run `python fengshui-master/scripts/periods.py <year>` |
 | Basic Luo Shu flying-star scaffold | Run `python fengshui-master/scripts/flying_stars.py --period <1-9>` |
 
@@ -101,6 +102,14 @@ python fengshui-master/scripts/minggua.py 1990 --sex male --pretty
 ```
 
 Clarify that exact year boundaries may vary by lineage, especially around li chun.
+
+Use `scripts/ganzhi.py` for a simple Gregorian-year heavenly stem and earthly branch scaffold:
+
+```bash
+python fengshui-master/scripts/ganzhi.py 2026 --pretty
+```
+
+Treat this as year-level symbolic context only. For birth years or annual luck near late January or early February, confirm the li chun or lunar-year boundary used by the chosen lineage. Do not present it as a complete bazi, zi wei, qimen, liuren, or almanac calculation.
 
 Use `scripts/periods.py` for common san yuan / xuan kong 20-year periods:
 

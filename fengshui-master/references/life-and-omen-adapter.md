@@ -44,12 +44,14 @@ Use the lightest adequate method:
 | User asks for | Use |
 | --- | --- |
 | "What does this phase of life feel like?" | yin-yang, five phases, timing cycles, current constraints |
-| "Analyze my life using feng shui" | life pattern reading plus optional ming gua; disclose that full bazi is not implemented |
+| "Analyze my life using feng shui" | life pattern reading plus optional ming gua or `scripts/ganzhi.py`; disclose that full bazi is not implemented |
 | "Is this auspicious?" | auspiciousness pattern: support, timing, balance, leakage, sha, reversibility |
 | "What element am I missing?" | five-phase personal lens; do not reduce a person to one element |
 | "Which career/industry fits?" | five-phase domain map plus skills, market, evidence, and preferences |
 | "Will I get rich / sick / divorced?" | refuse deterministic prediction; reframe to risk, support, and actions |
 | "Use feng shui for finance" | `finance-adapter.md` first, then this file if life/luck symbolism is requested |
+
+Use `scripts/ganzhi.py <year>` when a year stem/branch, zodiac, or annual five-phase scaffold would help. It only returns a Gregorian-year scaffold, so confirm li chun or lunar-year boundaries for birth-year or annual-luck questions near year transitions.
 
 ## Life Reading Pattern
 

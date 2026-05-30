@@ -43,6 +43,7 @@ class SkillInventoryTest(unittest.TestCase):
             "minggua.py",
             "periods.py",
             "flying_stars.py",
+            "ganzhi.py",
             "domain_router.py",
             "analyze_floorplan.py",
         ]:
@@ -57,6 +58,16 @@ class SkillInventoryTest(unittest.TestCase):
         self.assertIn("Fully covered", readme)
         self.assertIn("Partially covered", readme)
         self.assertIn("Not covered", readme)
+
+    def test_core_chinese_terms_are_readable(self):
+        reference_text = "\n".join(
+            path.read_text(encoding="utf-8")
+            for path in (SKILL / "references").glob("*.md")
+        )
+
+        for term in ["风水", "气", "阴阳", "五行", "八卦", "甲", "辰", "趋吉避凶"]:
+            with self.subTest(term=term):
+                self.assertIn(term, reference_text)
 
 
 if __name__ == "__main__":
