@@ -12,6 +12,8 @@ ISSUE_TEMPLATE = ROOT / ".github" / "ISSUE_TEMPLATE" / "feature_request.md"
 BUG_TEMPLATE = ROOT / ".github" / "ISSUE_TEMPLATE" / "bug_report.md"
 PR_TEMPLATE = ROOT / ".github" / "pull_request_template.md"
 README_ZH = ROOT / "README.zh-CN.md"
+DEPLOYMENT = ROOT / "DEPLOYMENT.md"
+REPOSITORY_METADATA = ROOT / ".github" / "repository-metadata.yml"
 
 
 class RepositoryQualityTest(unittest.TestCase):
@@ -77,6 +79,32 @@ class RepositoryQualityTest(unittest.TestCase):
         for phrase in ["FengShui Master", "风水", "五行", "金融", "免责声明", "GitHub Actions"]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, chinese_readme)
+
+    def test_deployment_docs_and_metadata_are_present(self):
+        self.assertTrue(DEPLOYMENT.exists())
+        deployment = DEPLOYMENT.read_text(encoding="utf-8")
+        for phrase in [
+            "git remote add origin",
+            "git push -u origin master:main",
+            "Repository URL",
+            "部署",
+            "GitHub Actions",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, deployment)
+
+        self.assertTrue(REPOSITORY_METADATA.exists())
+        metadata = REPOSITORY_METADATA.read_text(encoding="utf-8")
+        for phrase in [
+            "fengshui-master",
+            "Comprehensive Codex skill",
+            "feng-shui",
+            "wuxing",
+            "traditional-chinese-culture",
+            "symbolic-analysis",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, metadata)
 
     def test_open_source_templates_exist(self):
         for path in [ISSUE_TEMPLATE, BUG_TEMPLATE, PR_TEMPLATE]:

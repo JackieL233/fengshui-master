@@ -117,6 +117,26 @@ def audit_bilingual_docs(errors: list[str]) -> None:
             fail(errors, f"README metadata missing topic {topic}")
 
 
+def audit_deployment_docs(errors: list[str]) -> None:
+    deployment_path = ROOT / "DEPLOYMENT.md"
+    metadata_path = ROOT / ".github" / "repository-metadata.yml"
+    if not deployment_path.exists():
+        fail(errors, "missing DEPLOYMENT.md")
+        return
+    if not metadata_path.exists():
+        fail(errors, "missing .github/repository-metadata.yml")
+        return
+
+    deployment = read(deployment_path)
+    metadata = read(metadata_path)
+    for term in ["git remote add origin", "git push -u origin master:main", "部署", "GitHub Actions"]:
+        if term not in deployment:
+            fail(errors, f"DEPLOYMENT.md missing {term}")
+    for term in ["fengshui-master", "Comprehensive Codex skill", "feng-shui", "wuxing", "symbolic-analysis"]:
+        if term not in metadata:
+            fail(errors, f"repository metadata missing {term}")
+
+
 def audit_guardrails(errors: list[str]) -> None:
     required_terms = [
         "not financial advice",
@@ -147,6 +167,7 @@ def main() -> int:
     audit_referenced_files_exist(errors)
     audit_github_files(errors)
     audit_bilingual_docs(errors)
+    audit_deployment_docs(errors)
     audit_guardrails(errors)
 
     if errors:
