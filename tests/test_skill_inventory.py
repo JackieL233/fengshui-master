@@ -92,6 +92,24 @@ class SkillInventoryTest(unittest.TestCase):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, protocol)
 
+    def test_multi_domain_sample_reports_exist_and_are_documented(self):
+        expected = {
+            "sample-finance-report.md": "Domain: finance",
+            "sample-life-omen-report.md": "Domain: life_omen",
+            "sample-product-report.md": "Domain: product",
+            "sample-floorplan-report.md": "Domain: space",
+        }
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+        for filename, marker in expected.items():
+            with self.subTest(filename=filename):
+                path = SKILL / "assets" / filename
+                self.assertTrue(path.exists())
+                text = path.read_text(encoding="utf-8")
+                self.assertIn(marker, text)
+                self.assertIn("FengShui Master Consultation Report", text)
+                self.assertIn(filename, readme)
+
 
 if __name__ == "__main__":
     unittest.main()

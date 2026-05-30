@@ -47,6 +47,13 @@ def audit_skill_inventory(errors: list[str]) -> None:
         if not skill_path_mentioned(readme, rel):
             fail(errors, f"{rel} is not listed in README.md")
 
+    for path in sorted((SKILL / "assets").glob("*")):
+        if not path.is_file():
+            continue
+        rel = path.relative_to(SKILL).as_posix()
+        if not skill_path_mentioned(readme, rel):
+            fail(errors, f"{rel} is not listed in README.md")
+
 
 def audit_referenced_files_exist(errors: list[str]) -> None:
     searchable = [

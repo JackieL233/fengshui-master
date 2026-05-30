@@ -105,6 +105,9 @@ fengshui-master/
     sample-floorplan.json
     sample-finance-brief.json
     sample-finance-report.md
+    sample-life-omen-report.md
+    sample-product-report.md
+    sample-floorplan-report.md
 tests/
   test_luopan.py
   test_minggua.py
@@ -227,6 +230,17 @@ python fengshui-master/scripts/analyze_floorplan.py fengshui-master/assets/sampl
 ```
 
 The JSON format is documented in `fengshui-master/references/floorplan-schema.md`.
+
+## Sample Assets
+
+GitHub-readable samples are included for quick evaluation:
+
+- `fengshui-master/assets/sample-finance-report.md`: finance-first decision support with feng shui symbolism.
+- `fengshui-master/assets/sample-life-omen-report.md`: broad life, 五行, 吉凶, and 趋吉避凶 scaffold.
+- `fengshui-master/assets/sample-product-report.md`: product onboarding flow analyzed through form, flow, leakage, and symbolic lenses.
+- `fengshui-master/assets/sample-floorplan-report.md`: structured floor-plan intake and form-analysis scaffold.
+- `fengshui-master/assets/sample-floorplan.json`: repeatable floor-plan JSON input.
+- `fengshui-master/assets/sample-finance-brief.json`: generated consultation brief fixture.
 
 ## Validate
 
