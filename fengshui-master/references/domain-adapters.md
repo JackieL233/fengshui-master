@@ -36,6 +36,17 @@ Do not pretend feng shui alone can price assets, diagnose illness, win negotiati
 4. Give domain-first advice and label feng shui symbolism separately.
 5. Include guardrails for high-stakes domains.
 
+For deeper common domains, load the specialized adapter:
+
+| Domain | Specialized reference |
+| --- | --- |
+| Finance | `finance-adapter.md` |
+| Business | `business-adapter.md` |
+| Brand | `brand-adapter.md` |
+| Career | `career-adapter.md` |
+| Relationships | `relationship-adapter.md` |
+| Life pattern / omen | `life-and-omen-adapter.md` |
+
 ## Domain Map
 
 | Domain | Feng shui translation | Native constraints |

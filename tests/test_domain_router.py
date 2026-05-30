@@ -34,6 +34,25 @@ class DomainRouterTest(unittest.TestCase):
 
         self.assertEqual(data["domain"], "brand")
         self.assertIn("references/domain-adapters.md", data["references"])
+        self.assertIn("references/brand-adapter.md", data["references"])
+
+    def test_business_routes_to_business_adapter(self):
+        data = run_router("Use feng shui to review my business strategy and customer flow")
+
+        self.assertEqual(data["domain"], "business")
+        self.assertIn("references/business-adapter.md", data["references"])
+
+    def test_career_routes_to_career_adapter(self):
+        data = run_router("Use feng shui to review my career promotion timing")
+
+        self.assertEqual(data["domain"], "career")
+        self.assertIn("references/career-adapter.md", data["references"])
+
+    def test_relationship_routes_to_relationship_adapter(self):
+        data = run_router("Use feng shui and five phases to improve this relationship conflict")
+
+        self.assertEqual(data["domain"], "relationship")
+        self.assertIn("references/relationship-adapter.md", data["references"])
 
     def test_space_defaults_to_classic_feng_shui(self):
         data = run_router("Analyze my bedroom layout and mirror placement")

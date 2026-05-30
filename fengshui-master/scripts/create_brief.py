@@ -56,12 +56,26 @@ DOMAIN_MISSING_INPUTS = {
         "accessibility requirements",
         "legal or trademark constraints",
     ],
+    "business": [
+        "business model and stage",
+        "main business goal",
+        "customer path or sales funnel",
+        "budget, runway, staffing, and regulatory constraints",
+        "current bottleneck or leakage",
+    ],
     "career": [
         "career goal",
         "current role and constraints",
         "skills and evidence",
         "timing window",
         "workspace or environment context if relevant",
+    ],
+    "relationship": [
+        "relationship type",
+        "goal for the reading",
+        "safety or coercion concerns",
+        "shared-space context",
+        "communication constraints and boundaries",
     ],
     "wellbeing": [
         "specific wellbeing concern",
@@ -111,6 +125,14 @@ DOMAIN_SECTIONS = {
         "Recommendations",
         "Missing data",
     ],
+    "business": [
+        "Inputs and assumptions",
+        "Business reality layer",
+        "Flow and leakage diagnosis",
+        "Feng shui symbolic layer",
+        "Operational adjustments",
+        "Boundaries and missing data",
+    ],
     "career": [
         "Inputs and assumptions",
         "Career reality layer",
@@ -118,6 +140,14 @@ DOMAIN_SECTIONS = {
         "Timing and support",
         "Practical next actions",
         "Missing data",
+    ],
+    "relationship": [
+        "Inputs and assumptions",
+        "Relationship reality and safety",
+        "Environment and communication flow",
+        "Feng shui symbolic layer",
+        "Low-risk adjustments",
+        "Boundaries and missing data",
     ],
     "wellbeing": [
         "Inputs and assumptions",

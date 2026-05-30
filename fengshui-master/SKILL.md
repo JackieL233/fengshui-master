@@ -45,6 +45,10 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
    - Use `references/five-phase-domain-map.md` when translating wuxing into careers, industries, finance, brand, product, relationships, negotiation, learning, or personal patterns.
    - Use `references/domain-adapters.md` when applying feng shui to finance, business, brand, career, product, learning, wellbeing, relationships, negotiation, or other non-spatial domains.
    - Use `references/finance-adapter.md` for investment, trading, portfolio, budgeting, wealth, cash flow, business finance, market timing, or crypto questions.
+   - Use `references/business-adapter.md` for business strategy, operations, customer flow, revenue, partnerships, hiring, fundraising, and organizational decisions.
+   - Use `references/brand-adapter.md` for brand strategy, naming, logo, colors, tone, launch identity, campaigns, and product positioning.
+   - Use `references/career-adapter.md` for career direction, promotion, interviews, leadership, negotiation, job search, and work environment support.
+   - Use `references/relationship-adapter.md` for romantic, family, friendship, team, roommate, communication, shared-space, and conflict questions.
    - Use `references/floorplan-schema.md` when the user can provide structured room/site annotations or wants repeatable plan analysis.
    - Use `references/foundation.md` for yin-yang, qi, five phases, bagua, stems/branches, and 24 mountains.
    - Use `references/forms-and-environment.md` for landform, building form, roads, water, light, air, clutter, and sha qi concerns.
@@ -70,6 +74,10 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
 | Person, life pattern, luck, fortune, omen, auspiciousness, inauspiciousness, 趋吉避凶, 吉凶, 运势, 生平 | `references/life-and-omen-adapter.md` plus `references/five-phase-domain-map.md` and `references/ethics-and-limits.md` |
 | Five phases for careers, industries, finance, brand, products, relationships, personal behavior | `references/five-phase-domain-map.md` |
 | Finance, investing, trading, budgeting, wealth, cash flow | `references/finance-adapter.md` plus `references/ethics-and-limits.md` |
+| Business strategy, operations, customer flow, revenue, partnerships | `references/business-adapter.md` plus `references/domain-adapters.md` |
+| Brand, naming, logo, colors, launch, campaign, product positioning | `references/brand-adapter.md` plus `references/five-phase-domain-map.md` |
+| Career, promotion, job search, interview, negotiation, leadership | `references/career-adapter.md` plus `references/life-and-omen-adapter.md` if symbolic timing is requested |
+| Relationship, family, romance, friendship, roommate, communication, conflict | `references/relationship-adapter.md` plus `references/ethics-and-limits.md` |
 | Business, brand, career, product, learning, wellbeing, relationships, negotiation | `references/domain-adapters.md` |
 | Substantial consultation, cross-domain question, finance/life/space brief | `references/consultation-brief.md`; run `python fengshui-master/scripts/create_brief.py "<question>"` |
 | Markdown report scaffold or reusable deliverable | `references/reporting-protocol.md`; run `python fengshui-master/scripts/generate_report.py "<question>"` |
