@@ -19,6 +19,7 @@ Traditional timing can refer to several different things:
 - **Building period**: when the building was completed, occupied, or substantially renovated.
 - **Current period**: the active 20-year san yuan period in common xuan kong practice.
 - **Annual/monthly stars**: time-varying symbolic influences.
+- **Annual directional cautions**: tai sui, sui po, san sha, and other lineage-specific yearly concerns.
 - **Personal timing**: birth data, zodiac, bazi, or personal gua.
 - **Event date selection**: move-in, opening, renovation, signing, burial, wedding, or travel.
 
@@ -66,6 +67,27 @@ Annual/monthly stars are often used for temporary activation or avoidance. Treat
 
 Avoid recommending disruption based only on annual stars. Prefer low-cost caution: reduce noise, avoid major disturbance, keep the sector clean, and schedule renovations with professional constraints.
 
+### Common Annual Directional Cautions
+
+Use `scripts/annual_afflictions.py` for common tai sui, sui po, and san sha directional cautions:
+
+```bash
+python fengshui-master/scripts/annual_afflictions.py 2026 --pretty
+```
+
+Use these cautions conservatively:
+
+- **Tai sui** follows the year branch in many common systems.
+- **Sui po** is opposite the year branch.
+- **San sha** is often assigned by year-branch trine group.
+
+Practical posture:
+
+- Treat these as secondary to safety, form, permits, contractor constraints, and structural needs.
+- Prefer quiet, cleanliness, maintenance, and reduced disturbance before costly cures.
+- Do not declare a direction impossible to use for the whole year.
+- Confirm li chun/lunar-year boundary conventions when the date is near year transition.
+
 ## Date Selection Scope
 
 Date selection can involve:
@@ -99,3 +121,9 @@ python fengshui-master/scripts/periods.py 2026 --pretty
 ```
 
 The tool returns a common 20-year period only. It does not calculate annual stars or date auspiciousness.
+
+```bash
+python fengshui-master/scripts/annual_afflictions.py 2026 --pretty
+```
+
+The tool returns common annual directional cautions only. It is not a full almanac or date-selection engine.

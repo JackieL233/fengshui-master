@@ -50,6 +50,7 @@ class SkillInventoryTest(unittest.TestCase):
             "periods.py",
             "flying_stars.py",
             "ganzhi.py",
+            "annual_afflictions.py",
             "create_brief.py",
             "generate_report.py",
             "domain_router.py",

@@ -24,7 +24,7 @@ The project treats feng shui as a traditional cultural, spatial, and symbolic-an
 - Structured floor-plan input: JSON schema, sample plan, and analyzer for repeatable room/site intake.
 - Glossary and case patterns: Chinese terminology, response templates, comparison matrices.
 - Safety and ethics: high-stakes claims, cultural respect, modern building constraints.
-- Tooling: compass bearing to 24-mountain conversion, ming gua lookup, Gregorian-year ganzhi scaffold, san yuan period lookup, basic flying-star scaffold.
+- Tooling: compass bearing to 24-mountain conversion, ming gua lookup, Gregorian-year ganzhi scaffold, annual tai sui/sui po/san sha cautions, san yuan period lookup, basic flying-star scaffold.
 
 ## Coverage Matrix
 
@@ -38,6 +38,7 @@ The project treats feng shui as a traditional cultural, spatial, and symbolic-an
 | Remedies and adjustments | Fully covered | Prioritizes repair, safety, reversibility, and symbolic clarity |
 | Eight Mansions / ming gua | Fully covered | Common birth-year helper included; lineage year-boundary cautions documented |
 | San Yuan 20-year periods | Fully covered | Period helper covers 1864-2043 |
+| Annual tai sui / sui po / san sha cautions | Fully covered | Common annual directional helper included; not a full almanac |
 | Xuan Kong Flying Stars | Partially covered | Basic Luo Shu scaffold and intake included; full natal chart, replacement stars, and lineage variants are future work |
 | Date selection | Partially covered | Intake and safety framework included; no full almanac engine |
 | Yin house / burial sites | Partially covered | Boundaries and conservative form reading included; advanced lineage formulas not automated |
@@ -85,6 +86,7 @@ fengshui-master/
     luopan.py
     minggua.py
     ganzhi.py
+    annual_afflictions.py
     create_brief.py
     generate_report.py
     periods.py
@@ -179,6 +181,14 @@ python fengshui-master/scripts/ganzhi.py 2026 --pretty
 ```
 
 This helper is year-level symbolic context only. It is not a complete bazi chart and requires li chun or lunar-year boundary confirmation near year transitions.
+
+Look up common annual tai sui, sui po, and san sha directional cautions:
+
+```bash
+python fengshui-master/scripts/annual_afflictions.py 2026 --pretty
+```
+
+This helper is an annual timing caution layer only. It is not a full almanac or date-selection engine.
 
 Look up a common San Yuan / Xuan Kong 20-year period:
 
