@@ -1,6 +1,6 @@
 ---
 name: fengshui-master
-description: Use when analyzing traditional Chinese feng shui for homes, offices, shops, land, floor plans, room layouts, entrances, beds, desks, kitchens, bathrooms, stairs, mirrors, water features, remedies, date selection, moving dates, renovation timing, luopan bearings, ming gua, xuan kong flying stars, yin house, burial sites, bagua, five phases, form school, compass school, eight mansions, san he, san yuan, or culturally grounded feng shui explanations.
+description: "Use when applying traditional Chinese feng shui to spaces or cross-domain decisions: homes, offices, shops, land, floor plans, finance, investing, business, brand, career, product, learning, wellbeing, relationships, entrances, beds, desks, kitchens, remedies, date selection, luopan bearings, ming gua, xuan kong flying stars, yin house, bagua, five phases, form school, compass school, eight mansions, san he, san yuan, or culturally grounded feng shui explanations."
 ---
 
 # FengShui Master
@@ -19,9 +19,12 @@ For quick requests, proceed with stated assumptions and mark them clearly.
 
 ## Workflow
 
-1. Define the scope: home, office, shop, site, single room, door, bed, desk, kitchen, water, renovation, naming, date, or general study.
+1. Define the scope: classic space analysis, cross-domain decision support, finance, business, brand, career, wellbeing, home, office, shop, site, room, door, bed, desk, kitchen, water, renovation, naming, date, or general study.
 2. Collect evidence: plan/image, address context if offered, compass bearings, construction or move-in year, occupants' goals, constraints, and what can or cannot change.
 3. Choose frameworks:
+   - Use `scripts/domain_router.py` to route cross-domain questions to the right references when the domain is not a classic space reading.
+   - Use `references/domain-adapters.md` when applying feng shui to finance, business, brand, career, product, learning, wellbeing, relationships, negotiation, or other non-spatial domains.
+   - Use `references/finance-adapter.md` for investment, trading, portfolio, budgeting, wealth, cash flow, business finance, market timing, or crypto questions.
    - Use `references/foundation.md` for yin-yang, qi, five phases, bagua, stems/branches, and 24 mountains.
    - Use `references/forms-and-environment.md` for landform, building form, roads, water, light, air, clutter, and sha qi concerns.
    - Use `references/schools.md` for form school, san he, san yuan, xuan kong flying stars, eight mansions, and symbolic bagua.
@@ -43,6 +46,9 @@ For quick requests, proceed with stated assumptions and mark them clearly.
 
 | User asks about | Load |
 | --- | --- |
+| Finance, investing, trading, budgeting, wealth, cash flow | `references/finance-adapter.md` plus `references/ethics-and-limits.md` |
+| Business, brand, career, product, learning, wellbeing, relationships, negotiation | `references/domain-adapters.md` |
+| Cross-domain routing | Run `python fengshui-master/scripts/domain_router.py "<question>"` |
 | Basic terms, bagua, five phases, qi, yin-yang, 24 mountains | `references/foundation.md` |
 | Roads, rivers, mountains, building shapes, external sha, landscape | `references/forms-and-environment.md` |
 | Which feng shui school to apply | `references/schools.md` |
@@ -106,6 +112,14 @@ python fengshui-master/scripts/flying_stars.py --year 2026 --pretty
 
 Do not present this as a full natal flying-star chart. For complete xuan kong work, collect facing/sitting direction, period, floor plan, active rooms, and lineage assumptions.
 
+Use `scripts/domain_router.py` when a request is not a classic space reading:
+
+```bash
+python fengshui-master/scripts/domain_router.py "Should I buy this stock next month?" --pretty
+```
+
+For finance, always use the domain's real constraints first and feng shui as a symbolic support lens only.
+
 ## Common Mistakes
 
 - Do not mix schools silently. If using eight mansions for personal directions and flying stars for time-space analysis, say so.
@@ -118,6 +132,7 @@ Do not present this as a full natal flying-star chart. For complete xuan kong wo
 - Do not calculate exact date auspiciousness without a calendar source or candidate-date attributes.
 - Do not apply yang-house rules directly to yin-house burial sites.
 - Do not present the basic flying-star helper as a full replacement-star or lineage-specific xuan kong engine.
+- Do not treat cross-domain feng shui as a substitute for finance, medical, legal, engineering, tax, or other professional analysis.
 
 ## Source Posture
 

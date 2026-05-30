@@ -1,6 +1,6 @@
 # FengShui Master
 
-FengShui Master is an open Codex skill for traditional Chinese feng shui analysis. It provides structured workflows, reference material, and deterministic helpers for analyzing homes, offices, shops, rooms, land, floor plans, entrances, beds, desks, kitchens, directions, timing, xuan kong scaffolds, and environmental form.
+FengShui Master is an open Codex skill for traditional Chinese feng shui analysis. It provides structured workflows, reference material, and deterministic helpers for analyzing homes, offices, shops, rooms, land, floor plans, entrances, beds, desks, kitchens, directions, timing, xuan kong scaffolds, environmental form, and cross-domain decisions such as finance, business, brand, career, product, learning, and wellbeing.
 
 The project treats feng shui as a traditional cultural and spatial-analysis system. It does not present symbolic readings as guaranteed predictions.
 
@@ -14,6 +14,8 @@ The project treats feng shui as a traditional cultural and spatial-analysis syst
 - Timing: san yuan periods, xuan kong inputs, annual/monthly layer cautions, date-selection intake.
 - Xuan Kong Flying Stars: basic Luo Shu flight scaffold, star meanings, period cautions, natal-chart intake.
 - Yin house boundaries: cemetery and burial-site intake, conservative form reading, ethics and safety.
+- Cross-domain adapters: finance, business, brand, career, product, learning, wellbeing, relationships, and negotiation.
+- Finance adapter: symbolic feng shui lens for investing, portfolio, budget, cash flow, and market-timing questions with strong financial guardrails.
 - Glossary and case patterns: Chinese terminology, response templates, comparison matrices.
 - Safety and ethics: high-stakes claims, cultural respect, modern building constraints.
 - Tooling: compass bearing to 24-mountain conversion, ming gua lookup, san yuan period lookup, basic flying-star scaffold.
@@ -30,6 +32,8 @@ The project treats feng shui as a traditional cultural and spatial-analysis syst
 | Xuan Kong Flying Stars | Partially covered | Basic Luo Shu scaffold and intake included; full natal chart, replacement stars, and lineage variants are future work |
 | Date selection | Partially covered | Intake and safety framework included; no full almanac engine |
 | Yin house / burial sites | Partially covered | Boundaries and conservative form reading included; advanced lineage formulas not automated |
+| Cross-domain application | Partially covered | Finance, business, brand, career, product, learning, wellbeing, relationships, and negotiation adapter included |
+| Finance / investing lens | Partially covered | Symbolic decision-support framework included; no investment recommendation engine |
 | Image, map, or floor-plan auto parsing | Not covered | Skill can analyze provided evidence, but no computer-vision or GIS parser is included |
 | Full bazi / four pillars | Not covered | Only ming gua is included; bazi is intentionally outside current scope |
 
@@ -51,6 +55,8 @@ fengshui-master/
     glossary.md
     case-patterns.md
     sample-readings.md
+    domain-adapters.md
+    finance-adapter.md
     ethics-and-limits.md
     sources.md
   scripts/
@@ -58,6 +64,7 @@ fengshui-master/
     minggua.py
     periods.py
     flying_stars.py
+    domain_router.py
 tests/
   test_luopan.py
   test_minggua.py
@@ -121,6 +128,14 @@ python fengshui-master/scripts/flying_stars.py --year 2026 --pretty
 
 This helper is not a complete natal flying-star engine.
 
+Route a cross-domain question:
+
+```bash
+python fengshui-master/scripts/domain_router.py "Should I buy this stock next month?" --pretty
+```
+
+The router points Codex to the correct references and guardrails; it does not make the decision.
+
 ## Validate
 
 Run the standard-library tests:
@@ -142,6 +157,7 @@ This is a comprehensive v1 skill with clear boundaries. Contributions are welcom
 - Primary-source references and careful summaries.
 - Additional lineage-specific notes with school labels.
 - More deterministic tools, such as full natal flying-star charting, almanac-backed date selection, or floor-plan annotation.
+- Additional domain adapters for law-adjacent decisions, education, health-adjacent wellbeing, and product strategy.
 - Example analyses and test fixtures.
 
 ## Disclaimer

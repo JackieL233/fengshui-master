@@ -9,6 +9,7 @@ Use this file for compact examples of tone, structure, and scope. Adapt, do not 
 - Retail Entrance Comparison
 - Period 9 Flying-Star Intake
 - Yin House Conceptual Review
+- Finance Decision Through Feng Shui Lens
 
 ## Apartment Without Compass
 
@@ -114,4 +115,28 @@ Low-impact next steps:
 - Confirm drainage and cemetery rules.
 - Visit after rain.
 - Document the compass facing if advanced lineage analysis is wanted.
+```
+
+## Finance Decision Through Feng Shui Lens
+
+User asks: "Should I buy this stock next month using feng shui?"
+
+Pattern:
+
+```text
+I can give a feng shui decision-support reading, but this is not financial advice and cannot predict returns.
+
+Financial reality check:
+- I would need your time horizon, risk tolerance, liquidity needs, existing concentration, and investment thesis before any serious decision framework.
+
+Feng shui lens:
+- The question has strong fire: attention, timing, and possible urgency.
+- A healthier setup adds earth and metal before action: reserves, position limits, written rules, and a review date.
+- Water represents research and liquidity; do not let the money become so fixed that you cannot adapt.
+
+Low-risk plan:
+1. Write the thesis and the condition that would prove it wrong.
+2. Decide max position size before looking at the price again.
+3. Keep emergency funds separate.
+4. Use next month as a review window, not an auspicious guarantee.
 ```

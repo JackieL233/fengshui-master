@@ -20,6 +20,8 @@ class SkillInventoryTest(unittest.TestCase):
             "glossary.md",
             "case-patterns.md",
             "sample-readings.md",
+            "domain-adapters.md",
+            "finance-adapter.md",
             "ethics-and-limits.md",
             "sources.md",
         ]
@@ -33,7 +35,13 @@ class SkillInventoryTest(unittest.TestCase):
     def test_scripts_are_documented(self):
         skill_text = (SKILL / "SKILL.md").read_text(encoding="utf-8")
 
-        for filename in ["luopan.py", "minggua.py", "periods.py", "flying_stars.py"]:
+        for filename in [
+            "luopan.py",
+            "minggua.py",
+            "periods.py",
+            "flying_stars.py",
+            "domain_router.py",
+        ]:
             with self.subTest(filename=filename):
                 self.assertTrue((SKILL / "scripts" / filename).exists())
                 self.assertIn(f"scripts/{filename}", skill_text)
