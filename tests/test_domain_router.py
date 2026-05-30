@@ -41,6 +41,25 @@ class DomainRouterTest(unittest.TestCase):
         self.assertEqual(data["domain"], "space")
         self.assertIn("references/analysis-templates.md", data["references"])
 
+    def test_life_omen_routes_to_life_adapter(self):
+        data = run_router("Use feng shui and five phases to analyze a person's life, luck, and auspicious risks")
+
+        self.assertEqual(data["domain"], "life_omen")
+        self.assertIn("references/life-and-omen-adapter.md", data["references"])
+        self.assertIn("references/ethics-and-limits.md", data["references"])
+
+    def test_chinese_life_omen_question_routes_without_spaces(self):
+        data = run_router("帮我用风水分析一个人的生平五行吉凶和运势")
+
+        self.assertEqual(data["domain"], "life_omen")
+        self.assertIn("references/life-and-omen-adapter.md", data["references"])
+
+    def test_chinese_finance_question_routes_without_spaces(self):
+        data = run_router("用风水五行分析这个股票投资是否吉利")
+
+        self.assertEqual(data["domain"], "finance")
+        self.assertIn("references/finance-adapter.md", data["references"])
+
 
 if __name__ == "__main__":
     unittest.main()

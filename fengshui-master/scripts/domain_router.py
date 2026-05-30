@@ -7,7 +7,68 @@ import argparse
 import json
 
 
+def score_question(question: str, keywords: set[str]) -> int:
+    normalized = question.lower()
+    words = {token.strip(".,?!:;()[]{}\"'").lower() for token in question.split()}
+    score = len(words & keywords)
+
+    for keyword in keywords:
+        if keyword and keyword in normalized and keyword not in words:
+            score += 1
+
+    return score
+
+
 DOMAIN_RULES = [
+    (
+        "life_omen",
+        {
+            "auspicious",
+            "inauspicious",
+            "omen",
+            "omens",
+            "luck",
+            "lucky",
+            "unlucky",
+            "fortune",
+            "destiny",
+            "fate",
+            "life",
+            "lifepath",
+            "biography",
+            "person",
+            "personal",
+            "bazi",
+            "birth",
+            "year",
+            "凶",
+            "吉凶",
+            "不吉",
+            "运势",
+            "运气",
+            "命",
+            "命运",
+            "命理",
+            "生平",
+            "人生",
+            "个人",
+            "财运",
+            "趋吉避凶",
+            "八字",
+            "出生",
+        },
+        [
+            "references/life-and-omen-adapter.md",
+            "references/five-phase-domain-map.md",
+            "references/foundation.md",
+            "references/ethics-and-limits.md",
+        ],
+        [
+            "Do not make deterministic fate, health, death, wealth, marriage, or disaster claims.",
+            "Use feng shui, yin-yang, wuxing, bagua, and timing as symbolic analysis, not guaranteed prediction.",
+            "Disclose when full bazi, zi wei, qimen, liuren, or almanac calculation is not implemented.",
+        ],
+    ),
     (
         "finance",
         {
@@ -28,10 +89,24 @@ DOMAIN_RULES = [
             "cash",
             "budget",
             "wealth",
+            "股票",
+            "投资",
+            "理财",
+            "基金",
+            "债券",
+            "加密",
+            "比特币",
+            "市场",
+            "财运",
+            "财富",
+            "现金",
+            "预算",
+            "风险",
         },
         [
             "references/finance-adapter.md",
             "references/domain-adapters.md",
+            "references/five-phase-domain-map.md",
             "references/ethics-and-limits.md",
             "references/timing-and-date-selection.md",
         ],
@@ -54,9 +129,17 @@ DOMAIN_RULES = [
             "marketing",
             "campaign",
             "product",
+            "品牌",
+            "标志",
+            "颜色",
+            "命名",
+            "营销",
+            "发布",
+            "产品",
         },
         [
             "references/domain-adapters.md",
+            "references/five-phase-domain-map.md",
             "references/foundation.md",
             "references/remedies.md",
             "references/ethics-and-limits.md",
@@ -78,9 +161,19 @@ DOMAIN_RULES = [
             "leadership",
             "boss",
             "work",
+            "职业",
+            "事业",
+            "工作",
+            "升职",
+            "面试",
+            "谈判",
+            "领导",
+            "团队",
         },
         [
             "references/domain-adapters.md",
+            "references/life-and-omen-adapter.md",
+            "references/five-phase-domain-map.md",
             "references/analysis-templates.md",
             "references/ethics-and-limits.md",
         ],
@@ -100,9 +193,16 @@ DOMAIN_RULES = [
             "anxiety",
             "focus",
             "energy",
+            "健康",
+            "睡眠",
+            "压力",
+            "焦虑",
+            "专注",
+            "精力",
         },
         [
             "references/domain-adapters.md",
+            "references/life-and-omen-adapter.md",
             "references/analysis-templates.md",
             "references/ethics-and-limits.md",
         ],
@@ -131,6 +231,22 @@ DOMAIN_RULES = [
             "store",
             "land",
             "site",
+            "住宅",
+            "房子",
+            "公寓",
+            "卧室",
+            "办公室",
+            "书桌",
+            "厨房",
+            "卫生间",
+            "镜子",
+            "门",
+            "户型",
+            "布局",
+            "商铺",
+            "店铺",
+            "土地",
+            "墓地",
         },
         [
             "references/analysis-templates.md",
@@ -146,11 +262,10 @@ DOMAIN_RULES = [
 
 
 def route(question: str) -> dict[str, object]:
-    words = {token.strip(".,?!:;()[]{}\"'").lower() for token in question.split()}
     best = None
     best_score = 0
     for domain, keywords, references, guardrails in DOMAIN_RULES:
-        score = len(words & keywords)
+        score = score_question(question, keywords)
         if score > best_score:
             best = (domain, references, guardrails)
             best_score = score

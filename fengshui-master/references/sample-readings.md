@@ -10,6 +10,7 @@ Use this file for compact examples of tone, structure, and scope. Adapt, do not 
 - Period 9 Flying-Star Intake
 - Yin House Conceptual Review
 - Finance Decision Through Feng Shui Lens
+- Life Pattern and Auspiciousness Lens
 
 ## Apartment Without Compass
 
@@ -139,4 +140,34 @@ Low-risk plan:
 2. Decide max position size before looking at the price again.
 3. Keep emergency funds separate.
 4. Use next month as a review window, not an auspicious guarantee.
+```
+
+## Life Pattern and Auspiciousness Lens
+
+User asks: "Can you use feng shui and five phases to analyze my current life luck?"
+
+Pattern:
+
+```text
+I can give a traditional symbolic reading, but I will not treat it as fixed fate or a complete bazi chart.
+
+Reality layer:
+- I would first want to know the life area: career, wealth, relationship, health-adjacent environment, or general direction.
+- Any practical constraints matter more than symbolism: debt, job market, family needs, medical issues, legal duties, and safety.
+
+Feng shui / wuxing lens:
+- The pattern sounds over-fire if there is urgency, exposure, comparison, or pressure to prove yourself.
+- Add earth before action: sleep, routine, stable finances, and one grounded plan.
+- Add metal next: boundaries, rules, and pruning commitments.
+- Wood is useful after that: one growth path, not ten.
+
+Ji/xiong read:
+- More favorable when support, preparation, and timing are present.
+- More risky when decisions are rushed, unsupported, or leaking money/attention.
+
+Low-risk plan:
+1. Name the main life area you want to improve.
+2. Remove one leakage point this week.
+3. Add one support structure before making a major move.
+4. Use the reading as 趋吉避凶 planning, not a deterministic prediction.
 ```

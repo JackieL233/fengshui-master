@@ -1,13 +1,13 @@
 ---
 name: fengshui-master
-description: "Use when applying traditional Chinese feng shui to spaces or cross-domain decisions: homes, offices, shops, land, floor plans, structured floor-plan JSON, finance, investing, business, brand, career, product, learning, wellbeing, relationships, entrances, beds, desks, kitchens, remedies, date selection, luopan bearings, ming gua, xuan kong flying stars, yin house, bagua, five phases, form school, compass school, eight mansions, san he, san yuan, or culturally grounded feng shui explanations."
+description: "Use when applying traditional Chinese feng shui and broad wuxing symbolic analysis to spaces, people, life patterns, auspiciousness, luck, decisions, finance, investing, business, brand, career, wellbeing, relationships, homes, offices, shops, land, floor plans, date selection, luopan bearings, ming gua, xuan kong flying stars, yin house, bagua, five phases, form school, compass school, eight mansions, san he, san yuan, or culturally grounded feng shui explanations."
 ---
 
 # FengShui Master
 
 ## Overview
 
-Use FengShui Master to provide culturally grounded feng shui analysis without presenting symbolic judgments as guaranteed outcomes. Combine traditional frameworks, observable spatial facts, user intent, and modern safety constraints.
+Use FengShui Master to provide culturally grounded feng shui and broad Chinese symbolic analysis without presenting symbolic judgments as guaranteed outcomes. Combine traditional frameworks, observable spatial facts, life/event context, user intent, and modern safety constraints.
 
 Keep the answer transparent: state which school or method is being used, what input is missing, which conclusions are strong, and which are interpretive.
 
@@ -19,10 +19,12 @@ For quick requests, proceed with stated assumptions and mark them clearly.
 
 ## Workflow
 
-1. Define the scope: classic space analysis, cross-domain decision support, finance, business, brand, career, wellbeing, home, office, shop, site, room, door, bed, desk, kitchen, water, renovation, naming, date, or general study.
+1. Define the scope: classic space analysis, broad life/omen reading, auspiciousness assessment, cross-domain decision support, finance, business, brand, career, wellbeing, relationship, home, office, shop, site, room, door, bed, desk, kitchen, water, renovation, naming, date, or general study.
 2. Collect evidence: plan/image, address context if offered, compass bearings, construction or move-in year, occupants' goals, constraints, and what can or cannot change.
 3. Choose frameworks:
    - Use `scripts/domain_router.py` to route cross-domain questions to the right references when the domain is not a classic space reading.
+   - Use `references/life-and-omen-adapter.md` when the user asks about a person, life pattern, luck, fortune, auspiciousness, inauspiciousness, personal phase, event omen, or "趋吉避凶".
+   - Use `references/five-phase-domain-map.md` when translating wuxing into careers, industries, finance, brand, product, relationships, negotiation, learning, or personal patterns.
    - Use `references/domain-adapters.md` when applying feng shui to finance, business, brand, career, product, learning, wellbeing, relationships, negotiation, or other non-spatial domains.
    - Use `references/finance-adapter.md` for investment, trading, portfolio, budgeting, wealth, cash flow, business finance, market timing, or crypto questions.
    - Use `references/floorplan-schema.md` when the user can provide structured room/site annotations or wants repeatable plan analysis.
@@ -47,6 +49,8 @@ For quick requests, proceed with stated assumptions and mark them clearly.
 
 | User asks about | Load |
 | --- | --- |
+| Person, life pattern, luck, fortune, omen, auspiciousness, inauspiciousness, 趋吉避凶, 吉凶, 运势, 生平 | `references/life-and-omen-adapter.md` plus `references/five-phase-domain-map.md` and `references/ethics-and-limits.md` |
+| Five phases for careers, industries, finance, brand, products, relationships, personal behavior | `references/five-phase-domain-map.md` |
 | Finance, investing, trading, budgeting, wealth, cash flow | `references/finance-adapter.md` plus `references/ethics-and-limits.md` |
 | Business, brand, career, product, learning, wellbeing, relationships, negotiation | `references/domain-adapters.md` |
 | Cross-domain routing | Run `python fengshui-master/scripts/domain_router.py "<question>"` |
@@ -143,6 +147,7 @@ Treat the result as an intake and form-analysis scaffold. Continue with visual e
 - Do not apply yang-house rules directly to yin-house burial sites.
 - Do not present the basic flying-star helper as a full replacement-star or lineage-specific xuan kong engine.
 - Do not treat cross-domain feng shui as a substitute for finance, medical, legal, engineering, tax, or other professional analysis.
+- Do not present broad life, luck, omen, or auspiciousness readings as deterministic fate, complete bazi, guaranteed wealth, illness, marriage, disaster, or market prediction.
 
 ## Source Posture
 

@@ -1,6 +1,6 @@
 # Cross-Domain Adapters
 
-Use this file when the user asks for feng shui guidance outside classic spatial analysis: finance, business, brand, career, product, negotiation, learning, health-adjacent wellbeing, relationships, creative work, or decision-making.
+Use this file when the user asks for feng shui guidance outside classic spatial analysis: finance, business, brand, career, product, negotiation, learning, health-adjacent wellbeing, relationships, creative work, life choices, auspiciousness, or decision-making.
 
 ## Table of Contents
 
@@ -16,7 +16,7 @@ Use this file when the user asks for feng shui guidance outside classic spatial 
 Feng shui can be used outside architecture as a symbolic decision-support lens, but it must not replace the native discipline. In every cross-domain answer, combine:
 
 1. The domain's real constraints.
-2. Feng shui / yin-yang / five-phase / timing symbolism.
+2. Feng shui / yin-yang / five-phase / bagua / timing symbolism.
 3. Practical next actions.
 4. Explicit safety or professional boundaries.
 
@@ -24,7 +24,7 @@ Do not pretend feng shui alone can price assets, diagnose illness, win negotiati
 
 ## Adapter Workflow
 
-1. Identify the native domain: finance, career, brand, product, wellbeing, relationship, education, legal-adjacent, or general decision.
+1. Identify the native domain: finance, career, brand, product, wellbeing, relationship, education, life/omen, legal-adjacent, or general decision.
 2. Ask what outcome the user wants and what constraints are real.
 3. Choose a feng shui lens:
    - **Yin-yang**: balance, pace, exposure, risk posture, contraction/expansion.
@@ -32,6 +32,7 @@ Do not pretend feng shui alone can price assets, diagnose illness, win negotiati
    - **Form and flow**: bottlenecks, leakage, support, pathways, friction.
    - **Timing**: preparation, activation, rest, launch, review cycles.
    - **Remedies**: low-risk adjustments, environment, process changes, symbolic anchors.
+   - **Ji/xiong**: favorable or unfavorable conditions based on support, timing, leakage, and risk.
 4. Give domain-first advice and label feng shui symbolism separately.
 5. Include guardrails for high-stakes domains.
 
@@ -48,6 +49,7 @@ Do not pretend feng shui alone can price assets, diagnose illness, win negotiati
 | Wellbeing | sleep, light, air, clutter, rhythm | medical care, ergonomics, mental health support |
 | Relationships | balance, privacy, shared space, communication flow | consent, communication, safety, counseling |
 | Negotiation | position, backing, timing, channels, leakage | BATNA, facts, incentives, legal terms |
+| Life pattern / omen | yin-yang rhythm, five-phase balance, support, leakage, timing | lived facts, choices, health/safety, family/work constraints |
 
 ## Translation Lenses
 

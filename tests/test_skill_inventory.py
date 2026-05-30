@@ -22,6 +22,8 @@ class SkillInventoryTest(unittest.TestCase):
             "sample-readings.md",
             "domain-adapters.md",
             "finance-adapter.md",
+            "life-and-omen-adapter.md",
+            "five-phase-domain-map.md",
             "floorplan-schema.md",
             "ethics-and-limits.md",
             "sources.md",

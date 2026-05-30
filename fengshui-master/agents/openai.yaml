@@ -1,4 +1,4 @@
 interface:
   display_name: "FengShui Master"
-  short_description: "Traditional Chinese feng shui analysis workflows and references"
-  default_prompt: "Use $fengshui-master to analyze a home, office, site, or floor plan through traditional Chinese feng shui frameworks."
+  short_description: "Traditional Chinese feng shui, wuxing, and auspiciousness analysis"
+  default_prompt: "Use $fengshui-master to analyze a space, person, life pattern, decision, or domain question through traditional Chinese feng shui and five-phase frameworks."

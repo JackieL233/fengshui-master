@@ -11,6 +11,7 @@ Use this file for realistic response structures. These are patterns, not fixed s
 - Retail Frontage
 - Flying-Star Intake
 - Date Selection Intake
+- Life and Omen Reading
 - Comparison Matrix
 
 ## Quick Compass Reading
@@ -112,6 +113,20 @@ Ask:
 - Whether the user has an almanac source to use.
 
 If no almanac data exists, provide a checklist rather than pretending to calculate.
+
+## Life and Omen Reading
+
+Use when the user asks about 生平, 运势, 吉凶, 趋吉避凶, personal five-phase balance, or whether an event is auspicious.
+
+Output:
+
+1. State the method and limit: symbolic feng shui/wuxing reading, not fixed fate or full bazi unless a real charting method is available.
+2. Identify the real domain: career, wealth, relationship, wellbeing, family, study, business, or decision.
+3. Read yin-yang rhythm, five-phase pattern, support/backing, ming tang/opportunity, leakage, sha pressure, and timing.
+4. Give a ji/xiong assessment as conditions: favorable if supported and timed; risky if rushed, leaking, or unsafe.
+5. Convert symbolism into actions: reduce leakage, add support, choose a review cycle, improve environment, or delay irreversible steps.
+
+Use `references/life-and-omen-adapter.md` and `references/five-phase-domain-map.md`.
 
 ## Comparison Matrix
 

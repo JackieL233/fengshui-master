@@ -1,12 +1,14 @@
 # FengShui Master
 
-FengShui Master is an open Codex skill for traditional Chinese feng shui analysis. It provides structured workflows, reference material, deterministic helpers, and a JSON floor-plan intake format for analyzing homes, offices, shops, rooms, land, floor plans, entrances, beds, desks, kitchens, directions, timing, xuan kong scaffolds, environmental form, and cross-domain decisions such as finance, business, brand, career, product, learning, and wellbeing.
+FengShui Master is an open Codex skill for traditional Chinese feng shui and broad wuxing symbolic analysis. It provides structured workflows, reference material, deterministic helpers, and a JSON floor-plan intake format for analyzing homes, offices, shops, rooms, land, floor plans, entrances, beds, desks, kitchens, directions, timing, xuan kong scaffolds, environmental form, life patterns, auspiciousness, inauspiciousness, and cross-domain decisions such as finance, business, brand, career, product, learning, and wellbeing.
 
-The project treats feng shui as a traditional cultural and spatial-analysis system. It does not present symbolic readings as guaranteed predictions.
+The project treats feng shui as a traditional cultural, spatial, and symbolic-analysis system. It does not present symbolic readings as guaranteed predictions.
 
 ## What This Skill Covers
 
 - Foundational concepts: qi, yin-yang, five phases, bagua, stems/branches, 24 mountains.
+- Broad symbolic analysis: life-pattern reading, auspiciousness/inauspiciousness framing, personal phase balance, event and decision omens, and "趋吉避凶" planning.
+- Five-phase domain map: careers, industries, finance, brands, products, learning, relationships, negotiation, and personal behavior.
 - Form analysis: landform, roads, water, buildings, entrances, circulation, sha qi, light, air, clutter.
 - School selection: form school, compass school, san he, san yuan, xuan kong flying stars, eight mansions, symbolic bagua.
 - Scenario workflows: residential, office, retail, restaurant, site selection, bedroom, desk, floor plan, renovation.
@@ -26,6 +28,8 @@ The project treats feng shui as a traditional cultural and spatial-analysis syst
 | Area | Status | Notes |
 | --- | --- | --- |
 | Core concepts, terms, five phases, bagua, 24 mountains | Fully covered | Reference material and luopan helper included |
+| Broad life / omen / auspiciousness analysis | Fully covered | Symbolic life-pattern and ji/xiong adapter included; not deterministic fate-telling |
+| Five-phase cross-domain mapping | Fully covered | Careers, industries, finance, brand, product, relationship, learning, and negotiation mappings included |
 | Form school for homes, offices, shops, land, rooms | Fully covered | Practical outside-to-inside workflow included |
 | Remedies and adjustments | Fully covered | Prioritizes repair, safety, reversibility, and symbolic clarity |
 | Eight Mansions / ming gua | Fully covered | Common birth-year helper included; lineage year-boundary cautions documented |
@@ -33,11 +37,11 @@ The project treats feng shui as a traditional cultural and spatial-analysis syst
 | Xuan Kong Flying Stars | Partially covered | Basic Luo Shu scaffold and intake included; full natal chart, replacement stars, and lineage variants are future work |
 | Date selection | Partially covered | Intake and safety framework included; no full almanac engine |
 | Yin house / burial sites | Partially covered | Boundaries and conservative form reading included; advanced lineage formulas not automated |
-| Cross-domain application | Partially covered | Finance, business, brand, career, product, learning, wellbeing, relationships, and negotiation adapter included |
+| Cross-domain application | Fully covered | General adapter plus life/omen and five-phase maps included for non-spatial questions |
 | Finance / investing lens | Partially covered | Symbolic decision-support framework included; no investment recommendation engine |
 | Structured floor-plan JSON | Fully covered | Schema, sample, and intake analyzer included |
 | Image, map, or floor-plan auto parsing | Partially covered | Structured JSON is supported; raw computer-vision or GIS parsing is not included |
-| Full bazi / four pillars | Not covered | Only ming gua is included; bazi is intentionally outside current scope |
+| Full bazi / four pillars | Not covered | Life-pattern symbolism and ming gua are included; complete bazi charting is intentionally outside current scope |
 
 ## Repository Layout
 
@@ -59,6 +63,8 @@ fengshui-master/
     sample-readings.md
     domain-adapters.md
     finance-adapter.md
+    life-and-omen-adapter.md
+    five-phase-domain-map.md
     floorplan-schema.md
     ethics-and-limits.md
     sources.md
@@ -102,6 +108,8 @@ Then ask Codex to use `$fengshui-master`.
 - `Use $fengshui-master to review this apartment floor plan from a form-school perspective.`
 - `Use $fengshui-master to analyze my desk placement. The desk faces 92 degrees and the door is behind my left side.`
 - `Use $fengshui-master to compare two retail storefronts for customer flow and entrance quality.`
+- `Use $fengshui-master to analyze my career phase through five phases and 趋吉避凶 planning.`
+- `Use $fengshui-master to review this investment decision through finance-first analysis and feng shui symbolism.`
 - `Use $fengshui-master to explain the difference between san he, san yuan, xuan kong, and ba zhai.`
 
 ## Luopan Helper
