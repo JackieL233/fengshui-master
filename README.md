@@ -1,6 +1,6 @@
 # FengShui Master
 
-FengShui Master is an open Codex skill for traditional Chinese feng shui analysis. It provides structured workflows, reference material, and a small deterministic luopan helper for analyzing homes, offices, shops, rooms, land, floor plans, entrances, beds, desks, kitchens, directions, and environmental form.
+FengShui Master is an open Codex skill for traditional Chinese feng shui analysis. It provides structured workflows, reference material, and deterministic helpers for analyzing homes, offices, shops, rooms, land, floor plans, entrances, beds, desks, kitchens, directions, timing, xuan kong scaffolds, and environmental form.
 
 The project treats feng shui as a traditional cultural and spatial-analysis system. It does not present symbolic readings as guaranteed predictions.
 
@@ -12,9 +12,26 @@ The project treats feng shui as a traditional cultural and spatial-analysis syst
 - Scenario workflows: residential, office, retail, restaurant, site selection, bedroom, desk, floor plan, renovation.
 - Remedies and adjustments: mirrors, plants, screens, water, color, five-phase balancing, safe intervention ladder.
 - Timing: san yuan periods, xuan kong inputs, annual/monthly layer cautions, date-selection intake.
+- Xuan Kong Flying Stars: basic Luo Shu flight scaffold, star meanings, period cautions, natal-chart intake.
+- Yin house boundaries: cemetery and burial-site intake, conservative form reading, ethics and safety.
 - Glossary and case patterns: Chinese terminology, response templates, comparison matrices.
 - Safety and ethics: high-stakes claims, cultural respect, modern building constraints.
-- Tooling: compass bearing to 24-mountain conversion, ming gua lookup, san yuan period lookup.
+- Tooling: compass bearing to 24-mountain conversion, ming gua lookup, san yuan period lookup, basic flying-star scaffold.
+
+## Coverage Matrix
+
+| Area | Status | Notes |
+| --- | --- | --- |
+| Core concepts, terms, five phases, bagua, 24 mountains | Fully covered | Reference material and luopan helper included |
+| Form school for homes, offices, shops, land, rooms | Fully covered | Practical outside-to-inside workflow included |
+| Remedies and adjustments | Fully covered | Prioritizes repair, safety, reversibility, and symbolic clarity |
+| Eight Mansions / ming gua | Fully covered | Common birth-year helper included; lineage year-boundary cautions documented |
+| San Yuan 20-year periods | Fully covered | Period helper covers 1864-2043 |
+| Xuan Kong Flying Stars | Partially covered | Basic Luo Shu scaffold and intake included; full natal chart, replacement stars, and lineage variants are future work |
+| Date selection | Partially covered | Intake and safety framework included; no full almanac engine |
+| Yin house / burial sites | Partially covered | Boundaries and conservative form reading included; advanced lineage formulas not automated |
+| Image, map, or floor-plan auto parsing | Not covered | Skill can analyze provided evidence, but no computer-vision or GIS parser is included |
+| Full bazi / four pillars | Not covered | Only ming gua is included; bazi is intentionally outside current scope |
 
 ## Repository Layout
 
@@ -29,16 +46,24 @@ fengshui-master/
     analysis-templates.md
     remedies.md
     timing-and-date-selection.md
+    xuan-kong-flying-stars.md
+    yin-house.md
     glossary.md
     case-patterns.md
+    sample-readings.md
     ethics-and-limits.md
     sources.md
   scripts/
     luopan.py
     minggua.py
     periods.py
+    flying_stars.py
 tests/
   test_luopan.py
+  test_minggua.py
+  test_periods.py
+  test_flying_stars.py
+  test_skill_inventory.py
 ```
 
 ## Install as a Local Codex Skill
@@ -88,6 +113,14 @@ Look up a common San Yuan / Xuan Kong 20-year period:
 python fengshui-master/scripts/periods.py 2026 --pretty
 ```
 
+Create a basic Luo Shu flying-star scaffold:
+
+```bash
+python fengshui-master/scripts/flying_stars.py --year 2026 --pretty
+```
+
+This helper is not a complete natal flying-star engine.
+
 ## Validate
 
 Run the standard-library tests:
@@ -104,11 +137,11 @@ python C:/Users/Administrator/.codex/skills/.system/skill-creator/scripts/quick_
 
 ## Project Status
 
-This is an initial comprehensive skeleton. Contributions are welcome for:
+This is a comprehensive v1 skill with clear boundaries. Contributions are welcome for:
 
 - Primary-source references and careful summaries.
 - Additional lineage-specific notes with school labels.
-- More deterministic tools, such as gua-number calculation or flying-star chart scaffolding.
+- More deterministic tools, such as full natal flying-star charting, almanac-backed date selection, or floor-plan annotation.
 - Example analyses and test fixtures.
 
 ## Disclaimer

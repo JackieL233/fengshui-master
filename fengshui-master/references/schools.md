@@ -104,6 +104,8 @@ Responsible output:
 - Explain chart assumptions before judging.
 - Treat star combinations as symbolic risk/opportunity patterns, not guaranteed outcomes.
 - Prioritize form: a "good" star in a bad physical location may not help; a "bad" star in a calm unused area may be lower priority.
+- Use `references/xuan-kong-flying-stars.md` before giving star meanings or chart workflow.
+- Use `scripts/flying_stars.py` only for a basic Luo Shu flight scaffold, not a complete natal chart.
 
 Current-period caution:
 

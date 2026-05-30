@@ -1,6 +1,6 @@
 ---
 name: fengshui-master
-description: Use when analyzing traditional Chinese feng shui for homes, offices, shops, land, floor plans, room layouts, entrances, beds, desks, kitchens, bathrooms, stairs, mirrors, water features, remedies, date selection, moving dates, renovation timing, luopan bearings, ming gua, bagua, five phases, form school, compass school, eight mansions, flying stars, san he, san yuan, or culturally grounded feng shui explanations.
+description: Use when analyzing traditional Chinese feng shui for homes, offices, shops, land, floor plans, room layouts, entrances, beds, desks, kitchens, bathrooms, stairs, mirrors, water features, remedies, date selection, moving dates, renovation timing, luopan bearings, ming gua, xuan kong flying stars, yin house, burial sites, bagua, five phases, form school, compass school, eight mansions, san he, san yuan, or culturally grounded feng shui explanations.
 ---
 
 # FengShui Master
@@ -28,8 +28,11 @@ For quick requests, proceed with stated assumptions and mark them clearly.
    - Use `references/analysis-templates.md` for residential, office, retail, site, room, and floor-plan workflows.
    - Use `references/remedies.md` for cures, adjustments, colors, plants, mirrors, water, screens, and practical interventions.
    - Use `references/timing-and-date-selection.md` for san yuan periods, xuan kong timing, annual layers, moving, renovation, and opening dates.
+   - Use `references/xuan-kong-flying-stars.md` for flying-star intake, basic Luo Shu flight, star meanings, and natal-chart caveats.
+   - Use `references/yin-house.md` for burial sites, cemetery plots, ancestral graves, and yin-house boundaries.
    - Use `references/glossary.md` for Chinese terms, translations, and quick definitions.
    - Use `references/case-patterns.md` for reusable response structures and comparison matrices.
+   - Use `references/sample-readings.md` for compact examples of tone and structure.
    - Use `references/sources.md` when extending historical, classical, or lineage-specific claims.
    - Use `references/ethics-and-limits.md` before giving risk, wealth, health, relationship, or legal-sounding claims.
 4. Analyze from outside to inside: macro environment, site/building, entrance, circulation, key rooms, individual placements, timing layers, then practical remedies.
@@ -46,13 +49,17 @@ For quick requests, proceed with stated assumptions and mark them clearly.
 | Home, office, shop, room, floor plan, desk, bed, kitchen | `references/analysis-templates.md` |
 | Remedies, cures, colors, mirrors, plants, water, screens | `references/remedies.md` |
 | Moving date, opening date, renovation timing, annual stars, nine periods | `references/timing-and-date-selection.md` |
+| Xuan kong, flying stars, Period 9, Luo Shu flight, star meanings | `references/xuan-kong-flying-stars.md` |
+| Yin house, burial sites, cemetery plots, ancestral graves | `references/yin-house.md` |
 | Chinese terms, pronunciation, glossary, translation cautions | `references/glossary.md` |
 | Example response structures, comparisons, intake templates | `references/case-patterns.md` |
+| Finished answer examples and tone samples | `references/sample-readings.md` |
 | Claims about luck, health, money, relationships, pregnancy, disasters | `references/ethics-and-limits.md` |
 | Classical sources, research posture, adding new references | `references/sources.md` |
 | Compass bearing to 24 mountains | Run `python fengshui-master/scripts/luopan.py <degrees>` |
 | Birth-year ming gua / eight mansions personal directions | Run `python fengshui-master/scripts/minggua.py <year> --sex <male|female>` |
 | San yuan / xuan kong 20-year period | Run `python fengshui-master/scripts/periods.py <year>` |
+| Basic Luo Shu flying-star scaffold | Run `python fengshui-master/scripts/flying_stars.py --period <1-9>` |
 
 ## Response Pattern
 
@@ -91,6 +98,14 @@ python fengshui-master/scripts/periods.py 2026 --pretty
 
 Do not treat period lookup as a complete flying-star chart.
 
+Use `scripts/flying_stars.py` for a basic Luo Shu flight scaffold:
+
+```bash
+python fengshui-master/scripts/flying_stars.py --year 2026 --pretty
+```
+
+Do not present this as a full natal flying-star chart. For complete xuan kong work, collect facing/sitting direction, period, floor plan, active rooms, and lineage assumptions.
+
 ## Common Mistakes
 
 - Do not mix schools silently. If using eight mansions for personal directions and flying stars for time-space analysis, say so.
@@ -101,6 +116,8 @@ Do not treat period lookup as a complete flying-star chart.
 - Do not erase regional variation. Name the method and uncertainty when traditions differ.
 - Do not recommend a "cure" without explaining the observed issue and safer alternative.
 - Do not calculate exact date auspiciousness without a calendar source or candidate-date attributes.
+- Do not apply yang-house rules directly to yin-house burial sites.
+- Do not present the basic flying-star helper as a full replacement-star or lineage-specific xuan kong engine.
 
 ## Source Posture
 
