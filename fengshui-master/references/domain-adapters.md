@@ -2,6 +2,8 @@
 
 Use this file when the user asks for feng shui guidance outside classic spatial analysis: finance, business, brand, career, product, negotiation, learning, health-adjacent wellbeing, relationships, creative work, life choices, auspiciousness, or decision-making.
 
+For any non-spatial reading that centers on 观气, 取象, 辨势, 吉凶, 运势, 生平, or 趋吉避凶, load `broad-symbolic-analysis.md` first, then load the specialized adapter for the native domain.
+
 ## Table of Contents
 
 - Core Rule
@@ -26,15 +28,16 @@ Do not pretend feng shui alone can price assets, diagnose illness, win negotiati
 
 1. Identify the native domain: finance, career, brand, product, wellbeing, relationship, education, life/omen, legal-adjacent, or general decision.
 2. Ask what outcome the user wants and what constraints are real.
-3. Choose a feng shui lens:
+3. Apply the broad symbolic protocol from `broad-symbolic-analysis.md`: 定域, 观气, 取象, 辨势, 断吉凶, 化解, 复核.
+4. Choose a feng shui lens:
    - **Yin-yang**: balance, pace, exposure, risk posture, contraction/expansion.
    - **Five phases**: growth, visibility, stability, precision, liquidity.
    - **Form and flow**: bottlenecks, leakage, support, pathways, friction.
    - **Timing**: preparation, activation, rest, launch, review cycles.
    - **Remedies**: low-risk adjustments, environment, process changes, symbolic anchors.
    - **Ji/xiong**: favorable or unfavorable conditions based on support, timing, leakage, and risk.
-4. Give domain-first advice and label feng shui symbolism separately.
-5. Include guardrails for high-stakes domains.
+5. Give domain-first advice and label feng shui symbolism separately.
+6. Include guardrails for high-stakes domains.
 
 For deeper common domains, load the specialized adapter:
 

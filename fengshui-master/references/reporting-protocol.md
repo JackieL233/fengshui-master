@@ -39,6 +39,7 @@ python fengshui-master/scripts/generate_report.py "Review this apartment" --floo
 | --- | --- |
 | Inputs and assumptions | User-provided facts, inferred facts, and uncertainty |
 | Reality layer | Native domain constraints before symbolism |
+| Symbolic analysis protocol | 观气, 取象, 辨势, 吉凶, 化解, and 复核 summary for broad non-spatial readings |
 | Symbolic layer | Yin-yang, five phases, form/flow, timing, bagua, or ji/xiong interpretation |
 | Structured floor-plan analysis | JSON findings, issues, and recommendations, with visual-verification caveats |
 | Recommendations | Prioritized, practical, reversible actions |

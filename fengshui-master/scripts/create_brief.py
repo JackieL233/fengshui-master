@@ -228,6 +228,12 @@ def create_brief(question: str, floorplan_path: str | None = None) -> dict[str, 
     guardrails = list(route["guardrails"])
     report_sections = list(DOMAIN_SECTIONS.get(domain, DOMAIN_SECTIONS["general"]))
     missing_inputs = list(DOMAIN_MISSING_INPUTS.get(domain, DOMAIN_MISSING_INPUTS["general"]))
+    if (
+        "references/broad-symbolic-analysis.md" in references
+        and "Symbolic analysis protocol" not in report_sections
+    ):
+        insert_at = 3 if len(report_sections) >= 3 else len(report_sections)
+        report_sections.insert(insert_at, "Symbolic analysis protocol")
 
     floorplan_analysis = None
     if floorplan_path:

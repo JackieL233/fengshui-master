@@ -2,6 +2,7 @@
   "question": "Should I buy this stock next month using feng shui?",
   "domain": "finance",
   "references": [
+    "references/broad-symbolic-analysis.md",
     "references/finance-adapter.md",
     "references/domain-adapters.md",
     "references/five-phase-domain-map.md",
@@ -32,6 +33,7 @@
     "Inputs and assumptions",
     "Financial reality check",
     "Risk posture",
+    "Symbolic analysis protocol",
     "Feng shui symbolic layer",
     "Practical adjustments",
     "Boundaries and missing data"

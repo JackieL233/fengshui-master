@@ -29,7 +29,9 @@ class GenerateReportScriptTest(unittest.TestCase):
         self.assertIn("This is not financial advice.", report)
         self.assertIn("## Financial reality check", report)
         self.assertIn("## Feng shui symbolic layer", report)
+        self.assertIn("## Symbolic analysis protocol", report)
         self.assertIn("- time horizon", report)
+        self.assertIn("references/broad-symbolic-analysis.md", report)
         self.assertIn("references/finance-adapter.md", report)
 
     def test_chinese_life_omen_report_contains_jixiong_section(self):
@@ -37,6 +39,7 @@ class GenerateReportScriptTest(unittest.TestCase):
 
         self.assertIn("Domain: life_omen", report)
         self.assertIn("## Ji/xiong assessment", report)
+        self.assertIn("## Symbolic analysis protocol", report)
         self.assertIn("Do not make deterministic fate", report)
         self.assertIn("birth year or relevant year", report)
 
@@ -47,6 +50,13 @@ class GenerateReportScriptTest(unittest.TestCase):
         self.assertIn("## Structured Floor-Plan Analysis", report)
         self.assertIn("front_back_alignment", report)
         self.assertIn("Create a pause point", report)
+
+    def test_product_report_uses_broad_symbolic_protocol(self):
+        report = run_report("Use feng shui to review this product onboarding flow")
+
+        self.assertIn("Domain: product", report)
+        self.assertIn("references/broad-symbolic-analysis.md", report)
+        self.assertIn("## Symbolic analysis protocol", report)
 
     def test_report_can_be_written_to_file(self):
         output = ROOT / "fengshui-master" / "assets" / "sample-finance-report.md"

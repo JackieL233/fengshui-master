@@ -22,6 +22,7 @@ class SkillInventoryTest(unittest.TestCase):
             "sample-readings.md",
             "consultation-brief.md",
             "reporting-protocol.md",
+            "broad-symbolic-analysis.md",
             "domain-adapters.md",
             "finance-adapter.md",
             "business-adapter.md",
@@ -81,6 +82,15 @@ class SkillInventoryTest(unittest.TestCase):
         for term in ["风水", "气", "阴阳", "五行", "八卦", "甲", "辰", "趋吉避凶"]:
             with self.subTest(term=term):
                 self.assertIn(term, reference_text)
+
+    def test_broad_symbolic_protocol_covers_non_spatial_readings(self):
+        protocol = (SKILL / "references" / "broad-symbolic-analysis.md").read_text(
+            encoding="utf-8"
+        )
+
+        for phrase in ["观气", "取象", "辨势", "吉凶", "生平", "金融"]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, protocol)
 
 
 if __name__ == "__main__":

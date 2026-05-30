@@ -58,6 +58,7 @@ DOMAIN_RULES = [
             "出生",
         },
         [
+            "references/broad-symbolic-analysis.md",
             "references/life-and-omen-adapter.md",
             "references/five-phase-domain-map.md",
             "references/foundation.md",
@@ -104,6 +105,7 @@ DOMAIN_RULES = [
             "风险",
         },
         [
+            "references/broad-symbolic-analysis.md",
             "references/finance-adapter.md",
             "references/domain-adapters.md",
             "references/five-phase-domain-map.md",
@@ -146,6 +148,7 @@ DOMAIN_RULES = [
             "软件",
         },
         [
+            "references/broad-symbolic-analysis.md",
             "references/product-adapter.md",
             "references/domain-adapters.md",
             "references/five-phase-domain-map.md",
@@ -176,6 +179,7 @@ DOMAIN_RULES = [
             "发布",
         },
         [
+            "references/broad-symbolic-analysis.md",
             "references/brand-adapter.md",
             "references/domain-adapters.md",
             "references/five-phase-domain-map.md",
@@ -218,6 +222,7 @@ DOMAIN_RULES = [
             "招聘",
         },
         [
+            "references/broad-symbolic-analysis.md",
             "references/business-adapter.md",
             "references/domain-adapters.md",
             "references/five-phase-domain-map.md",
@@ -250,6 +255,7 @@ DOMAIN_RULES = [
             "团队",
         },
         [
+            "references/broad-symbolic-analysis.md",
             "references/career-adapter.md",
             "references/domain-adapters.md",
             "references/life-and-omen-adapter.md",
@@ -289,6 +295,7 @@ DOMAIN_RULES = [
             "室友",
         },
         [
+            "references/broad-symbolic-analysis.md",
             "references/relationship-adapter.md",
             "references/domain-adapters.md",
             "references/five-phase-domain-map.md",
@@ -326,6 +333,7 @@ DOMAIN_RULES = [
             "证书",
         },
         [
+            "references/broad-symbolic-analysis.md",
             "references/learning-adapter.md",
             "references/domain-adapters.md",
             "references/five-phase-domain-map.md",
@@ -365,6 +373,7 @@ DOMAIN_RULES = [
             "条款",
         },
         [
+            "references/broad-symbolic-analysis.md",
             "references/legal-adjacent-adapter.md",
             "references/domain-adapters.md",
             "references/five-phase-domain-map.md",
@@ -394,6 +403,7 @@ DOMAIN_RULES = [
             "精力",
         },
         [
+            "references/broad-symbolic-analysis.md",
             "references/wellbeing-adapter.md",
             "references/domain-adapters.md",
             "references/life-and-omen-adapter.md",
@@ -468,6 +478,7 @@ def route(question: str) -> dict[str, object]:
         best = (
             "general",
             [
+                "references/broad-symbolic-analysis.md",
                 "references/domain-adapters.md",
                 "references/foundation.md",
                 "references/ethics-and-limits.md",

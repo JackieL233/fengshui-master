@@ -24,7 +24,7 @@ python fengshui-master/scripts/create_brief.py "Review this apartment" --floorpl
 | --- | --- |
 | question | User's consultation goal |
 | domain | Routed domain: space, finance, life_omen, brand, career, wellbeing, or general |
-| references | Skill references to load before answering |
+| references | Skill references to load before answering, including `broad-symbolic-analysis.md` for broad 吉凶, 运势, 生平, finance-symbolic, or other non-spatial readings |
 | guardrails | Claims or behaviors to avoid |
 | lenses | Symbolic lenses to consider |
 | missing_inputs | Inputs that would improve confidence |
@@ -42,8 +42,8 @@ python fengshui-master/scripts/create_brief.py "Review this apartment" --floorpl
 
 ## Domain Notes
 
-- **Finance**: Native financial constraints and guardrails always come first.
-- **Life/omen**: Use symbolic ji/xiong assessment without deterministic fate claims.
+- **Finance**: Native financial constraints and guardrails always come first; use `broad-symbolic-analysis.md` for 观气, 取象, 辨势, and conditional 吉凶.
+- **Life/omen**: Use `broad-symbolic-analysis.md` plus symbolic ji/xiong assessment without deterministic fate claims.
 - **Space**: Use floor-plan or form evidence before compass formulas.
 - **Brand/career/product**: Use five phases as design or strategy lenses, not as proof.
 - **Wellbeing**: Prioritize light, air, sleep, ergonomics, and professional care boundaries.

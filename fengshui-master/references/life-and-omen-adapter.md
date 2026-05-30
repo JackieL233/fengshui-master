@@ -2,6 +2,8 @@
 
 Use this file when the user asks to apply feng shui, wuxing, bagua, yin-yang, stems/branches, auspiciousness, inauspiciousness, luck, life pattern, personal phase, destiny-adjacent interpretation, or broad Chinese symbolic reasoning to a person, event, decision, year, period, career path, relationship pattern, or life story.
 
+For the general 观气 / 取象 / 辨势 / 吉凶 protocol, load `broad-symbolic-analysis.md` first. Use this file for the life, omen, and personal-pattern specialization.
+
 ## Table of Contents
 
 - Core Rule

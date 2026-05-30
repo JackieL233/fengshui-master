@@ -97,6 +97,14 @@ class DomainRouterTest(unittest.TestCase):
         data = run_router("帮我用风水分析一个人的生平五行吉凶和运势")
 
         self.assertEqual(data["domain"], "life_omen")
+        self.assertIn("references/broad-symbolic-analysis.md", data["references"])
+        self.assertIn("references/life-and-omen-adapter.md", data["references"])
+
+    def test_chinese_biography_wealth_career_question_routes_to_life_omen(self):
+        data = run_router("用风水五行分析这个人的一生财运事业吉凶")
+
+        self.assertEqual(data["domain"], "life_omen")
+        self.assertIn("references/broad-symbolic-analysis.md", data["references"])
         self.assertIn("references/life-and-omen-adapter.md", data["references"])
 
     def test_chinese_finance_question_routes_without_spaces(self):

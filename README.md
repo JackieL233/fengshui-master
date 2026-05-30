@@ -7,6 +7,7 @@ The project treats feng shui as a traditional cultural, spatial, and symbolic-an
 ## What This Skill Covers
 
 - Foundational concepts: qi, yin-yang, five phases, bagua, stems/branches, 24 mountains.
+- Broad symbolic feng shui protocol: 观气, 取象, 辨势, conditional 吉凶, 化解, and 复核 for non-spatial readings.
 - Broad symbolic analysis: life-pattern reading, auspiciousness/inauspiciousness framing, personal phase balance, event and decision omens, and "趋吉避凶" planning.
 - Five-phase domain map: careers, industries, finance, brands, products, learning, relationships, negotiation, and personal behavior.
 - Form analysis: landform, roads, water, buildings, entrances, circulation, sha qi, light, air, clutter.
@@ -31,6 +32,7 @@ The project treats feng shui as a traditional cultural, spatial, and symbolic-an
 | Area | Status | Notes |
 | --- | --- | --- |
 | Core concepts, terms, five phases, bagua, 24 mountains | Fully covered | Reference material and luopan helper included |
+| Broad symbolic protocol beyond space | Fully covered | 观气, 取象, 辨势, 吉凶, 生平, 金融, and decision-support protocol included |
 | Broad life / omen / auspiciousness analysis | Fully covered | Symbolic life-pattern and ji/xiong adapter included; not deterministic fate-telling |
 | Ganzhi year scaffold | Fully covered | Heavenly stem, earthly branch, zodiac, phase, and yin-yang helper included; not complete bazi |
 | Five-phase cross-domain mapping | Fully covered | Careers, industries, finance, brand, product, relationship, learning, and negotiation mappings included |
@@ -72,6 +74,7 @@ fengshui-master/
     sample-readings.md
     consultation-brief.md
     reporting-protocol.md
+    broad-symbolic-analysis.md
     domain-adapters.md
     finance-adapter.md
     business-adapter.md

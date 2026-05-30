@@ -33,6 +33,8 @@ class CreateBriefScriptTest(unittest.TestCase):
         self.assertIn("Financial reality check", data["report_sections"])
         self.assertIn("Feng shui symbolic layer", data["report_sections"])
         self.assertIn("time horizon", data["missing_inputs"])
+        self.assertIn("references/broad-symbolic-analysis.md", data["references"])
+        self.assertIn("Symbolic analysis protocol", data["report_sections"])
 
     def test_chinese_life_omen_question_creates_life_brief(self):
         data = run_brief("帮我用风水分析一个人的生平五行吉凶和运势")
@@ -42,6 +44,8 @@ class CreateBriefScriptTest(unittest.TestCase):
         self.assertIn("Do not make deterministic fate, health, death, wealth, marriage, or disaster claims.", data["guardrails"])
         self.assertIn("birth year or relevant year", data["missing_inputs"])
         self.assertIn("Ji/xiong assessment", data["report_sections"])
+        self.assertIn("references/broad-symbolic-analysis.md", data["references"])
+        self.assertIn("Symbolic analysis protocol", data["report_sections"])
 
     def test_floorplan_path_adds_space_analysis(self):
         data = run_brief(

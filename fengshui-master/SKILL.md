@@ -41,6 +41,7 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
    - Use `references/consultation-brief.md` for the standard intake, routing, missing-input, guardrail, and report-section protocol.
    - Use `references/reporting-protocol.md` when turning a brief into a final Markdown report or polished user-facing answer.
    - Use `scripts/domain_router.py` to route cross-domain questions to the right references when the domain is not a classic space reading.
+   - Use `references/broad-symbolic-analysis.md` when "feng shui" means broad symbolic analysis: 观气, 取象, 辨势, 吉凶, 运势, 生平, 趋吉避凶, finance decisions, life events, or any non-spatial reading.
    - Use `references/life-and-omen-adapter.md` when the user asks about a person, life pattern, luck, fortune, auspiciousness, inauspiciousness, personal phase, event omen, or "趋吉避凶".
    - Use `references/five-phase-domain-map.md` when translating wuxing into careers, industries, finance, brand, product, relationships, negotiation, learning, or personal patterns.
    - Use `references/domain-adapters.md` when applying feng shui to finance, business, brand, career, product, learning, wellbeing, relationships, negotiation, or other non-spatial domains.
@@ -75,7 +76,8 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
 
 | User asks about | Load |
 | --- | --- |
-| Person, life pattern, luck, fortune, omen, auspiciousness, inauspiciousness, 趋吉避凶, 吉凶, 运势, 生平 | `references/life-and-omen-adapter.md` plus `references/five-phase-domain-map.md` and `references/ethics-and-limits.md` |
+| Broad symbolic feng shui, 观气, 取象, 辨势, 吉凶, 运势, 生平, 趋吉避凶, event omen, finance symbolism | `references/broad-symbolic-analysis.md` plus the relevant specialized adapter |
+| Person, life pattern, luck, fortune, omen, auspiciousness, inauspiciousness, 趋吉避凶, 吉凶, 运势, 生平 | `references/broad-symbolic-analysis.md` plus `references/life-and-omen-adapter.md`, `references/five-phase-domain-map.md`, and `references/ethics-and-limits.md` |
 | Five phases for careers, industries, finance, brand, products, relationships, personal behavior | `references/five-phase-domain-map.md` |
 | Finance, investing, trading, budgeting, wealth, cash flow | `references/finance-adapter.md` plus `references/ethics-and-limits.md` |
 | Business strategy, operations, customer flow, revenue, partnerships | `references/business-adapter.md` plus `references/domain-adapters.md` |

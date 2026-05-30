@@ -4,6 +4,7 @@ Question: Should I buy this stock next month using feng shui?
 Domain: finance
 
 ## References To Load
+- references/broad-symbolic-analysis.md
 - references/finance-adapter.md
 - references/domain-adapters.md
 - references/five-phase-domain-map.md
@@ -47,6 +48,10 @@ Draft this section from supplied evidence. Separate observation, traditional int
 Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
 
 ## Risk posture
+
+Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+
+## Symbolic analysis protocol
 
 Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
 
