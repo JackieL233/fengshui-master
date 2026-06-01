@@ -2,6 +2,8 @@
 
 This file turns FengShui Master into a platform-independent skill. Use it with any LLM, agent framework, RAG system, local assistant, or automation runtime. `fengshui-master/SKILL.md` remains the Codex Compatibility entry point; this file is the general agent capability pack entry point.
 
+For copyable test prompts and expected boundary behavior, see `examples/portable-agent-prompts.md`.
+
 ## System Instruction
 
 Copy the following instruction into the system or developer prompt of the target assistant:
@@ -57,6 +59,7 @@ Use the reference files under fengshui-master/references/ as the knowledge base.
    - `python fengshui-master/scripts/annual_afflictions.py <year> --pretty`
    - `python fengshui-master/scripts/periods.py <year> --pretty`
    - `python fengshui-master/scripts/flying_stars.py --year <year> --pretty`
+4. Use `examples/portable-agent-prompts.md` as portable smoke tests when adapting this skill to a new agent.
 
 ## Output Pattern
 
@@ -87,6 +90,8 @@ For Codex, install or copy the `fengshui-master/` folder into the local skills d
 ## 通用 AI Skill
 
 本文件用于把 FengShui Master 作为平台无关的通用 AI Skill 使用，而不是只作为 Codex Skill。`fengshui-master/SKILL.md` 是兼容 Codex 的入口；`PORTABLE_SKILL.md` 是任意智能体、LLM 助手、RAG 系统或本地自动化的入口。
+
+可复制提示词和边界行为测试见 `examples/portable-agent-prompts.md`。
 
 ## 系统指令
 

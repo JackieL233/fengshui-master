@@ -15,6 +15,7 @@ README_ZH = ROOT / "README.zh-CN.md"
 DEPLOYMENT = ROOT / "DEPLOYMENT.md"
 REPOSITORY_METADATA = ROOT / ".github" / "repository-metadata.yml"
 PORTABLE_SKILL = ROOT / "PORTABLE_SKILL.md"
+PORTABLE_EXAMPLES = ROOT / "examples" / "portable-agent-prompts.md"
 
 
 class RepositoryQualityTest(unittest.TestCase):
@@ -126,6 +127,29 @@ class RepositoryQualityTest(unittest.TestCase):
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, guide)
+
+    def test_portable_agent_examples_exist(self):
+        self.assertTrue(PORTABLE_EXAMPLES.exists())
+        examples = PORTABLE_EXAMPLES.read_text(encoding="utf-8")
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        chinese_readme = README_ZH.read_text(encoding="utf-8")
+        portable = PORTABLE_SKILL.read_text(encoding="utf-8")
+
+        for phrase in [
+            "Portable Agent Prompt Examples",
+            "System prompt",
+            "Finance stress test",
+            "Life and omen stress test",
+            "Floor-plan stress test",
+            "Expected boundary behavior",
+            "通用智能体提示词示例",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, examples)
+
+        self.assertIn("examples/portable-agent-prompts.md", readme)
+        self.assertIn("examples/portable-agent-prompts.md", chinese_readme)
+        self.assertIn("examples/portable-agent-prompts.md", portable)
 
     def test_deployment_docs_and_metadata_are_present(self):
         self.assertTrue(DEPLOYMENT.exists())

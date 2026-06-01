@@ -90,6 +90,8 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 PORTABLE_SKILL.md
 README.md
 README.zh-CN.md
+examples/
+  portable-agent-prompts.md
 fengshui-master/
   SKILL.md
   agents/openai.yaml
@@ -159,6 +161,8 @@ Common integration patterns:
 - **Agent frameworks**: expose `fengshui-master/scripts/` as tools and let the agent read `PORTABLE_SKILL.md` plus the routed reference files.
 - **RAG systems**: index `fengshui-master/references/`, keep `PORTABLE_SKILL.md` as the top-level behavior policy, and keep `fengshui-master/SKILL.md` as the Codex adapter.
 - **Manual use**: run `create_brief.py`, `domain_router.py`, and `generate_report.py` from the command line to create structured analysis scaffolds before writing the final answer.
+
+For portable agent smoke tests and copyable prompts, see [`examples/portable-agent-prompts.md`](examples/portable-agent-prompts.md).
 
 ## Codex Installation
 

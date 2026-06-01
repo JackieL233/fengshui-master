@@ -60,6 +60,7 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "README.md",
         ROOT / "PORTABLE_SKILL.md",
         ROOT / "CONTRIBUTING.md",
+        ROOT / "examples" / "portable-agent-prompts.md",
         SKILL / "SKILL.md",
         *sorted((SKILL / "references").glob("*.md")),
     ]
@@ -105,12 +106,17 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     chinese = read(ROOT / "README.zh-CN.md")
     metadata = read(ROOT / ".github" / "repository-metadata.yml")
     portable_path = ROOT / "PORTABLE_SKILL.md"
+    examples_path = ROOT / "examples" / "portable-agent-prompts.md"
 
     if not portable_path.exists():
         fail(errors, "missing PORTABLE_SKILL.md")
         return
+    if not examples_path.exists():
+        fail(errors, "missing examples/portable-agent-prompts.md")
+        return
 
     portable = read(portable_path)
+    examples = read(examples_path)
     for term in [
         "Portable AI Skill",
         "System Instruction",
@@ -141,6 +147,21 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     for term in ["Portable AI skill", "ai-skill", "agent-skill", "portable-skill", "codex-skill"]:
         if term not in metadata:
             fail(errors, f"repository metadata missing portable term {term}")
+
+    for term in [
+        "Portable Agent Prompt Examples",
+        "Finance stress test",
+        "Life and omen stress test",
+        "Floor-plan stress test",
+        "Expected boundary behavior",
+        "通用智能体提示词示例",
+    ]:
+        if term not in examples:
+            fail(errors, f"portable agent examples missing {term}")
+
+    for term in ["examples/portable-agent-prompts.md"]:
+        if term not in readme or term not in chinese or term not in portable:
+            fail(errors, f"portable example path missing from public docs: {term}")
 
 
 def audit_bilingual_docs(errors: list[str]) -> None:
