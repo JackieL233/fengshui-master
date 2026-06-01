@@ -71,6 +71,7 @@ CODE_OF_CONDUCT.md
 examples/
   portable-agent-prompts.md
   portable-evaluation-suite.json
+  validate_portable_evaluation.py
 fengshui-master/
   SKILL.md
   agents/openai.yaml
@@ -136,6 +137,12 @@ fengshui-master/
 - **手动使用**：先运行 `create_brief.py`、`domain_router.py`、`generate_report.py` 生成结构化脚手架，再撰写最终分析。
 
 通用智能体的 smoke tests 与可复制提示词见 [`examples/portable-agent-prompts.md`](examples/portable-agent-prompts.md)。机器可读的适配检查见 [`examples/portable-evaluation-suite.json`](examples/portable-evaluation-suite.json)。
+
+验证 portable evaluation suite：
+
+```bash
+python examples/validate_portable_evaluation.py
+```
 
 ## Codex 安装
 
@@ -254,6 +261,7 @@ python .github/scripts/audit_repository.py
 - `python -m unittest discover -s tests`
 - `.github/scripts/quick_validate.py`
 - `.github/scripts/audit_repository.py`
+- `examples/validate_portable_evaluation.py`
 - 主要 CLI 工具 smoke tests
 
 ## 贡献

@@ -27,6 +27,9 @@ jobs:
       - name: Audit repository consistency
         run: python .github/scripts/audit_repository.py
 
+      - name: Validate portable evaluation suite
+        run: python examples/validate_portable_evaluation.py
+
       - name: Smoke test domain router
         run: python fengshui-master/scripts/domain_router.py "Should I buy this stock next month?" --pretty
 

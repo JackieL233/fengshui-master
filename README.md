@@ -95,6 +95,7 @@ CODE_OF_CONDUCT.md
 examples/
   portable-agent-prompts.md
   portable-evaluation-suite.json
+  validate_portable_evaluation.py
 fengshui-master/
   SKILL.md
   agents/openai.yaml
@@ -166,6 +167,12 @@ Common integration patterns:
 - **Manual use**: run `create_brief.py`, `domain_router.py`, and `generate_report.py` from the command line to create structured analysis scaffolds before writing the final answer.
 
 For portable agent smoke tests and copyable prompts, see [`examples/portable-agent-prompts.md`](examples/portable-agent-prompts.md). For machine-readable adaptation checks, use [`examples/portable-evaluation-suite.json`](examples/portable-evaluation-suite.json).
+
+Validate the portable evaluation suite:
+
+```bash
+python examples/validate_portable_evaluation.py
+```
 
 ## Codex Installation
 
@@ -322,6 +329,7 @@ The repository includes [`.github/workflows/ci.yml`](.github/workflows/ci.yml). 
 - `python -m unittest discover -s tests`
 - portable skill metadata validation via `.github/scripts/quick_validate.py`
 - repository consistency audit via `.github/scripts/audit_repository.py`
+- portable evaluation-suite validation via `examples/validate_portable_evaluation.py`
 - smoke tests for the domain router, consultation brief generator, and report generator
 
 ## Project Status

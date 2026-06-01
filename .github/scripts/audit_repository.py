@@ -6,6 +6,7 @@ from __future__ import annotations
 import re
 import sys
 import json
+import subprocess
 from pathlib import Path
 
 
@@ -62,6 +63,8 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "PORTABLE_SKILL.md",
         ROOT / "CONTRIBUTING.md",
         ROOT / "examples" / "portable-agent-prompts.md",
+        ROOT / "examples" / "portable-evaluation-suite.json",
+        ROOT / "examples" / "validate_portable_evaluation.py",
         SKILL / "SKILL.md",
         *sorted((SKILL / "references").glob("*.md")),
     ]
@@ -81,6 +84,11 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
             if f".github/{rel}" in text or f"skill-creator/{rel}" in text:
                 continue
             target = SKILL / rel
+            if not target.exists():
+                fail(errors, f"{source.relative_to(ROOT)} references missing {rel}")
+
+        for rel in sorted(referenced_paths(text, "examples/")):
+            target = ROOT / rel
             if not target.exists():
                 fail(errors, f"{source.relative_to(ROOT)} references missing {rel}")
 
@@ -111,6 +119,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     portable_path = ROOT / "PORTABLE_SKILL.md"
     examples_path = ROOT / "examples" / "portable-agent-prompts.md"
     eval_suite_path = ROOT / "examples" / "portable-evaluation-suite.json"
+    eval_validator_path = ROOT / "examples" / "validate_portable_evaluation.py"
 
     if not portable_path.exists():
         fail(errors, "missing PORTABLE_SKILL.md")
@@ -120,6 +129,9 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         return
     if not eval_suite_path.exists():
         fail(errors, "missing examples/portable-evaluation-suite.json")
+        return
+    if not eval_validator_path.exists():
+        fail(errors, "missing examples/validate_portable_evaluation.py")
         return
 
     portable = read(portable_path)
@@ -190,6 +202,19 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     for term in ["examples/portable-evaluation-suite.json"]:
         if term not in readme or term not in portable:
             fail(errors, f"portable evaluation path missing from public docs: {term}")
+
+    for term in ["examples/validate_portable_evaluation.py"]:
+        if term not in readme or term not in portable:
+            fail(errors, f"portable evaluation validator path missing from public docs: {term}")
+
+    validator = subprocess.run(
+        [sys.executable, str(eval_validator_path)],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    if validator.returncode != 0:
+        fail(errors, f"portable evaluation validator failed: {validator.stderr.strip()}")
 
 
 def audit_bilingual_docs(errors: list[str]) -> None:

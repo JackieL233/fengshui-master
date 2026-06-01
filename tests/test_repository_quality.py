@@ -18,6 +18,7 @@ REPOSITORY_METADATA = ROOT / ".github" / "repository-metadata.yml"
 PORTABLE_SKILL = ROOT / "PORTABLE_SKILL.md"
 PORTABLE_EXAMPLES = ROOT / "examples" / "portable-agent-prompts.md"
 PORTABLE_EVAL_SUITE = ROOT / "examples" / "portable-evaluation-suite.json"
+PORTABLE_EVAL_VALIDATOR = ROOT / "examples" / "validate_portable_evaluation.py"
 SECURITY = ROOT / "SECURITY.md"
 CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
 
@@ -178,6 +179,18 @@ class RepositoryQualityTest(unittest.TestCase):
                 self.assertGreaterEqual(len(case["must_include"]), 3)
                 self.assertGreaterEqual(len(case["must_not_include"]), 3)
                 self.assertTrue(case["boundary_focus"])
+
+    def test_portable_evaluation_validator_passes(self):
+        self.assertTrue(PORTABLE_EVAL_VALIDATOR.exists())
+        result = subprocess.run(
+            [sys.executable, str(PORTABLE_EVAL_VALIDATOR)],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+
+        self.assertIn("Portable evaluation suite is valid", result.stdout)
 
     def test_deployment_docs_and_metadata_are_present(self):
         self.assertTrue(DEPLOYMENT.exists())
