@@ -25,6 +25,8 @@ PORTABLE_MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
 PORTABLE_EVAL_SCHEMA = ROOT / "schemas" / "portable-evaluation-suite.schema.json"
 SECURITY = ROOT / "SECURITY.md"
 CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
+CHANGELOG = ROOT / "CHANGELOG.md"
+RELEASE_NOTES = ROOT / "RELEASE_NOTES.md"
 
 
 class RepositoryQualityTest(unittest.TestCase):
@@ -303,6 +305,39 @@ class RepositoryQualityTest(unittest.TestCase):
 
         self.assertIn("SECURITY.md", readme)
         self.assertIn("CODE_OF_CONDUCT.md", readme)
+
+    def test_release_docs_exist(self):
+        self.assertTrue(CHANGELOG.exists())
+        self.assertTrue(RELEASE_NOTES.exists())
+
+        changelog = CHANGELOG.read_text(encoding="utf-8")
+        release_notes = RELEASE_NOTES.read_text(encoding="utf-8")
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+        for phrase in [
+            "Changelog",
+            "Unreleased",
+            "portable AI skill",
+            "portable-skill.json",
+            "evaluation suite",
+            "Security Policy",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, changelog)
+
+        for phrase in [
+            "FengShui Master v1",
+            "Portable AI Skill",
+            "Codex-compatible",
+            "What is included",
+            "Safety and governance",
+            "Validation",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, release_notes)
+
+        self.assertIn("CHANGELOG.md", readme)
+        self.assertIn("RELEASE_NOTES.md", readme)
 
     def test_templates_preserve_safety_boundaries(self):
         template_text = "\n".join(

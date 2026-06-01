@@ -62,6 +62,8 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "README.md",
         ROOT / "PORTABLE_SKILL.md",
         ROOT / "portable-skill.json",
+        ROOT / "CHANGELOG.md",
+        ROOT / "RELEASE_NOTES.md",
         ROOT / "CONTRIBUTING.md",
         ROOT / "schemas" / "portable-skill.schema.json",
         ROOT / "schemas" / "portable-evaluation-suite.schema.json",
@@ -115,6 +117,8 @@ def audit_github_files(errors: list[str]) -> None:
         ROOT / ".github" / "pull_request_template.md",
         ROOT / "SECURITY.md",
         ROOT / "CODE_OF_CONDUCT.md",
+        ROOT / "CHANGELOG.md",
+        ROOT / "RELEASE_NOTES.md",
     ]
     for path in required:
         if not path.exists():
@@ -325,8 +329,10 @@ def audit_governance_docs(errors: list[str]) -> None:
     readme = read(ROOT / "README.md")
     security = read(ROOT / "SECURITY.md")
     conduct = read(ROOT / "CODE_OF_CONDUCT.md")
+    changelog = read(ROOT / "CHANGELOG.md")
+    release_notes = read(ROOT / "RELEASE_NOTES.md")
 
-    for term in ["SECURITY.md", "CODE_OF_CONDUCT.md", "CONTRIBUTING.md"]:
+    for term in ["SECURITY.md", "CODE_OF_CONDUCT.md", "CONTRIBUTING.md", "CHANGELOG.md", "RELEASE_NOTES.md"]:
         if term not in readme:
             fail(errors, f"README.md missing governance link {term}")
 
@@ -350,6 +356,14 @@ def audit_governance_docs(errors: list[str]) -> None:
     ]:
         if term not in conduct:
             fail(errors, f"CODE_OF_CONDUCT.md missing {term}")
+
+    for term in ["Changelog", "Unreleased", "portable AI skill", "portable-skill.json", "evaluation suite", "Security Policy"]:
+        if term not in changelog:
+            fail(errors, f"CHANGELOG.md missing {term}")
+
+    for term in ["FengShui Master v1", "Portable AI Skill", "Codex-compatible", "What is included", "Safety and governance", "Validation"]:
+        if term not in release_notes:
+            fail(errors, f"RELEASE_NOTES.md missing {term}")
 
 
 def main() -> int:

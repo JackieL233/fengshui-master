@@ -91,6 +91,8 @@ PORTABLE_SKILL.md
 portable-skill.json
 README.md
 README.zh-CN.md
+CHANGELOG.md
+RELEASE_NOTES.md
 SECURITY.md
 CODE_OF_CONDUCT.md
 schemas/
@@ -364,6 +366,8 @@ This is a comprehensive v1 skill with clear boundaries. Contributions are welcom
 
 ## Governance
 
+- See [`CHANGELOG.md`](CHANGELOG.md) for release history and notable changes.
+- See [`RELEASE_NOTES.md`](RELEASE_NOTES.md) for the v1 release summary.
 - See [`SECURITY.md`](SECURITY.md) for high-stakes safety, prompt-injection, and cultural-respect reporting.
 - See [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) for respectful collaboration expectations.
 - See [`CONTRIBUTING.md`](CONTRIBUTING.md) for contribution principles and validation commands.

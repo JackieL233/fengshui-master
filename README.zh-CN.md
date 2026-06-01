@@ -67,6 +67,8 @@ PORTABLE_SKILL.md
 portable-skill.json
 README.md
 README.zh-CN.md
+CHANGELOG.md
+RELEASE_NOTES.md
 SECURITY.md
 CODE_OF_CONDUCT.md
 schemas/
@@ -297,6 +299,8 @@ python .github/scripts/audit_repository.py
 
 ## 治理
 
+- [`CHANGELOG.md`](CHANGELOG.md)：版本历史与重要变更。
+- [`RELEASE_NOTES.md`](RELEASE_NOTES.md)：v1 发布说明。
 - [`SECURITY.md`](SECURITY.md)：高风险安全、prompt-injection 与文化尊重问题报告。
 - [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md)：开源协作行为准则。
 - [`CONTRIBUTING.md`](CONTRIBUTING.md)：贡献原则与验证命令。
