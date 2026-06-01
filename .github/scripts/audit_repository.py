@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import re
 import sys
+import json
 from pathlib import Path
 
 
@@ -109,6 +110,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     metadata = read(ROOT / ".github" / "repository-metadata.yml")
     portable_path = ROOT / "PORTABLE_SKILL.md"
     examples_path = ROOT / "examples" / "portable-agent-prompts.md"
+    eval_suite_path = ROOT / "examples" / "portable-evaluation-suite.json"
 
     if not portable_path.exists():
         fail(errors, "missing PORTABLE_SKILL.md")
@@ -116,9 +118,13 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     if not examples_path.exists():
         fail(errors, "missing examples/portable-agent-prompts.md")
         return
+    if not eval_suite_path.exists():
+        fail(errors, "missing examples/portable-evaluation-suite.json")
+        return
 
     portable = read(portable_path)
     examples = read(examples_path)
+    eval_suite = json.loads(read(eval_suite_path))
     for term in [
         "Portable AI Skill",
         "System Instruction",
@@ -164,6 +170,26 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     for term in ["examples/portable-agent-prompts.md"]:
         if term not in readme or term not in chinese or term not in portable:
             fail(errors, f"portable example path missing from public docs: {term}")
+
+    if eval_suite.get("name") != "fengshui-master-portable-evaluation-suite":
+        fail(errors, "portable evaluation suite has wrong name")
+    domains = {case.get("domain") for case in eval_suite.get("cases", [])}
+    for domain in ["finance", "life_omen", "space", "brand_product", "legal_adjacent"]:
+        if domain not in domains:
+            fail(errors, f"portable evaluation suite missing domain {domain}")
+    for case in eval_suite.get("cases", []):
+        if len(case.get("expected_references", [])) < 2:
+            fail(errors, f"portable evaluation case {case.get('id')} has too few references")
+        if len(case.get("must_include", [])) < 3:
+            fail(errors, f"portable evaluation case {case.get('id')} has too few must_include checks")
+        if len(case.get("must_not_include", [])) < 3:
+            fail(errors, f"portable evaluation case {case.get('id')} has too few must_not_include checks")
+        if not case.get("boundary_focus"):
+            fail(errors, f"portable evaluation case {case.get('id')} missing boundary_focus")
+
+    for term in ["examples/portable-evaluation-suite.json"]:
+        if term not in readme or term not in portable:
+            fail(errors, f"portable evaluation path missing from public docs: {term}")
 
 
 def audit_bilingual_docs(errors: list[str]) -> None:

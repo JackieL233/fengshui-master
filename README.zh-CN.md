@@ -70,6 +70,7 @@ SECURITY.md
 CODE_OF_CONDUCT.md
 examples/
   portable-agent-prompts.md
+  portable-evaluation-suite.json
 fengshui-master/
   SKILL.md
   agents/openai.yaml
@@ -134,7 +135,7 @@ fengshui-master/
 - **RAG 系统**：索引 `fengshui-master/references/`，把 `PORTABLE_SKILL.md` 作为顶层行为规范，并保留 `fengshui-master/SKILL.md` 作为 Codex 适配入口。
 - **手动使用**：先运行 `create_brief.py`、`domain_router.py`、`generate_report.py` 生成结构化脚手架，再撰写最终分析。
 
-通用智能体的 smoke tests 与可复制提示词见 [`examples/portable-agent-prompts.md`](examples/portable-agent-prompts.md)。
+通用智能体的 smoke tests 与可复制提示词见 [`examples/portable-agent-prompts.md`](examples/portable-agent-prompts.md)。机器可读的适配检查见 [`examples/portable-evaluation-suite.json`](examples/portable-evaluation-suite.json)。
 
 ## Codex 安装
 

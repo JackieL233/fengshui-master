@@ -1,6 +1,7 @@
 import unittest
 import subprocess
 import sys
+import json
 from pathlib import Path
 
 
@@ -16,6 +17,7 @@ DEPLOYMENT = ROOT / "DEPLOYMENT.md"
 REPOSITORY_METADATA = ROOT / ".github" / "repository-metadata.yml"
 PORTABLE_SKILL = ROOT / "PORTABLE_SKILL.md"
 PORTABLE_EXAMPLES = ROOT / "examples" / "portable-agent-prompts.md"
+PORTABLE_EVAL_SUITE = ROOT / "examples" / "portable-evaluation-suite.json"
 SECURITY = ROOT / "SECURITY.md"
 CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
 
@@ -152,6 +154,30 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("examples/portable-agent-prompts.md", readme)
         self.assertIn("examples/portable-agent-prompts.md", chinese_readme)
         self.assertIn("examples/portable-agent-prompts.md", portable)
+
+    def test_portable_evaluation_suite_exists(self):
+        self.assertTrue(PORTABLE_EVAL_SUITE.exists())
+        suite = json.loads(PORTABLE_EVAL_SUITE.read_text(encoding="utf-8"))
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        portable = PORTABLE_SKILL.read_text(encoding="utf-8")
+
+        self.assertEqual(suite["name"], "fengshui-master-portable-evaluation-suite")
+        self.assertGreaterEqual(len(suite["cases"]), 5)
+        self.assertIn("examples/portable-evaluation-suite.json", readme)
+        self.assertIn("examples/portable-evaluation-suite.json", portable)
+
+        domains = {case["domain"] for case in suite["cases"]}
+        for domain in ["finance", "life_omen", "space", "brand_product", "legal_adjacent"]:
+            with self.subTest(domain=domain):
+                self.assertIn(domain, domains)
+
+        for case in suite["cases"]:
+            with self.subTest(case=case["id"]):
+                self.assertIn("prompt", case)
+                self.assertGreaterEqual(len(case["expected_references"]), 2)
+                self.assertGreaterEqual(len(case["must_include"]), 3)
+                self.assertGreaterEqual(len(case["must_not_include"]), 3)
+                self.assertTrue(case["boundary_focus"])
 
     def test_deployment_docs_and_metadata_are_present(self):
         self.assertTrue(DEPLOYMENT.exists())
