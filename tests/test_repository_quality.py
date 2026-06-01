@@ -27,6 +27,8 @@ SECURITY = ROOT / "SECURITY.md"
 CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
 CHANGELOG = ROOT / "CHANGELOG.md"
 RELEASE_NOTES = ROOT / "RELEASE_NOTES.md"
+GITATTRIBUTES = ROOT / ".gitattributes"
+EDITORCONFIG = ROOT / ".editorconfig"
 
 
 class RepositoryQualityTest(unittest.TestCase):
@@ -338,6 +340,25 @@ class RepositoryQualityTest(unittest.TestCase):
 
         self.assertIn("CHANGELOG.md", readme)
         self.assertIn("RELEASE_NOTES.md", readme)
+
+    def test_repository_hygiene_files_exist(self):
+        self.assertTrue(GITATTRIBUTES.exists())
+        self.assertTrue(EDITORCONFIG.exists())
+
+        gitattributes = GITATTRIBUTES.read_text(encoding="utf-8")
+        editorconfig = EDITORCONFIG.read_text(encoding="utf-8")
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+        for phrase in ["* text=auto eol=lf", "*.md text eol=lf", "*.json text eol=lf", "*.py text eol=lf"]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, gitattributes)
+
+        for phrase in ["root = true", "charset = utf-8", "end_of_line = lf", "insert_final_newline = true"]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, editorconfig)
+
+        self.assertIn(".gitattributes", readme)
+        self.assertIn(".editorconfig", readme)
 
     def test_templates_preserve_safety_boundaries(self):
         template_text = "\n".join(

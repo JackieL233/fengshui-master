@@ -62,6 +62,8 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "README.md",
         ROOT / "PORTABLE_SKILL.md",
         ROOT / "portable-skill.json",
+        ROOT / ".gitattributes",
+        ROOT / ".editorconfig",
         ROOT / "CHANGELOG.md",
         ROOT / "RELEASE_NOTES.md",
         ROOT / "CONTRIBUTING.md",
@@ -119,6 +121,8 @@ def audit_github_files(errors: list[str]) -> None:
         ROOT / "CODE_OF_CONDUCT.md",
         ROOT / "CHANGELOG.md",
         ROOT / "RELEASE_NOTES.md",
+        ROOT / ".gitattributes",
+        ROOT / ".editorconfig",
     ]
     for path in required:
         if not path.exists():
@@ -366,6 +370,24 @@ def audit_governance_docs(errors: list[str]) -> None:
             fail(errors, f"RELEASE_NOTES.md missing {term}")
 
 
+def audit_repository_hygiene(errors: list[str]) -> None:
+    readme = read(ROOT / "README.md")
+    gitattributes = read(ROOT / ".gitattributes")
+    editorconfig = read(ROOT / ".editorconfig")
+
+    for term in ["* text=auto eol=lf", "*.md text eol=lf", "*.json text eol=lf", "*.py text eol=lf"]:
+        if term not in gitattributes:
+            fail(errors, f".gitattributes missing {term}")
+
+    for term in ["root = true", "charset = utf-8", "end_of_line = lf", "insert_final_newline = true"]:
+        if term not in editorconfig:
+            fail(errors, f".editorconfig missing {term}")
+
+    for term in [".gitattributes", ".editorconfig"]:
+        if term not in readme:
+            fail(errors, f"README.md missing repository hygiene link {term}")
+
+
 def main() -> int:
     errors: list[str] = []
     audit_skill_inventory(errors)
@@ -376,6 +398,7 @@ def main() -> int:
     audit_deployment_docs(errors)
     audit_guardrails(errors)
     audit_governance_docs(errors)
+    audit_repository_hygiene(errors)
 
     if errors:
         for error in errors:

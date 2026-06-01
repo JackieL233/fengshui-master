@@ -95,6 +95,8 @@ CHANGELOG.md
 RELEASE_NOTES.md
 SECURITY.md
 CODE_OF_CONDUCT.md
+.gitattributes
+.editorconfig
 schemas/
   portable-skill.schema.json
   portable-evaluation-suite.schema.json
@@ -371,6 +373,7 @@ This is a comprehensive v1 skill with clear boundaries. Contributions are welcom
 - See [`SECURITY.md`](SECURITY.md) for high-stakes safety, prompt-injection, and cultural-respect reporting.
 - See [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) for respectful collaboration expectations.
 - See [`CONTRIBUTING.md`](CONTRIBUTING.md) for contribution principles and validation commands.
+- `.gitattributes` and `.editorconfig` keep line endings, encoding, and indentation stable across platforms.
 
 ## Disclaimer
 

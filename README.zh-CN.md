@@ -71,6 +71,8 @@ CHANGELOG.md
 RELEASE_NOTES.md
 SECURITY.md
 CODE_OF_CONDUCT.md
+.gitattributes
+.editorconfig
 schemas/
   portable-skill.schema.json
   portable-evaluation-suite.schema.json
@@ -304,6 +306,7 @@ python .github/scripts/audit_repository.py
 - [`SECURITY.md`](SECURITY.md)：高风险安全、prompt-injection 与文化尊重问题报告。
 - [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md)：开源协作行为准则。
 - [`CONTRIBUTING.md`](CONTRIBUTING.md)：贡献原则与验证命令。
+- `.gitattributes` 与 `.editorconfig`：统一跨平台换行、编码和缩进。
 
 ## 免责声明
 
