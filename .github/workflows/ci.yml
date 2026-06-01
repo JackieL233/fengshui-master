@@ -30,6 +30,9 @@ jobs:
       - name: Validate portable evaluation suite
         run: python examples/validate_portable_evaluation.py
 
+      - name: Validate portable manifest
+        run: python examples/validate_portable_manifest.py
+
       - name: Smoke test domain router
         run: python fengshui-master/scripts/domain_router.py "Should I buy this stock next month?" --pretty
 

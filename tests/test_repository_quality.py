@@ -19,6 +19,8 @@ PORTABLE_SKILL = ROOT / "PORTABLE_SKILL.md"
 PORTABLE_EXAMPLES = ROOT / "examples" / "portable-agent-prompts.md"
 PORTABLE_EVAL_SUITE = ROOT / "examples" / "portable-evaluation-suite.json"
 PORTABLE_EVAL_VALIDATOR = ROOT / "examples" / "validate_portable_evaluation.py"
+PORTABLE_MANIFEST = ROOT / "portable-skill.json"
+PORTABLE_MANIFEST_VALIDATOR = ROOT / "examples" / "validate_portable_manifest.py"
 SECURITY = ROOT / "SECURITY.md"
 CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
 
@@ -191,6 +193,30 @@ class RepositoryQualityTest(unittest.TestCase):
         )
 
         self.assertIn("Portable evaluation suite is valid", result.stdout)
+
+    def test_portable_manifest_exists_and_passes(self):
+        self.assertTrue(PORTABLE_MANIFEST.exists())
+        self.assertTrue(PORTABLE_MANIFEST_VALIDATOR.exists())
+        manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+        self.assertEqual(manifest["name"], "fengshui-master")
+        self.assertEqual(manifest["type"], "portable-ai-skill")
+        self.assertIn("PORTABLE_SKILL.md", manifest["entrypoints"])
+        self.assertIn("fengshui-master/SKILL.md", manifest["entrypoints"])
+        self.assertIn("examples/portable-evaluation-suite.json", manifest["evaluation"])
+        self.assertIn("SECURITY.md", manifest["governance"])
+        self.assertIn("portable-skill.json", readme)
+
+        result = subprocess.run(
+            [sys.executable, str(PORTABLE_MANIFEST_VALIDATOR)],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+
+        self.assertIn("Portable skill manifest is valid", result.stdout)
 
     def test_deployment_docs_and_metadata_are_present(self):
         self.assertTrue(DEPLOYMENT.exists())

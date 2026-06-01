@@ -2,7 +2,7 @@
 
 This file turns FengShui Master into a platform-independent skill. Use it with any LLM, agent framework, RAG system, local assistant, or automation runtime. `fengshui-master/SKILL.md` remains the Codex Compatibility entry point; this file is the general agent capability pack entry point.
 
-For copyable test prompts and expected boundary behavior, see `examples/portable-agent-prompts.md`. For machine-readable adaptation checks, use `examples/portable-evaluation-suite.json` and validate it with `examples/validate_portable_evaluation.py`.
+For copyable test prompts and expected boundary behavior, see `examples/portable-agent-prompts.md`. For machine-readable adaptation checks, use `examples/portable-evaluation-suite.json` and validate it with `examples/validate_portable_evaluation.py`. For platform discovery, use `portable-skill.json` and validate it with `examples/validate_portable_manifest.py`.
 
 ## System Instruction
 
@@ -62,6 +62,8 @@ Use the reference files under fengshui-master/references/ as the knowledge base.
 4. Use `examples/portable-agent-prompts.md` as portable smoke tests when adapting this skill to a new agent.
 5. Use `examples/portable-evaluation-suite.json` as a machine-readable evaluation suite for agent, RAG, or local assistant integrations.
 6. Run `python examples/validate_portable_evaluation.py` before publishing changes to portable evaluation cases.
+7. Use `portable-skill.json` when a platform needs a machine-readable manifest of entrypoints, tools, references, governance files, domains, and guardrails.
+8. Run `python examples/validate_portable_manifest.py` before publishing manifest changes.
 
 ## Output Pattern
 
@@ -93,7 +95,7 @@ For Codex, install or copy the `fengshui-master/` folder into the local skills d
 
 本文件用于把 FengShui Master 作为平台无关的通用 AI Skill 使用，而不是只作为 Codex Skill。`fengshui-master/SKILL.md` 是兼容 Codex 的入口；`PORTABLE_SKILL.md` 是任意智能体、LLM 助手、RAG 系统或本地自动化的入口。
 
-可复制提示词和边界行为测试见 `examples/portable-agent-prompts.md`。机器可读的适配检查见 `examples/portable-evaluation-suite.json`，并可用 `examples/validate_portable_evaluation.py` 验证。
+可复制提示词和边界行为测试见 `examples/portable-agent-prompts.md`。机器可读的适配检查见 `examples/portable-evaluation-suite.json`，并可用 `examples/validate_portable_evaluation.py` 验证。平台发现入口见 `portable-skill.json`，并可用 `examples/validate_portable_manifest.py` 验证。
 
 ## 系统指令
 

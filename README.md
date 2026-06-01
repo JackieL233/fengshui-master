@@ -88,6 +88,7 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 
 ```text
 PORTABLE_SKILL.md
+portable-skill.json
 README.md
 README.zh-CN.md
 SECURITY.md
@@ -96,6 +97,7 @@ examples/
   portable-agent-prompts.md
   portable-evaluation-suite.json
   validate_portable_evaluation.py
+  validate_portable_manifest.py
 fengshui-master/
   SKILL.md
   agents/openai.yaml
@@ -159,6 +161,8 @@ tests/
 
 Use [`PORTABLE_SKILL.md`](PORTABLE_SKILL.md) when you want FengShui Master outside Codex. It contains a copyable system instruction, required operating rules, report structure, domain routing guidance, and Chinese instructions for any AI agent or assistant.
 
+Use [`portable-skill.json`](portable-skill.json) when an agent platform needs a machine-readable manifest of entrypoints, references, tools, evaluation files, governance files, domains, and guardrails.
+
 Common integration patterns:
 
 - **ChatGPT, Claude, Gemini, local LLMs, or custom agents**: paste the "System Instruction" from `PORTABLE_SKILL.md`, then provide the relevant files from `fengshui-master/references/` as retrieval context.
@@ -172,6 +176,12 @@ Validate the portable evaluation suite:
 
 ```bash
 python examples/validate_portable_evaluation.py
+```
+
+Validate the portable manifest:
+
+```bash
+python examples/validate_portable_manifest.py
 ```
 
 ## Codex Installation
@@ -330,6 +340,7 @@ The repository includes [`.github/workflows/ci.yml`](.github/workflows/ci.yml). 
 - portable skill metadata validation via `.github/scripts/quick_validate.py`
 - repository consistency audit via `.github/scripts/audit_repository.py`
 - portable evaluation-suite validation via `examples/validate_portable_evaluation.py`
+- portable manifest validation via `examples/validate_portable_manifest.py`
 - smoke tests for the domain router, consultation brief generator, and report generator
 
 ## Project Status

@@ -1,0 +1,99 @@
+#!/usr/bin/env python3
+"""Validate the platform-neutral FengShui Master skill manifest."""
+
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+MANIFEST = ROOT / "portable-skill.json"
+REQUIRED_TOP_LEVEL = {
+    "name",
+    "type",
+    "version",
+    "title",
+    "description",
+    "languages",
+    "entrypoints",
+    "references",
+    "tools",
+    "evaluation",
+    "governance",
+    "guardrails",
+    "domains",
+}
+REQUIRED_DOMAINS = {"space", "life_omen", "finance", "brand", "product", "legal_adjacent"}
+
+
+def fail(errors: list[str], message: str) -> None:
+    errors.append(message)
+
+
+def require_paths(errors: list[str], manifest: dict, field: str) -> None:
+    values = manifest.get(field, [])
+    if not isinstance(values, list) or not values:
+        fail(errors, f"{field} must be a non-empty list")
+        return
+
+    for rel in values:
+        if not isinstance(rel, str):
+            fail(errors, f"{field} contains a non-string path")
+            continue
+        if not (ROOT / rel).exists():
+            fail(errors, f"{field} references missing path: {rel}")
+
+
+def main() -> int:
+    errors: list[str] = []
+    if not MANIFEST.exists():
+        fail(errors, "missing portable-skill.json")
+        manifest = {}
+    else:
+        try:
+            manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            fail(errors, f"invalid JSON: {exc}")
+            manifest = {}
+
+    missing_keys = sorted(REQUIRED_TOP_LEVEL - set(manifest))
+    if missing_keys:
+        fail(errors, f"manifest missing keys: {', '.join(missing_keys)}")
+
+    if manifest.get("name") != "fengshui-master":
+        fail(errors, "name must be fengshui-master")
+    if manifest.get("type") != "portable-ai-skill":
+        fail(errors, "type must be portable-ai-skill")
+    if "zh-CN" not in manifest.get("languages", []):
+        fail(errors, "languages must include zh-CN")
+
+    for field in ["entrypoints", "references", "tools", "evaluation", "governance"]:
+        require_paths(errors, manifest, field)
+
+    for required in ["PORTABLE_SKILL.md", "fengshui-master/SKILL.md"]:
+        if required not in manifest.get("entrypoints", []):
+            fail(errors, f"entrypoints missing {required}")
+
+    domains = set(manifest.get("domains", []))
+    missing_domains = sorted(REQUIRED_DOMAINS - domains)
+    if missing_domains:
+        fail(errors, f"domains missing: {', '.join(missing_domains)}")
+
+    guardrails = " ".join(manifest.get("guardrails", [])).lower()
+    for term in ["not financial advice", "not legal advice", "no guaranteed prediction"]:
+        if term not in guardrails:
+            fail(errors, f"guardrails missing {term}")
+
+    if errors:
+        for error in errors:
+            print(f"error: {error}", file=sys.stderr)
+        return 1
+
+    print("Portable skill manifest is valid")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

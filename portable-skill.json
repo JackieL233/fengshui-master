@@ -1,0 +1,83 @@
+{
+  "name": "fengshui-master",
+  "type": "portable-ai-skill",
+  "version": "1.0.0",
+  "title": "FengShui Master",
+  "description": "Portable AI skill and Codex-compatible capability pack for traditional Chinese feng shui, wuxing, auspiciousness, spatial analysis, and cross-domain symbolic decision support.",
+  "languages": ["en", "zh-CN"],
+  "entrypoints": [
+    "PORTABLE_SKILL.md",
+    "fengshui-master/SKILL.md"
+  ],
+  "references": [
+    "fengshui-master/references/foundation.md",
+    "fengshui-master/references/forms-and-environment.md",
+    "fengshui-master/references/schools.md",
+    "fengshui-master/references/analysis-templates.md",
+    "fengshui-master/references/remedies.md",
+    "fengshui-master/references/timing-and-date-selection.md",
+    "fengshui-master/references/xuan-kong-flying-stars.md",
+    "fengshui-master/references/yin-house.md",
+    "fengshui-master/references/broad-symbolic-analysis.md",
+    "fengshui-master/references/domain-adapters.md",
+    "fengshui-master/references/finance-adapter.md",
+    "fengshui-master/references/business-adapter.md",
+    "fengshui-master/references/brand-adapter.md",
+    "fengshui-master/references/career-adapter.md",
+    "fengshui-master/references/relationship-adapter.md",
+    "fengshui-master/references/product-adapter.md",
+    "fengshui-master/references/learning-adapter.md",
+    "fengshui-master/references/wellbeing-adapter.md",
+    "fengshui-master/references/legal-adjacent-adapter.md",
+    "fengshui-master/references/life-and-omen-adapter.md",
+    "fengshui-master/references/five-phase-domain-map.md",
+    "fengshui-master/references/floorplan-schema.md",
+    "fengshui-master/references/ethics-and-limits.md"
+  ],
+  "tools": [
+    "fengshui-master/scripts/domain_router.py",
+    "fengshui-master/scripts/create_brief.py",
+    "fengshui-master/scripts/generate_report.py",
+    "fengshui-master/scripts/analyze_floorplan.py",
+    "fengshui-master/scripts/luopan.py",
+    "fengshui-master/scripts/minggua.py",
+    "fengshui-master/scripts/ganzhi.py",
+    "fengshui-master/scripts/annual_afflictions.py",
+    "fengshui-master/scripts/periods.py",
+    "fengshui-master/scripts/flying_stars.py"
+  ],
+  "evaluation": [
+    "examples/portable-agent-prompts.md",
+    "examples/portable-evaluation-suite.json",
+    "examples/validate_portable_evaluation.py",
+    "examples/validate_portable_manifest.py"
+  ],
+  "governance": [
+    "SECURITY.md",
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.md",
+    "LICENSE"
+  ],
+  "guardrails": [
+    "not medical advice",
+    "not legal advice",
+    "not financial advice",
+    "not engineering or architectural advice",
+    "no guaranteed prediction",
+    "no deterministic fate claims",
+    "use real-world constraints before symbolic interpretation"
+  ],
+  "domains": [
+    "space",
+    "life_omen",
+    "finance",
+    "business",
+    "brand",
+    "career",
+    "relationship",
+    "product",
+    "learning",
+    "wellbeing",
+    "legal_adjacent"
+  ]
+}

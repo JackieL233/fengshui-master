@@ -61,10 +61,12 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
     searchable = [
         ROOT / "README.md",
         ROOT / "PORTABLE_SKILL.md",
+        ROOT / "portable-skill.json",
         ROOT / "CONTRIBUTING.md",
         ROOT / "examples" / "portable-agent-prompts.md",
         ROOT / "examples" / "portable-evaluation-suite.json",
         ROOT / "examples" / "validate_portable_evaluation.py",
+        ROOT / "examples" / "validate_portable_manifest.py",
         SKILL / "SKILL.md",
         *sorted((SKILL / "references").glob("*.md")),
     ]
@@ -120,6 +122,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     examples_path = ROOT / "examples" / "portable-agent-prompts.md"
     eval_suite_path = ROOT / "examples" / "portable-evaluation-suite.json"
     eval_validator_path = ROOT / "examples" / "validate_portable_evaluation.py"
+    manifest_path = ROOT / "portable-skill.json"
+    manifest_validator_path = ROOT / "examples" / "validate_portable_manifest.py"
 
     if not portable_path.exists():
         fail(errors, "missing PORTABLE_SKILL.md")
@@ -132,6 +136,12 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         return
     if not eval_validator_path.exists():
         fail(errors, "missing examples/validate_portable_evaluation.py")
+        return
+    if not manifest_path.exists():
+        fail(errors, "missing portable-skill.json")
+        return
+    if not manifest_validator_path.exists():
+        fail(errors, "missing examples/validate_portable_manifest.py")
         return
 
     portable = read(portable_path)
@@ -207,6 +217,10 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         if term not in readme or term not in portable:
             fail(errors, f"portable evaluation validator path missing from public docs: {term}")
 
+    for term in ["portable-skill.json", "examples/validate_portable_manifest.py"]:
+        if term not in readme or term not in portable:
+            fail(errors, f"portable manifest path missing from public docs: {term}")
+
     validator = subprocess.run(
         [sys.executable, str(eval_validator_path)],
         cwd=ROOT,
@@ -215,6 +229,15 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     )
     if validator.returncode != 0:
         fail(errors, f"portable evaluation validator failed: {validator.stderr.strip()}")
+
+    manifest_validator = subprocess.run(
+        [sys.executable, str(manifest_validator_path)],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    if manifest_validator.returncode != 0:
+        fail(errors, f"portable manifest validator failed: {manifest_validator.stderr.strip()}")
 
 
 def audit_bilingual_docs(errors: list[str]) -> None:
