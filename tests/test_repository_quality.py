@@ -16,6 +16,8 @@ DEPLOYMENT = ROOT / "DEPLOYMENT.md"
 REPOSITORY_METADATA = ROOT / ".github" / "repository-metadata.yml"
 PORTABLE_SKILL = ROOT / "PORTABLE_SKILL.md"
 PORTABLE_EXAMPLES = ROOT / "examples" / "portable-agent-prompts.md"
+SECURITY = ROOT / "SECURITY.md"
+CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
 
 
 class RepositoryQualityTest(unittest.TestCase):
@@ -181,6 +183,38 @@ class RepositoryQualityTest(unittest.TestCase):
         for path in [ISSUE_TEMPLATE, BUG_TEMPLATE, PR_TEMPLATE]:
             with self.subTest(path=path):
                 self.assertTrue(path.exists())
+
+    def test_security_and_conduct_docs_exist(self):
+        self.assertTrue(SECURITY.exists())
+        self.assertTrue(CODE_OF_CONDUCT.exists())
+
+        security = SECURITY.read_text(encoding="utf-8")
+        conduct = CODE_OF_CONDUCT.read_text(encoding="utf-8")
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+        for phrase in [
+            "Security Policy",
+            "High-Stakes Safety",
+            "not medical, legal, financial",
+            "Report a Safety Issue",
+            "prompt-injection",
+            "cultural respect",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, security)
+
+        for phrase in [
+            "Code of Conduct",
+            "Respectful Collaboration",
+            "traditional Chinese culture",
+            "No fear-based claims",
+            "Reporting",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, conduct)
+
+        self.assertIn("SECURITY.md", readme)
+        self.assertIn("CODE_OF_CONDUCT.md", readme)
 
     def test_templates_preserve_safety_boundaries(self):
         template_text = "\n".join(

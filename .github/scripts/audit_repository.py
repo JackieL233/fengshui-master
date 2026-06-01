@@ -95,6 +95,8 @@ def audit_github_files(errors: list[str]) -> None:
         ROOT / ".github" / "ISSUE_TEMPLATE" / "feature_request.md",
         ROOT / ".github" / "ISSUE_TEMPLATE" / "bug_report.md",
         ROOT / ".github" / "pull_request_template.md",
+        ROOT / "SECURITY.md",
+        ROOT / "CODE_OF_CONDUCT.md",
     ]
     for path in required:
         if not path.exists():
@@ -226,6 +228,37 @@ def audit_guardrails(errors: list[str]) -> None:
             fail(errors, f"missing guardrail phrase: {term}")
 
 
+def audit_governance_docs(errors: list[str]) -> None:
+    readme = read(ROOT / "README.md")
+    security = read(ROOT / "SECURITY.md")
+    conduct = read(ROOT / "CODE_OF_CONDUCT.md")
+
+    for term in ["SECURITY.md", "CODE_OF_CONDUCT.md", "CONTRIBUTING.md"]:
+        if term not in readme:
+            fail(errors, f"README.md missing governance link {term}")
+
+    for term in [
+        "Security Policy",
+        "High-Stakes Safety",
+        "not medical, legal, financial",
+        "Report a Safety Issue",
+        "prompt-injection",
+        "cultural respect",
+    ]:
+        if term not in security:
+            fail(errors, f"SECURITY.md missing {term}")
+
+    for term in [
+        "Code of Conduct",
+        "Respectful Collaboration",
+        "traditional Chinese culture",
+        "No fear-based claims",
+        "Reporting",
+    ]:
+        if term not in conduct:
+            fail(errors, f"CODE_OF_CONDUCT.md missing {term}")
+
+
 def main() -> int:
     errors: list[str] = []
     audit_skill_inventory(errors)
@@ -235,6 +268,7 @@ def main() -> int:
     audit_bilingual_docs(errors)
     audit_deployment_docs(errors)
     audit_guardrails(errors)
+    audit_governance_docs(errors)
 
     if errors:
         for error in errors:

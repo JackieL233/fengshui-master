@@ -90,6 +90,8 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 PORTABLE_SKILL.md
 README.md
 README.zh-CN.md
+SECURITY.md
+CODE_OF_CONDUCT.md
 examples/
   portable-agent-prompts.md
 fengshui-master/
@@ -331,6 +333,12 @@ This is a comprehensive v1 skill with clear boundaries. Contributions are welcom
 - Additional sample floor plans for residential, office, retail, restaurant, site, and yin-house cases.
 - Additional domain adapters for law-adjacent decisions, education, health-adjacent wellbeing, and product strategy.
 - Example analyses and test fixtures.
+
+## Governance
+
+- See [`SECURITY.md`](SECURITY.md) for high-stakes safety, prompt-injection, and cultural-respect reporting.
+- See [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) for respectful collaboration expectations.
+- See [`CONTRIBUTING.md`](CONTRIBUTING.md) for contribution principles and validation commands.
 
 ## Disclaimer
 
