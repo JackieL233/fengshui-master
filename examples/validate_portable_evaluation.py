@@ -10,6 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SUITE = ROOT / "examples" / "portable-evaluation-suite.json"
+SCHEMA = ROOT / "schemas" / "portable-evaluation-suite.schema.json"
 REQUIRED_DOMAINS = {"finance", "life_omen", "space", "brand_product", "legal_adjacent"}
 
 
@@ -30,6 +31,17 @@ def main() -> int:
 
         if suite.get("name") != "fengshui-master-portable-evaluation-suite":
             fail(errors, "suite name must be fengshui-master-portable-evaluation-suite")
+
+        if not SCHEMA.exists():
+            fail(errors, f"missing {SCHEMA.relative_to(ROOT)}")
+        else:
+            try:
+                schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
+            except json.JSONDecodeError as exc:
+                fail(errors, f"invalid schema JSON: {exc}")
+                schema = {}
+            if schema.get("title") != "FengShui Master Portable Evaluation Suite":
+                fail(errors, "portable evaluation schema has wrong title")
 
         cases = suite.get("cases", [])
         if not isinstance(cases, list) or len(cases) < 5:

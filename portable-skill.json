@@ -52,6 +52,10 @@
     "examples/validate_portable_evaluation.py",
     "examples/validate_portable_manifest.py"
   ],
+  "schemas": {
+    "manifest": "schemas/portable-skill.schema.json",
+    "evaluation_suite": "schemas/portable-evaluation-suite.schema.json"
+  },
   "governance": [
     "SECURITY.md",
     "CODE_OF_CONDUCT.md",

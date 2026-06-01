@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/JackieL233/fengshui-master/schemas/portable-skill.schema.json",
+  "title": "FengShui Master Portable Skill Manifest",
+  "type": "object",
+  "required": [
+    "name",
+    "type",
+    "version",
+    "title",
+    "description",
+    "languages",
+    "entrypoints",
+    "references",
+    "tools",
+    "evaluation",
+    "governance",
+    "guardrails",
+    "domains",
+    "schemas"
+  ],
+  "properties": {
+    "name": { "type": "string", "const": "fengshui-master" },
+    "type": { "type": "string", "const": "portable-ai-skill" },
+    "version": { "type": "string" },
+    "title": { "type": "string" },
+    "description": { "type": "string" },
+    "languages": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 2,
+      "uniqueItems": true
+    },
+    "entrypoints": { "$ref": "#/$defs/pathList" },
+    "references": { "$ref": "#/$defs/pathList" },
+    "tools": { "$ref": "#/$defs/pathList" },
+    "evaluation": { "$ref": "#/$defs/pathList" },
+    "governance": { "$ref": "#/$defs/pathList" },
+    "guardrails": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 3,
+      "uniqueItems": true
+    },
+    "domains": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 5,
+      "uniqueItems": true
+    },
+    "schemas": {
+      "type": "object",
+      "required": ["manifest", "evaluation_suite"],
+      "properties": {
+        "manifest": { "type": "string" },
+        "evaluation_suite": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "pathList": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  }
+}

@@ -10,6 +10,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "portable-skill.json"
+MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
+EVALUATION_SCHEMA = ROOT / "schemas" / "portable-evaluation-suite.schema.json"
 REQUIRED_TOP_LEVEL = {
     "name",
     "type",
@@ -58,6 +60,22 @@ def main() -> int:
             fail(errors, f"invalid JSON: {exc}")
             manifest = {}
 
+    schema_titles = {
+        MANIFEST_SCHEMA: "FengShui Master Portable Skill Manifest",
+        EVALUATION_SCHEMA: "FengShui Master Portable Evaluation Suite",
+    }
+    for path, title in schema_titles.items():
+        if not path.exists():
+            fail(errors, f"missing {path.relative_to(ROOT)}")
+            continue
+        try:
+            schema = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            fail(errors, f"invalid schema JSON {path.relative_to(ROOT)}: {exc}")
+            continue
+        if schema.get("title") != title:
+            fail(errors, f"{path.relative_to(ROOT)} has wrong title")
+
     missing_keys = sorted(REQUIRED_TOP_LEVEL - set(manifest))
     if missing_keys:
         fail(errors, f"manifest missing keys: {', '.join(missing_keys)}")
@@ -71,6 +89,15 @@ def main() -> int:
 
     for field in ["entrypoints", "references", "tools", "evaluation", "governance"]:
         require_paths(errors, manifest, field)
+
+    schemas = manifest.get("schemas", {})
+    if schemas.get("manifest") != "schemas/portable-skill.schema.json":
+        fail(errors, "schemas.manifest must point to schemas/portable-skill.schema.json")
+    if schemas.get("evaluation_suite") != "schemas/portable-evaluation-suite.schema.json":
+        fail(errors, "schemas.evaluation_suite must point to schemas/portable-evaluation-suite.schema.json")
+    for rel in schemas.values() if isinstance(schemas, dict) else []:
+        if not (ROOT / rel).exists():
+            fail(errors, f"schemas references missing path: {rel}")
 
     for required in ["PORTABLE_SKILL.md", "fengshui-master/SKILL.md"]:
         if required not in manifest.get("entrypoints", []):

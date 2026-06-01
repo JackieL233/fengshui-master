@@ -69,6 +69,9 @@ README.md
 README.zh-CN.md
 SECURITY.md
 CODE_OF_CONDUCT.md
+schemas/
+  portable-skill.schema.json
+  portable-evaluation-suite.schema.json
 examples/
   portable-agent-prompts.md
   portable-evaluation-suite.json
@@ -132,6 +135,11 @@ fengshui-master/
 如果不使用 Codex，请先阅读 [`PORTABLE_SKILL.md`](PORTABLE_SKILL.md)。它提供可复制到任意智能体的系统指令、工作流、输出结构、领域路由、安全边界和中英文说明。
 
 如果智能体平台需要机器可读入口，请使用 [`portable-skill.json`](portable-skill.json)。它声明 entrypoints、references、tools、evaluation、governance、domains 与 guardrails。
+
+平台集成可使用这些 schema：
+
+- [`schemas/portable-skill.schema.json`](schemas/portable-skill.schema.json)
+- [`schemas/portable-evaluation-suite.schema.json`](schemas/portable-evaluation-suite.schema.json)
 
 常见接入方式：
 

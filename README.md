@@ -93,6 +93,9 @@ README.md
 README.zh-CN.md
 SECURITY.md
 CODE_OF_CONDUCT.md
+schemas/
+  portable-skill.schema.json
+  portable-evaluation-suite.schema.json
 examples/
   portable-agent-prompts.md
   portable-evaluation-suite.json
@@ -162,6 +165,11 @@ tests/
 Use [`PORTABLE_SKILL.md`](PORTABLE_SKILL.md) when you want FengShui Master outside Codex. It contains a copyable system instruction, required operating rules, report structure, domain routing guidance, and Chinese instructions for any AI agent or assistant.
 
 Use [`portable-skill.json`](portable-skill.json) when an agent platform needs a machine-readable manifest of entrypoints, references, tools, evaluation files, governance files, domains, and guardrails.
+
+Schema files are provided for platform integrations:
+
+- [`schemas/portable-skill.schema.json`](schemas/portable-skill.schema.json)
+- [`schemas/portable-evaluation-suite.schema.json`](schemas/portable-evaluation-suite.schema.json)
 
 Common integration patterns:
 

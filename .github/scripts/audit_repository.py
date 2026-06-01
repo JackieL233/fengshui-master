@@ -63,6 +63,8 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "PORTABLE_SKILL.md",
         ROOT / "portable-skill.json",
         ROOT / "CONTRIBUTING.md",
+        ROOT / "schemas" / "portable-skill.schema.json",
+        ROOT / "schemas" / "portable-evaluation-suite.schema.json",
         ROOT / "examples" / "portable-agent-prompts.md",
         ROOT / "examples" / "portable-evaluation-suite.json",
         ROOT / "examples" / "validate_portable_evaluation.py",
@@ -90,6 +92,11 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
                 fail(errors, f"{source.relative_to(ROOT)} references missing {rel}")
 
         for rel in sorted(referenced_paths(text, "examples/")):
+            target = ROOT / rel
+            if not target.exists():
+                fail(errors, f"{source.relative_to(ROOT)} references missing {rel}")
+
+        for rel in sorted(referenced_paths(text, "schemas/")):
             target = ROOT / rel
             if not target.exists():
                 fail(errors, f"{source.relative_to(ROOT)} references missing {rel}")
@@ -124,6 +131,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     eval_validator_path = ROOT / "examples" / "validate_portable_evaluation.py"
     manifest_path = ROOT / "portable-skill.json"
     manifest_validator_path = ROOT / "examples" / "validate_portable_manifest.py"
+    manifest_schema_path = ROOT / "schemas" / "portable-skill.schema.json"
+    eval_schema_path = ROOT / "schemas" / "portable-evaluation-suite.schema.json"
 
     if not portable_path.exists():
         fail(errors, "missing PORTABLE_SKILL.md")
@@ -142,6 +151,12 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         return
     if not manifest_validator_path.exists():
         fail(errors, "missing examples/validate_portable_manifest.py")
+        return
+    if not manifest_schema_path.exists():
+        fail(errors, "missing schemas/portable-skill.schema.json")
+        return
+    if not eval_schema_path.exists():
+        fail(errors, "missing schemas/portable-evaluation-suite.schema.json")
         return
 
     portable = read(portable_path)
@@ -220,6 +235,10 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     for term in ["portable-skill.json", "examples/validate_portable_manifest.py"]:
         if term not in readme or term not in portable:
             fail(errors, f"portable manifest path missing from public docs: {term}")
+
+    for term in ["schemas/portable-skill.schema.json", "schemas/portable-evaluation-suite.schema.json"]:
+        if term not in readme or term not in portable:
+            fail(errors, f"portable schema path missing from public docs: {term}")
 
     validator = subprocess.run(
         [sys.executable, str(eval_validator_path)],

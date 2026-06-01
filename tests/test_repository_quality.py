@@ -21,6 +21,8 @@ PORTABLE_EVAL_SUITE = ROOT / "examples" / "portable-evaluation-suite.json"
 PORTABLE_EVAL_VALIDATOR = ROOT / "examples" / "validate_portable_evaluation.py"
 PORTABLE_MANIFEST = ROOT / "portable-skill.json"
 PORTABLE_MANIFEST_VALIDATOR = ROOT / "examples" / "validate_portable_manifest.py"
+PORTABLE_MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
+PORTABLE_EVAL_SCHEMA = ROOT / "schemas" / "portable-evaluation-suite.schema.json"
 SECURITY = ROOT / "SECURITY.md"
 CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
 
@@ -217,6 +219,27 @@ class RepositoryQualityTest(unittest.TestCase):
         )
 
         self.assertIn("Portable skill manifest is valid", result.stdout)
+
+    def test_portable_json_schemas_exist(self):
+        self.assertTrue(PORTABLE_MANIFEST_SCHEMA.exists())
+        self.assertTrue(PORTABLE_EVAL_SCHEMA.exists())
+
+        manifest_schema = json.loads(PORTABLE_MANIFEST_SCHEMA.read_text(encoding="utf-8"))
+        eval_schema = json.loads(PORTABLE_EVAL_SCHEMA.read_text(encoding="utf-8"))
+        manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+        self.assertEqual(manifest_schema["title"], "FengShui Master Portable Skill Manifest")
+        self.assertEqual(eval_schema["title"], "FengShui Master Portable Evaluation Suite")
+        self.assertEqual(manifest["schemas"]["manifest"], "schemas/portable-skill.schema.json")
+        self.assertEqual(manifest["schemas"]["evaluation_suite"], "schemas/portable-evaluation-suite.schema.json")
+
+        for phrase in [
+            "schemas/portable-skill.schema.json",
+            "schemas/portable-evaluation-suite.schema.json",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, readme)
 
     def test_deployment_docs_and_metadata_are_present(self):
         self.assertTrue(DEPLOYMENT.exists())
