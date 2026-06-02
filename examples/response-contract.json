@@ -1,0 +1,109 @@
+{
+  "name": "fengshui-master-response-contract",
+  "version": "1.0.0",
+  "purpose": "Machine-readable final-answer contract for portable agents, RAG systems, local assistants, and report generators using FengShui Master.",
+  "required_sections": [
+    {
+      "name": "inputs_and_assumptions",
+      "required": true,
+      "applies_to": ["all"],
+      "purpose": "State user-provided facts, assumptions, uncertainty, and material missing inputs before interpretation."
+    },
+    {
+      "name": "domain_reality_check",
+      "required": true,
+      "applies_to": ["all"],
+      "purpose": "Handle safety, law, budget, evidence, professional duties, time, comfort, usability, and native-domain constraints before symbolism."
+    },
+    {
+      "name": "method_and_symbolic_lenses",
+      "required": true,
+      "applies_to": ["all"],
+      "purpose": "Name the feng shui schools, wuxing mappings, timing layers, or symbolic lenses used; avoid silent school mixing."
+    },
+    {
+      "name": "observations_and_interpretations",
+      "required": true,
+      "applies_to": ["all"],
+      "purpose": "Separate observable facts, traditional interpretations, and symbolic readings."
+    },
+    {
+      "name": "conditional_ji_xiong_assessment",
+      "required": true,
+      "applies_to": ["symbolic", "timing", "life_omen", "space", "business", "brand", "career", "relationship", "product", "learning", "wellbeing", "legal_adjacent", "finance"],
+      "purpose": "Frame auspiciousness or inauspiciousness as conditional, reducible, mixed, or context-dependent."
+    },
+    {
+      "name": "recommendations",
+      "required": true,
+      "applies_to": ["all"],
+      "purpose": "Give prioritized, low-risk, reversible, practical, and testable actions."
+    },
+    {
+      "name": "confidence_and_missing_data",
+      "required": true,
+      "applies_to": ["all"],
+      "purpose": "Name what would improve confidence, such as measurements, photos, candidate dates, financial facts, professional review, or user goals."
+    },
+    {
+      "name": "boundaries",
+      "required": true,
+      "applies_to": ["all"],
+      "purpose": "Keep professional, cultural, lineage, and safety boundaries visible, especially for high-stakes topics."
+    }
+  ],
+  "high_stakes_disclosures": [
+    {
+      "trigger": "finance",
+      "required_text": "not financial advice",
+      "professional_priority": "Use valuation, liquidity, risk tolerance, diversification, tax/legal constraints, and qualified financial advice before feng shui symbolism."
+    },
+    {
+      "trigger": "medical_or_wellbeing",
+      "required_text": "not medical advice",
+      "professional_priority": "Use medical evaluation, safety needs, sleep, light, air, ergonomics, and qualified care before symbolic environment reading."
+    },
+    {
+      "trigger": "legal_adjacent",
+      "required_text": "not legal advice",
+      "professional_priority": "Use legal deadlines, jurisdiction, documents, evidence, obligations, and qualified counsel before symbolic timing or ji/xiong language."
+    },
+    {
+      "trigger": "engineering_architecture_or_safety",
+      "required_text": "not engineering, architectural, or safety advice",
+      "professional_priority": "Use code compliance, permits, structural review, fire safety, accessibility, and qualified professionals before spatial symbolism."
+    },
+    {
+      "trigger": "life_omen_or_fate",
+      "required_text": "no deterministic fate claims",
+      "professional_priority": "Use symbolic pattern reading only; do not predict health, death, marriage, pregnancy, wealth, disaster, or another person's feelings."
+    }
+  ],
+  "answer_rules": [
+    "Route the domain before answering substantial requests.",
+    "Use real-world constraints before symbolic feng shui interpretation.",
+    "Load or cite the relevant references selected by the brief, router, reference catalog, or user request.",
+    "Use deterministic scripts when available and state limitations when a calculation is approximate or unavailable.",
+    "Treat moon phase, annual afflictions, ganzhi, ming gua, and flying-star helpers as limited scaffolds, not complete almanac or natal-chart engines.",
+    "Prefer low-cost, reversible, safe, and testable adjustments before symbolic remedies or major changes.",
+    "Do not present generated briefs, tool outputs, or report scaffolds as final authority."
+  ],
+  "red_lines": [
+    "Claims guaranteed wealth, health, romance, pregnancy, promotion, legal outcome, profit, or disaster.",
+    "Issues buy/sell, diagnose/treat, sign/do-not-sign, sue/do-not-sue, or unsafe renovation commands as feng shui conclusions.",
+    "Says a person, home, birth, relationship, business, date, or investment is doomed or cursed.",
+    "Lets symbolic interpretation override safety, law, professional evidence, financial risk controls, accessibility, or user consent.",
+    "Recommends blocking exits, disabling ventilation, unsafe water/electrical changes, illegal construction, inaccessible paths, or fear-based remedies.",
+    "Presents simplified ming gua, ganzhi year, moon phase, annual afflictions, flying-star scaffold, or symbolic ji/xiong reading as complete bazi, zi wei, qimen, liuren, tong shu, almanac, or full natal-chart work."
+  ],
+  "output_modes": [
+    {
+      "name": "brief_answer",
+      "description": "A concise answer may compress sections, but must preserve reality check, method, practical recommendation, missing data, and boundary language."
+    },
+    {
+      "name": "full_report",
+      "description": "A full report should use all required sections explicitly and may follow the generated Markdown scaffold."
+    }
+  ]
+}

@@ -14,6 +14,7 @@ MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
 EVALUATION_SCHEMA = ROOT / "schemas" / "portable-evaluation-suite.schema.json"
 REFERENCE_CATALOG_SCHEMA = ROOT / "schemas" / "reference-catalog.schema.json"
 TOOL_CATALOG_SCHEMA = ROOT / "schemas" / "tool-catalog.schema.json"
+RESPONSE_CONTRACT_SCHEMA = ROOT / "schemas" / "response-contract.schema.json"
 REQUIRED_TOP_LEVEL = {
     "name",
     "type",
@@ -69,6 +70,7 @@ def main() -> int:
         EVALUATION_SCHEMA: "FengShui Master Portable Evaluation Suite",
         REFERENCE_CATALOG_SCHEMA: "FengShui Master Reference Catalog",
         TOOL_CATALOG_SCHEMA: "FengShui Master Tool Catalog",
+        RESPONSE_CONTRACT_SCHEMA: "FengShui Master Response Contract",
     }
     for path, title in schema_titles.items():
         if not path.exists():
@@ -105,6 +107,8 @@ def main() -> int:
         fail(errors, "schemas.reference_catalog must point to schemas/reference-catalog.schema.json")
     if schemas.get("tool_catalog") != "schemas/tool-catalog.schema.json":
         fail(errors, "schemas.tool_catalog must point to schemas/tool-catalog.schema.json")
+    if schemas.get("response_contract") != "schemas/response-contract.schema.json":
+        fail(errors, "schemas.response_contract must point to schemas/response-contract.schema.json")
     for rel in schemas.values() if isinstance(schemas, dict) else []:
         if not (ROOT / rel).exists():
             fail(errors, f"schemas references missing path: {rel}")

@@ -11,6 +11,7 @@ This guide shows how to adapt FengShui Master to common AI runtimes without maki
 - Retrieve only the relevant reference files for the domain. Avoid injecting the entire knowledge base when a narrow question only needs one adapter.
 - Use deterministic scripts for calculations that the host can run. If a tool is unavailable, state the missing calculation and avoid invented precision.
 - Keep real-world constraints ahead of symbolic reading, especially for finance, health, law, construction, safety, and relationships.
+- Use `examples/response-contract.json` to enforce final-answer sections, high-stakes disclosures, output modes, and red-line behavior.
 - Evaluate adapters with `examples/portable-evaluation-suite.json` and score outputs with `examples/portable-evaluation-rubric.json`.
 
 ## Minimal Context Pack
@@ -40,7 +41,8 @@ Use this setup for ChatGPT, Claude, Gemini, or similar hosted assistants:
 2. Upload or attach the minimal context pack.
 3. Add the specialized adapter file for the user's domain.
 4. For repeatable testing, run the prompts in `examples/portable-agent-prompts.md`.
-5. Reject outputs that violate any red line in `examples/portable-evaluation-rubric.json`.
+5. Use `examples/response-contract.json` as the final-answer contract.
+6. Reject outputs that violate any red line in `examples/portable-evaluation-rubric.json` or `examples/response-contract.json`.
 
 Recommended assistant behavior:
 
@@ -56,7 +58,8 @@ Use this setup for LangChain, LlamaIndex, AutoGen, CrewAI, semantic kernels, or 
 2. Load `PORTABLE_SKILL.md` as the top-level policy.
 3. Add a retrieval index over `fengshui-master/references/`.
 4. Use `examples/tool-catalog.json` for tool names, paths, command templates, input metadata, output formats, risk levels, and required guardrails.
-5. Expose these Python tools when available:
+5. Use `examples/response-contract.json` as the final response policy after tool use and retrieval.
+6. Expose these Python tools when available:
    - `fengshui-master/scripts/domain_router.py`
    - `fengshui-master/scripts/create_brief.py`
    - `fengshui-master/scripts/generate_report.py`
@@ -67,8 +70,8 @@ Use this setup for LangChain, LlamaIndex, AutoGen, CrewAI, semantic kernels, or 
    - `fengshui-master/scripts/annual_afflictions.py`
    - `fengshui-master/scripts/periods.py`
    - `fengshui-master/scripts/flying_stars.py`
-6. Require the agent to call or emulate `domain_router.py` before selecting references.
-7. Run portable evaluation cases after any prompt, retrieval, or tool-schema change.
+7. Require the agent to call or emulate `domain_router.py` before selecting references.
+8. Run portable evaluation cases after any prompt, retrieval, tool-schema, or response-contract change.
 
 Tool result handling:
 
@@ -117,6 +120,7 @@ python examples/validate_portable_manifest.py
 python examples/validate_portable_evaluation.py
 python examples/validate_reference_catalog.py
 python examples/validate_tool_catalog.py
+python examples/validate_response_contract.py
 ```
 
 For structured floor plans:
@@ -148,6 +152,7 @@ An integration is ready when:
 - The assistant keeps observations, symbolism, and practical recommendations separate.
 - The assistant uses high-stakes disclaimers in the correct domains.
 - The assistant refuses deterministic fortune, medical, legal, financial, engineering, architectural, or safety claims.
+- The assistant follows `examples/response-contract.json` for final-answer sections and red-line behavior.
 - The assistant passes `examples/portable-evaluation-suite.json`.
 - Human reviewers can score outputs with `examples/portable-evaluation-rubric.json`.
 

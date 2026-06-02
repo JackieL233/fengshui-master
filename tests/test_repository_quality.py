@@ -25,12 +25,15 @@ REFERENCE_CATALOG = ROOT / "examples" / "reference-catalog.json"
 REFERENCE_CATALOG_VALIDATOR = ROOT / "examples" / "validate_reference_catalog.py"
 TOOL_CATALOG = ROOT / "examples" / "tool-catalog.json"
 TOOL_CATALOG_VALIDATOR = ROOT / "examples" / "validate_tool_catalog.py"
+RESPONSE_CONTRACT = ROOT / "examples" / "response-contract.json"
+RESPONSE_CONTRACT_VALIDATOR = ROOT / "examples" / "validate_response_contract.py"
 PORTABLE_MANIFEST = ROOT / "portable-skill.json"
 PORTABLE_MANIFEST_VALIDATOR = ROOT / "examples" / "validate_portable_manifest.py"
 PORTABLE_MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
 PORTABLE_EVAL_SCHEMA = ROOT / "schemas" / "portable-evaluation-suite.schema.json"
 REFERENCE_CATALOG_SCHEMA = ROOT / "schemas" / "reference-catalog.schema.json"
 TOOL_CATALOG_SCHEMA = ROOT / "schemas" / "tool-catalog.schema.json"
+RESPONSE_CONTRACT_SCHEMA = ROOT / "schemas" / "response-contract.schema.json"
 INTEGRATION_GUIDE = ROOT / "docs" / "integration-guide.md"
 SECURITY = ROOT / "SECURITY.md"
 CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
@@ -58,6 +61,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("python fengshui-master/scripts/create_brief.py", workflow)
         self.assertIn("python fengshui-master/scripts/generate_report.py", workflow)
         self.assertIn("python examples/validate_tool_catalog.py", workflow)
+        self.assertIn("python examples/validate_response_contract.py", workflow)
         self.assertIn("python .github/scripts/audit_repository.py", workflow)
 
     def test_portable_skill_validator_exists_for_ci(self):
@@ -336,6 +340,45 @@ class RepositoryQualityTest(unittest.TestCase):
         )
         self.assertIn("Tool catalog is valid", result.stdout)
 
+    def test_response_contract_exists_and_passes(self):
+        self.assertTrue(RESPONSE_CONTRACT.exists())
+        self.assertTrue(RESPONSE_CONTRACT_VALIDATOR.exists())
+
+        contract = json.loads(RESPONSE_CONTRACT.read_text(encoding="utf-8"))
+
+        self.assertEqual(contract["name"], "fengshui-master-response-contract")
+        section_names = {section["name"] for section in contract["required_sections"]}
+        for section in [
+            "domain_reality_check",
+            "method_and_symbolic_lenses",
+            "recommendations",
+            "boundaries",
+        ]:
+            with self.subTest(section=section):
+                self.assertIn(section, section_names)
+
+        disclosures = {
+            disclosure["required_text"]
+            for disclosure in contract["high_stakes_disclosures"]
+        }
+        for disclosure in [
+            "not financial advice",
+            "not medical advice",
+            "not legal advice",
+            "no deterministic fate claims",
+        ]:
+            with self.subTest(disclosure=disclosure):
+                self.assertIn(disclosure, disclosures)
+
+        result = subprocess.run(
+            [sys.executable, str(RESPONSE_CONTRACT_VALIDATOR)],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+        self.assertIn("Response contract is valid", result.stdout)
+
     def test_portable_manifest_exists_and_passes(self):
         self.assertTrue(PORTABLE_MANIFEST.exists())
         self.assertTrue(PORTABLE_MANIFEST_VALIDATOR.exists())
@@ -349,6 +392,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("examples/portable-evaluation-suite.json", manifest["evaluation"])
         self.assertIn("examples/reference-catalog.json", manifest["evaluation"])
         self.assertIn("examples/tool-catalog.json", manifest["evaluation"])
+        self.assertIn("examples/response-contract.json", manifest["evaluation"])
         self.assertIn("docs/integration-guide.md", manifest["integration"])
         self.assertIn("fengshui-master/scripts/moon_phase.py", manifest["tools"])
         self.assertIn("timing", manifest["domains"])
@@ -399,11 +443,13 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertTrue(PORTABLE_EVAL_SCHEMA.exists())
         self.assertTrue(REFERENCE_CATALOG_SCHEMA.exists())
         self.assertTrue(TOOL_CATALOG_SCHEMA.exists())
+        self.assertTrue(RESPONSE_CONTRACT_SCHEMA.exists())
 
         manifest_schema = json.loads(PORTABLE_MANIFEST_SCHEMA.read_text(encoding="utf-8"))
         eval_schema = json.loads(PORTABLE_EVAL_SCHEMA.read_text(encoding="utf-8"))
         reference_schema = json.loads(REFERENCE_CATALOG_SCHEMA.read_text(encoding="utf-8"))
         tool_schema = json.loads(TOOL_CATALOG_SCHEMA.read_text(encoding="utf-8"))
+        response_schema = json.loads(RESPONSE_CONTRACT_SCHEMA.read_text(encoding="utf-8"))
         manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
@@ -411,10 +457,12 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertEqual(eval_schema["title"], "FengShui Master Portable Evaluation Suite")
         self.assertEqual(reference_schema["title"], "FengShui Master Reference Catalog")
         self.assertEqual(tool_schema["title"], "FengShui Master Tool Catalog")
+        self.assertEqual(response_schema["title"], "FengShui Master Response Contract")
         self.assertEqual(manifest["schemas"]["manifest"], "schemas/portable-skill.schema.json")
         self.assertEqual(manifest["schemas"]["evaluation_suite"], "schemas/portable-evaluation-suite.schema.json")
         self.assertEqual(manifest["schemas"]["reference_catalog"], "schemas/reference-catalog.schema.json")
         self.assertEqual(manifest["schemas"]["tool_catalog"], "schemas/tool-catalog.schema.json")
+        self.assertEqual(manifest["schemas"]["response_contract"], "schemas/response-contract.schema.json")
         self.assertIn("integration", manifest_schema["required"])
 
         for phrase in [
@@ -422,6 +470,7 @@ class RepositoryQualityTest(unittest.TestCase):
             "schemas/portable-evaluation-suite.schema.json",
             "schemas/reference-catalog.schema.json",
             "schemas/tool-catalog.schema.json",
+            "schemas/response-contract.schema.json",
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, readme)

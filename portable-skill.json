@@ -57,7 +57,9 @@
     "examples/reference-catalog.json",
     "examples/validate_reference_catalog.py",
     "examples/tool-catalog.json",
-    "examples/validate_tool_catalog.py"
+    "examples/validate_tool_catalog.py",
+    "examples/response-contract.json",
+    "examples/validate_response_contract.py"
   ],
   "integration": [
     "docs/integration-guide.md"
@@ -66,7 +68,8 @@
     "manifest": "schemas/portable-skill.schema.json",
     "evaluation_suite": "schemas/portable-evaluation-suite.schema.json",
     "reference_catalog": "schemas/reference-catalog.schema.json",
-    "tool_catalog": "schemas/tool-catalog.schema.json"
+    "tool_catalog": "schemas/tool-catalog.schema.json",
+    "response_contract": "schemas/response-contract.schema.json"
   },
   "governance": [
     "SECURITY.md",

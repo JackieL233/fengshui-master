@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/JackieL233/fengshui-master/schemas/response-contract.schema.json",
+  "title": "FengShui Master Response Contract",
+  "type": "object",
+  "required": [
+    "name",
+    "version",
+    "purpose",
+    "required_sections",
+    "high_stakes_disclosures",
+    "answer_rules",
+    "red_lines",
+    "output_modes"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "const": "fengshui-master-response-contract"
+    },
+    "version": { "type": "string" },
+    "purpose": { "type": "string" },
+    "required_sections": {
+      "type": "array",
+      "minItems": 6,
+      "items": { "$ref": "#/$defs/section" }
+    },
+    "high_stakes_disclosures": {
+      "type": "array",
+      "minItems": 5,
+      "items": { "$ref": "#/$defs/disclosure" }
+    },
+    "answer_rules": { "$ref": "#/$defs/stringList" },
+    "red_lines": { "$ref": "#/$defs/stringList" },
+    "output_modes": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "$ref": "#/$defs/outputMode" }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "section": {
+      "type": "object",
+      "required": ["name", "required", "applies_to", "purpose"],
+      "properties": {
+        "name": { "type": "string" },
+        "required": { "type": "boolean" },
+        "applies_to": { "$ref": "#/$defs/stringList" },
+        "purpose": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "disclosure": {
+      "type": "object",
+      "required": ["trigger", "required_text", "professional_priority"],
+      "properties": {
+        "trigger": { "type": "string" },
+        "required_text": { "type": "string" },
+        "professional_priority": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "outputMode": {
+      "type": "object",
+      "required": ["name", "description"],
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "stringList": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  }
+}
