@@ -36,6 +36,7 @@
     "fengshui-master/references/classical-source-map.md"
   ],
   "tools": [
+    "fengshui-master/scripts/method_selector.py",
     "fengshui-master/scripts/domain_router.py",
     "fengshui-master/scripts/create_brief.py",
     "fengshui-master/scripts/generate_report.py",

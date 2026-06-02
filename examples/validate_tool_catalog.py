@@ -134,6 +134,7 @@ def main() -> int:
         fail(errors, f"catalog has tools outside manifest: {', '.join(extra)}")
 
     required_tool_guardrails = {
+        "fengshui-master/scripts/method_selector.py": "do not mix schools silently",
         "fengshui-master/scripts/moon_phase.py": "do not guarantee auspiciousness",
         "fengshui-master/scripts/solar_terms.py": "use approximate dates only",
         "fengshui-master/scripts/bagua_map.py": "do not mix bagua methods silently",

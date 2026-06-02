@@ -45,6 +45,9 @@ jobs:
       - name: Smoke test domain router
         run: python fengshui-master/scripts/domain_router.py "Should I buy this stock next month?" --pretty
 
+      - name: Smoke test method selector
+        run: python fengshui-master/scripts/method_selector.py "Use Xuan Kong flying stars for this Period 9 renovation" --pretty
+
       - name: Smoke test consultation brief
         run: python fengshui-master/scripts/create_brief.py "Use feng shui to improve my sleep and stress" --pretty
 

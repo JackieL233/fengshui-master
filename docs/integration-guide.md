@@ -6,7 +6,7 @@ This guide shows how to adapt FengShui Master to common AI runtimes without maki
 
 - Load `PORTABLE_SKILL.md` before task-specific context.
 - Keep `fengshui-master/references/ethics-and-limits.md` available for every high-stakes question.
-- Route the user's request before answering. Use `fengshui-master/scripts/domain_router.py` when Python tools are available.
+- Select the method and route the user's request before answering. Use `fengshui-master/scripts/method_selector.py` and `fengshui-master/scripts/domain_router.py` when Python tools are available.
 - Use `examples/tool-catalog.json` when registering scripts as agent tools or function-call wrappers.
 - Retrieve only the relevant reference files for the domain. Avoid injecting the entire knowledge base when a narrow question only needs one adapter.
 - Use deterministic scripts for calculations that the host can run. If a tool is unavailable, state the missing calculation and avoid invented precision.
@@ -61,6 +61,7 @@ Use this setup for LangChain, LlamaIndex, AutoGen, CrewAI, semantic kernels, or 
 5. Use `examples/response-contract.json` as the final response policy after tool use and retrieval.
 6. Expose these Python tools when available:
    - `fengshui-master/scripts/domain_router.py`
+   - `fengshui-master/scripts/method_selector.py`
    - `fengshui-master/scripts/create_brief.py`
    - `fengshui-master/scripts/generate_report.py`
    - `fengshui-master/scripts/analyze_floorplan.py`
@@ -70,7 +71,7 @@ Use this setup for LangChain, LlamaIndex, AutoGen, CrewAI, semantic kernels, or 
    - `fengshui-master/scripts/annual_afflictions.py`
    - `fengshui-master/scripts/periods.py`
    - `fengshui-master/scripts/flying_stars.py`
-7. Require the agent to call or emulate `domain_router.py` before selecting references.
+7. Require the agent to call or emulate `method_selector.py` before method-specific claims, then call or emulate `domain_router.py` before selecting references.
 8. Run portable evaluation cases after any prompt, retrieval, tool-schema, or response-contract change.
 
 Tool result handling:
@@ -114,6 +115,7 @@ Use the scripts for repeatable local workflows:
 
 ```bash
 python fengshui-master/scripts/domain_router.py "Should I buy this stock next month?" --pretty
+python fengshui-master/scripts/method_selector.py "Use Xuan Kong flying stars for this Period 9 renovation" --pretty
 python fengshui-master/scripts/create_brief.py "Should I buy this stock next month?" --pretty
 python fengshui-master/scripts/generate_report.py "Should I buy this stock next month?"
 python examples/validate_portable_manifest.py

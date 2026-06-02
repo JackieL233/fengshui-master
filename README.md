@@ -50,7 +50,7 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 - Cross-domain adapters: finance, business, brand, career, product, learning, wellbeing, relationships, and negotiation.
 - Finance adapter: symbolic feng shui lens for investing, portfolio, budget, cash flow, and market-timing questions with strong financial guardrails.
 - Business, brand, career, relationship, product, learning, wellbeing, and legal-adjacent adapters: specialized non-spatial workflows with native-domain constraints and feng shui symbolism kept separate.
-- Consultation brief protocol: route questions, identify references, list missing inputs, apply guardrails, and define report sections before substantial readings.
+- Consultation brief protocol: select methods, route questions, identify references, list missing inputs, apply guardrails, and define report sections before substantial readings.
 - Reporting protocol: generate Markdown report scaffolds from briefs for reusable deliverables and examples.
 - Structured floor-plan input: JSON schema, sample plan, and analyzer for repeatable room/site intake.
 - Glossary and case patterns: Chinese terminology, response templates, comparison matrices.
@@ -82,6 +82,7 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 | Finance / investing lens | Partially covered | Symbolic decision-support framework included; no investment recommendation engine |
 | Business / brand / career / relationship adapters | Fully covered | Specialized references cover strategy, identity, work path, communication, and shared-space questions |
 | Product / learning / wellbeing / legal-adjacent adapters | Fully covered | Specialized references cover UX flow, study planning, health-adjacent environment, and legal-risk preparation |
+| Method and school selection | Fully covered | Method selector distinguishes form school, compass bagua, eight mansions, xuan kong, san he, timing, and broad symbolic analysis |
 | Consultation brief generation | Fully covered | JSON brief generator combines domain routing, guardrails, missing inputs, and optional floor-plan analysis |
 | Markdown report generation | Fully covered | Report scaffold generator creates reusable Markdown outputs from consultation briefs |
 | Structured floor-plan JSON | Fully covered | Schema, sample, and intake analyzer included |
@@ -156,6 +157,7 @@ fengshui-master/
     classical-source-map.md
     sources.md
   scripts/
+    method_selector.py
     bagua_map.py
     luopan.py
     minggua.py
@@ -205,7 +207,7 @@ Common integration patterns:
 - **ChatGPT, Claude, Gemini, local LLMs, or custom agents**: paste the "System Instruction" from `PORTABLE_SKILL.md`, then provide the relevant files from `fengshui-master/references/` as retrieval context.
 - **Agent frameworks**: expose `fengshui-master/scripts/` as tools and let the agent read `PORTABLE_SKILL.md` plus the routed reference files.
 - **RAG systems**: index `fengshui-master/references/`, keep `PORTABLE_SKILL.md` as the top-level behavior policy, and keep `fengshui-master/SKILL.md` as the Codex adapter.
-- **Manual use**: run `create_brief.py`, `domain_router.py`, and `generate_report.py` from the command line to create structured analysis scaffolds before writing the final answer.
+- **Manual use**: run `method_selector.py`, `create_brief.py`, `domain_router.py`, and `generate_report.py` from the command line to create structured analysis scaffolds before writing the final answer.
 
 For portable agent smoke tests and copyable prompts, see [`examples/portable-agent-prompts.md`](examples/portable-agent-prompts.md). For machine-readable adaptation checks, use [`examples/portable-evaluation-suite.json`](examples/portable-evaluation-suite.json). For output-quality scoring, use [`examples/portable-evaluation-rubric.json`](examples/portable-evaluation-rubric.json). For final-answer structure and red-line behavior, use [`examples/response-contract.json`](examples/response-contract.json). For RAG metadata and reference routing, use [`examples/reference-catalog.json`](examples/reference-catalog.json). For script metadata and agent tool registration, use [`examples/tool-catalog.json`](examples/tool-catalog.json). For deployment across non-Codex platforms, follow [`docs/integration-guide.md`](docs/integration-guide.md).
 
@@ -372,6 +374,14 @@ python fengshui-master/scripts/domain_router.py "Should I buy this stock next mo
 ```
 
 The router points Codex to the correct references and guardrails; it does not make the decision.
+
+Select the appropriate feng shui method or school:
+
+```bash
+python fengshui-master/scripts/method_selector.py "Use Xuan Kong flying stars for this Period 9 renovation" --pretty
+```
+
+The selector returns recommended methods, required inputs, references, tools, guardrails, and method notes. Use it to avoid silent school mixing: do not mix schools silently.
 
 Analyze a structured floor-plan JSON:
 

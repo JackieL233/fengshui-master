@@ -118,6 +118,8 @@ def main() -> int:
             fail(errors, f"entrypoints missing {required}")
     if "docs/integration-guide.md" not in manifest.get("integration", []):
         fail(errors, "integration missing docs/integration-guide.md")
+    if "fengshui-master/scripts/method_selector.py" not in manifest.get("tools", []):
+        fail(errors, "tools missing fengshui-master/scripts/method_selector.py")
     if "fengshui-master/scripts/moon_phase.py" not in manifest.get("tools", []):
         fail(errors, "tools missing fengshui-master/scripts/moon_phase.py")
     if "fengshui-master/scripts/solar_terms.py" not in manifest.get("tools", []):

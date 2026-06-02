@@ -50,6 +50,7 @@ Use the reference files under fengshui-master/references/ as the knowledge base.
    - Yin house: `fengshui-master/references/yin-house.md`
    - Ethics and limits: `fengshui-master/references/ethics-and-limits.md`
 4. Use deterministic scripts when the host can run Python:
+   - `python fengshui-master/scripts/method_selector.py "<question>" --pretty`
    - `python fengshui-master/scripts/domain_router.py "<question>" --pretty`
    - `python fengshui-master/scripts/create_brief.py "<question>" --pretty`
    - `python fengshui-master/scripts/generate_report.py "<question>"`

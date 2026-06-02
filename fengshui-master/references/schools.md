@@ -27,6 +27,14 @@ Use this file to choose and explain a method. The goal is not to force one schoo
 | User asks about time periods, annual stars, renovation timing | Xuan kong / san yuan, with caveats |
 | User asks about exact luopan sectors | 24 mountains, san he/san yuan context |
 
+Use `scripts/method_selector.py` for deterministic method routing:
+
+```bash
+python fengshui-master/scripts/method_selector.py "Use Xuan Kong flying stars for this Period 9 renovation" --pretty
+```
+
+The selector returns the recommended method, required inputs, references, tools, guardrails, and method notes. It does not replace judgment; use it to prevent silent school mixing and to identify missing data before analysis.
+
 ## Form School
 
 Focus:

@@ -44,7 +44,7 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 - 理气与时空：八宅命卦、三元九运、玄空飞星基础脚手架、太岁、岁破、三煞、二十四节气与月相。
 - 跨领域分析：金融、商业、品牌、职业、关系、产品、学习、健康相邻环境、法律相邻风险。
 - 命名与品牌：品牌命名、颜色、标志、视觉气质与五行象义约束。
-- 工具脚本：八卦方位象义、罗盘二十四山、命卦、干支年、年度方位注意、二十四节气、月相、三元运、飞星脚手架、领域路由、咨询 brief、报告生成、结构化户型分析。
+- 工具脚本：风水方法/流派选择、八卦方位象义、罗盘二十四山、命卦、干支年、年度方位注意、二十四节气、月相、三元运、飞星脚手架、领域路由、咨询 brief、报告生成、结构化户型分析。
 - 来源与流派地图：经典锚点、形势派、三合、三元、玄空、八宅、择日、二十四节气、月相与现代跨领域扩展边界。
 - 开源工程：GitHub Actions、仓库一致性审计、Issue/PR 模板、测试与样例报告。
 
@@ -129,6 +129,7 @@ fengshui-master/
     classical-source-map.md
     sources.md
   scripts/
+    method_selector.py
     bagua_map.py
     luopan.py
     minggua.py
@@ -172,7 +173,7 @@ fengshui-master/
 - **ChatGPT、Claude、Gemini、本地 LLM 或自定义智能体**：复制 `PORTABLE_SKILL.md` 中的 “System Instruction”，再把相关 `fengshui-master/references/` 文件作为上下文或检索资料。
 - **Agent 框架**：把 `fengshui-master/scripts/` 暴露为工具，让智能体按 `PORTABLE_SKILL.md` 和路由结果读取参考文件。
 - **RAG 系统**：索引 `fengshui-master/references/`，把 `PORTABLE_SKILL.md` 作为顶层行为规范，并保留 `fengshui-master/SKILL.md` 作为 Codex 适配入口。
-- **手动使用**：先运行 `create_brief.py`、`domain_router.py`、`generate_report.py` 生成结构化脚手架，再撰写最终分析。
+- **手动使用**：先运行 `method_selector.py`、`create_brief.py`、`domain_router.py`、`generate_report.py` 生成结构化脚手架，再撰写最终分析。
 
 通用智能体的 smoke tests 与可复制提示词见 [`examples/portable-agent-prompts.md`](examples/portable-agent-prompts.md)。机器可读的适配检查见 [`examples/portable-evaluation-suite.json`](examples/portable-evaluation-suite.json)。输出质量评分标准见 [`examples/portable-evaluation-rubric.json`](examples/portable-evaluation-rubric.json)。最终回答结构与红线行为见 [`examples/response-contract.json`](examples/response-contract.json)。RAG 元数据和参考文件路由见 [`examples/reference-catalog.json`](examples/reference-catalog.json)。脚本元数据和 Agent 工具注册见 [`examples/tool-catalog.json`](examples/tool-catalog.json)。非 Codex 平台部署与接入流程见 [`docs/integration-guide.md`](docs/integration-guide.md)。
 
@@ -308,6 +309,12 @@ python fengshui-master/scripts/solar_terms.py 2026-02-04 --pretty
 
 ```bash
 python fengshui-master/scripts/domain_router.py "用风水五行分析这个股票投资是否吉利" --pretty
+```
+
+风水方法/流派选择：
+
+```bash
+python fengshui-master/scripts/method_selector.py "用玄空飞星分析九运装修" --pretty
 ```
 
 ## 样例资产

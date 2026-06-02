@@ -240,6 +240,11 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("schemas/tool-catalog.schema.json", tooling["expected_references"])
         self.assertIn("validate_tool_catalog.py", tooling["must_include"])
 
+        method_selector = by_id["method-selector-school-mixing-boundary"]
+        self.assertIn("fengshui-master/references/schools.md", method_selector["expected_references"])
+        self.assertIn("method_selector.py", method_selector["must_include"])
+        self.assertIn("mix schools silently", method_selector["must_not_include"])
+
         for case in suite["cases"]:
             with self.subTest(case=case["id"]):
                 self.assertIn("prompt", case)
@@ -331,6 +336,10 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertEqual(router["category"], "routing")
         self.assertEqual(router["output_format"], "json")
 
+        method_selector = by_path["fengshui-master/scripts/method_selector.py"]
+        self.assertEqual(method_selector["category"], "routing")
+        self.assertIn("do not mix schools silently", method_selector["required_guardrails"])
+
         bagua = by_path["fengshui-master/scripts/bagua_map.py"]
         self.assertEqual(bagua["category"], "calculation")
         self.assertIn("do not mix bagua methods silently", bagua["required_guardrails"])
@@ -413,6 +422,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("examples/tool-catalog.json", manifest["evaluation"])
         self.assertIn("examples/response-contract.json", manifest["evaluation"])
         self.assertIn("docs/integration-guide.md", manifest["integration"])
+        self.assertIn("fengshui-master/scripts/method_selector.py", manifest["tools"])
         self.assertIn("fengshui-master/scripts/bagua_map.py", manifest["tools"])
         self.assertIn("fengshui-master/scripts/moon_phase.py", manifest["tools"])
         self.assertIn("fengshui-master/scripts/solar_terms.py", manifest["tools"])
@@ -439,6 +449,11 @@ class RepositoryQualityTest(unittest.TestCase):
         workflow = WORKFLOW.read_text(encoding="utf-8")
 
         self.assertIn("python fengshui-master/scripts/bagua_map.py --direction southeast --pretty", workflow)
+
+    def test_ci_smoke_tests_method_selector(self):
+        workflow = WORKFLOW.read_text(encoding="utf-8")
+
+        self.assertIn("python fengshui-master/scripts/method_selector.py", workflow)
 
     def test_ci_smoke_tests_solar_terms_helper(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")

@@ -340,6 +340,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     manifest = json.loads(read(manifest_path))
     if "docs/integration-guide.md" not in manifest.get("integration", []):
         fail(errors, "portable manifest missing docs/integration-guide.md in integration")
+    if "fengshui-master/scripts/method_selector.py" not in manifest.get("tools", []):
+        fail(errors, "portable manifest missing fengshui-master/scripts/method_selector.py")
     if "fengshui-master/scripts/bagua_map.py" not in manifest.get("tools", []):
         fail(errors, "portable manifest missing fengshui-master/scripts/bagua_map.py")
     if "fengshui-master/scripts/moon_phase.py" not in manifest.get("tools", []):
@@ -384,6 +386,9 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     for term in ["bagua_map.py", "bagua sector", "life-area", "八卦"]:
         if term not in readme and term not in chinese and term not in portable:
             fail(errors, f"bagua public docs missing {term}")
+    for term in ["method_selector.py", "Method and school selection", "do not mix schools silently"]:
+        if term not in readme and term not in chinese and term not in portable and term not in integration:
+            fail(errors, f"method selector public docs missing {term}")
 
     source_map_path = SKILL / "references" / "classical-source-map.md"
     if not source_map_path.exists():
@@ -446,6 +451,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         if guardrail not in entry.get("required_guardrails", []):
             fail(errors, f"reference catalog {path} missing guardrail {guardrail}")
     for path, guardrail in {
+        "fengshui-master/scripts/method_selector.py": "do not mix schools silently",
         "fengshui-master/scripts/moon_phase.py": "do not guarantee auspiciousness",
         "fengshui-master/scripts/solar_terms.py": "use approximate dates only",
         "fengshui-master/scripts/bagua_map.py": "do not mix bagua methods silently",

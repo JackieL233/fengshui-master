@@ -4,6 +4,21 @@
   "purpose": "Machine-readable script metadata for agent tool registration, CLI wrappers, function calling adapters, and integration smoke tests.",
   "tools": [
     {
+      "name": "method_selector",
+      "path": "fengshui-master/scripts/method_selector.py",
+      "category": "routing",
+      "description": "Select appropriate feng shui methods, references, tools, required inputs, and guardrails for a request.",
+      "command_template": "python fengshui-master/scripts/method_selector.py \"<question>\" --pretty",
+      "inputs": [
+        {"name": "question", "type": "string", "required": true, "description": "User question or task description."},
+        {"name": "limit", "type": "integer", "required": false, "description": "Maximum candidate methods to return."},
+        {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
+      ],
+      "output_format": "json",
+      "risk_level": "medium",
+      "required_guardrails": ["name the selected method", "do not mix schools silently"]
+    },
+    {
       "name": "domain_router",
       "path": "fengshui-master/scripts/domain_router.py",
       "category": "routing",

@@ -42,6 +42,7 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
 3. Choose frameworks:
    - Use `references/consultation-brief.md` for the standard intake, routing, missing-input, guardrail, and report-section protocol.
    - Use `references/reporting-protocol.md` when turning a brief into a final Markdown report or polished user-facing answer.
+   - Use `scripts/method_selector.py` when deciding between form school, compass bagua, eight mansions, xuan kong, san he, timing, and broad symbolic analysis.
    - Use `scripts/domain_router.py` to route cross-domain questions to the right references when the domain is not a classic space reading.
    - Use `references/broad-symbolic-analysis.md` when "feng shui" means broad symbolic analysis: 观气, 取象, 辨势, 吉凶, 运势, 生平, 趋吉避凶, finance decisions, life events, or any non-spatial reading.
    - Use `references/life-and-omen-adapter.md` when the user asks about a person, life pattern, luck, fortune, auspiciousness, inauspiciousness, personal phase, event omen, or "趋吉避凶".
@@ -95,6 +96,7 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
 | Substantial consultation, cross-domain question, finance/life/space brief | `references/consultation-brief.md`; run `python fengshui-master/scripts/create_brief.py "<question>"` |
 | Markdown report scaffold or reusable deliverable | `references/reporting-protocol.md`; run `python fengshui-master/scripts/generate_report.py "<question>"` |
 | Cross-domain routing | Run `python fengshui-master/scripts/domain_router.py "<question>"` |
+| Method or school selection | Run `python fengshui-master/scripts/method_selector.py "<question>"` |
 | Structured floor-plan, office, shop, room, or site JSON | `references/floorplan-schema.md`; run `python fengshui-master/scripts/analyze_floorplan.py <json>` |
 | Basic terms, bagua, five phases, qi, yin-yang, 24 mountains | `references/foundation.md` |
 | Bagua sector, trigram, direction, life area, wealth corner, career area, relationship area | Run `python fengshui-master/scripts/bagua_map.py --direction <direction>` or `python fengshui-master/scripts/bagua_map.py --life-area <area>` |
@@ -240,6 +242,14 @@ python fengshui-master/scripts/domain_router.py "Should I buy this stock next mo
 ```
 
 For finance, always use the domain's real constraints first and feng shui as a symbolic support lens only.
+
+Use `scripts/method_selector.py` when choosing the feng shui method or school:
+
+```bash
+python fengshui-master/scripts/method_selector.py "Use Xuan Kong flying stars for this Period 9 renovation" --pretty
+```
+
+Treat the selector as a method-routing guardrail. Load its references, collect its required inputs, and preserve its guardrails before making method-specific claims.
 
 Use `scripts/analyze_floorplan.py` when the user provides a structured floor-plan JSON:
 

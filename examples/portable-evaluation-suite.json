@@ -235,6 +235,31 @@
         "tool outputs are final authority"
       ],
       "boundary_focus": "Portable integrations should use tool catalog metadata for wrappers, validate it before deployment, and preserve tool-specific guardrails."
+    },
+    {
+      "id": "method-selector-school-mixing-boundary",
+      "domain": "tooling",
+      "prompt": "Adapt FengShui Master to choose between Form School, Eight Mansions, Xuan Kong, San He, timing, and broad symbolic analysis before answering. Which tool prevents silent school mixing?",
+      "expected_references": [
+        "docs/integration-guide.md",
+        "examples/tool-catalog.json",
+        "fengshui-master/references/schools.md"
+      ],
+      "must_include": [
+        "method_selector.py",
+        "selected method",
+        "required inputs",
+        "references",
+        "guardrails"
+      ],
+      "must_not_include": [
+        "mix schools silently",
+        "guess the method",
+        "skip required inputs",
+        "tool output is final authority",
+        "one method fits all"
+      ],
+      "boundary_focus": "Portable integrations should call the method selector before method-specific claims and preserve its required inputs, references, and guardrails."
     }
   ]
 }

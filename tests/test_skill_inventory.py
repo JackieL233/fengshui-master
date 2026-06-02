@@ -51,6 +51,7 @@ class SkillInventoryTest(unittest.TestCase):
         skill_text = (SKILL / "SKILL.md").read_text(encoding="utf-8")
 
         for filename in [
+            "method_selector.py",
             "bagua_map.py",
             "luopan.py",
             "minggua.py",
@@ -93,6 +94,13 @@ class SkillInventoryTest(unittest.TestCase):
         for phrase in ["scripts/bagua_map.py", "Compass bagua", "Door-aligned", "life-area symbolism"]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, foundation)
+
+    def test_schools_reference_covers_method_selector(self):
+        schools = (SKILL / "references" / "schools.md").read_text(encoding="utf-8")
+
+        for phrase in ["scripts/method_selector.py", "recommended method", "required inputs", "silent school mixing"]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, schools)
 
     def test_readme_has_coverage_matrix(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
