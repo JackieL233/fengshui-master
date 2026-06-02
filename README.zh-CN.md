@@ -82,6 +82,7 @@ schemas/
   reference-catalog.schema.json
   tool-catalog.schema.json
   response-contract.schema.json
+  capability-matrix.schema.json
 examples/
   portable-agent-prompts.md
   portable-evaluation-rubric.json
@@ -89,11 +90,13 @@ examples/
   reference-catalog.json
   tool-catalog.json
   response-contract.json
+  capability-matrix.json
   validate_portable_evaluation.py
   validate_portable_manifest.py
   validate_reference_catalog.py
   validate_tool_catalog.py
   validate_response_contract.py
+  validate_capability_matrix.py
 fengshui-master/
   SKILL.md
   agents/openai.yaml
@@ -167,6 +170,7 @@ fengshui-master/
 - [`schemas/reference-catalog.schema.json`](schemas/reference-catalog.schema.json)
 - [`schemas/tool-catalog.schema.json`](schemas/tool-catalog.schema.json)
 - [`schemas/response-contract.schema.json`](schemas/response-contract.schema.json)
+- [`schemas/capability-matrix.schema.json`](schemas/capability-matrix.schema.json)
 
 常见接入方式：
 
@@ -176,6 +180,8 @@ fengshui-master/
 - **手动使用**：先运行 `method_selector.py`、`create_brief.py`、`domain_router.py`、`generate_report.py` 生成结构化脚手架，再撰写最终分析。
 
 通用智能体的 smoke tests 与可复制提示词见 [`examples/portable-agent-prompts.md`](examples/portable-agent-prompts.md)。机器可读的适配检查见 [`examples/portable-evaluation-suite.json`](examples/portable-evaluation-suite.json)。输出质量评分标准见 [`examples/portable-evaluation-rubric.json`](examples/portable-evaluation-rubric.json)。最终回答结构与红线行为见 [`examples/response-contract.json`](examples/response-contract.json)。RAG 元数据和参考文件路由见 [`examples/reference-catalog.json`](examples/reference-catalog.json)。脚本元数据和 Agent 工具注册见 [`examples/tool-catalog.json`](examples/tool-catalog.json)。非 Codex 平台部署与接入流程见 [`docs/integration-guide.md`](docs/integration-guide.md)。
+
+能力、限制与 roadmap 路由见 [`examples/capability-matrix.json`](examples/capability-matrix.json)，并可用 [`examples/validate_capability_matrix.py`](examples/validate_capability_matrix.py) 验证。
 
 验证 portable evaluation suite：
 
@@ -205,6 +211,12 @@ python examples/validate_tool_catalog.py
 
 ```bash
 python examples/validate_response_contract.py
+```
+
+验证 capability matrix：
+
+```bash
+python examples/validate_capability_matrix.py
 ```
 
 ## Codex 安装

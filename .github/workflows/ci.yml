@@ -42,6 +42,9 @@ jobs:
       - name: Validate response contract
         run: python examples/validate_response_contract.py
 
+      - name: Validate capability matrix
+        run: python examples/validate_capability_matrix.py
+
       - name: Smoke test domain router
         run: python fengshui-master/scripts/domain_router.py "Should I buy this stock next month?" --pretty
 

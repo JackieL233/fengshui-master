@@ -27,6 +27,8 @@ TOOL_CATALOG = ROOT / "examples" / "tool-catalog.json"
 TOOL_CATALOG_VALIDATOR = ROOT / "examples" / "validate_tool_catalog.py"
 RESPONSE_CONTRACT = ROOT / "examples" / "response-contract.json"
 RESPONSE_CONTRACT_VALIDATOR = ROOT / "examples" / "validate_response_contract.py"
+CAPABILITY_MATRIX = ROOT / "examples" / "capability-matrix.json"
+CAPABILITY_MATRIX_VALIDATOR = ROOT / "examples" / "validate_capability_matrix.py"
 PORTABLE_MANIFEST = ROOT / "portable-skill.json"
 PORTABLE_MANIFEST_VALIDATOR = ROOT / "examples" / "validate_portable_manifest.py"
 PORTABLE_MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
@@ -34,6 +36,7 @@ PORTABLE_EVAL_SCHEMA = ROOT / "schemas" / "portable-evaluation-suite.schema.json
 REFERENCE_CATALOG_SCHEMA = ROOT / "schemas" / "reference-catalog.schema.json"
 TOOL_CATALOG_SCHEMA = ROOT / "schemas" / "tool-catalog.schema.json"
 RESPONSE_CONTRACT_SCHEMA = ROOT / "schemas" / "response-contract.schema.json"
+CAPABILITY_MATRIX_SCHEMA = ROOT / "schemas" / "capability-matrix.schema.json"
 INTEGRATION_GUIDE = ROOT / "docs" / "integration-guide.md"
 SECURITY = ROOT / "SECURITY.md"
 CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
@@ -62,6 +65,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("python fengshui-master/scripts/generate_report.py", workflow)
         self.assertIn("python examples/validate_tool_catalog.py", workflow)
         self.assertIn("python examples/validate_response_contract.py", workflow)
+        self.assertIn("python examples/validate_capability_matrix.py", workflow)
         self.assertIn("python .github/scripts/audit_repository.py", workflow)
 
     def test_portable_skill_validator_exists_for_ci(self):
@@ -421,6 +425,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("examples/reference-catalog.json", manifest["evaluation"])
         self.assertIn("examples/tool-catalog.json", manifest["evaluation"])
         self.assertIn("examples/response-contract.json", manifest["evaluation"])
+        self.assertIn("examples/capability-matrix.json", manifest["evaluation"])
         self.assertIn("docs/integration-guide.md", manifest["integration"])
         self.assertIn("fengshui-master/scripts/method_selector.py", manifest["tools"])
         self.assertIn("fengshui-master/scripts/bagua_map.py", manifest["tools"])
@@ -439,6 +444,62 @@ class RepositoryQualityTest(unittest.TestCase):
         )
 
         self.assertIn("Portable skill manifest is valid", result.stdout)
+
+    def test_capability_matrix_exists_and_passes(self):
+        self.assertTrue(CAPABILITY_MATRIX.exists())
+        self.assertTrue(CAPABILITY_MATRIX_VALIDATOR.exists())
+
+        matrix = json.loads(CAPABILITY_MATRIX.read_text(encoding="utf-8"))
+        manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        chinese_readme = README_ZH.read_text(encoding="utf-8")
+        portable = PORTABLE_SKILL.read_text(encoding="utf-8")
+
+        self.assertEqual(matrix["name"], "fengshui-master-capability-matrix")
+        self.assertGreaterEqual(len(matrix["capabilities"]), 12)
+        self.assertIn("examples/capability-matrix.json", manifest["evaluation"])
+        self.assertIn("examples/validate_capability_matrix.py", manifest["evaluation"])
+
+        by_id = {entry["id"]: entry for entry in matrix["capabilities"]}
+        for capability_id in [
+            "space-form-analysis",
+            "life-omen-symbolic-analysis",
+            "finance-symbolic-decision-support",
+            "new-moon-full-moon-timing",
+            "full-bazi-four-pillars",
+        ]:
+            with self.subTest(capability_id=capability_id):
+                self.assertIn(capability_id, by_id)
+
+        self.assertEqual(by_id["space-form-analysis"]["status"], "fully_covered")
+        self.assertEqual(by_id["finance-symbolic-decision-support"]["status"], "partially_covered")
+        self.assertEqual(by_id["new-moon-full-moon-timing"]["status"], "partially_covered")
+        self.assertEqual(by_id["full-bazi-four-pillars"]["status"], "not_covered")
+
+        finance = by_id["finance-symbolic-decision-support"]
+        self.assertIn("not financial advice", finance["guardrails"])
+        self.assertIn("do not issue buy/sell commands", finance["guardrails"])
+
+        moon = by_id["new-moon-full-moon-timing"]
+        self.assertIn("fengshui-master/scripts/moon_phase.py", moon["optional_tools"])
+        self.assertIn("not a full almanac", moon["guardrails"])
+
+        bazi = by_id["full-bazi-four-pillars"]
+        self.assertIn("complete four-pillar charting is outside current scope", bazi["limitations"])
+
+        for text in [readme, chinese_readme, portable]:
+            with self.subTest(text=text[:20]):
+                self.assertIn("examples/capability-matrix.json", text)
+                self.assertIn("examples/validate_capability_matrix.py", text)
+
+        result = subprocess.run(
+            [sys.executable, str(CAPABILITY_MATRIX_VALIDATOR)],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+        self.assertIn("Capability matrix is valid", result.stdout)
 
     def test_ci_smoke_tests_moon_phase_helper(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")
@@ -490,12 +551,14 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertTrue(REFERENCE_CATALOG_SCHEMA.exists())
         self.assertTrue(TOOL_CATALOG_SCHEMA.exists())
         self.assertTrue(RESPONSE_CONTRACT_SCHEMA.exists())
+        self.assertTrue(CAPABILITY_MATRIX_SCHEMA.exists())
 
         manifest_schema = json.loads(PORTABLE_MANIFEST_SCHEMA.read_text(encoding="utf-8"))
         eval_schema = json.loads(PORTABLE_EVAL_SCHEMA.read_text(encoding="utf-8"))
         reference_schema = json.loads(REFERENCE_CATALOG_SCHEMA.read_text(encoding="utf-8"))
         tool_schema = json.loads(TOOL_CATALOG_SCHEMA.read_text(encoding="utf-8"))
         response_schema = json.loads(RESPONSE_CONTRACT_SCHEMA.read_text(encoding="utf-8"))
+        capability_schema = json.loads(CAPABILITY_MATRIX_SCHEMA.read_text(encoding="utf-8"))
         manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
@@ -504,11 +567,13 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertEqual(reference_schema["title"], "FengShui Master Reference Catalog")
         self.assertEqual(tool_schema["title"], "FengShui Master Tool Catalog")
         self.assertEqual(response_schema["title"], "FengShui Master Response Contract")
+        self.assertEqual(capability_schema["title"], "FengShui Master Capability Matrix")
         self.assertEqual(manifest["schemas"]["manifest"], "schemas/portable-skill.schema.json")
         self.assertEqual(manifest["schemas"]["evaluation_suite"], "schemas/portable-evaluation-suite.schema.json")
         self.assertEqual(manifest["schemas"]["reference_catalog"], "schemas/reference-catalog.schema.json")
         self.assertEqual(manifest["schemas"]["tool_catalog"], "schemas/tool-catalog.schema.json")
         self.assertEqual(manifest["schemas"]["response_contract"], "schemas/response-contract.schema.json")
+        self.assertEqual(manifest["schemas"]["capability_matrix"], "schemas/capability-matrix.schema.json")
         self.assertIn("integration", manifest_schema["required"])
 
         for phrase in [
@@ -517,6 +582,7 @@ class RepositoryQualityTest(unittest.TestCase):
             "schemas/reference-catalog.schema.json",
             "schemas/tool-catalog.schema.json",
             "schemas/response-contract.schema.json",
+            "schemas/capability-matrix.schema.json",
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, readme)

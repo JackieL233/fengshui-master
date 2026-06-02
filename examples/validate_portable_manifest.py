@@ -15,6 +15,7 @@ EVALUATION_SCHEMA = ROOT / "schemas" / "portable-evaluation-suite.schema.json"
 REFERENCE_CATALOG_SCHEMA = ROOT / "schemas" / "reference-catalog.schema.json"
 TOOL_CATALOG_SCHEMA = ROOT / "schemas" / "tool-catalog.schema.json"
 RESPONSE_CONTRACT_SCHEMA = ROOT / "schemas" / "response-contract.schema.json"
+CAPABILITY_MATRIX_SCHEMA = ROOT / "schemas" / "capability-matrix.schema.json"
 REQUIRED_TOP_LEVEL = {
     "name",
     "type",
@@ -71,6 +72,7 @@ def main() -> int:
         REFERENCE_CATALOG_SCHEMA: "FengShui Master Reference Catalog",
         TOOL_CATALOG_SCHEMA: "FengShui Master Tool Catalog",
         RESPONSE_CONTRACT_SCHEMA: "FengShui Master Response Contract",
+        CAPABILITY_MATRIX_SCHEMA: "FengShui Master Capability Matrix",
     }
     for path, title in schema_titles.items():
         if not path.exists():
@@ -109,6 +111,8 @@ def main() -> int:
         fail(errors, "schemas.tool_catalog must point to schemas/tool-catalog.schema.json")
     if schemas.get("response_contract") != "schemas/response-contract.schema.json":
         fail(errors, "schemas.response_contract must point to schemas/response-contract.schema.json")
+    if schemas.get("capability_matrix") != "schemas/capability-matrix.schema.json":
+        fail(errors, "schemas.capability_matrix must point to schemas/capability-matrix.schema.json")
     for rel in schemas.values() if isinstance(schemas, dict) else []:
         if not (ROOT / rel).exists():
             fail(errors, f"schemas references missing path: {rel}")
@@ -126,6 +130,10 @@ def main() -> int:
         fail(errors, "tools missing fengshui-master/scripts/solar_terms.py")
     if "fengshui-master/scripts/bagua_map.py" not in manifest.get("tools", []):
         fail(errors, "tools missing fengshui-master/scripts/bagua_map.py")
+    if "examples/capability-matrix.json" not in manifest.get("evaluation", []):
+        fail(errors, "evaluation missing examples/capability-matrix.json")
+    if "examples/validate_capability_matrix.py" not in manifest.get("evaluation", []):
+        fail(errors, "evaluation missing examples/validate_capability_matrix.py")
 
     domains = set(manifest.get("domains", []))
     missing_domains = sorted(REQUIRED_DOMAINS - domains)

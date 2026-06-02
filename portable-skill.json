@@ -62,7 +62,9 @@
     "examples/tool-catalog.json",
     "examples/validate_tool_catalog.py",
     "examples/response-contract.json",
-    "examples/validate_response_contract.py"
+    "examples/validate_response_contract.py",
+    "examples/capability-matrix.json",
+    "examples/validate_capability_matrix.py"
   ],
   "integration": [
     "docs/integration-guide.md"
@@ -72,7 +74,8 @@
     "evaluation_suite": "schemas/portable-evaluation-suite.schema.json",
     "reference_catalog": "schemas/reference-catalog.schema.json",
     "tool_catalog": "schemas/tool-catalog.schema.json",
-    "response_contract": "schemas/response-contract.schema.json"
+    "response_contract": "schemas/response-contract.schema.json",
+    "capability_matrix": "schemas/capability-matrix.schema.json"
   },
   "governance": [
     "SECURITY.md",
