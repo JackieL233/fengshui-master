@@ -32,7 +32,8 @@
     "fengshui-master/references/life-and-omen-adapter.md",
     "fengshui-master/references/five-phase-domain-map.md",
     "fengshui-master/references/floorplan-schema.md",
-    "fengshui-master/references/ethics-and-limits.md"
+    "fengshui-master/references/ethics-and-limits.md",
+    "fengshui-master/references/classical-source-map.md"
   ],
   "tools": [
     "fengshui-master/scripts/domain_router.py",

@@ -297,6 +297,17 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         if term not in readme and term not in chinese and term not in portable:
             fail(errors, f"moon phase public docs missing {term}")
 
+    source_map_path = SKILL / "references" / "classical-source-map.md"
+    if not source_map_path.exists():
+        fail(errors, "missing references/classical-source-map.md")
+    else:
+        source_map = read(source_map_path)
+        for term in ["Zang Shu", "Yijing", "Hong Fan", "Form School", "San He", "San Yuan", "Xuan Kong", "Modern cross-domain extension"]:
+            if term not in source_map:
+                fail(errors, f"classical source map missing {term}")
+        if "fengshui-master/references/classical-source-map.md" not in manifest.get("references", []):
+            fail(errors, "portable manifest missing classical source map reference")
+
     validator = subprocess.run(
         [sys.executable, str(eval_validator_path)],
         cwd=ROOT,

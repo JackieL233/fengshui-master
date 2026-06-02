@@ -69,6 +69,7 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
    - Use `references/case-patterns.md` for reusable response structures and comparison matrices.
    - Use `references/sample-readings.md` for compact examples of tone and structure.
    - Use `references/sources.md` when extending historical, classical, or lineage-specific claims.
+   - Use `references/classical-source-map.md` when labeling whether a claim is classical background, school-specific method, lineage-dependent, or modern symbolic extension.
    - Use `references/ethics-and-limits.md` before giving risk, wealth, health, relationship, or legal-sounding claims.
 4. Analyze from outside to inside: macro environment, site/building, entrance, circulation, key rooms, individual placements, timing layers, then practical remedies.
 5. Separate observations from interpretations. Prefer "this layout is traditionally read as..." over certainty.
@@ -108,6 +109,7 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
 | Finished answer examples and tone samples | `references/sample-readings.md` |
 | Claims about luck, health, money, relationships, pregnancy, disasters | `references/ethics-and-limits.md` |
 | Classical sources, research posture, adding new references | `references/sources.md` |
+| Source lineage, classical anchors, school map, modern extension boundaries | `references/classical-source-map.md` |
 | Compass bearing to 24 mountains | Run `python fengshui-master/scripts/luopan.py <degrees>` |
 | Birth-year ming gua / eight mansions personal directions | Run `python fengshui-master/scripts/minggua.py <year> --sex <male|female>` |
 | Gregorian year to heavenly stem / earthly branch scaffold | Run `python fengshui-master/scripts/ganzhi.py <year>` |

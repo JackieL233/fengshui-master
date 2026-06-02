@@ -38,6 +38,7 @@ class SkillInventoryTest(unittest.TestCase):
             "floorplan-schema.md",
             "ethics-and-limits.md",
             "sources.md",
+            "classical-source-map.md",
         ]
         skill_text = (SKILL / "SKILL.md").read_text(encoding="utf-8")
 
@@ -101,6 +102,33 @@ class SkillInventoryTest(unittest.TestCase):
         for phrase in ["观气", "取象", "辨势", "吉凶", "生平", "金融"]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, protocol)
+
+    def test_classical_source_map_covers_schools_and_boundaries(self):
+        source_map = (SKILL / "references" / "classical-source-map.md").read_text(
+            encoding="utf-8"
+        )
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        manifest = (ROOT / "portable-skill.json").read_text(encoding="utf-8")
+
+        for phrase in [
+            "Zang Shu",
+            "葬书",
+            "Yijing",
+            "Hong Fan",
+            "Form School",
+            "San He",
+            "San Yuan",
+            "Xuan Kong",
+            "Eight Mansions",
+            "Moon phase",
+            "Modern cross-domain extension",
+            "Do not present modern symbolic adapters as classical doctrine",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, source_map)
+
+        self.assertIn("classical-source-map.md", readme)
+        self.assertIn("fengshui-master/references/classical-source-map.md", manifest)
 
     def test_multi_domain_sample_reports_exist_and_are_documented(self):
         expected = {

@@ -55,6 +55,7 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 - Structured floor-plan input: JSON schema, sample plan, and analyzer for repeatable room/site intake.
 - Glossary and case patterns: Chinese terminology, response templates, comparison matrices.
 - Safety and ethics: high-stakes claims, cultural respect, modern building constraints.
+- Source and school mapping: classical anchors, Form School, San He, San Yuan, Xuan Kong, Eight Mansions, date selection, moon phase, and modern cross-domain extension boundaries.
 - Tooling: compass bearing to 24-mountain conversion, ming gua lookup, Gregorian-year ganzhi scaffold, annual tai sui/sui po/san sha cautions, san yuan period lookup, basic flying-star scaffold.
 
 ## Coverage Matrix
@@ -141,6 +142,7 @@ fengshui-master/
     five-phase-domain-map.md
     floorplan-schema.md
     ethics-and-limits.md
+    classical-source-map.md
     sources.md
   scripts/
     luopan.py
