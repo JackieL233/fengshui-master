@@ -102,6 +102,7 @@ schemas/
   portable-evaluation-suite.schema.json
 examples/
   portable-agent-prompts.md
+  portable-evaluation-rubric.json
   portable-evaluation-suite.json
   validate_portable_evaluation.py
   validate_portable_manifest.py
@@ -182,7 +183,7 @@ Common integration patterns:
 - **RAG systems**: index `fengshui-master/references/`, keep `PORTABLE_SKILL.md` as the top-level behavior policy, and keep `fengshui-master/SKILL.md` as the Codex adapter.
 - **Manual use**: run `create_brief.py`, `domain_router.py`, and `generate_report.py` from the command line to create structured analysis scaffolds before writing the final answer.
 
-For portable agent smoke tests and copyable prompts, see [`examples/portable-agent-prompts.md`](examples/portable-agent-prompts.md). For machine-readable adaptation checks, use [`examples/portable-evaluation-suite.json`](examples/portable-evaluation-suite.json).
+For portable agent smoke tests and copyable prompts, see [`examples/portable-agent-prompts.md`](examples/portable-agent-prompts.md). For machine-readable adaptation checks, use [`examples/portable-evaluation-suite.json`](examples/portable-evaluation-suite.json). For output-quality scoring, use [`examples/portable-evaluation-rubric.json`](examples/portable-evaluation-rubric.json).
 
 Validate the portable evaluation suite:
 

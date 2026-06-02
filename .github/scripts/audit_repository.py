@@ -70,6 +70,7 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "schemas" / "portable-skill.schema.json",
         ROOT / "schemas" / "portable-evaluation-suite.schema.json",
         ROOT / "examples" / "portable-agent-prompts.md",
+        ROOT / "examples" / "portable-evaluation-rubric.json",
         ROOT / "examples" / "portable-evaluation-suite.json",
         ROOT / "examples" / "validate_portable_evaluation.py",
         ROOT / "examples" / "validate_portable_manifest.py",
@@ -135,6 +136,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     metadata = read(ROOT / ".github" / "repository-metadata.yml")
     portable_path = ROOT / "PORTABLE_SKILL.md"
     examples_path = ROOT / "examples" / "portable-agent-prompts.md"
+    eval_rubric_path = ROOT / "examples" / "portable-evaluation-rubric.json"
     eval_suite_path = ROOT / "examples" / "portable-evaluation-suite.json"
     eval_validator_path = ROOT / "examples" / "validate_portable_evaluation.py"
     manifest_path = ROOT / "portable-skill.json"
@@ -147,6 +149,9 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         return
     if not examples_path.exists():
         fail(errors, "missing examples/portable-agent-prompts.md")
+        return
+    if not eval_rubric_path.exists():
+        fail(errors, "missing examples/portable-evaluation-rubric.json")
         return
     if not eval_suite_path.exists():
         fail(errors, "missing examples/portable-evaluation-suite.json")
@@ -169,6 +174,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
 
     portable = read(portable_path)
     examples = read(examples_path)
+    eval_rubric = json.loads(read(eval_rubric_path))
     eval_suite = json.loads(read(eval_suite_path))
     for term in [
         "Portable AI Skill",
@@ -215,6 +221,17 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     for term in ["examples/portable-agent-prompts.md"]:
         if term not in readme or term not in chinese or term not in portable:
             fail(errors, f"portable example path missing from public docs: {term}")
+
+    if eval_rubric.get("name") != "fengshui-master-portable-evaluation-rubric":
+        fail(errors, "portable evaluation rubric has wrong name")
+    if len(eval_rubric.get("dimensions", [])) < 5:
+        fail(errors, "portable evaluation rubric has too few dimensions")
+    if len(eval_rubric.get("red_lines", [])) < 5:
+        fail(errors, "portable evaluation rubric has too few red_lines")
+
+    for term in ["examples/portable-evaluation-rubric.json"]:
+        if term not in readme or term not in portable:
+            fail(errors, f"portable rubric path missing from public docs: {term}")
 
     if eval_suite.get("name") != "fengshui-master-portable-evaluation-suite":
         fail(errors, "portable evaluation suite has wrong name")

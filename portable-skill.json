@@ -48,6 +48,7 @@
   ],
   "evaluation": [
     "examples/portable-agent-prompts.md",
+    "examples/portable-evaluation-rubric.json",
     "examples/portable-evaluation-suite.json",
     "examples/validate_portable_evaluation.py",
     "examples/validate_portable_manifest.py"

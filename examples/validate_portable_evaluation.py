@@ -10,8 +10,16 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SUITE = ROOT / "examples" / "portable-evaluation-suite.json"
+RUBRIC = ROOT / "examples" / "portable-evaluation-rubric.json"
 SCHEMA = ROOT / "schemas" / "portable-evaluation-suite.schema.json"
 REQUIRED_DOMAINS = {"finance", "life_omen", "space", "brand_product", "legal_adjacent"}
+REQUIRED_RUBRIC_DIMENSIONS = {
+    "domain_reality_first",
+    "symbolic_fidelity",
+    "safety_boundaries",
+    "actionability",
+    "transparency",
+}
 
 
 def fail(errors: list[str], message: str) -> None:
@@ -86,6 +94,28 @@ def main() -> int:
                     fail(errors, f"{case_id or index}: {field} must include at least three checks")
                 if len(values) != len(set(values)):
                     fail(errors, f"{case_id or index}: {field} contains duplicate checks")
+
+    if not RUBRIC.exists():
+        fail(errors, f"missing {RUBRIC.relative_to(ROOT)}")
+    else:
+        try:
+            rubric = json.loads(RUBRIC.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            fail(errors, f"invalid rubric JSON: {exc}")
+            rubric = {}
+
+        if rubric.get("name") != "fengshui-master-portable-evaluation-rubric":
+            fail(errors, "rubric name must be fengshui-master-portable-evaluation-rubric")
+        if rubric.get("minimum_passing_score", 0) < 4:
+            fail(errors, "rubric minimum_passing_score must be at least 4")
+
+        dimensions = rubric.get("dimensions", [])
+        dimension_names = {dimension.get("name") for dimension in dimensions if isinstance(dimension, dict)}
+        missing_dimensions = sorted(REQUIRED_RUBRIC_DIMENSIONS - dimension_names)
+        if missing_dimensions:
+            fail(errors, f"rubric missing dimensions: {', '.join(missing_dimensions)}")
+        if len(rubric.get("red_lines", [])) < 5:
+            fail(errors, "rubric must include at least five red_lines")
 
     if errors:
         for error in errors:

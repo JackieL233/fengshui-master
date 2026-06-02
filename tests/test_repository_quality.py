@@ -18,6 +18,7 @@ REPOSITORY_METADATA = ROOT / ".github" / "repository-metadata.yml"
 PORTABLE_SKILL = ROOT / "PORTABLE_SKILL.md"
 PORTABLE_EXAMPLES = ROOT / "examples" / "portable-agent-prompts.md"
 PORTABLE_EVAL_SUITE = ROOT / "examples" / "portable-evaluation-suite.json"
+PORTABLE_EVAL_RUBRIC = ROOT / "examples" / "portable-evaluation-rubric.json"
 PORTABLE_EVAL_VALIDATOR = ROOT / "examples" / "validate_portable_evaluation.py"
 PORTABLE_MANIFEST = ROOT / "portable-skill.json"
 PORTABLE_MANIFEST_VALIDATOR = ROOT / "examples" / "validate_portable_manifest.py"
@@ -187,6 +188,24 @@ class RepositoryQualityTest(unittest.TestCase):
                 self.assertGreaterEqual(len(case["must_include"]), 3)
                 self.assertGreaterEqual(len(case["must_not_include"]), 3)
                 self.assertTrue(case["boundary_focus"])
+
+    def test_portable_evaluation_rubric_exists(self):
+        self.assertTrue(PORTABLE_EVAL_RUBRIC.exists())
+        rubric = json.loads(PORTABLE_EVAL_RUBRIC.read_text(encoding="utf-8"))
+        manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+        self.assertEqual(rubric["name"], "fengshui-master-portable-evaluation-rubric")
+        self.assertGreaterEqual(len(rubric["dimensions"]), 5)
+        self.assertGreaterEqual(len(rubric["red_lines"]), 5)
+        self.assertIn("minimum_passing_score", rubric)
+        self.assertIn("examples/portable-evaluation-rubric.json", manifest["evaluation"])
+        self.assertIn("examples/portable-evaluation-rubric.json", readme)
+
+        dimension_names = {dimension["name"] for dimension in rubric["dimensions"]}
+        for name in ["domain_reality_first", "symbolic_fidelity", "safety_boundaries", "actionability", "transparency"]:
+            with self.subTest(name=name):
+                self.assertIn(name, dimension_names)
 
     def test_portable_evaluation_validator_passes(self):
         self.assertTrue(PORTABLE_EVAL_VALIDATOR.exists())
