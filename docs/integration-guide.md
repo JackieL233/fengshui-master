@@ -79,7 +79,7 @@ Tool result handling:
 Use this setup for retrieval-augmented generation:
 
 1. Index files under `fengshui-master/references/` as separate documents.
-2. Store path, title, domain, and risk level metadata for each file.
+2. Use `examples/reference-catalog.json` for path, title, domain, risk level, tags, and required guardrail metadata.
 3. Keep `PORTABLE_SKILL.md` outside retrieval as a fixed policy.
 4. Route first, retrieve second, answer third.
 5. Prefer exact adapter files over broad files when the domain is known.
@@ -94,6 +94,12 @@ Suggested metadata:
   "risk_level": "high",
   "required_guardrail": "not financial advice"
 }
+```
+
+Validate the catalog before publishing integration changes:
+
+```bash
+python examples/validate_reference_catalog.py
 ```
 
 ## Local CLI Setup

@@ -108,8 +108,10 @@ examples/
   portable-agent-prompts.md
   portable-evaluation-rubric.json
   portable-evaluation-suite.json
+  reference-catalog.json
   validate_portable_evaluation.py
   validate_portable_manifest.py
+  validate_reference_catalog.py
 fengshui-master/
   SKILL.md
   agents/openai.yaml
@@ -191,7 +193,7 @@ Common integration patterns:
 - **RAG systems**: index `fengshui-master/references/`, keep `PORTABLE_SKILL.md` as the top-level behavior policy, and keep `fengshui-master/SKILL.md` as the Codex adapter.
 - **Manual use**: run `create_brief.py`, `domain_router.py`, and `generate_report.py` from the command line to create structured analysis scaffolds before writing the final answer.
 
-For portable agent smoke tests and copyable prompts, see [`examples/portable-agent-prompts.md`](examples/portable-agent-prompts.md). For machine-readable adaptation checks, use [`examples/portable-evaluation-suite.json`](examples/portable-evaluation-suite.json). For output-quality scoring, use [`examples/portable-evaluation-rubric.json`](examples/portable-evaluation-rubric.json). For deployment across non-Codex platforms, follow [`docs/integration-guide.md`](docs/integration-guide.md).
+For portable agent smoke tests and copyable prompts, see [`examples/portable-agent-prompts.md`](examples/portable-agent-prompts.md). For machine-readable adaptation checks, use [`examples/portable-evaluation-suite.json`](examples/portable-evaluation-suite.json). For output-quality scoring, use [`examples/portable-evaluation-rubric.json`](examples/portable-evaluation-rubric.json). For RAG metadata and reference routing, use [`examples/reference-catalog.json`](examples/reference-catalog.json). For deployment across non-Codex platforms, follow [`docs/integration-guide.md`](docs/integration-guide.md).
 
 Validate the portable evaluation suite:
 
@@ -203,6 +205,12 @@ Validate the portable manifest:
 
 ```bash
 python examples/validate_portable_manifest.py
+```
+
+Validate the reference catalog:
+
+```bash
+python examples/validate_reference_catalog.py
 ```
 
 ## Codex Installation

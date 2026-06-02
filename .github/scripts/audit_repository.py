@@ -141,6 +141,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     eval_rubric_path = ROOT / "examples" / "portable-evaluation-rubric.json"
     eval_suite_path = ROOT / "examples" / "portable-evaluation-suite.json"
     eval_validator_path = ROOT / "examples" / "validate_portable_evaluation.py"
+    reference_catalog_path = ROOT / "examples" / "reference-catalog.json"
+    reference_catalog_validator_path = ROOT / "examples" / "validate_reference_catalog.py"
     manifest_path = ROOT / "portable-skill.json"
     manifest_validator_path = ROOT / "examples" / "validate_portable_manifest.py"
     manifest_schema_path = ROOT / "schemas" / "portable-skill.schema.json"
@@ -161,6 +163,12 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         return
     if not eval_validator_path.exists():
         fail(errors, "missing examples/validate_portable_evaluation.py")
+        return
+    if not reference_catalog_path.exists():
+        fail(errors, "missing examples/reference-catalog.json")
+        return
+    if not reference_catalog_validator_path.exists():
+        fail(errors, "missing examples/validate_reference_catalog.py")
         return
     if not manifest_path.exists():
         fail(errors, "missing portable-skill.json")
@@ -183,6 +191,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     examples = read(examples_path)
     eval_rubric = json.loads(read(eval_rubric_path))
     eval_suite = json.loads(read(eval_suite_path))
+    reference_catalog = json.loads(read(reference_catalog_path))
     for term in [
         "Portable AI Skill",
         "System Instruction",
@@ -264,6 +273,10 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         if term not in readme or term not in portable:
             fail(errors, f"portable evaluation validator path missing from public docs: {term}")
 
+    for term in ["examples/reference-catalog.json", "examples/validate_reference_catalog.py"]:
+        if term not in readme or term not in chinese or term not in portable:
+            fail(errors, f"reference catalog path missing from public docs: {term}")
+
     for term in ["portable-skill.json", "examples/validate_portable_manifest.py"]:
         if term not in readme or term not in portable:
             fail(errors, f"portable manifest path missing from public docs: {term}")
@@ -305,8 +318,33 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         for term in ["Zang Shu", "Yijing", "Hong Fan", "Form School", "San He", "San Yuan", "Xuan Kong", "Modern cross-domain extension"]:
             if term not in source_map:
                 fail(errors, f"classical source map missing {term}")
-        if "fengshui-master/references/classical-source-map.md" not in manifest.get("references", []):
-            fail(errors, "portable manifest missing classical source map reference")
+    if "fengshui-master/references/classical-source-map.md" not in manifest.get("references", []):
+        fail(errors, "portable manifest missing classical source map reference")
+    for term in ["examples/reference-catalog.json", "examples/validate_reference_catalog.py"]:
+        if term not in manifest.get("evaluation", []):
+            fail(errors, f"portable manifest missing {term}")
+    catalog_paths = {
+        entry.get("path")
+        for entry in reference_catalog.get("references", [])
+        if isinstance(entry, dict)
+    }
+    if set(manifest.get("references", [])) != catalog_paths:
+        fail(errors, "reference catalog paths do not match portable manifest references")
+    for path, guardrail in {
+        "fengshui-master/references/finance-adapter.md": "not financial advice",
+        "fengshui-master/references/ethics-and-limits.md": "no guaranteed prediction",
+        "fengshui-master/references/classical-source-map.md": "Do not present modern symbolic adapters as classical doctrine",
+    }.items():
+        entry = next(
+            (
+                item
+                for item in reference_catalog.get("references", [])
+                if isinstance(item, dict) and item.get("path") == path
+            ),
+            {},
+        )
+        if guardrail not in entry.get("required_guardrails", []):
+            fail(errors, f"reference catalog {path} missing guardrail {guardrail}")
 
     validator = subprocess.run(
         [sys.executable, str(eval_validator_path)],
@@ -325,6 +363,15 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     )
     if manifest_validator.returncode != 0:
         fail(errors, f"portable manifest validator failed: {manifest_validator.stderr.strip()}")
+
+    catalog_validator = subprocess.run(
+        [sys.executable, str(reference_catalog_validator_path)],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    if catalog_validator.returncode != 0:
+        fail(errors, f"reference catalog validator failed: {catalog_validator.stderr.strip()}")
 
 
 def audit_bilingual_docs(errors: list[str]) -> None:

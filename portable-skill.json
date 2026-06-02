@@ -53,7 +53,9 @@
     "examples/portable-evaluation-rubric.json",
     "examples/portable-evaluation-suite.json",
     "examples/validate_portable_evaluation.py",
-    "examples/validate_portable_manifest.py"
+    "examples/validate_portable_manifest.py",
+    "examples/reference-catalog.json",
+    "examples/validate_reference_catalog.py"
   ],
   "integration": [
     "docs/integration-guide.md"

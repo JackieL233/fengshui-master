@@ -1,0 +1,199 @@
+{
+  "name": "fengshui-master-reference-catalog",
+  "version": "1.0.0",
+  "purpose": "Machine-readable reference metadata for RAG, agent routing, context packing, and guardrail selection.",
+  "references": [
+    {
+      "path": "fengshui-master/references/foundation.md",
+      "title": "Foundation Reference",
+      "primary_domain": "foundation",
+      "risk_level": "low",
+      "tags": ["qi", "yin_yang", "wuxing", "bagua", "stems_branches", "24_mountains"],
+      "required_guardrails": ["label symbolic interpretation"]
+    },
+    {
+      "path": "fengshui-master/references/forms-and-environment.md",
+      "title": "Forms and Environment",
+      "primary_domain": "space",
+      "risk_level": "medium",
+      "tags": ["form_school", "landform", "roads", "water", "sha_qi", "site"],
+      "required_guardrails": ["prioritize safety and usability"]
+    },
+    {
+      "path": "fengshui-master/references/schools.md",
+      "title": "Feng Shui Schools Reference",
+      "primary_domain": "method_selection",
+      "risk_level": "medium",
+      "tags": ["form_school", "compass_school", "san_he", "san_yuan", "xuan_kong", "eight_mansions"],
+      "required_guardrails": ["name the method and avoid silent school mixing"]
+    },
+    {
+      "path": "fengshui-master/references/analysis-templates.md",
+      "title": "Analysis Templates",
+      "primary_domain": "space",
+      "risk_level": "medium",
+      "tags": ["home", "office", "shop", "room", "floor_plan", "workflow"],
+      "required_guardrails": ["collect missing spatial inputs before precise claims"]
+    },
+    {
+      "path": "fengshui-master/references/remedies.md",
+      "title": "Remedies and Adjustments",
+      "primary_domain": "remedies",
+      "risk_level": "medium",
+      "tags": ["cures", "plants", "mirrors", "water", "colors", "five_phases"],
+      "required_guardrails": ["prefer safe reversible interventions"]
+    },
+    {
+      "path": "fengshui-master/references/timing-and-date-selection.md",
+      "title": "Timing and Date Selection",
+      "primary_domain": "timing",
+      "risk_level": "high",
+      "tags": ["date_selection", "moon_phase", "new_moon", "full_moon", "annual_layers", "tai_sui", "san_sha"],
+      "required_guardrails": ["not a full almanac", "do not guarantee auspiciousness"]
+    },
+    {
+      "path": "fengshui-master/references/xuan-kong-flying-stars.md",
+      "title": "Xuan Kong Flying Stars",
+      "primary_domain": "xuan_kong",
+      "risk_level": "high",
+      "tags": ["flying_stars", "nine_palace", "period", "annual_star", "natal_chart"],
+      "required_guardrails": ["do not present scaffold as full natal chart"]
+    },
+    {
+      "path": "fengshui-master/references/yin-house.md",
+      "title": "Yin House Boundaries",
+      "primary_domain": "yin_house",
+      "risk_level": "high",
+      "tags": ["burial", "cemetery", "ancestral_grave", "yin_house", "ethics"],
+      "required_guardrails": ["do not apply yang-house rules directly", "respect legal and family constraints"]
+    },
+    {
+      "path": "fengshui-master/references/broad-symbolic-analysis.md",
+      "title": "Broad Symbolic Analysis",
+      "primary_domain": "broad_symbolic",
+      "risk_level": "medium",
+      "tags": ["ji_xiong", "omen", "life_pattern", "wuxing", "cross_domain"],
+      "required_guardrails": ["separate reality layer from symbolic layer"]
+    },
+    {
+      "path": "fengshui-master/references/domain-adapters.md",
+      "title": "Domain Adapters",
+      "primary_domain": "cross_domain",
+      "risk_level": "medium",
+      "tags": ["finance", "business", "career", "relationship", "product", "learning", "wellbeing"],
+      "required_guardrails": ["use native domain constraints first"]
+    },
+    {
+      "path": "fengshui-master/references/finance-adapter.md",
+      "title": "Finance Adapter",
+      "primary_domain": "finance",
+      "risk_level": "high",
+      "tags": ["finance", "investing", "portfolio", "market_timing", "wealth", "risk"],
+      "required_guardrails": ["not financial advice", "do not guarantee returns", "do not issue buy/sell commands"]
+    },
+    {
+      "path": "fengshui-master/references/business-adapter.md",
+      "title": "Business Adapter",
+      "primary_domain": "business",
+      "risk_level": "medium",
+      "tags": ["business", "strategy", "operations", "customers", "revenue", "flow"],
+      "required_guardrails": ["do not guarantee revenue or funding outcomes"]
+    },
+    {
+      "path": "fengshui-master/references/brand-adapter.md",
+      "title": "Brand Adapter",
+      "primary_domain": "brand",
+      "risk_level": "medium",
+      "tags": ["brand", "naming", "color", "logo", "launch", "audience"],
+      "required_guardrails": ["do not replace trademark or accessibility review"]
+    },
+    {
+      "path": "fengshui-master/references/career-adapter.md",
+      "title": "Career Adapter",
+      "primary_domain": "career",
+      "risk_level": "medium",
+      "tags": ["career", "promotion", "job_search", "interview", "leadership"],
+      "required_guardrails": ["do not promise career outcomes"]
+    },
+    {
+      "path": "fengshui-master/references/relationship-adapter.md",
+      "title": "Relationship Adapter",
+      "primary_domain": "relationship",
+      "risk_level": "high",
+      "tags": ["relationship", "romance", "family", "conflict", "shared_space"],
+      "required_guardrails": ["prioritize consent communication privacy and safety", "do not predict another person's feelings"]
+    },
+    {
+      "path": "fengshui-master/references/product-adapter.md",
+      "title": "Product Adapter",
+      "primary_domain": "product",
+      "risk_level": "medium",
+      "tags": ["product", "ux", "onboarding", "activation", "retention", "flow"],
+      "required_guardrails": ["do not replace user research accessibility privacy or security review"]
+    },
+    {
+      "path": "fengshui-master/references/learning-adapter.md",
+      "title": "Learning Adapter",
+      "primary_domain": "learning",
+      "risk_level": "medium",
+      "tags": ["learning", "study", "exam", "focus", "memory", "practice"],
+      "required_guardrails": ["do not guarantee exam success or admission"]
+    },
+    {
+      "path": "fengshui-master/references/wellbeing-adapter.md",
+      "title": "Wellbeing Adapter",
+      "primary_domain": "wellbeing",
+      "risk_level": "high",
+      "tags": ["wellbeing", "sleep", "stress", "health_adjacent", "ergonomics"],
+      "required_guardrails": ["not medical advice", "do not diagnose or treat"]
+    },
+    {
+      "path": "fengshui-master/references/legal-adjacent-adapter.md",
+      "title": "Legal-Adjacent Adapter",
+      "primary_domain": "legal_adjacent",
+      "risk_level": "high",
+      "tags": ["legal_adjacent", "contract", "dispute", "compliance", "lease", "evidence"],
+      "required_guardrails": ["not legal advice", "legal deadlines and counsel take priority"]
+    },
+    {
+      "path": "fengshui-master/references/life-and-omen-adapter.md",
+      "title": "Life and Omen Adapter",
+      "primary_domain": "life_omen",
+      "risk_level": "high",
+      "tags": ["life_pattern", "omen", "luck", "auspiciousness", "ji_xiong", "fate_boundary"],
+      "required_guardrails": ["no deterministic fate claims", "do not predict health death wealth marriage or disaster"]
+    },
+    {
+      "path": "fengshui-master/references/five-phase-domain-map.md",
+      "title": "Five-Phase Domain Map",
+      "primary_domain": "wuxing_mapping",
+      "risk_level": "medium",
+      "tags": ["wuxing", "finance", "career", "brand", "product", "relationship", "learning"],
+      "required_guardrails": ["treat mappings as symbolic not deterministic"]
+    },
+    {
+      "path": "fengshui-master/references/floorplan-schema.md",
+      "title": "Floorplan Schema",
+      "primary_domain": "space",
+      "risk_level": "medium",
+      "tags": ["floor_plan", "json_schema", "room", "door", "desk", "bed"],
+      "required_guardrails": ["verify structured input with real photos or measurements when precision matters"]
+    },
+    {
+      "path": "fengshui-master/references/ethics-and-limits.md",
+      "title": "Ethics and Limits",
+      "primary_domain": "ethics",
+      "risk_level": "critical",
+      "tags": ["high_stakes", "safety", "finance", "medical", "legal", "cultural_respect"],
+      "required_guardrails": ["not medical advice", "not legal advice", "not financial advice", "no guaranteed prediction"]
+    },
+    {
+      "path": "fengshui-master/references/classical-source-map.md",
+      "title": "Classical Source and School Map",
+      "primary_domain": "source_map",
+      "risk_level": "medium",
+      "tags": ["classical_sources", "lineage_labeling", "school_map", "modern_extension_boundary"],
+      "required_guardrails": ["Do not present modern symbolic adapters as classical doctrine"]
+    }
+  ]
+}

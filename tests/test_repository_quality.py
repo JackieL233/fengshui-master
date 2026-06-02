@@ -21,6 +21,8 @@ PORTABLE_EXAMPLES = ROOT / "examples" / "portable-agent-prompts.md"
 PORTABLE_EVAL_SUITE = ROOT / "examples" / "portable-evaluation-suite.json"
 PORTABLE_EVAL_RUBRIC = ROOT / "examples" / "portable-evaluation-rubric.json"
 PORTABLE_EVAL_VALIDATOR = ROOT / "examples" / "validate_portable_evaluation.py"
+REFERENCE_CATALOG = ROOT / "examples" / "reference-catalog.json"
+REFERENCE_CATALOG_VALIDATOR = ROOT / "examples" / "validate_reference_catalog.py"
 PORTABLE_MANIFEST = ROOT / "portable-skill.json"
 PORTABLE_MANIFEST_VALIDATOR = ROOT / "examples" / "validate_portable_manifest.py"
 PORTABLE_MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
@@ -246,6 +248,43 @@ class RepositoryQualityTest(unittest.TestCase):
 
         self.assertIn("Portable evaluation suite is valid", result.stdout)
 
+    def test_reference_catalog_exists_and_covers_manifest_references(self):
+        self.assertTrue(REFERENCE_CATALOG.exists())
+        self.assertTrue(REFERENCE_CATALOG_VALIDATOR.exists())
+
+        manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
+        catalog = json.loads(REFERENCE_CATALOG.read_text(encoding="utf-8"))
+        by_path = {entry["path"]: entry for entry in catalog["references"]}
+
+        self.assertEqual(catalog["name"], "fengshui-master-reference-catalog")
+        self.assertEqual(set(manifest["references"]), set(by_path))
+
+        finance = by_path["fengshui-master/references/finance-adapter.md"]
+        self.assertEqual(finance["primary_domain"], "finance")
+        self.assertEqual(finance["risk_level"], "high")
+        self.assertIn("not financial advice", finance["required_guardrails"])
+
+        ethics = by_path["fengshui-master/references/ethics-and-limits.md"]
+        self.assertEqual(ethics["risk_level"], "critical")
+        self.assertIn("high_stakes", ethics["tags"])
+
+        source_map = by_path["fengshui-master/references/classical-source-map.md"]
+        self.assertEqual(source_map["primary_domain"], "source_map")
+        self.assertIn("lineage_labeling", source_map["tags"])
+
+        timing = by_path["fengshui-master/references/timing-and-date-selection.md"]
+        self.assertEqual(timing["primary_domain"], "timing")
+        self.assertIn("moon_phase", timing["tags"])
+
+        result = subprocess.run(
+            [sys.executable, str(REFERENCE_CATALOG_VALIDATOR)],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+        self.assertIn("Reference catalog is valid", result.stdout)
+
     def test_portable_manifest_exists_and_passes(self):
         self.assertTrue(PORTABLE_MANIFEST.exists())
         self.assertTrue(PORTABLE_MANIFEST_VALIDATOR.exists())
@@ -257,6 +296,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("PORTABLE_SKILL.md", manifest["entrypoints"])
         self.assertIn("fengshui-master/SKILL.md", manifest["entrypoints"])
         self.assertIn("examples/portable-evaluation-suite.json", manifest["evaluation"])
+        self.assertIn("examples/reference-catalog.json", manifest["evaluation"])
         self.assertIn("docs/integration-guide.md", manifest["integration"])
         self.assertIn("fengshui-master/scripts/moon_phase.py", manifest["tools"])
         self.assertIn("timing", manifest["domains"])
