@@ -122,6 +122,7 @@ fengshui-master/
     minggua.py
     ganzhi.py
     annual_afflictions.py
+    moon_phase.py
     create_brief.py
     generate_report.py
     periods.py
@@ -245,6 +246,14 @@ python fengshui-master/scripts/ganzhi.py 2026 --pretty
 ```bash
 python fengshui-master/scripts/annual_afflictions.py 2026 --pretty
 ```
+
+新月、满月、月相象义择时：
+
+```bash
+python fengshui-master/scripts/moon_phase.py 2024-04-08 --pretty
+```
+
+这个工具只提供近似月相和象义提示，不是完整通书择日、精密天文历或确定吉凶判断。
 
 跨领域路由：
 

@@ -77,6 +77,14 @@ class CreateBriefScriptTest(unittest.TestCase):
 
         self.assertEqual(sample, generated)
 
+    def test_moon_phase_question_creates_timing_brief(self):
+        data = run_brief("Should I launch on the new moon or full moon?")
+
+        self.assertEqual(data["domain"], "timing")
+        self.assertIn("references/timing-and-date-selection.md", data["references"])
+        self.assertIn("candidate date or date range", data["missing_inputs"])
+        self.assertIn("Moon phase symbolic layer", data["report_sections"])
+
 
 if __name__ == "__main__":
     unittest.main()

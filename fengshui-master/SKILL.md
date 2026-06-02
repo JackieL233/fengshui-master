@@ -62,7 +62,7 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
    - Use `references/schools.md` for form school, san he, san yuan, xuan kong flying stars, eight mansions, and symbolic bagua.
    - Use `references/analysis-templates.md` for residential, office, retail, site, room, and floor-plan workflows.
    - Use `references/remedies.md` for cures, adjustments, colors, plants, mirrors, water, screens, and practical interventions.
-   - Use `references/timing-and-date-selection.md` for san yuan periods, xuan kong timing, annual layers, moving, renovation, and opening dates.
+   - Use `references/timing-and-date-selection.md` for san yuan periods, xuan kong timing, annual layers, moon phases, new moon, full moon, moving, renovation, and opening dates.
    - Use `references/xuan-kong-flying-stars.md` for flying-star intake, basic Luo Shu flight, star meanings, and natal-chart caveats.
    - Use `references/yin-house.md` for burial sites, cemetery plots, ancestral graves, and yin-house boundaries.
    - Use `references/glossary.md` for Chinese terms, translations, and quick definitions.
@@ -100,7 +100,7 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
 | Which feng shui school to apply | `references/schools.md` |
 | Home, office, shop, room, floor plan, desk, bed, kitchen | `references/analysis-templates.md` |
 | Remedies, cures, colors, mirrors, plants, water, screens | `references/remedies.md` |
-| Moving date, opening date, renovation timing, annual stars, tai sui, sui po, san sha, nine periods | `references/timing-and-date-selection.md`; run `python fengshui-master/scripts/annual_afflictions.py <year>` for common annual directional cautions |
+| Moving date, opening date, renovation timing, new moon, full moon, moon phase, annual stars, tai sui, sui po, san sha, nine periods | `references/timing-and-date-selection.md`; run `python fengshui-master/scripts/moon_phase.py <YYYY-MM-DD>` for moon phase context and `python fengshui-master/scripts/annual_afflictions.py <year>` for common annual directional cautions |
 | Xuan kong, flying stars, Period 9, Luo Shu flight, star meanings | `references/xuan-kong-flying-stars.md` |
 | Yin house, burial sites, cemetery plots, ancestral graves | `references/yin-house.md` |
 | Chinese terms, pronunciation, glossary, translation cautions | `references/glossary.md` |
@@ -187,6 +187,14 @@ python fengshui-master/scripts/annual_afflictions.py 2026 --pretty
 ```
 
 Treat annual cautions as a secondary timing layer for renovation, moving, opening, and disturbance questions. Do not use them as a full almanac, flying-star, bazi, qimen, or date-selection engine.
+
+Use `scripts/moon_phase.py` for approximate new moon / full moon / lunar phase context:
+
+```bash
+python fengshui-master/scripts/moon_phase.py 2024-04-08 --pretty
+```
+
+Treat moon phase as a secondary symbolic timing layer. New moon can support quiet starts, intention-setting, and inward renewal; full moon can support visibility, culmination, release, and review. Do not use moon phase alone as a full almanac, guaranteed auspiciousness method, or substitute for local time zone, candidate-date attributes, professional constraints, or lineage-specific date selection.
 
 Use `scripts/periods.py` for common san yuan / xuan kong 20-year periods:
 

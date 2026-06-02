@@ -1,6 +1,6 @@
 # Timing and Date Selection Reference
 
-Use this file when the user asks about san yuan periods, xuan kong period timing, annual stars, moving dates, renovation timing, opening dates, ground-breaking, or date selection. Keep claims cautious and lineage-labeled.
+Use this file when the user asks about san yuan periods, xuan kong period timing, annual stars, moon phases, new moon, full moon, moving dates, renovation timing, opening dates, ground-breaking, or date selection. Keep claims cautious and lineage-labeled.
 
 ## Table of Contents
 
@@ -8,6 +8,7 @@ Use this file when the user asks about san yuan periods, xuan kong period timing
 - San Yuan and Nine Periods
 - Xuan Kong Inputs
 - Annual and Monthly Layers
+- Moon Phase / 新月满月
 - Date Selection Scope
 - Safe Timing Advice
 - Tooling
@@ -19,6 +20,7 @@ Traditional timing can refer to several different things:
 - **Building period**: when the building was completed, occupied, or substantially renovated.
 - **Current period**: the active 20-year san yuan period in common xuan kong practice.
 - **Annual/monthly stars**: time-varying symbolic influences.
+- **Moon phase / 月相**: new moon / 新月 / 朔, full moon / 满月 / 望, waxing, and waning symbolic timing.
 - **Annual directional cautions**: tai sui, sui po, san sha, and other lineage-specific yearly concerns.
 - **Personal timing**: birth data, zodiac, bazi, or personal gua.
 - **Event date selection**: move-in, opening, renovation, signing, burial, wedding, or travel.
@@ -88,6 +90,40 @@ Practical posture:
 - Do not declare a direction impossible to use for the whole year.
 - Confirm li chun/lunar-year boundary conventions when the date is near year transition.
 
+## Moon Phase / 新月满月
+
+Moon phase is not a complete feng shui formula by itself, but it can be used as a secondary symbolic timing layer in broad feng shui, date-selection discussion, ritual planning, and cross-domain decision support.
+
+Use the terms carefully:
+
+- **New Moon / 新月 / 朔**: traditionally useful as a symbolic image of hidden beginning, seed intent, quiet reset, inward gathering, planning, and starting with containment.
+- **Waxing Moon / 上行月相**: useful as a symbolic image of growth, accumulation, activation, and increasing visibility.
+- **Full Moon / 满月 / 望**: useful as a symbolic image of illumination, visibility, culmination, public release, review, harvest, and release.
+- **Waning Moon / 下行月相**: useful as a symbolic image of clearing, simplification, pruning, repair, and conserving qi.
+
+Do not say that new moon is always lucky or full moon is always lucky/unlucky. Match the phase to the event type:
+
+| Event type | Moon-phase posture |
+| --- | --- |
+| Quiet planning, intention-setting, private reset, research | New Moon / 新月 can be symbolically supportive |
+| Launch preparation, gradual activation, habit building | Waxing moon can be symbolically supportive |
+| Public launch, announcement, review, culmination, release | Full Moon / 满月 can be symbolically supportive if visibility is desired |
+| Decluttering, ending a cycle, reducing leakage, simplifying | Waning moon can be symbolically supportive |
+
+Required cautions:
+
+- Moon phase is secondary to safety, law, medical needs, financial risk, weather, contractor availability, family constraints, and deadlines.
+- For precise electional work, ask for candidate dates, local time zone/location, event type, and the calendar or lineage attributes the user wants to use.
+- Moon phase does not replace tong shu / 通书, 24 solar terms, 12 officers, personal clashes, bazi, qimen, xuan kong, or lineage-specific date selection.
+
+Use `scripts/moon_phase.py` for approximate phase context:
+
+```bash
+python fengshui-master/scripts/moon_phase.py 2024-04-08 --pretty
+```
+
+The tool returns approximate moon age, phase, illumination, days from new moon, days from full moon, symbolic guidance, and limitations. It is not a precise astronomy engine or full almanac.
+
 ## Date Selection Scope
 
 Date selection can involve:
@@ -95,6 +131,7 @@ Date selection can involve:
 - Avoiding days that clash with a person's zodiac branch.
 - Choosing days supportive of the event type.
 - Considering lunar calendar, 24 solar terms, 12 officers, stars, or lineage calendars.
+- Considering moon phase as a secondary symbolic layer when the user asks about 新月, 满月, 朔, 望, or lunar timing.
 - Coordinating with construction, legal, business, and family requirements.
 
 This skill does not include a full almanac engine. For exact date selection, state the limitation and ask the user to provide candidate dates or a trusted calendar source.
@@ -127,3 +164,9 @@ python fengshui-master/scripts/annual_afflictions.py 2026 --pretty
 ```
 
 The tool returns common annual directional cautions only. It is not a full almanac or date-selection engine.
+
+```bash
+python fengshui-master/scripts/moon_phase.py 2024-04-08 --pretty
+```
+
+The tool returns approximate moon phase context only. It is useful for new moon / full moon symbolism, not full date selection.

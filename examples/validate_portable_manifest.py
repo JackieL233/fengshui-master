@@ -28,7 +28,7 @@ REQUIRED_TOP_LEVEL = {
     "guardrails",
     "domains",
 }
-REQUIRED_DOMAINS = {"space", "life_omen", "finance", "brand", "product", "legal_adjacent"}
+REQUIRED_DOMAINS = {"space", "life_omen", "finance", "brand", "product", "legal_adjacent", "timing"}
 
 
 def fail(errors: list[str], message: str) -> None:
@@ -105,6 +105,8 @@ def main() -> int:
             fail(errors, f"entrypoints missing {required}")
     if "docs/integration-guide.md" not in manifest.get("integration", []):
         fail(errors, "integration missing docs/integration-guide.md")
+    if "fengshui-master/scripts/moon_phase.py" not in manifest.get("tools", []):
+        fail(errors, "tools missing fengshui-master/scripts/moon_phase.py")
 
     domains = set(manifest.get("domains", []))
     missing_domains = sorted(REQUIRED_DOMAINS - domains)

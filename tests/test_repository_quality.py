@@ -258,6 +258,8 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("fengshui-master/SKILL.md", manifest["entrypoints"])
         self.assertIn("examples/portable-evaluation-suite.json", manifest["evaluation"])
         self.assertIn("docs/integration-guide.md", manifest["integration"])
+        self.assertIn("fengshui-master/scripts/moon_phase.py", manifest["tools"])
+        self.assertIn("timing", manifest["domains"])
         self.assertIn("SECURITY.md", manifest["governance"])
         self.assertIn("portable-skill.json", readme)
 
@@ -270,6 +272,11 @@ class RepositoryQualityTest(unittest.TestCase):
         )
 
         self.assertIn("Portable skill manifest is valid", result.stdout)
+
+    def test_ci_smoke_tests_moon_phase_helper(self):
+        workflow = WORKFLOW.read_text(encoding="utf-8")
+
+        self.assertIn("python fengshui-master/scripts/moon_phase.py 2024-04-08 --pretty", workflow)
 
     def test_integration_guide_exists_and_is_linked(self):
         self.assertTrue(INTEGRATION_GUIDE.exists())

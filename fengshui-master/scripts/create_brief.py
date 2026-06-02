@@ -49,6 +49,13 @@ DOMAIN_MISSING_INPUTS = {
         "occupant goals",
         "changes that are allowed or forbidden",
     ],
+    "timing": [
+        "candidate date or date range",
+        "event type",
+        "local time zone or location",
+        "hard deadlines and practical constraints",
+        "whether the user wants moon phase, almanac attributes, annual cautions, or lineage-specific date selection",
+    ],
     "brand": [
         "audience",
         "brand goal",
@@ -137,6 +144,15 @@ DOMAIN_SECTIONS = {
         "Form and flow reading",
         "Recommendations",
         "Missing data",
+    ],
+    "timing": [
+        "Inputs and assumptions",
+        "Practical timing constraints",
+        "Moon phase symbolic layer",
+        "Traditional date-selection layer",
+        "Ji/xiong assessment",
+        "Low-risk timing advice",
+        "Boundaries and missing data",
     ],
     "brand": [
         "Inputs and assumptions",

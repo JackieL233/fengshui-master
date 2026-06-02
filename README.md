@@ -71,6 +71,7 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 | Eight Mansions / ming gua | Fully covered | Common birth-year helper included; lineage year-boundary cautions documented |
 | San Yuan 20-year periods | Fully covered | Period helper covers 1864-2043 |
 | Annual tai sui / sui po / san sha cautions | Fully covered | Common annual directional helper included; not a full almanac |
+| New moon / full moon / moon phase timing | Partially covered | Approximate moon-phase helper and symbolic timing guidance included; not a full almanac or precision astronomy engine |
 | Xuan Kong Flying Stars | Partially covered | Basic Luo Shu scaffold and intake included; full natal chart, replacement stars, and lineage variants are future work |
 | Date selection | Partially covered | Intake and safety framework included; no full almanac engine |
 | Yin house / burial sites | Partially covered | Boundaries and conservative form reading included; advanced lineage formulas not automated |
@@ -146,6 +147,7 @@ fengshui-master/
     minggua.py
     ganzhi.py
     annual_afflictions.py
+    moon_phase.py
     create_brief.py
     generate_report.py
     periods.py
@@ -287,6 +289,14 @@ python fengshui-master/scripts/annual_afflictions.py 2026 --pretty
 ```
 
 This helper is an annual timing caution layer only. It is not a full almanac or date-selection engine.
+
+Look up approximate New Moon / Full Moon / moon phase context:
+
+```bash
+python fengshui-master/scripts/moon_phase.py 2024-04-08 --pretty
+```
+
+This helper supports moon-phase symbolism for timing questions. It is not a full almanac, precise astronomy engine, or guarantee of auspiciousness.
 
 Look up a common San Yuan / Xuan Kong 20-year period:
 

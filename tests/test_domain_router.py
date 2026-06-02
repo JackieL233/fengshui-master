@@ -113,6 +113,19 @@ class DomainRouterTest(unittest.TestCase):
         self.assertEqual(data["domain"], "finance")
         self.assertIn("references/finance-adapter.md", data["references"])
 
+    def test_moon_phase_question_routes_to_timing(self):
+        data = run_router("Use feng shui to choose between the new moon and full moon for launching this project")
+
+        self.assertEqual(data["domain"], "timing")
+        self.assertIn("references/timing-and-date-selection.md", data["references"])
+        self.assertIn("moon phase", " ".join(data["guardrails"]))
+
+    def test_chinese_new_full_moon_question_routes_to_timing(self):
+        data = run_router("新月和满月哪个更适合搬家开业择时")
+
+        self.assertEqual(data["domain"], "timing")
+        self.assertIn("references/timing-and-date-selection.md", data["references"])
+
 
 if __name__ == "__main__":
     unittest.main()

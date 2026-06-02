@@ -60,10 +60,20 @@ class SkillInventoryTest(unittest.TestCase):
             "generate_report.py",
             "domain_router.py",
             "analyze_floorplan.py",
+            "moon_phase.py",
         ]:
             with self.subTest(filename=filename):
                 self.assertTrue((SKILL / "scripts" / filename).exists())
                 self.assertIn(f"scripts/{filename}", skill_text)
+
+    def test_timing_reference_covers_new_and_full_moon(self):
+        timing = (SKILL / "references" / "timing-and-date-selection.md").read_text(
+            encoding="utf-8"
+        )
+
+        for phrase in ["New Moon", "Full Moon", "新月", "满月", "scripts/moon_phase.py"]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, timing)
 
     def test_readme_has_coverage_matrix(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")

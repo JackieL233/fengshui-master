@@ -44,7 +44,8 @@
     "fengshui-master/scripts/ganzhi.py",
     "fengshui-master/scripts/annual_afflictions.py",
     "fengshui-master/scripts/periods.py",
-    "fengshui-master/scripts/flying_stars.py"
+    "fengshui-master/scripts/flying_stars.py",
+    "fengshui-master/scripts/moon_phase.py"
   ],
   "evaluation": [
     "examples/portable-agent-prompts.md",
@@ -86,6 +87,7 @@
     "product",
     "learning",
     "wellbeing",
-    "legal_adjacent"
+    "legal_adjacent",
+    "timing"
   ]
 }

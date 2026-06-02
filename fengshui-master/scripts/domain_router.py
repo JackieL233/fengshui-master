@@ -21,6 +21,45 @@ def score_question(question: str, keywords: set[str]) -> int:
 
 DOMAIN_RULES = [
     (
+        "timing",
+        {
+            "moon",
+            "lunar",
+            "newmoon",
+            "fullmoon",
+            "new",
+            "full",
+            "launch",
+            "move",
+            "moving",
+            "opening",
+            "renovation",
+            "月相",
+            "新月",
+            "满月",
+            "朔",
+            "望",
+            "朔望",
+            "择日",
+            "择时",
+            "日期",
+            "开业",
+            "搬家",
+            "装修",
+            "动土",
+        },
+        [
+            "references/timing-and-date-selection.md",
+            "references/broad-symbolic-analysis.md",
+            "references/ethics-and-limits.md",
+        ],
+        [
+            "moon phase is a secondary symbolic timing layer, not a full almanac or guaranteed auspiciousness method.",
+            "Do not guarantee outcomes from new moon, full moon, lunar phase, or any single timing marker.",
+            "Use event type, candidate dates, local time zone, practical constraints, and lineage-specific calendar attributes before symbolic timing.",
+        ],
+    ),
+    (
         "life_omen",
         {
             "auspicious",

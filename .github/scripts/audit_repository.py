@@ -274,6 +274,10 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     manifest = json.loads(read(manifest_path))
     if "docs/integration-guide.md" not in manifest.get("integration", []):
         fail(errors, "portable manifest missing docs/integration-guide.md in integration")
+    if "fengshui-master/scripts/moon_phase.py" not in manifest.get("tools", []):
+        fail(errors, "portable manifest missing fengshui-master/scripts/moon_phase.py")
+    if "timing" not in manifest.get("domains", []):
+        fail(errors, "portable manifest missing timing domain")
     for term in [
         "Chat Assistant Setup",
         "Agent Framework Setup",
@@ -288,6 +292,10 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     for term in ["schemas/portable-skill.schema.json", "schemas/portable-evaluation-suite.schema.json"]:
         if term not in readme or term not in portable:
             fail(errors, f"portable schema path missing from public docs: {term}")
+
+    for term in ["moon_phase.py", "New Moon", "Full Moon", "新月", "满月"]:
+        if term not in readme and term not in chinese and term not in portable:
+            fail(errors, f"moon phase public docs missing {term}")
 
     validator = subprocess.run(
         [sys.executable, str(eval_validator_path)],
