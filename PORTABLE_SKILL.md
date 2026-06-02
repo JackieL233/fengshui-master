@@ -2,7 +2,7 @@
 
 This file turns FengShui Master into a platform-independent skill. Use it with any LLM, agent framework, RAG system, local assistant, or automation runtime. `fengshui-master/SKILL.md` remains the Codex Compatibility entry point; this file is the general agent capability pack entry point.
 
-For copyable test prompts and expected boundary behavior, see `examples/portable-agent-prompts.md`. For output-quality scoring, use `examples/portable-evaluation-rubric.json`. For machine-readable adaptation checks, use `examples/portable-evaluation-suite.json` and validate it with `examples/validate_portable_evaluation.py`. For platform discovery, use `portable-skill.json` and validate it with `examples/validate_portable_manifest.py`. JSON Schemas live in `schemas/portable-skill.schema.json` and `schemas/portable-evaluation-suite.schema.json`.
+For platform-specific setup patterns, see `docs/integration-guide.md`. For copyable test prompts and expected boundary behavior, see `examples/portable-agent-prompts.md`. For output-quality scoring, use `examples/portable-evaluation-rubric.json`. For machine-readable adaptation checks, use `examples/portable-evaluation-suite.json` and validate it with `examples/validate_portable_evaluation.py`. For platform discovery, use `portable-skill.json` and validate it with `examples/validate_portable_manifest.py`. JSON Schemas live in `schemas/portable-skill.schema.json` and `schemas/portable-evaluation-suite.schema.json`.
 
 ## System Instruction
 
@@ -28,7 +28,8 @@ Use the reference files under fengshui-master/references/ as the knowledge base.
 ## Use With Any Agent
 
 1. Load this file as the top-level operating policy.
-2. Route the user's request to the relevant reference files:
+2. Read `docs/integration-guide.md` when adapting the skill to a chat assistant, agent framework, RAG system, local CLI workflow, or Codex.
+3. Route the user's request to the relevant reference files:
    - General routing: `fengshui-master/references/consultation-brief.md`
    - Broad symbolic analysis: `fengshui-master/references/broad-symbolic-analysis.md`
    - Domain adapters: `fengshui-master/references/domain-adapters.md`
@@ -48,7 +49,7 @@ Use the reference files under fengshui-master/references/ as the knowledge base.
    - Timing and flying stars: `fengshui-master/references/timing-and-date-selection.md`, `fengshui-master/references/xuan-kong-flying-stars.md`
    - Yin house: `fengshui-master/references/yin-house.md`
    - Ethics and limits: `fengshui-master/references/ethics-and-limits.md`
-3. Use deterministic scripts when the host can run Python:
+4. Use deterministic scripts when the host can run Python:
    - `python fengshui-master/scripts/domain_router.py "<question>" --pretty`
    - `python fengshui-master/scripts/create_brief.py "<question>" --pretty`
    - `python fengshui-master/scripts/generate_report.py "<question>"`
@@ -59,13 +60,13 @@ Use the reference files under fengshui-master/references/ as the knowledge base.
    - `python fengshui-master/scripts/annual_afflictions.py <year> --pretty`
    - `python fengshui-master/scripts/periods.py <year> --pretty`
    - `python fengshui-master/scripts/flying_stars.py --year <year> --pretty`
-4. Use `examples/portable-agent-prompts.md` as portable smoke tests when adapting this skill to a new agent.
-5. Use `examples/portable-evaluation-rubric.json` to score output quality and catch red-line failures.
-6. Use `examples/portable-evaluation-suite.json` as a machine-readable evaluation suite for agent, RAG, or local assistant integrations.
-7. Run `python examples/validate_portable_evaluation.py` before publishing changes to portable evaluation cases.
-8. Use `portable-skill.json` when a platform needs a machine-readable manifest of entrypoints, tools, references, governance files, domains, and guardrails.
-9. Run `python examples/validate_portable_manifest.py` before publishing manifest changes.
-10. Use `schemas/portable-skill.schema.json` and `schemas/portable-evaluation-suite.schema.json` when a platform needs JSON Schema validation.
+5. Use `examples/portable-agent-prompts.md` as portable smoke tests when adapting this skill to a new agent.
+6. Use `examples/portable-evaluation-rubric.json` to score output quality and catch red-line failures.
+7. Use `examples/portable-evaluation-suite.json` as a machine-readable evaluation suite for agent, RAG, or local assistant integrations.
+8. Run `python examples/validate_portable_evaluation.py` before publishing changes to portable evaluation cases.
+9. Use `portable-skill.json` when a platform needs a machine-readable manifest of entrypoints, tools, references, integration docs, governance files, domains, and guardrails.
+10. Run `python examples/validate_portable_manifest.py` before publishing manifest changes.
+11. Use `schemas/portable-skill.schema.json` and `schemas/portable-evaluation-suite.schema.json` when a platform needs JSON Schema validation.
 
 ## Output Pattern
 
@@ -97,7 +98,7 @@ For Codex, install or copy the `fengshui-master/` folder into the local skills d
 
 本文件用于把 FengShui Master 作为平台无关的通用 AI Skill 使用，而不是只作为 Codex Skill。`fengshui-master/SKILL.md` 是兼容 Codex 的入口；`PORTABLE_SKILL.md` 是任意智能体、LLM 助手、RAG 系统或本地自动化的入口。
 
-可复制提示词和边界行为测试见 `examples/portable-agent-prompts.md`。输出质量评分标准见 `examples/portable-evaluation-rubric.json`。机器可读的适配检查见 `examples/portable-evaluation-suite.json`，并可用 `examples/validate_portable_evaluation.py` 验证。平台发现入口见 `portable-skill.json`，并可用 `examples/validate_portable_manifest.py` 验证。JSON Schema 位于 `schemas/portable-skill.schema.json` 与 `schemas/portable-evaluation-suite.schema.json`。
+平台接入指南见 `docs/integration-guide.md`。可复制提示词和边界行为测试见 `examples/portable-agent-prompts.md`。输出质量评分标准见 `examples/portable-evaluation-rubric.json`。机器可读的适配检查见 `examples/portable-evaluation-suite.json`，并可用 `examples/validate_portable_evaluation.py` 验证。平台发现入口见 `portable-skill.json`，并可用 `examples/validate_portable_manifest.py` 验证。JSON Schema 位于 `schemas/portable-skill.schema.json` 与 `schemas/portable-evaluation-suite.schema.json`。
 
 ## 系统指令
 
@@ -115,10 +116,11 @@ For Codex, install or copy the `fengshui-master/` folder into the local skills d
 推荐做法：
 
 1. 把 `PORTABLE_SKILL.md` 作为顶层行为规范。
-2. 把 `fengshui-master/references/` 作为知识库或检索资料。
-3. 把 `fengshui-master/scripts/` 作为可选工具。
-4. 对复杂问题先生成 brief，再生成报告脚手架，最后撰写正式分析。
-5. 对金融、健康、法律、建筑、安全等高风险问题，明确说明风水只作为象义辅助，不作为专业决策依据。
+2. 接入 ChatGPT、Claude、Gemini、本地 LLM、Agent 框架、RAG 或 CLI 时，先读 `docs/integration-guide.md`。
+3. 把 `fengshui-master/references/` 作为知识库或检索资料。
+4. 把 `fengshui-master/scripts/` 作为可选工具。
+5. 对复杂问题先生成 brief，再生成报告脚手架，最后撰写正式分析。
+6. 对金融、健康、法律、建筑、安全等高风险问题，明确说明风水只作为象义辅助，不作为专业决策依据。
 
 ## 中文输出结构
 

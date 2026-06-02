@@ -62,6 +62,7 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "README.md",
         ROOT / "PORTABLE_SKILL.md",
         ROOT / "portable-skill.json",
+        ROOT / "docs" / "integration-guide.md",
         ROOT / ".gitattributes",
         ROOT / ".editorconfig",
         ROOT / "CHANGELOG.md",
@@ -144,6 +145,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     manifest_validator_path = ROOT / "examples" / "validate_portable_manifest.py"
     manifest_schema_path = ROOT / "schemas" / "portable-skill.schema.json"
     eval_schema_path = ROOT / "schemas" / "portable-evaluation-suite.schema.json"
+    integration_path = ROOT / "docs" / "integration-guide.md"
 
     if not portable_path.exists():
         fail(errors, "missing PORTABLE_SKILL.md")
@@ -172,8 +174,12 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     if not eval_schema_path.exists():
         fail(errors, "missing schemas/portable-evaluation-suite.schema.json")
         return
+    if not integration_path.exists():
+        fail(errors, "missing docs/integration-guide.md")
+        return
 
     portable = read(portable_path)
+    integration = read(integration_path)
     examples = read(examples_path)
     eval_rubric = json.loads(read(eval_rubric_path))
     eval_suite = json.loads(read(eval_suite_path))
@@ -261,6 +267,23 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     for term in ["portable-skill.json", "examples/validate_portable_manifest.py"]:
         if term not in readme or term not in portable:
             fail(errors, f"portable manifest path missing from public docs: {term}")
+
+    for term in ["docs/integration-guide.md"]:
+        if term not in readme or term not in chinese or term not in portable:
+            fail(errors, f"integration guide path missing from public docs: {term}")
+    manifest = json.loads(read(manifest_path))
+    if "docs/integration-guide.md" not in manifest.get("integration", []):
+        fail(errors, "portable manifest missing docs/integration-guide.md in integration")
+    for term in [
+        "Chat Assistant Setup",
+        "Agent Framework Setup",
+        "RAG Setup",
+        "Local CLI Setup",
+        "High-Stakes Adapter Rules",
+        "中文接入摘要",
+    ]:
+        if term not in integration:
+            fail(errors, f"integration guide missing {term}")
 
     for term in ["schemas/portable-skill.schema.json", "schemas/portable-evaluation-suite.schema.json"]:
         if term not in readme or term not in portable:

@@ -23,6 +23,7 @@ REQUIRED_TOP_LEVEL = {
     "references",
     "tools",
     "evaluation",
+    "integration",
     "governance",
     "guardrails",
     "domains",
@@ -87,7 +88,7 @@ def main() -> int:
     if "zh-CN" not in manifest.get("languages", []):
         fail(errors, "languages must include zh-CN")
 
-    for field in ["entrypoints", "references", "tools", "evaluation", "governance"]:
+    for field in ["entrypoints", "references", "tools", "evaluation", "integration", "governance"]:
         require_paths(errors, manifest, field)
 
     schemas = manifest.get("schemas", {})
@@ -102,6 +103,8 @@ def main() -> int:
     for required in ["PORTABLE_SKILL.md", "fengshui-master/SKILL.md"]:
         if required not in manifest.get("entrypoints", []):
             fail(errors, f"entrypoints missing {required}")
+    if "docs/integration-guide.md" not in manifest.get("integration", []):
+        fail(errors, "integration missing docs/integration-guide.md")
 
     domains = set(manifest.get("domains", []))
     missing_domains = sorted(REQUIRED_DOMAINS - domains)

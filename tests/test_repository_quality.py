@@ -25,6 +25,7 @@ PORTABLE_MANIFEST = ROOT / "portable-skill.json"
 PORTABLE_MANIFEST_VALIDATOR = ROOT / "examples" / "validate_portable_manifest.py"
 PORTABLE_MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
 PORTABLE_EVAL_SCHEMA = ROOT / "schemas" / "portable-evaluation-suite.schema.json"
+INTEGRATION_GUIDE = ROOT / "docs" / "integration-guide.md"
 SECURITY = ROOT / "SECURITY.md"
 CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
 CHANGELOG = ROOT / "CHANGELOG.md"
@@ -256,6 +257,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("PORTABLE_SKILL.md", manifest["entrypoints"])
         self.assertIn("fengshui-master/SKILL.md", manifest["entrypoints"])
         self.assertIn("examples/portable-evaluation-suite.json", manifest["evaluation"])
+        self.assertIn("docs/integration-guide.md", manifest["integration"])
         self.assertIn("SECURITY.md", manifest["governance"])
         self.assertIn("portable-skill.json", readme)
 
@@ -268,6 +270,30 @@ class RepositoryQualityTest(unittest.TestCase):
         )
 
         self.assertIn("Portable skill manifest is valid", result.stdout)
+
+    def test_integration_guide_exists_and_is_linked(self):
+        self.assertTrue(INTEGRATION_GUIDE.exists())
+        guide = INTEGRATION_GUIDE.read_text(encoding="utf-8")
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        chinese_readme = README_ZH.read_text(encoding="utf-8")
+        portable = PORTABLE_SKILL.read_text(encoding="utf-8")
+        manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
+
+        for phrase in [
+            "Chat Assistant Setup",
+            "Agent Framework Setup",
+            "RAG Setup",
+            "Local CLI Setup",
+            "High-Stakes Adapter Rules",
+            "中文接入摘要",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, guide)
+
+        for text in [readme, chinese_readme, portable]:
+            with self.subTest(text=text[:20]):
+                self.assertIn("docs/integration-guide.md", text)
+        self.assertIn("docs/integration-guide.md", manifest["integration"])
 
     def test_portable_json_schemas_exist(self):
         self.assertTrue(PORTABLE_MANIFEST_SCHEMA.exists())
@@ -282,6 +308,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertEqual(eval_schema["title"], "FengShui Master Portable Evaluation Suite")
         self.assertEqual(manifest["schemas"]["manifest"], "schemas/portable-skill.schema.json")
         self.assertEqual(manifest["schemas"]["evaluation_suite"], "schemas/portable-evaluation-suite.schema.json")
+        self.assertIn("integration", manifest_schema["required"])
 
         for phrase in [
             "schemas/portable-skill.schema.json",

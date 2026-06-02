@@ -53,6 +53,9 @@
     "examples/validate_portable_evaluation.py",
     "examples/validate_portable_manifest.py"
   ],
+  "integration": [
+    "docs/integration-guide.md"
+  ],
   "schemas": {
     "manifest": "schemas/portable-skill.schema.json",
     "evaluation_suite": "schemas/portable-evaluation-suite.schema.json"

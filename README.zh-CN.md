@@ -73,6 +73,8 @@ SECURITY.md
 CODE_OF_CONDUCT.md
 .gitattributes
 .editorconfig
+docs/
+  integration-guide.md
 schemas/
   portable-skill.schema.json
   portable-evaluation-suite.schema.json
@@ -141,6 +143,8 @@ fengshui-master/
 
 如果智能体平台需要机器可读入口，请使用 [`portable-skill.json`](portable-skill.json)。它声明 entrypoints、references、tools、evaluation、governance、domains 与 guardrails。
 
+如果需要接入 ChatGPT、Claude、Gemini、本地 LLM、Agent 框架、RAG、CLI 或 Codex，请使用 [`docs/integration-guide.md`](docs/integration-guide.md)。
+
 平台集成可使用这些 schema：
 
 - [`schemas/portable-skill.schema.json`](schemas/portable-skill.schema.json)
@@ -153,7 +157,7 @@ fengshui-master/
 - **RAG 系统**：索引 `fengshui-master/references/`，把 `PORTABLE_SKILL.md` 作为顶层行为规范，并保留 `fengshui-master/SKILL.md` 作为 Codex 适配入口。
 - **手动使用**：先运行 `create_brief.py`、`domain_router.py`、`generate_report.py` 生成结构化脚手架，再撰写最终分析。
 
-通用智能体的 smoke tests 与可复制提示词见 [`examples/portable-agent-prompts.md`](examples/portable-agent-prompts.md)。机器可读的适配检查见 [`examples/portable-evaluation-suite.json`](examples/portable-evaluation-suite.json)。输出质量评分标准见 [`examples/portable-evaluation-rubric.json`](examples/portable-evaluation-rubric.json)。
+通用智能体的 smoke tests 与可复制提示词见 [`examples/portable-agent-prompts.md`](examples/portable-agent-prompts.md)。机器可读的适配检查见 [`examples/portable-evaluation-suite.json`](examples/portable-evaluation-suite.json)。输出质量评分标准见 [`examples/portable-evaluation-rubric.json`](examples/portable-evaluation-rubric.json)。非 Codex 平台部署与接入流程见 [`docs/integration-guide.md`](docs/integration-guide.md)。
 
 验证 portable evaluation suite：
 
