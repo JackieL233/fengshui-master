@@ -115,6 +115,7 @@ def audit_github_files(errors: list[str]) -> None:
     required = [
         ROOT / ".github" / "scripts" / "quick_validate.py",
         ROOT / ".github" / "scripts" / "audit_repository.py",
+        ROOT / ".github" / "scripts" / "apply_repository_metadata.py",
         ROOT / ".github" / "ISSUE_TEMPLATE" / "feature_request.md",
         ROOT / ".github" / "ISSUE_TEMPLATE" / "bug_report.md",
         ROOT / ".github" / "pull_request_template.md",
@@ -314,7 +315,14 @@ def audit_deployment_docs(errors: list[str]) -> None:
 
     deployment = read(deployment_path)
     metadata = read(metadata_path)
-    for term in ["git remote add origin", "git push -u origin master:main", "部署", "GitHub Actions"]:
+    for term in [
+        "git remote add origin",
+        "git push -u origin master:main",
+        ".github/scripts/apply_repository_metadata.py",
+        "JackieL233/fengshui-master",
+        "部署",
+        "GitHub Actions",
+    ]:
         if term not in deployment:
             fail(errors, f"DEPLOYMENT.md missing {term}")
     for term in ["fengshui-master", "Portable AI skill", "feng-shui", "wuxing", "ai-skill", "agent-skill", "portable-skill", "codex-skill", "symbolic-analysis"]:

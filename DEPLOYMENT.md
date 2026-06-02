@@ -17,6 +17,7 @@ https://github.com/<owner>/fengshui-master
 ## GitHub Metadata
 
 Use `.github/repository-metadata.yml` as the source of truth.
+Use `.github/scripts/apply_repository_metadata.py` to apply the About description, homepage, and topics through the GitHub API when a GitHub token is available.
 
 Repository name:
 
@@ -100,6 +101,18 @@ Open the repository page and verify:
   - `fengshui-master/assets/sample-life-omen-report.md`
   - `fengshui-master/assets/sample-product-report.md`
   - `fengshui-master/assets/sample-floorplan-report.md`
+
+To update the GitHub About area from the local metadata file:
+
+```bash
+GITHUB_TOKEN=<token-with-repo-permission> python .github/scripts/apply_repository_metadata.py --repo JackieL233/fengshui-master
+```
+
+Dry-run mode prints the exact payload without changing GitHub:
+
+```bash
+python .github/scripts/apply_repository_metadata.py --repo JackieL233/fengshui-master --dry-run
+```
 
 ## Release Boundary / 发布边界
 

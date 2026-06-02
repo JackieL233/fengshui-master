@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github" / "workflows" / "ci.yml"
 QUICK_VALIDATE = ROOT / ".github" / "scripts" / "quick_validate.py"
 AUDIT_REPOSITORY = ROOT / ".github" / "scripts" / "audit_repository.py"
+APPLY_REPOSITORY_METADATA = ROOT / ".github" / "scripts" / "apply_repository_metadata.py"
 ISSUE_TEMPLATE = ROOT / ".github" / "ISSUE_TEMPLATE" / "feature_request.md"
 BUG_TEMPLATE = ROOT / ".github" / "ISSUE_TEMPLATE" / "bug_report.md"
 PR_TEMPLATE = ROOT / ".github" / "pull_request_template.md"
@@ -56,6 +57,31 @@ class RepositoryQualityTest(unittest.TestCase):
 
     def test_repository_audit_script_exists_for_ci(self):
         self.assertTrue(AUDIT_REPOSITORY.exists())
+
+    def test_repository_metadata_apply_script_exists_and_dry_runs(self):
+        self.assertTrue(APPLY_REPOSITORY_METADATA.exists())
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(APPLY_REPOSITORY_METADATA),
+                "--repo",
+                "JackieL233/fengshui-master",
+                "--dry-run",
+            ],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["repo"], "JackieL233/fengshui-master")
+        self.assertEqual(
+            payload["repository_patch"]["description"],
+            "Portable AI skill and Codex-compatible capability pack for traditional Chinese feng shui, wuxing, auspiciousness, spatial analysis, and cross-domain symbolic decision support.",
+        )
+        self.assertIn("feng-shui", payload["topics_put"]["names"])
+        self.assertIn("portable-skill", payload["topics_put"]["names"])
 
     def test_repository_audit_script_passes(self):
         result = subprocess.run(
@@ -270,6 +296,8 @@ class RepositoryQualityTest(unittest.TestCase):
         for phrase in [
             "git remote add origin",
             "git push -u origin master:main",
+            ".github/scripts/apply_repository_metadata.py",
+            "JackieL233/fengshui-master",
             "Repository URL",
             "部署",
             "GitHub Actions",
