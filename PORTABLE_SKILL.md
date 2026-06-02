@@ -2,7 +2,7 @@
 
 This file turns FengShui Master into a platform-independent skill. Use it with any LLM, agent framework, RAG system, local assistant, or automation runtime. `fengshui-master/SKILL.md` remains the Codex Compatibility entry point; this file is the general agent capability pack entry point.
 
-For platform-specific setup patterns, see `docs/integration-guide.md`. For RAG metadata, reference routing, risk levels, tags, and required guardrails, use `examples/reference-catalog.json` and validate it with `examples/validate_reference_catalog.py`. For copyable test prompts and expected boundary behavior, see `examples/portable-agent-prompts.md`. For output-quality scoring, use `examples/portable-evaluation-rubric.json`. For machine-readable adaptation checks, use `examples/portable-evaluation-suite.json` and validate it with `examples/validate_portable_evaluation.py`. For platform discovery, use `portable-skill.json` and validate it with `examples/validate_portable_manifest.py`. JSON Schemas live in `schemas/portable-skill.schema.json`, `schemas/portable-evaluation-suite.schema.json`, and `schemas/reference-catalog.schema.json`.
+For platform-specific setup patterns, see `docs/integration-guide.md`. For RAG metadata, reference routing, risk levels, tags, and required guardrails, use `examples/reference-catalog.json` and validate it with `examples/validate_reference_catalog.py`. For script metadata and agent tool registration, use `examples/tool-catalog.json` and validate it with `examples/validate_tool_catalog.py`. For copyable test prompts and expected boundary behavior, see `examples/portable-agent-prompts.md`. For output-quality scoring, use `examples/portable-evaluation-rubric.json`. For machine-readable adaptation checks, use `examples/portable-evaluation-suite.json` and validate it with `examples/validate_portable_evaluation.py`. For platform discovery, use `portable-skill.json` and validate it with `examples/validate_portable_manifest.py`. JSON Schemas live in `schemas/portable-skill.schema.json`, `schemas/portable-evaluation-suite.schema.json`, `schemas/reference-catalog.schema.json`, and `schemas/tool-catalog.schema.json`.
 
 ## System Instruction
 
@@ -65,11 +65,13 @@ Use the reference files under fengshui-master/references/ as the knowledge base.
 6. Use `examples/portable-evaluation-rubric.json` to score output quality and catch red-line failures.
 7. Use `examples/portable-evaluation-suite.json` as a machine-readable evaluation suite for agent, RAG, or local assistant integrations.
 8. Use `examples/reference-catalog.json` for reference metadata in RAG, retrieval filters, context packing, and guardrail selection.
-9. Run `python examples/validate_portable_evaluation.py` before publishing changes to portable evaluation cases.
-10. Run `python examples/validate_reference_catalog.py` before publishing reference metadata changes.
-11. Use `portable-skill.json` when a platform needs a machine-readable manifest of entrypoints, tools, references, integration docs, governance files, domains, and guardrails.
-12. Run `python examples/validate_portable_manifest.py` before publishing manifest changes.
-13. Use `schemas/portable-skill.schema.json`, `schemas/portable-evaluation-suite.schema.json`, and `schemas/reference-catalog.schema.json` when a platform needs JSON Schema validation.
+9. Use `examples/tool-catalog.json` for script metadata, tool wrappers, command templates, input types, output formats, and tool guardrails.
+10. Run `python examples/validate_portable_evaluation.py` before publishing changes to portable evaluation cases.
+11. Run `python examples/validate_reference_catalog.py` before publishing reference metadata changes.
+12. Run `python examples/validate_tool_catalog.py` before publishing tool metadata changes.
+13. Use `portable-skill.json` when a platform needs a machine-readable manifest of entrypoints, tools, references, integration docs, governance files, domains, and guardrails.
+14. Run `python examples/validate_portable_manifest.py` before publishing manifest changes.
+15. Use `schemas/portable-skill.schema.json`, `schemas/portable-evaluation-suite.schema.json`, `schemas/reference-catalog.schema.json`, and `schemas/tool-catalog.schema.json` when a platform needs JSON Schema validation.
 
 ## Output Pattern
 
@@ -101,7 +103,7 @@ For Codex, install or copy the `fengshui-master/` folder into the local skills d
 
 本文件用于把 FengShui Master 作为平台无关的通用 AI Skill 使用，而不是只作为 Codex Skill。`fengshui-master/SKILL.md` 是兼容 Codex 的入口；`PORTABLE_SKILL.md` 是任意智能体、LLM 助手、RAG 系统或本地自动化的入口。
 
-平台接入指南见 `docs/integration-guide.md`。RAG 元数据、参考文件路由、风险等级、标签与必要 guardrails 见 `examples/reference-catalog.json`，并可用 `examples/validate_reference_catalog.py` 验证。可复制提示词和边界行为测试见 `examples/portable-agent-prompts.md`。输出质量评分标准见 `examples/portable-evaluation-rubric.json`。机器可读的适配检查见 `examples/portable-evaluation-suite.json`，并可用 `examples/validate_portable_evaluation.py` 验证。平台发现入口见 `portable-skill.json`，并可用 `examples/validate_portable_manifest.py` 验证。JSON Schema 位于 `schemas/portable-skill.schema.json`、`schemas/portable-evaluation-suite.schema.json` 与 `schemas/reference-catalog.schema.json`。
+平台接入指南见 `docs/integration-guide.md`。RAG 元数据、参考文件路由、风险等级、标签与必要 guardrails 见 `examples/reference-catalog.json`，并可用 `examples/validate_reference_catalog.py` 验证。脚本元数据和 Agent 工具注册见 `examples/tool-catalog.json`，并可用 `examples/validate_tool_catalog.py` 验证。可复制提示词和边界行为测试见 `examples/portable-agent-prompts.md`。输出质量评分标准见 `examples/portable-evaluation-rubric.json`。机器可读的适配检查见 `examples/portable-evaluation-suite.json`，并可用 `examples/validate_portable_evaluation.py` 验证。平台发现入口见 `portable-skill.json`，并可用 `examples/validate_portable_manifest.py` 验证。JSON Schema 位于 `schemas/portable-skill.schema.json`、`schemas/portable-evaluation-suite.schema.json`、`schemas/reference-catalog.schema.json` 与 `schemas/tool-catalog.schema.json`。
 
 ## 系统指令
 

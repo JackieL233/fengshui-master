@@ -7,6 +7,7 @@ This guide shows how to adapt FengShui Master to common AI runtimes without maki
 - Load `PORTABLE_SKILL.md` before task-specific context.
 - Keep `fengshui-master/references/ethics-and-limits.md` available for every high-stakes question.
 - Route the user's request before answering. Use `fengshui-master/scripts/domain_router.py` when Python tools are available.
+- Use `examples/tool-catalog.json` when registering scripts as agent tools or function-call wrappers.
 - Retrieve only the relevant reference files for the domain. Avoid injecting the entire knowledge base when a narrow question only needs one adapter.
 - Use deterministic scripts for calculations that the host can run. If a tool is unavailable, state the missing calculation and avoid invented precision.
 - Keep real-world constraints ahead of symbolic reading, especially for finance, health, law, construction, safety, and relationships.
@@ -54,7 +55,8 @@ Use this setup for LangChain, LlamaIndex, AutoGen, CrewAI, semantic kernels, or 
 1. Register `portable-skill.json` as the capability manifest.
 2. Load `PORTABLE_SKILL.md` as the top-level policy.
 3. Add a retrieval index over `fengshui-master/references/`.
-4. Expose these Python tools when available:
+4. Use `examples/tool-catalog.json` for tool names, paths, command templates, input metadata, output formats, risk levels, and required guardrails.
+5. Expose these Python tools when available:
    - `fengshui-master/scripts/domain_router.py`
    - `fengshui-master/scripts/create_brief.py`
    - `fengshui-master/scripts/generate_report.py`
@@ -65,8 +67,8 @@ Use this setup for LangChain, LlamaIndex, AutoGen, CrewAI, semantic kernels, or 
    - `fengshui-master/scripts/annual_afflictions.py`
    - `fengshui-master/scripts/periods.py`
    - `fengshui-master/scripts/flying_stars.py`
-5. Require the agent to call or emulate `domain_router.py` before selecting references.
-6. Run portable evaluation cases after any prompt, retrieval, or tool-schema change.
+6. Require the agent to call or emulate `domain_router.py` before selecting references.
+7. Run portable evaluation cases after any prompt, retrieval, or tool-schema change.
 
 Tool result handling:
 
@@ -113,6 +115,8 @@ python fengshui-master/scripts/create_brief.py "Should I buy this stock next mon
 python fengshui-master/scripts/generate_report.py "Should I buy this stock next month?"
 python examples/validate_portable_manifest.py
 python examples/validate_portable_evaluation.py
+python examples/validate_reference_catalog.py
+python examples/validate_tool_catalog.py
 ```
 
 For structured floor plans:

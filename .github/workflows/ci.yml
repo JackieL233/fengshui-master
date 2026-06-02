@@ -36,6 +36,9 @@ jobs:
       - name: Validate reference catalog
         run: python examples/validate_reference_catalog.py
 
+      - name: Validate tool catalog
+        run: python examples/validate_tool_catalog.py
+
       - name: Smoke test domain router
         run: python fengshui-master/scripts/domain_router.py "Should I buy this stock next month?" --pretty
 

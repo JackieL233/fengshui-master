@@ -1,0 +1,166 @@
+{
+  "name": "fengshui-master-tool-catalog",
+  "version": "1.0.0",
+  "purpose": "Machine-readable script metadata for agent tool registration, CLI wrappers, function calling adapters, and integration smoke tests.",
+  "tools": [
+    {
+      "name": "domain_router",
+      "path": "fengshui-master/scripts/domain_router.py",
+      "category": "routing",
+      "description": "Route a user question to FengShui Master domains, references, guardrails, and symbolic lenses.",
+      "command_template": "python fengshui-master/scripts/domain_router.py \"<question>\" --pretty",
+      "inputs": [
+        {"name": "question", "type": "string", "required": true, "description": "User question or short task description."},
+        {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
+      ],
+      "output_format": "json",
+      "risk_level": "low",
+      "required_guardrails": ["route before answering substantial requests"]
+    },
+    {
+      "name": "create_brief",
+      "path": "fengshui-master/scripts/create_brief.py",
+      "category": "briefing",
+      "description": "Create a structured consultation brief with references, guardrails, missing inputs, lenses, and report sections.",
+      "command_template": "python fengshui-master/scripts/create_brief.py \"<question>\" --pretty",
+      "inputs": [
+        {"name": "question", "type": "string", "required": true, "description": "User question or consultation goal."},
+        {"name": "floorplan", "type": "path", "required": false, "description": "Optional structured floor-plan JSON path."},
+        {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
+      ],
+      "output_format": "json",
+      "risk_level": "medium",
+      "required_guardrails": ["preserve brief guardrails in final answer"]
+    },
+    {
+      "name": "generate_report",
+      "path": "fengshui-master/scripts/generate_report.py",
+      "category": "reporting",
+      "description": "Generate a Markdown consultation report scaffold from a question and optional structured floor plan.",
+      "command_template": "python fengshui-master/scripts/generate_report.py \"<question>\"",
+      "inputs": [
+        {"name": "question", "type": "string", "required": true, "description": "User question or consultation goal."},
+        {"name": "floorplan", "type": "path", "required": false, "description": "Optional structured floor-plan JSON path."},
+        {"name": "output", "type": "path", "required": false, "description": "Optional output Markdown path."}
+      ],
+      "output_format": "markdown",
+      "risk_level": "medium",
+      "required_guardrails": ["treat report as a scaffold not final authority"]
+    },
+    {
+      "name": "analyze_floorplan",
+      "path": "fengshui-master/scripts/analyze_floorplan.py",
+      "category": "floorplan",
+      "description": "Analyze structured floor-plan JSON for intake validity, form findings, issues, and low-risk recommendations.",
+      "command_template": "python fengshui-master/scripts/analyze_floorplan.py <floorplan.json> --pretty",
+      "inputs": [
+        {"name": "path", "type": "path", "required": true, "description": "Path to structured floor-plan JSON."},
+        {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
+      ],
+      "output_format": "json",
+      "risk_level": "medium",
+      "required_guardrails": ["verify structured input with photos or measurements when precision matters"]
+    },
+    {
+      "name": "luopan",
+      "path": "fengshui-master/scripts/luopan.py",
+      "category": "calculation",
+      "description": "Map a compass bearing in degrees to a 24-mountain luopan sector.",
+      "command_template": "python fengshui-master/scripts/luopan.py <degrees> --pretty",
+      "inputs": [
+        {"name": "bearing", "type": "number", "required": true, "description": "Compass bearing in degrees."},
+        {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
+      ],
+      "output_format": "json",
+      "risk_level": "low",
+      "required_guardrails": ["verify compass measurement and facing convention"]
+    },
+    {
+      "name": "minggua",
+      "path": "fengshui-master/scripts/minggua.py",
+      "category": "calculation",
+      "description": "Calculate a common Eight Mansions personal ming gua number and direction set.",
+      "command_template": "python fengshui-master/scripts/minggua.py <year> --sex <male|female> --pretty",
+      "inputs": [
+        {"name": "year", "type": "integer", "required": true, "description": "Gregorian birth year, 1900-2099."},
+        {"name": "sex", "type": "string", "required": true, "description": "Formula input: male or female."},
+        {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
+      ],
+      "output_format": "json",
+      "risk_level": "medium",
+      "required_guardrails": ["confirm li chun or lineage-specific year boundary when precision matters"]
+    },
+    {
+      "name": "ganzhi",
+      "path": "fengshui-master/scripts/ganzhi.py",
+      "category": "calculation",
+      "description": "Return a Gregorian-year heavenly stem and earthly branch scaffold.",
+      "command_template": "python fengshui-master/scripts/ganzhi.py <year> --pretty",
+      "inputs": [
+        {"name": "year", "type": "integer", "required": true, "description": "Gregorian year label."},
+        {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
+      ],
+      "output_format": "json",
+      "risk_level": "medium",
+      "required_guardrails": ["do not present year scaffold as complete bazi"]
+    },
+    {
+      "name": "annual_afflictions",
+      "path": "fengshui-master/scripts/annual_afflictions.py",
+      "category": "timing",
+      "description": "Return common annual tai sui, sui po, and san sha directional cautions for a Gregorian year.",
+      "command_template": "python fengshui-master/scripts/annual_afflictions.py <year> --pretty",
+      "inputs": [
+        {"name": "year", "type": "integer", "required": true, "description": "Gregorian year label."},
+        {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
+      ],
+      "output_format": "json",
+      "risk_level": "high",
+      "required_guardrails": ["not a full almanac", "use as secondary timing layer"]
+    },
+    {
+      "name": "periods",
+      "path": "fengshui-master/scripts/periods.py",
+      "category": "timing",
+      "description": "Return the common San Yuan / Xuan Kong 20-year period for a supported year.",
+      "command_template": "python fengshui-master/scripts/periods.py <year> --pretty",
+      "inputs": [
+        {"name": "year", "type": "integer", "required": true, "description": "Gregorian year, 1864-2043."},
+        {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
+      ],
+      "output_format": "json",
+      "risk_level": "medium",
+      "required_guardrails": ["verify lineage and calendar boundary before exact flying-star work"]
+    },
+    {
+      "name": "flying_stars",
+      "path": "fengshui-master/scripts/flying_stars.py",
+      "category": "calculation",
+      "description": "Create a basic Luo Shu flying-star chart from a period or supported year.",
+      "command_template": "python fengshui-master/scripts/flying_stars.py --year <year> --pretty",
+      "inputs": [
+        {"name": "period", "type": "integer", "required": false, "description": "San Yuan period number, 1-9."},
+        {"name": "year", "type": "integer", "required": false, "description": "Gregorian year, 1864-2043."},
+        {"name": "direction", "type": "string", "required": false, "description": "Flight direction: forward or reverse."},
+        {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
+      ],
+      "output_format": "json",
+      "risk_level": "high",
+      "required_guardrails": ["not a full Xuan Kong natal chart"]
+    },
+    {
+      "name": "moon_phase",
+      "path": "fengshui-master/scripts/moon_phase.py",
+      "category": "timing",
+      "description": "Return approximate moon phase and symbolic timing context for a Gregorian date.",
+      "command_template": "python fengshui-master/scripts/moon_phase.py <YYYY-MM-DD> --pretty",
+      "inputs": [
+        {"name": "date", "type": "date", "required": true, "description": "Gregorian date in YYYY-MM-DD format."},
+        {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
+      ],
+      "output_format": "json",
+      "risk_level": "high",
+      "required_guardrails": ["not a full almanac", "do not guarantee auspiciousness"]
+    }
+  ]
+}

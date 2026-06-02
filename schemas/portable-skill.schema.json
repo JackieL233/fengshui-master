@@ -52,11 +52,12 @@
     },
     "schemas": {
       "type": "object",
-      "required": ["manifest", "evaluation_suite", "reference_catalog"],
+      "required": ["manifest", "evaluation_suite", "reference_catalog", "tool_catalog"],
       "properties": {
         "manifest": { "type": "string" },
         "evaluation_suite": { "type": "string" },
-        "reference_catalog": { "type": "string" }
+        "reference_catalog": { "type": "string" },
+        "tool_catalog": { "type": "string" }
       },
       "additionalProperties": false
     }

@@ -23,11 +23,14 @@ PORTABLE_EVAL_RUBRIC = ROOT / "examples" / "portable-evaluation-rubric.json"
 PORTABLE_EVAL_VALIDATOR = ROOT / "examples" / "validate_portable_evaluation.py"
 REFERENCE_CATALOG = ROOT / "examples" / "reference-catalog.json"
 REFERENCE_CATALOG_VALIDATOR = ROOT / "examples" / "validate_reference_catalog.py"
+TOOL_CATALOG = ROOT / "examples" / "tool-catalog.json"
+TOOL_CATALOG_VALIDATOR = ROOT / "examples" / "validate_tool_catalog.py"
 PORTABLE_MANIFEST = ROOT / "portable-skill.json"
 PORTABLE_MANIFEST_VALIDATOR = ROOT / "examples" / "validate_portable_manifest.py"
 PORTABLE_MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
 PORTABLE_EVAL_SCHEMA = ROOT / "schemas" / "portable-evaluation-suite.schema.json"
 REFERENCE_CATALOG_SCHEMA = ROOT / "schemas" / "reference-catalog.schema.json"
+TOOL_CATALOG_SCHEMA = ROOT / "schemas" / "tool-catalog.schema.json"
 INTEGRATION_GUIDE = ROOT / "docs" / "integration-guide.md"
 SECURITY = ROOT / "SECURITY.md"
 CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
@@ -54,6 +57,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("python fengshui-master/scripts/domain_router.py", workflow)
         self.assertIn("python fengshui-master/scripts/create_brief.py", workflow)
         self.assertIn("python fengshui-master/scripts/generate_report.py", workflow)
+        self.assertIn("python examples/validate_tool_catalog.py", workflow)
         self.assertIn("python .github/scripts/audit_repository.py", workflow)
 
     def test_portable_skill_validator_exists_for_ci(self):
@@ -286,6 +290,41 @@ class RepositoryQualityTest(unittest.TestCase):
         )
         self.assertIn("Reference catalog is valid", result.stdout)
 
+    def test_tool_catalog_exists_and_covers_manifest_tools(self):
+        self.assertTrue(TOOL_CATALOG.exists())
+        self.assertTrue(TOOL_CATALOG_VALIDATOR.exists())
+
+        manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
+        catalog = json.loads(TOOL_CATALOG.read_text(encoding="utf-8"))
+        by_path = {entry["path"]: entry for entry in catalog["tools"]}
+
+        self.assertEqual(catalog["name"], "fengshui-master-tool-catalog")
+        self.assertEqual(set(manifest["tools"]), set(by_path))
+
+        router = by_path["fengshui-master/scripts/domain_router.py"]
+        self.assertEqual(router["category"], "routing")
+        self.assertEqual(router["output_format"], "json")
+
+        report = by_path["fengshui-master/scripts/generate_report.py"]
+        self.assertEqual(report["output_format"], "markdown")
+
+        moon = by_path["fengshui-master/scripts/moon_phase.py"]
+        self.assertEqual(moon["category"], "timing")
+        self.assertIn("do not guarantee auspiciousness", moon["required_guardrails"])
+
+        flying = by_path["fengshui-master/scripts/flying_stars.py"]
+        self.assertEqual(flying["risk_level"], "high")
+        self.assertIn("not a full Xuan Kong natal chart", flying["required_guardrails"])
+
+        result = subprocess.run(
+            [sys.executable, str(TOOL_CATALOG_VALIDATOR)],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+        self.assertIn("Tool catalog is valid", result.stdout)
+
     def test_portable_manifest_exists_and_passes(self):
         self.assertTrue(PORTABLE_MANIFEST.exists())
         self.assertTrue(PORTABLE_MANIFEST_VALIDATOR.exists())
@@ -298,6 +337,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("fengshui-master/SKILL.md", manifest["entrypoints"])
         self.assertIn("examples/portable-evaluation-suite.json", manifest["evaluation"])
         self.assertIn("examples/reference-catalog.json", manifest["evaluation"])
+        self.assertIn("examples/tool-catalog.json", manifest["evaluation"])
         self.assertIn("docs/integration-guide.md", manifest["integration"])
         self.assertIn("fengshui-master/scripts/moon_phase.py", manifest["tools"])
         self.assertIn("timing", manifest["domains"])
@@ -347,25 +387,30 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertTrue(PORTABLE_MANIFEST_SCHEMA.exists())
         self.assertTrue(PORTABLE_EVAL_SCHEMA.exists())
         self.assertTrue(REFERENCE_CATALOG_SCHEMA.exists())
+        self.assertTrue(TOOL_CATALOG_SCHEMA.exists())
 
         manifest_schema = json.loads(PORTABLE_MANIFEST_SCHEMA.read_text(encoding="utf-8"))
         eval_schema = json.loads(PORTABLE_EVAL_SCHEMA.read_text(encoding="utf-8"))
         reference_schema = json.loads(REFERENCE_CATALOG_SCHEMA.read_text(encoding="utf-8"))
+        tool_schema = json.loads(TOOL_CATALOG_SCHEMA.read_text(encoding="utf-8"))
         manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
         self.assertEqual(manifest_schema["title"], "FengShui Master Portable Skill Manifest")
         self.assertEqual(eval_schema["title"], "FengShui Master Portable Evaluation Suite")
         self.assertEqual(reference_schema["title"], "FengShui Master Reference Catalog")
+        self.assertEqual(tool_schema["title"], "FengShui Master Tool Catalog")
         self.assertEqual(manifest["schemas"]["manifest"], "schemas/portable-skill.schema.json")
         self.assertEqual(manifest["schemas"]["evaluation_suite"], "schemas/portable-evaluation-suite.schema.json")
         self.assertEqual(manifest["schemas"]["reference_catalog"], "schemas/reference-catalog.schema.json")
+        self.assertEqual(manifest["schemas"]["tool_catalog"], "schemas/tool-catalog.schema.json")
         self.assertIn("integration", manifest_schema["required"])
 
         for phrase in [
             "schemas/portable-skill.schema.json",
             "schemas/portable-evaluation-suite.schema.json",
             "schemas/reference-catalog.schema.json",
+            "schemas/tool-catalog.schema.json",
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, readme)

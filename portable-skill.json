@@ -55,7 +55,9 @@
     "examples/validate_portable_evaluation.py",
     "examples/validate_portable_manifest.py",
     "examples/reference-catalog.json",
-    "examples/validate_reference_catalog.py"
+    "examples/validate_reference_catalog.py",
+    "examples/tool-catalog.json",
+    "examples/validate_tool_catalog.py"
   ],
   "integration": [
     "docs/integration-guide.md"
@@ -63,7 +65,8 @@
   "schemas": {
     "manifest": "schemas/portable-skill.schema.json",
     "evaluation_suite": "schemas/portable-evaluation-suite.schema.json",
-    "reference_catalog": "schemas/reference-catalog.schema.json"
+    "reference_catalog": "schemas/reference-catalog.schema.json",
+    "tool_catalog": "schemas/tool-catalog.schema.json"
   },
   "governance": [
     "SECURITY.md",
