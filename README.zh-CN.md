@@ -44,7 +44,7 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 - 理气与时空：八宅命卦、三元九运、玄空飞星基础脚手架、太岁、岁破、三煞、二十四节气与月相。
 - 跨领域分析：金融、商业、品牌、职业、关系、产品、学习、健康相邻环境、法律相邻风险。
 - 命名与品牌：品牌命名、颜色、标志、视觉气质与五行象义约束。
-- 工具脚本：罗盘二十四山、命卦、干支年、年度方位注意、二十四节气、月相、三元运、飞星脚手架、领域路由、咨询 brief、报告生成、结构化户型分析。
+- 工具脚本：八卦方位象义、罗盘二十四山、命卦、干支年、年度方位注意、二十四节气、月相、三元运、飞星脚手架、领域路由、咨询 brief、报告生成、结构化户型分析。
 - 来源与流派地图：经典锚点、形势派、三合、三元、玄空、八宅、择日、二十四节气、月相与现代跨领域扩展边界。
 - 开源工程：GitHub Actions、仓库一致性审计、Issue/PR 模板、测试与样例报告。
 
@@ -129,6 +129,7 @@ fengshui-master/
     classical-source-map.md
     sources.md
   scripts/
+    bagua_map.py
     luopan.py
     minggua.py
     ganzhi.py
@@ -260,6 +261,13 @@ python fengshui-master/scripts/analyze_floorplan.py fengshui-master/assets/sampl
 
 ```bash
 python fengshui-master/scripts/luopan.py 187 --pretty
+```
+
+八卦方位、卦象、五行和生活领域象义：
+
+```bash
+python fengshui-master/scripts/bagua_map.py --direction southeast --pretty
+python fengshui-master/scripts/bagua_map.py --life-area wealth --method symbolic --pretty
 ```
 
 命卦：

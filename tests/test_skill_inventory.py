@@ -51,6 +51,7 @@ class SkillInventoryTest(unittest.TestCase):
         skill_text = (SKILL / "SKILL.md").read_text(encoding="utf-8")
 
         for filename in [
+            "bagua_map.py",
             "luopan.py",
             "minggua.py",
             "periods.py",
@@ -85,6 +86,13 @@ class SkillInventoryTest(unittest.TestCase):
         for phrase in ["24 Solar Terms", "二十四节气", "立春", "夏至", "冬至", "scripts/solar_terms.py"]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, timing)
+
+    def test_foundation_reference_covers_bagua_helper(self):
+        foundation = (SKILL / "references" / "foundation.md").read_text(encoding="utf-8")
+
+        for phrase in ["scripts/bagua_map.py", "Compass bagua", "Door-aligned", "life-area symbolism"]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, foundation)
 
     def test_readme_has_coverage_matrix(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")

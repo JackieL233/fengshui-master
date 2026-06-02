@@ -225,6 +225,11 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("moon phase", timing["must_include"])
         self.assertIn("guaranteed auspiciousness", timing["must_not_include"])
 
+        bagua_case = by_id["space-bagua-wealth-corner-method-boundary"]
+        self.assertIn("fengshui-master/references/foundation.md", bagua_case["expected_references"])
+        self.assertIn("bagua", bagua_case["must_include"])
+        self.assertIn("guaranteed wealth", bagua_case["must_not_include"])
+
         solar_terms = by_id["timing-solar-term-seasonal-qi-opening"]
         self.assertIn("fengshui-master/references/timing-and-date-selection.md", solar_terms["expected_references"])
         self.assertIn("solar terms", solar_terms["must_include"])
@@ -326,6 +331,10 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertEqual(router["category"], "routing")
         self.assertEqual(router["output_format"], "json")
 
+        bagua = by_path["fengshui-master/scripts/bagua_map.py"]
+        self.assertEqual(bagua["category"], "calculation")
+        self.assertIn("do not mix bagua methods silently", bagua["required_guardrails"])
+
         report = by_path["fengshui-master/scripts/generate_report.py"]
         self.assertEqual(report["output_format"], "markdown")
 
@@ -404,6 +413,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("examples/tool-catalog.json", manifest["evaluation"])
         self.assertIn("examples/response-contract.json", manifest["evaluation"])
         self.assertIn("docs/integration-guide.md", manifest["integration"])
+        self.assertIn("fengshui-master/scripts/bagua_map.py", manifest["tools"])
         self.assertIn("fengshui-master/scripts/moon_phase.py", manifest["tools"])
         self.assertIn("fengshui-master/scripts/solar_terms.py", manifest["tools"])
         self.assertIn("timing", manifest["domains"])
@@ -424,6 +434,11 @@ class RepositoryQualityTest(unittest.TestCase):
         workflow = WORKFLOW.read_text(encoding="utf-8")
 
         self.assertIn("python fengshui-master/scripts/moon_phase.py 2024-04-08 --pretty", workflow)
+
+    def test_ci_smoke_tests_bagua_map_helper(self):
+        workflow = WORKFLOW.read_text(encoding="utf-8")
+
+        self.assertIn("python fengshui-master/scripts/bagua_map.py --direction southeast --pretty", workflow)
 
     def test_ci_smoke_tests_solar_terms_helper(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")

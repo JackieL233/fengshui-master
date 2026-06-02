@@ -136,6 +136,7 @@ def main() -> int:
     required_tool_guardrails = {
         "fengshui-master/scripts/moon_phase.py": "do not guarantee auspiciousness",
         "fengshui-master/scripts/solar_terms.py": "use approximate dates only",
+        "fengshui-master/scripts/bagua_map.py": "do not mix bagua methods silently",
         "fengshui-master/scripts/flying_stars.py": "not a full Xuan Kong natal chart",
         "fengshui-master/scripts/annual_afflictions.py": "not a full almanac",
         "fengshui-master/scripts/ganzhi.py": "do not present year scaffold as complete bazi",

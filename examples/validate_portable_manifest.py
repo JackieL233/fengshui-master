@@ -122,6 +122,8 @@ def main() -> int:
         fail(errors, "tools missing fengshui-master/scripts/moon_phase.py")
     if "fengshui-master/scripts/solar_terms.py" not in manifest.get("tools", []):
         fail(errors, "tools missing fengshui-master/scripts/solar_terms.py")
+    if "fengshui-master/scripts/bagua_map.py" not in manifest.get("tools", []):
+        fail(errors, "tools missing fengshui-master/scripts/bagua_map.py")
 
     domains = set(manifest.get("domains", []))
     missing_domains = sorted(REQUIRED_DOMAINS - domains)

@@ -97,6 +97,7 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
 | Cross-domain routing | Run `python fengshui-master/scripts/domain_router.py "<question>"` |
 | Structured floor-plan, office, shop, room, or site JSON | `references/floorplan-schema.md`; run `python fengshui-master/scripts/analyze_floorplan.py <json>` |
 | Basic terms, bagua, five phases, qi, yin-yang, 24 mountains | `references/foundation.md` |
+| Bagua sector, trigram, direction, life area, wealth corner, career area, relationship area | Run `python fengshui-master/scripts/bagua_map.py --direction <direction>` or `python fengshui-master/scripts/bagua_map.py --life-area <area>` |
 | Roads, rivers, mountains, building shapes, external sha, landscape | `references/forms-and-environment.md` |
 | Which feng shui school to apply | `references/schools.md` |
 | Home, office, shop, room, floor plan, desk, bed, kitchen | `references/analysis-templates.md` |
@@ -166,6 +167,15 @@ python fengshui-master/scripts/luopan.py 187 --pretty
 ```
 
 Do not use the script as proof of auspiciousness by itself. It only maps a bearing to a traditional sector.
+
+Use `scripts/bagua_map.py` when mapping a bagua sector, trigram, direction, or life-area symbolism:
+
+```bash
+python fengshui-master/scripts/bagua_map.py --direction southeast --pretty
+python fengshui-master/scripts/bagua_map.py --life-area wealth --method symbolic --pretty
+```
+
+Do not use the script as proof of wealth, relationship, health, or career outcomes. It only maps later-heaven bagua symbolism and method labels; compass bagua, door-aligned bagua, eight mansions, and flying stars must not be mixed silently.
 
 Use `scripts/minggua.py` for a common eight mansions personal gua calculation:
 

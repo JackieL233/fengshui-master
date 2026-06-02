@@ -81,6 +81,15 @@ Use bagua carefully:
 - **Door-aligned or symbolic bagua** overlays the plan from the main entrance in some modern schools.
 - Do not mix these without saying which one is being applied.
 
+Use `scripts/bagua_map.py` for deterministic later-heaven bagua sector lookup:
+
+```bash
+python fengshui-master/scripts/bagua_map.py --direction southeast --pretty
+python fengshui-master/scripts/bagua_map.py --life-area wealth --method symbolic --pretty
+```
+
+The helper returns direction, trigram, phase, family role, life-area symbolism, low-risk actions, cautions, and method labels. It is a symbolic mapping aid, not proof of auspiciousness.
+
 ## Heavenly Stems and Earthly Branches
 
 Use stems and branches when the user asks about 24 mountains, Chinese calendrical symbolism, san he, san yuan, xuan kong, or date/facing analysis.
@@ -198,6 +207,7 @@ Compass hygiene:
 
 ## Related Tools
 
+- Use `scripts/bagua_map.py` for later-heaven bagua direction, trigram, phase, and life-area symbolism.
 - Use `scripts/luopan.py` for 24-mountain lookup.
 - Use `scripts/minggua.py` for common eight mansions personal gua lookup.
 - Use `scripts/ganzhi.py` for a Gregorian-year stem/branch scaffold.

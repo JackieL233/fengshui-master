@@ -84,7 +84,15 @@ class DomainRouterTest(unittest.TestCase):
         data = run_router("Analyze my bedroom layout and mirror placement")
 
         self.assertEqual(data["domain"], "space")
+        self.assertIn("references/foundation.md", data["references"])
         self.assertIn("references/analysis-templates.md", data["references"])
+
+    def test_bagua_wealth_corner_routes_to_space_foundation(self):
+        data = run_router("Use bagua to review my southeast wealth corner")
+
+        self.assertEqual(data["domain"], "space")
+        self.assertIn("references/foundation.md", data["references"])
+        self.assertIn("references/remedies.md", data["references"])
 
     def test_life_omen_routes_to_life_adapter(self):
         data = run_router("Use feng shui and five phases to analyze a person's life, luck, and auspicious risks")

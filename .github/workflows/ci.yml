@@ -51,6 +51,9 @@ jobs:
       - name: Smoke test report generator
         run: python fengshui-master/scripts/generate_report.py "Use feng shui to review this product onboarding flow"
 
+      - name: Smoke test bagua map helper
+        run: python fengshui-master/scripts/bagua_map.py --direction southeast --pretty
+
       - name: Smoke test moon phase helper
         run: python fengshui-master/scripts/moon_phase.py 2024-04-08 --pretty
 

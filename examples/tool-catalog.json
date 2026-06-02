@@ -62,6 +62,24 @@
       "required_guardrails": ["verify structured input with photos or measurements when precision matters"]
     },
     {
+      "name": "bagua_map",
+      "path": "fengshui-master/scripts/bagua_map.py",
+      "category": "calculation",
+      "description": "Return later-heaven bagua direction, trigram, phase, life-area symbolism, actions, cautions, and method labels.",
+      "command_template": "python fengshui-master/scripts/bagua_map.py --direction <direction> --pretty",
+      "inputs": [
+        {"name": "direction", "type": "string", "required": false, "description": "Direction such as north, southeast, or NW."},
+        {"name": "degrees", "type": "number", "required": false, "description": "Compass bearing in degrees."},
+        {"name": "trigram", "type": "string", "required": false, "description": "Trigram key such as qian, kan, li, or xun."},
+        {"name": "life_area", "type": "string", "required": false, "description": "Life area such as wealth, career, relationship, or helpful_people."},
+        {"name": "method", "type": "string", "required": false, "description": "Bagua method label: compass, door_aligned, or symbolic."},
+        {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
+      ],
+      "output_format": "json",
+      "risk_level": "medium",
+      "required_guardrails": ["do not guarantee auspiciousness", "do not mix bagua methods silently"]
+    },
+    {
       "name": "luopan",
       "path": "fengshui-master/scripts/luopan.py",
       "category": "calculation",

@@ -56,13 +56,14 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 - Glossary and case patterns: Chinese terminology, response templates, comparison matrices.
 - Safety and ethics: high-stakes claims, cultural respect, modern building constraints.
 - Source and school mapping: classical anchors, Form School, San He, San Yuan, Xuan Kong, Eight Mansions, date selection, 24 solar terms, moon phase, and modern cross-domain extension boundaries.
-- Tooling: compass bearing to 24-mountain conversion, ming gua lookup, Gregorian-year ganzhi scaffold, annual tai sui/sui po/san sha cautions, 24 solar terms / seasonal qi lookup, san yuan period lookup, basic flying-star scaffold.
+- Tooling: bagua sector mapping, compass bearing to 24-mountain conversion, ming gua lookup, Gregorian-year ganzhi scaffold, annual tai sui/sui po/san sha cautions, 24 solar terms / seasonal qi lookup, san yuan period lookup, basic flying-star scaffold.
 
 ## Coverage Matrix
 
 | Area | Status | Notes |
 | --- | --- | --- |
 | Core concepts, terms, five phases, bagua, 24 mountains | Fully covered | Reference material and luopan helper included |
+| Bagua sector / trigram / life-area mapping | Fully covered | Bagua helper maps direction, bearing, trigram, and life area; does not prove auspiciousness |
 | Broad symbolic protocol beyond space | Fully covered | 观气, 取象, 辨势, 吉凶, 生平, 金融, and decision-support protocol included |
 | Broad life / omen / auspiciousness analysis | Fully covered | Symbolic life-pattern and ji/xiong adapter included; not deterministic fate-telling |
 | Ganzhi year scaffold | Fully covered | Heavenly stem, earthly branch, zodiac, phase, and yin-yang helper included; not complete bazi |
@@ -155,6 +156,7 @@ fengshui-master/
     classical-source-map.md
     sources.md
   scripts/
+    bagua_map.py
     luopan.py
     minggua.py
     ganzhi.py
@@ -301,6 +303,15 @@ python fengshui-master/scripts/luopan.py 187 --pretty
 ```
 
 The helper only maps bearings. It does not judge auspiciousness by itself.
+
+Map a bagua sector, trigram, direction, or life-area symbolism:
+
+```bash
+python fengshui-master/scripts/bagua_map.py --direction southeast --pretty
+python fengshui-master/scripts/bagua_map.py --life-area wealth --method symbolic --pretty
+```
+
+This helper maps later-heaven bagua symbolism and method labels. It does not prove wealth, relationship, health, or career outcomes.
 
 Calculate a common Eight Mansions ming gua:
 

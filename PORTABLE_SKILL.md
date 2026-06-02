@@ -54,6 +54,7 @@ Use the reference files under fengshui-master/references/ as the knowledge base.
    - `python fengshui-master/scripts/create_brief.py "<question>" --pretty`
    - `python fengshui-master/scripts/generate_report.py "<question>"`
    - `python fengshui-master/scripts/analyze_floorplan.py <floorplan.json> --pretty`
+   - `python fengshui-master/scripts/bagua_map.py --direction <direction> --pretty`
    - `python fengshui-master/scripts/luopan.py <degrees> --pretty`
    - `python fengshui-master/scripts/minggua.py <year> --sex <male|female> --pretty`
    - `python fengshui-master/scripts/ganzhi.py <year> --pretty`
