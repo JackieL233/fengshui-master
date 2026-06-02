@@ -225,6 +225,11 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("moon phase", timing["must_include"])
         self.assertIn("guaranteed auspiciousness", timing["must_not_include"])
 
+        solar_terms = by_id["timing-solar-term-seasonal-qi-opening"]
+        self.assertIn("fengshui-master/references/timing-and-date-selection.md", solar_terms["expected_references"])
+        self.assertIn("solar terms", solar_terms["must_include"])
+        self.assertIn("exact solar-term moment", solar_terms["must_not_include"])
+
         tooling = by_id["tool-catalog-agent-registration"]
         self.assertIn("examples/tool-catalog.json", tooling["expected_references"])
         self.assertIn("schemas/tool-catalog.schema.json", tooling["expected_references"])
@@ -295,6 +300,7 @@ class RepositoryQualityTest(unittest.TestCase):
         timing = by_path["fengshui-master/references/timing-and-date-selection.md"]
         self.assertEqual(timing["primary_domain"], "timing")
         self.assertIn("moon_phase", timing["tags"])
+        self.assertIn("solar_terms", timing["tags"])
 
         result = subprocess.run(
             [sys.executable, str(REFERENCE_CATALOG_VALIDATOR)],
@@ -326,6 +332,10 @@ class RepositoryQualityTest(unittest.TestCase):
         moon = by_path["fengshui-master/scripts/moon_phase.py"]
         self.assertEqual(moon["category"], "timing")
         self.assertIn("do not guarantee auspiciousness", moon["required_guardrails"])
+
+        solar_terms = by_path["fengshui-master/scripts/solar_terms.py"]
+        self.assertEqual(solar_terms["category"], "timing")
+        self.assertIn("use approximate dates only", solar_terms["required_guardrails"])
 
         flying = by_path["fengshui-master/scripts/flying_stars.py"]
         self.assertEqual(flying["risk_level"], "high")
@@ -395,6 +405,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("examples/response-contract.json", manifest["evaluation"])
         self.assertIn("docs/integration-guide.md", manifest["integration"])
         self.assertIn("fengshui-master/scripts/moon_phase.py", manifest["tools"])
+        self.assertIn("fengshui-master/scripts/solar_terms.py", manifest["tools"])
         self.assertIn("timing", manifest["domains"])
         self.assertIn("SECURITY.md", manifest["governance"])
         self.assertIn("portable-skill.json", readme)
@@ -413,6 +424,11 @@ class RepositoryQualityTest(unittest.TestCase):
         workflow = WORKFLOW.read_text(encoding="utf-8")
 
         self.assertIn("python fengshui-master/scripts/moon_phase.py 2024-04-08 --pretty", workflow)
+
+    def test_ci_smoke_tests_solar_terms_helper(self):
+        workflow = WORKFLOW.read_text(encoding="utf-8")
+
+        self.assertIn("python fengshui-master/scripts/solar_terms.py 2026-02-04 --pretty", workflow)
 
     def test_integration_guide_exists_and_is_linked(self):
         self.assertTrue(INTEGRATION_GUIDE.exists())

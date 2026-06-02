@@ -55,8 +55,8 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 - Structured floor-plan input: JSON schema, sample plan, and analyzer for repeatable room/site intake.
 - Glossary and case patterns: Chinese terminology, response templates, comparison matrices.
 - Safety and ethics: high-stakes claims, cultural respect, modern building constraints.
-- Source and school mapping: classical anchors, Form School, San He, San Yuan, Xuan Kong, Eight Mansions, date selection, moon phase, and modern cross-domain extension boundaries.
-- Tooling: compass bearing to 24-mountain conversion, ming gua lookup, Gregorian-year ganzhi scaffold, annual tai sui/sui po/san sha cautions, san yuan period lookup, basic flying-star scaffold.
+- Source and school mapping: classical anchors, Form School, San He, San Yuan, Xuan Kong, Eight Mansions, date selection, 24 solar terms, moon phase, and modern cross-domain extension boundaries.
+- Tooling: compass bearing to 24-mountain conversion, ming gua lookup, Gregorian-year ganzhi scaffold, annual tai sui/sui po/san sha cautions, 24 solar terms / seasonal qi lookup, san yuan period lookup, basic flying-star scaffold.
 
 ## Coverage Matrix
 
@@ -73,6 +73,7 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 | San Yuan 20-year periods | Fully covered | Period helper covers 1864-2043 |
 | Annual tai sui / sui po / san sha cautions | Fully covered | Common annual directional helper included; not a full almanac |
 | New moon / full moon / moon phase timing | Partially covered | Approximate moon-phase helper and symbolic timing guidance included; not a full almanac or precision astronomy engine |
+| 24 solar terms / seasonal qi timing | Partially covered | Approximate solar-term helper and symbolic timing guidance included; not a full almanac or precision astronomy engine |
 | Xuan Kong Flying Stars | Partially covered | Basic Luo Shu scaffold and intake included; full natal chart, replacement stars, and lineage variants are future work |
 | Date selection | Partially covered | Intake and safety framework included; no full almanac engine |
 | Yin house / burial sites | Partially covered | Boundaries and conservative form reading included; advanced lineage formulas not automated |
@@ -159,6 +160,7 @@ fengshui-master/
     ganzhi.py
     annual_afflictions.py
     moon_phase.py
+    solar_terms.py
     create_brief.py
     generate_report.py
     periods.py
@@ -329,6 +331,14 @@ python fengshui-master/scripts/moon_phase.py 2024-04-08 --pretty
 ```
 
 This helper supports moon-phase symbolism for timing questions. It is not a full almanac, precise astronomy engine, or guarantee of auspiciousness.
+
+Look up approximate 24 solar terms / seasonal qi context:
+
+```bash
+python fengshui-master/scripts/solar_terms.py 2026-02-04 --pretty
+```
+
+This helper supports solar-term symbolism for timing questions, including li chun, equinox, summer solstice, and winter solstice context. It is not a full almanac, precise astronomy engine, exact solar-term ephemeris, or guarantee of auspiciousness.
 
 Look up a common San Yuan / Xuan Kong 20-year period:
 

@@ -161,6 +161,20 @@
       "output_format": "json",
       "risk_level": "high",
       "required_guardrails": ["not a full almanac", "do not guarantee auspiciousness"]
+    },
+    {
+      "name": "solar_terms",
+      "path": "fengshui-master/scripts/solar_terms.py",
+      "category": "timing",
+      "description": "Return approximate 24 solar terms, seasonal qi, yin-yang, and five-phase timing context for a Gregorian date.",
+      "command_template": "python fengshui-master/scripts/solar_terms.py <YYYY-MM-DD> --pretty",
+      "inputs": [
+        {"name": "date", "type": "date", "required": true, "description": "Gregorian date in YYYY-MM-DD format."},
+        {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
+      ],
+      "output_format": "json",
+      "risk_level": "high",
+      "required_guardrails": ["not a full almanac", "do not guarantee auspiciousness", "use approximate dates only"]
     }
   ]
 }

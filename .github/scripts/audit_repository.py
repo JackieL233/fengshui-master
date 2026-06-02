@@ -342,6 +342,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         fail(errors, "portable manifest missing docs/integration-guide.md in integration")
     if "fengshui-master/scripts/moon_phase.py" not in manifest.get("tools", []):
         fail(errors, "portable manifest missing fengshui-master/scripts/moon_phase.py")
+    if "fengshui-master/scripts/solar_terms.py" not in manifest.get("tools", []):
+        fail(errors, "portable manifest missing fengshui-master/scripts/solar_terms.py")
     if "timing" not in manifest.get("domains", []):
         fail(errors, "portable manifest missing timing domain")
     if manifest.get("schemas", {}).get("reference_catalog") != "schemas/reference-catalog.schema.json":
@@ -374,6 +376,9 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     for term in ["moon_phase.py", "New Moon", "Full Moon", "新月", "满月"]:
         if term not in readme and term not in chinese and term not in portable:
             fail(errors, f"moon phase public docs missing {term}")
+    for term in ["solar_terms.py", "24 solar terms", "seasonal qi", "li chun", "winter solstice"]:
+        if term not in readme and term not in chinese and term not in portable:
+            fail(errors, f"solar terms public docs missing {term}")
 
     source_map_path = SKILL / "references" / "classical-source-map.md"
     if not source_map_path.exists():
@@ -437,6 +442,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
             fail(errors, f"reference catalog {path} missing guardrail {guardrail}")
     for path, guardrail in {
         "fengshui-master/scripts/moon_phase.py": "do not guarantee auspiciousness",
+        "fengshui-master/scripts/solar_terms.py": "use approximate dates only",
         "fengshui-master/scripts/flying_stars.py": "not a full Xuan Kong natal chart",
         "fengshui-master/scripts/ganzhi.py": "do not present year scaffold as complete bazi",
     }.items():

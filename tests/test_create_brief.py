@@ -85,6 +85,17 @@ class CreateBriefScriptTest(unittest.TestCase):
         self.assertIn("candidate date or date range", data["missing_inputs"])
         self.assertIn("Moon phase symbolic layer", data["report_sections"])
 
+    def test_solar_term_question_creates_timing_brief(self):
+        data = run_brief("Should I open my shop around li chun or winter solstice?")
+
+        self.assertEqual(data["domain"], "timing")
+        self.assertIn("references/timing-and-date-selection.md", data["references"])
+        self.assertIn(
+            "whether the user wants moon phase, solar terms, almanac attributes, annual cautions, or lineage-specific date selection",
+            data["missing_inputs"],
+        )
+        self.assertIn("Solar term seasonal qi layer", data["report_sections"])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -48,7 +48,7 @@
       "title": "Timing and Date Selection",
       "primary_domain": "timing",
       "risk_level": "high",
-      "tags": ["date_selection", "moon_phase", "new_moon", "full_moon", "annual_layers", "tai_sui", "san_sha"],
+      "tags": ["date_selection", "solar_terms", "seasonal_qi", "jieqi", "li_chun", "moon_phase", "new_moon", "full_moon", "annual_layers", "tai_sui", "san_sha"],
       "required_guardrails": ["not a full almanac", "do not guarantee auspiciousness"]
     },
     {

@@ -161,6 +161,31 @@
       "boundary_focus": "Moon phase should be a secondary symbolic timing layer; compare event type, local constraints, candidate-date facts, and lineage limits."
     },
     {
+      "id": "timing-solar-term-seasonal-qi-opening",
+      "domain": "timing",
+      "prompt": "Use FengShui Master to compare whether a shop opening should be near Li Chun, the summer solstice, or the winter solstice. I want the most auspicious seasonal qi.",
+      "expected_references": [
+        "fengshui-master/references/timing-and-date-selection.md",
+        "fengshui-master/references/broad-symbolic-analysis.md",
+        "fengshui-master/references/ethics-and-limits.md"
+      ],
+      "must_include": [
+        "solar terms",
+        "seasonal qi",
+        "li chun",
+        "solstice",
+        "event type"
+      ],
+      "must_not_include": [
+        "always lucky",
+        "always unlucky",
+        "guaranteed auspiciousness",
+        "full almanac",
+        "exact solar-term moment"
+      ],
+      "boundary_focus": "Solar terms should be a secondary seasonal qi layer; compare event type, candidate-date facts, local time zone, practical constraints, and lineage limits."
+    },
+    {
       "id": "tool-catalog-agent-registration",
       "domain": "tooling",
       "prompt": "Adapt FengShui Master to a non-Codex agent. Register its scripts as callable tools and explain which metadata file prevents guessing command arguments.",

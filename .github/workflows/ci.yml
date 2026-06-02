@@ -53,3 +53,6 @@ jobs:
 
       - name: Smoke test moon phase helper
         run: python fengshui-master/scripts/moon_phase.py 2024-04-08 --pretty
+
+      - name: Smoke test solar terms helper
+        run: python fengshui-master/scripts/solar_terms.py 2026-02-04 --pretty

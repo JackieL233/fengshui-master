@@ -62,7 +62,7 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
    - Use `references/schools.md` for form school, san he, san yuan, xuan kong flying stars, eight mansions, and symbolic bagua.
    - Use `references/analysis-templates.md` for residential, office, retail, site, room, and floor-plan workflows.
    - Use `references/remedies.md` for cures, adjustments, colors, plants, mirrors, water, screens, and practical interventions.
-   - Use `references/timing-and-date-selection.md` for san yuan periods, xuan kong timing, annual layers, moon phases, new moon, full moon, moving, renovation, and opening dates.
+   - Use `references/timing-and-date-selection.md` for san yuan periods, xuan kong timing, annual layers, 24 solar terms, seasonal qi, moon phases, new moon, full moon, moving, renovation, and opening dates.
    - Use `references/xuan-kong-flying-stars.md` for flying-star intake, basic Luo Shu flight, star meanings, and natal-chart caveats.
    - Use `references/yin-house.md` for burial sites, cemetery plots, ancestral graves, and yin-house boundaries.
    - Use `references/glossary.md` for Chinese terms, translations, and quick definitions.
@@ -101,7 +101,7 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
 | Which feng shui school to apply | `references/schools.md` |
 | Home, office, shop, room, floor plan, desk, bed, kitchen | `references/analysis-templates.md` |
 | Remedies, cures, colors, mirrors, plants, water, screens | `references/remedies.md` |
-| Moving date, opening date, renovation timing, new moon, full moon, moon phase, annual stars, tai sui, sui po, san sha, nine periods | `references/timing-and-date-selection.md`; run `python fengshui-master/scripts/moon_phase.py <YYYY-MM-DD>` for moon phase context and `python fengshui-master/scripts/annual_afflictions.py <year>` for common annual directional cautions |
+| Moving date, opening date, renovation timing, 24 solar terms, seasonal qi, new moon, full moon, moon phase, annual stars, tai sui, sui po, san sha, nine periods | `references/timing-and-date-selection.md`; run `python fengshui-master/scripts/solar_terms.py <YYYY-MM-DD>` for seasonal qi context, `python fengshui-master/scripts/moon_phase.py <YYYY-MM-DD>` for moon phase context, and `python fengshui-master/scripts/annual_afflictions.py <year>` for common annual directional cautions |
 | Xuan kong, flying stars, Period 9, Luo Shu flight, star meanings | `references/xuan-kong-flying-stars.md` |
 | Yin house, burial sites, cemetery plots, ancestral graves | `references/yin-house.md` |
 | Chinese terms, pronunciation, glossary, translation cautions | `references/glossary.md` |
@@ -114,6 +114,7 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
 | Birth-year ming gua / eight mansions personal directions | Run `python fengshui-master/scripts/minggua.py <year> --sex <male|female>` |
 | Gregorian year to heavenly stem / earthly branch scaffold | Run `python fengshui-master/scripts/ganzhi.py <year>` |
 | Annual tai sui / sui po / san sha directional cautions | Run `python fengshui-master/scripts/annual_afflictions.py <year>` |
+| 24 solar terms / seasonal qi timing context | Run `python fengshui-master/scripts/solar_terms.py <YYYY-MM-DD>` |
 | San yuan / xuan kong 20-year period | Run `python fengshui-master/scripts/periods.py <year>` |
 | Basic Luo Shu flying-star scaffold | Run `python fengshui-master/scripts/flying_stars.py --period <1-9>` |
 
@@ -197,6 +198,14 @@ python fengshui-master/scripts/moon_phase.py 2024-04-08 --pretty
 ```
 
 Treat moon phase as a secondary symbolic timing layer. New moon can support quiet starts, intention-setting, and inward renewal; full moon can support visibility, culmination, release, and review. Do not use moon phase alone as a full almanac, guaranteed auspiciousness method, or substitute for local time zone, candidate-date attributes, professional constraints, or lineage-specific date selection.
+
+Use `scripts/solar_terms.py` for approximate 24 solar terms / seasonal qi context:
+
+```bash
+python fengshui-master/scripts/solar_terms.py 2026-02-04 --pretty
+```
+
+Treat solar terms as a secondary seasonal timing layer. Li chun can support renewal and annual-boundary discussion; equinoxes can support balance and comparison; solstices can support peak-turning-point review; seasonal gates can support shifts between growth, visibility, refinement, and storage. Do not use solar terms alone as a full almanac, guaranteed auspiciousness method, precise astronomy engine, or substitute for candidate-date attributes, local time zone, professional constraints, moon phase, annual cautions, or lineage-specific date selection.
 
 Use `scripts/periods.py` for common san yuan / xuan kong 20-year periods:
 

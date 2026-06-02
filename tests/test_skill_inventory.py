@@ -62,6 +62,7 @@ class SkillInventoryTest(unittest.TestCase):
             "domain_router.py",
             "analyze_floorplan.py",
             "moon_phase.py",
+            "solar_terms.py",
         ]:
             with self.subTest(filename=filename):
                 self.assertTrue((SKILL / "scripts" / filename).exists())
@@ -73,6 +74,15 @@ class SkillInventoryTest(unittest.TestCase):
         )
 
         for phrase in ["New Moon", "Full Moon", "新月", "满月", "scripts/moon_phase.py"]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, timing)
+
+    def test_timing_reference_covers_solar_terms(self):
+        timing = (SKILL / "references" / "timing-and-date-selection.md").read_text(
+            encoding="utf-8"
+        )
+
+        for phrase in ["24 Solar Terms", "二十四节气", "立春", "夏至", "冬至", "scripts/solar_terms.py"]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, timing)
 

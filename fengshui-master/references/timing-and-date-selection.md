@@ -1,6 +1,6 @@
 # Timing and Date Selection Reference
 
-Use this file when the user asks about san yuan periods, xuan kong period timing, annual stars, moon phases, new moon, full moon, moving dates, renovation timing, opening dates, ground-breaking, or date selection. Keep claims cautious and lineage-labeled.
+Use this file when the user asks about san yuan periods, xuan kong period timing, annual stars, 24 solar terms, seasonal qi, moon phases, new moon, full moon, moving dates, renovation timing, opening dates, ground-breaking, or date selection. Keep claims cautious and lineage-labeled.
 
 ## Table of Contents
 
@@ -8,6 +8,7 @@ Use this file when the user asks about san yuan periods, xuan kong period timing
 - San Yuan and Nine Periods
 - Xuan Kong Inputs
 - Annual and Monthly Layers
+- 24 Solar Terms / 二十四节气
 - Moon Phase / 新月满月
 - Date Selection Scope
 - Safe Timing Advice
@@ -20,6 +21,7 @@ Traditional timing can refer to several different things:
 - **Building period**: when the building was completed, occupied, or substantially renovated.
 - **Current period**: the active 20-year san yuan period in common xuan kong practice.
 - **Annual/monthly stars**: time-varying symbolic influences.
+- **24 solar terms / 二十四节气**: seasonal qi, yin-yang turning points, and five-phase seasonal posture.
 - **Moon phase / 月相**: new moon / 新月 / 朔, full moon / 满月 / 望, waxing, and waning symbolic timing.
 - **Annual directional cautions**: tai sui, sui po, san sha, and other lineage-specific yearly concerns.
 - **Personal timing**: birth data, zodiac, bazi, or personal gua.
@@ -90,6 +92,35 @@ Practical posture:
 - Do not declare a direction impossible to use for the whole year.
 - Confirm li chun/lunar-year boundary conventions when the date is near year transition.
 
+## 24 Solar Terms / 二十四节气
+
+The 24 solar terms can be used as a seasonal qi layer in broad feng shui timing. They are especially useful when the question is about renewal, launch cadence, review cycles, storage, seasonal transition, or whether a moment feels like beginning, growth, peak visibility, refinement, contraction, or root repair.
+
+Use `scripts/solar_terms.py` for approximate seasonal context:
+
+```bash
+python fengshui-master/scripts/solar_terms.py 2026-02-04 --pretty
+```
+
+Core reading pattern:
+
+| Seasonal marker | Symbolic posture | Common low-risk use |
+| --- | --- | --- |
+| Li chun / 立春 and other seasonal beginnings | Gate change, renewal, first movement | intention, planning, annual-boundary discussion, gentle activation |
+| Equinoxes / 春分, 秋分 | Yin-yang balance | comparison, negotiation, calibration, audit, partnership review |
+| Solstices / 夏至, 冬至 | Peak-turning points | culmination, reset, visibility review, root repair |
+| Spring terms | Wood growth | learning, renewal, relationship repair, gradual expansion |
+| Summer terms | Fire visibility | launch, public attention, momentum, celebration with pacing |
+| Autumn terms | Metal refinement | pruning, standards, documentation, settlement, risk review |
+| Winter terms | Water storage | conserving qi, treasury review, rest, archives, long-horizon planning |
+
+Required cautions:
+
+- Solar terms are a seasonal qi and yin-yang timing layer, not a complete lucky-date formula.
+- Exact solar-term moments vary by year and time zone; the helper uses common approximate Gregorian dates.
+- Do not replace tong shu / 通书, bazi, qimen, liuren, xuan kong, moon phase, annual cautions, candidate-date attributes, or lineage-specific date selection.
+- Do not say a date is automatically auspicious because it is near a solar term. Match the term's symbolic posture to the event type and practical constraints.
+
 ## Moon Phase / 新月满月
 
 Moon phase is not a complete feng shui formula by itself, but it can be used as a secondary symbolic timing layer in broad feng shui, date-selection discussion, ritual planning, and cross-domain decision support.
@@ -131,6 +162,7 @@ Date selection can involve:
 - Avoiding days that clash with a person's zodiac branch.
 - Choosing days supportive of the event type.
 - Considering lunar calendar, 24 solar terms, 12 officers, stars, or lineage calendars.
+- Considering solar terms as a secondary seasonal qi layer when the user asks about 节气, 立春, 春分, 夏至, 秋分, 冬至, seasonal timing, or annual-boundary symbolism.
 - Considering moon phase as a secondary symbolic layer when the user asks about 新月, 满月, 朔, 望, or lunar timing.
 - Coordinating with construction, legal, business, and family requirements.
 
@@ -164,6 +196,12 @@ python fengshui-master/scripts/annual_afflictions.py 2026 --pretty
 ```
 
 The tool returns common annual directional cautions only. It is not a full almanac or date-selection engine.
+
+```bash
+python fengshui-master/scripts/solar_terms.py 2026-02-04 --pretty
+```
+
+The tool returns approximate 24 solar terms and seasonal qi context only. It is useful for seasonal symbolism, yin-yang turning points, and five-phase timing posture, not full date selection.
 
 ```bash
 python fengshui-master/scripts/moon_phase.py 2024-04-08 --pretty

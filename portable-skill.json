@@ -46,7 +46,8 @@
     "fengshui-master/scripts/annual_afflictions.py",
     "fengshui-master/scripts/periods.py",
     "fengshui-master/scripts/flying_stars.py",
-    "fengshui-master/scripts/moon_phase.py"
+    "fengshui-master/scripts/moon_phase.py",
+    "fengshui-master/scripts/solar_terms.py"
   ],
   "evaluation": [
     "examples/portable-agent-prompts.md",

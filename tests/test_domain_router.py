@@ -126,6 +126,19 @@ class DomainRouterTest(unittest.TestCase):
         self.assertEqual(data["domain"], "timing")
         self.assertIn("references/timing-and-date-selection.md", data["references"])
 
+    def test_solar_term_question_routes_to_timing(self):
+        data = run_router("Use feng shui to compare li chun and the spring equinox for a product launch")
+
+        self.assertEqual(data["domain"], "timing")
+        self.assertIn("references/timing-and-date-selection.md", data["references"])
+        self.assertIn("solar terms", " ".join(data["guardrails"]))
+
+    def test_chinese_solar_term_question_routes_to_timing(self):
+        data = run_router("立春和冬至哪个更适合开业择时")
+
+        self.assertEqual(data["domain"], "timing")
+        self.assertIn("references/timing-and-date-selection.md", data["references"])
+
 
 if __name__ == "__main__":
     unittest.main()

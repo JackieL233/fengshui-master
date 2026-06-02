@@ -54,7 +54,7 @@ DOMAIN_MISSING_INPUTS = {
         "event type",
         "local time zone or location",
         "hard deadlines and practical constraints",
-        "whether the user wants moon phase, almanac attributes, annual cautions, or lineage-specific date selection",
+        "whether the user wants moon phase, solar terms, almanac attributes, annual cautions, or lineage-specific date selection",
     ],
     "brand": [
         "audience",
@@ -148,6 +148,7 @@ DOMAIN_SECTIONS = {
     "timing": [
         "Inputs and assumptions",
         "Practical timing constraints",
+        "Solar term seasonal qi layer",
         "Moon phase symbolic layer",
         "Traditional date-selection layer",
         "Ji/xiong assessment",

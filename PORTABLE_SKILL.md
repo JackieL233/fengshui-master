@@ -59,6 +59,7 @@ Use the reference files under fengshui-master/references/ as the knowledge base.
    - `python fengshui-master/scripts/ganzhi.py <year> --pretty`
    - `python fengshui-master/scripts/annual_afflictions.py <year> --pretty`
    - `python fengshui-master/scripts/moon_phase.py <YYYY-MM-DD> --pretty` for New Moon / Full Moon symbolic timing context
+   - `python fengshui-master/scripts/solar_terms.py <YYYY-MM-DD> --pretty` for 24 solar terms / seasonal qi symbolic timing context
    - `python fengshui-master/scripts/periods.py <year> --pretty`
    - `python fengshui-master/scripts/flying_stars.py --year <year> --pretty`
 5. Use `examples/portable-agent-prompts.md` as portable smoke tests when adapting this skill to a new agent.
