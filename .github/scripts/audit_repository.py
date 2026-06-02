@@ -271,7 +271,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     if eval_suite.get("name") != "fengshui-master-portable-evaluation-suite":
         fail(errors, "portable evaluation suite has wrong name")
     domains = {case.get("domain") for case in eval_suite.get("cases", [])}
-    for domain in ["finance", "life_omen", "space", "brand_product", "legal_adjacent"]:
+    for domain in ["finance", "life_omen", "space", "brand_product", "legal_adjacent", "timing", "tooling"]:
         if domain not in domains:
             fail(errors, f"portable evaluation suite missing domain {domain}")
     for case in eval_suite.get("cases", []):
@@ -283,6 +283,18 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
             fail(errors, f"portable evaluation case {case.get('id')} has too few must_not_include checks")
         if not case.get("boundary_focus"):
             fail(errors, f"portable evaluation case {case.get('id')} missing boundary_focus")
+    cases_by_id = {
+        case.get("id"): case
+        for case in eval_suite.get("cases", [])
+        if isinstance(case, dict)
+    }
+    timing_case = cases_by_id.get("timing-new-moon-full-moon-launch", {})
+    if "fengshui-master/references/timing-and-date-selection.md" not in timing_case.get("expected_references", []):
+        fail(errors, "portable evaluation suite missing timing moon phase case reference")
+    tooling_case = cases_by_id.get("tool-catalog-agent-registration", {})
+    for term in ["examples/tool-catalog.json", "schemas/tool-catalog.schema.json"]:
+        if term not in tooling_case.get("expected_references", []):
+            fail(errors, f"portable evaluation suite missing tooling reference {term}")
 
     for term in ["examples/portable-evaluation-suite.json"]:
         if term not in readme or term not in portable:

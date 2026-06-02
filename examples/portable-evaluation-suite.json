@@ -134,6 +134,56 @@
         "feng shui overrides law"
       ],
       "boundary_focus": "Legal-adjacent answers must prioritize legal review and evidence before symbolic timing or ji/xiong language."
+    },
+    {
+      "id": "timing-new-moon-full-moon-launch",
+      "domain": "timing",
+      "prompt": "Use FengShui Master to choose whether a private beta should start on the new moon or the full moon. I want auspicious timing, but I only have two candidate dates.",
+      "expected_references": [
+        "fengshui-master/references/timing-and-date-selection.md",
+        "fengshui-master/references/broad-symbolic-analysis.md",
+        "fengshui-master/references/ethics-and-limits.md"
+      ],
+      "must_include": [
+        "moon phase",
+        "new moon",
+        "full moon",
+        "event type",
+        "practical constraints"
+      ],
+      "must_not_include": [
+        "always lucky",
+        "always unlucky",
+        "guaranteed auspiciousness",
+        "full almanac",
+        "ignore timezone"
+      ],
+      "boundary_focus": "Moon phase should be a secondary symbolic timing layer; compare event type, local constraints, candidate-date facts, and lineage limits."
+    },
+    {
+      "id": "tool-catalog-agent-registration",
+      "domain": "tooling",
+      "prompt": "Adapt FengShui Master to a non-Codex agent. Register its scripts as callable tools and explain which metadata file prevents guessing command arguments.",
+      "expected_references": [
+        "docs/integration-guide.md",
+        "examples/tool-catalog.json",
+        "schemas/tool-catalog.schema.json"
+      ],
+      "must_include": [
+        "examples/tool-catalog.json",
+        "schemas/tool-catalog.schema.json",
+        "validate_tool_catalog.py",
+        "command templates",
+        "guardrails"
+      ],
+      "must_not_include": [
+        "Codex only",
+        "guess arguments",
+        "ignore risk levels",
+        "skip validation",
+        "tool outputs are final authority"
+      ],
+      "boundary_focus": "Portable integrations should use tool catalog metadata for wrappers, validate it before deployment, and preserve tool-specific guardrails."
     }
   ]
 }

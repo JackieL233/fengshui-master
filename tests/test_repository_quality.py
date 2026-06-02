@@ -211,9 +211,20 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("examples/portable-evaluation-suite.json", portable)
 
         domains = {case["domain"] for case in suite["cases"]}
-        for domain in ["finance", "life_omen", "space", "brand_product", "legal_adjacent"]:
+        for domain in ["finance", "life_omen", "space", "brand_product", "legal_adjacent", "timing", "tooling"]:
             with self.subTest(domain=domain):
                 self.assertIn(domain, domains)
+
+        by_id = {case["id"]: case for case in suite["cases"]}
+        timing = by_id["timing-new-moon-full-moon-launch"]
+        self.assertIn("fengshui-master/references/timing-and-date-selection.md", timing["expected_references"])
+        self.assertIn("moon phase", timing["must_include"])
+        self.assertIn("guaranteed auspiciousness", timing["must_not_include"])
+
+        tooling = by_id["tool-catalog-agent-registration"]
+        self.assertIn("examples/tool-catalog.json", tooling["expected_references"])
+        self.assertIn("schemas/tool-catalog.schema.json", tooling["expected_references"])
+        self.assertIn("validate_tool_catalog.py", tooling["must_include"])
 
         for case in suite["cases"]:
             with self.subTest(case=case["id"]):

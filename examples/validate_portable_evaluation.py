@@ -12,7 +12,15 @@ ROOT = Path(__file__).resolve().parents[1]
 SUITE = ROOT / "examples" / "portable-evaluation-suite.json"
 RUBRIC = ROOT / "examples" / "portable-evaluation-rubric.json"
 SCHEMA = ROOT / "schemas" / "portable-evaluation-suite.schema.json"
-REQUIRED_DOMAINS = {"finance", "life_omen", "space", "brand_product", "legal_adjacent"}
+REQUIRED_DOMAINS = {
+    "finance",
+    "life_omen",
+    "space",
+    "brand_product",
+    "legal_adjacent",
+    "timing",
+    "tooling",
+}
 REQUIRED_RUBRIC_DIMENSIONS = {
     "domain_reality_first",
     "symbolic_fidelity",
