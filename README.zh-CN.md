@@ -79,6 +79,7 @@ docs/
 schemas/
   portable-skill.schema.json
   portable-evaluation-suite.schema.json
+  reference-catalog.schema.json
 examples/
   portable-agent-prompts.md
   portable-evaluation-rubric.json
@@ -154,6 +155,7 @@ fengshui-master/
 
 - [`schemas/portable-skill.schema.json`](schemas/portable-skill.schema.json)
 - [`schemas/portable-evaluation-suite.schema.json`](schemas/portable-evaluation-suite.schema.json)
+- [`schemas/reference-catalog.schema.json`](schemas/reference-catalog.schema.json)
 
 常见接入方式：
 

@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "portable-skill.json"
 MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
 EVALUATION_SCHEMA = ROOT / "schemas" / "portable-evaluation-suite.schema.json"
+REFERENCE_CATALOG_SCHEMA = ROOT / "schemas" / "reference-catalog.schema.json"
 REQUIRED_TOP_LEVEL = {
     "name",
     "type",
@@ -64,6 +65,7 @@ def main() -> int:
     schema_titles = {
         MANIFEST_SCHEMA: "FengShui Master Portable Skill Manifest",
         EVALUATION_SCHEMA: "FengShui Master Portable Evaluation Suite",
+        REFERENCE_CATALOG_SCHEMA: "FengShui Master Reference Catalog",
     }
     for path, title in schema_titles.items():
         if not path.exists():
@@ -96,6 +98,8 @@ def main() -> int:
         fail(errors, "schemas.manifest must point to schemas/portable-skill.schema.json")
     if schemas.get("evaluation_suite") != "schemas/portable-evaluation-suite.schema.json":
         fail(errors, "schemas.evaluation_suite must point to schemas/portable-evaluation-suite.schema.json")
+    if schemas.get("reference_catalog") != "schemas/reference-catalog.schema.json":
+        fail(errors, "schemas.reference_catalog must point to schemas/reference-catalog.schema.json")
     for rel in schemas.values() if isinstance(schemas, dict) else []:
         if not (ROOT / rel).exists():
             fail(errors, f"schemas references missing path: {rel}")

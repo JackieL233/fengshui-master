@@ -11,6 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "portable-skill.json"
 CATALOG = ROOT / "examples" / "reference-catalog.json"
+SCHEMA = ROOT / "schemas" / "reference-catalog.schema.json"
 RISK_LEVELS = {"low", "medium", "high", "critical"}
 
 
@@ -33,9 +34,12 @@ def main() -> int:
     errors: list[str] = []
     manifest = load_json(errors, MANIFEST)
     catalog = load_json(errors, CATALOG)
+    schema = load_json(errors, SCHEMA)
 
     if catalog.get("name") != "fengshui-master-reference-catalog":
         fail(errors, "catalog name must be fengshui-master-reference-catalog")
+    if schema.get("title") != "FengShui Master Reference Catalog":
+        fail(errors, "reference catalog schema has wrong title")
 
     entries = catalog.get("references", [])
     if not isinstance(entries, list) or not entries:

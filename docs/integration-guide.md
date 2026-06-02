@@ -80,10 +80,11 @@ Use this setup for retrieval-augmented generation:
 
 1. Index files under `fengshui-master/references/` as separate documents.
 2. Use `examples/reference-catalog.json` for path, title, domain, risk level, tags, and required guardrail metadata.
-3. Keep `PORTABLE_SKILL.md` outside retrieval as a fixed policy.
-4. Route first, retrieve second, answer third.
-5. Prefer exact adapter files over broad files when the domain is known.
-6. Always retrieve `ethics-and-limits.md` for finance, wellbeing, legal-adjacent, building, safety, or life-omen questions.
+3. Use `schemas/reference-catalog.schema.json` when the host platform supports JSON Schema validation for retrieval metadata.
+4. Keep `PORTABLE_SKILL.md` outside retrieval as a fixed policy.
+5. Route first, retrieve second, answer third.
+6. Prefer exact adapter files over broad files when the domain is known.
+7. Always retrieve `ethics-and-limits.md` for finance, wellbeing, legal-adjacent, building, safety, or life-omen questions.
 
 Suggested metadata:
 

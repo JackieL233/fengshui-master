@@ -62,7 +62,8 @@
   ],
   "schemas": {
     "manifest": "schemas/portable-skill.schema.json",
-    "evaluation_suite": "schemas/portable-evaluation-suite.schema.json"
+    "evaluation_suite": "schemas/portable-evaluation-suite.schema.json",
+    "reference_catalog": "schemas/reference-catalog.schema.json"
   },
   "governance": [
     "SECURITY.md",

@@ -27,6 +27,7 @@ PORTABLE_MANIFEST = ROOT / "portable-skill.json"
 PORTABLE_MANIFEST_VALIDATOR = ROOT / "examples" / "validate_portable_manifest.py"
 PORTABLE_MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
 PORTABLE_EVAL_SCHEMA = ROOT / "schemas" / "portable-evaluation-suite.schema.json"
+REFERENCE_CATALOG_SCHEMA = ROOT / "schemas" / "reference-catalog.schema.json"
 INTEGRATION_GUIDE = ROOT / "docs" / "integration-guide.md"
 SECURITY = ROOT / "SECURITY.md"
 CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
@@ -345,21 +346,26 @@ class RepositoryQualityTest(unittest.TestCase):
     def test_portable_json_schemas_exist(self):
         self.assertTrue(PORTABLE_MANIFEST_SCHEMA.exists())
         self.assertTrue(PORTABLE_EVAL_SCHEMA.exists())
+        self.assertTrue(REFERENCE_CATALOG_SCHEMA.exists())
 
         manifest_schema = json.loads(PORTABLE_MANIFEST_SCHEMA.read_text(encoding="utf-8"))
         eval_schema = json.loads(PORTABLE_EVAL_SCHEMA.read_text(encoding="utf-8"))
+        reference_schema = json.loads(REFERENCE_CATALOG_SCHEMA.read_text(encoding="utf-8"))
         manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
         self.assertEqual(manifest_schema["title"], "FengShui Master Portable Skill Manifest")
         self.assertEqual(eval_schema["title"], "FengShui Master Portable Evaluation Suite")
+        self.assertEqual(reference_schema["title"], "FengShui Master Reference Catalog")
         self.assertEqual(manifest["schemas"]["manifest"], "schemas/portable-skill.schema.json")
         self.assertEqual(manifest["schemas"]["evaluation_suite"], "schemas/portable-evaluation-suite.schema.json")
+        self.assertEqual(manifest["schemas"]["reference_catalog"], "schemas/reference-catalog.schema.json")
         self.assertIn("integration", manifest_schema["required"])
 
         for phrase in [
             "schemas/portable-skill.schema.json",
             "schemas/portable-evaluation-suite.schema.json",
+            "schemas/reference-catalog.schema.json",
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, readme)

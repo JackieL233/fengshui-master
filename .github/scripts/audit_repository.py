@@ -70,6 +70,7 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "CONTRIBUTING.md",
         ROOT / "schemas" / "portable-skill.schema.json",
         ROOT / "schemas" / "portable-evaluation-suite.schema.json",
+        ROOT / "schemas" / "reference-catalog.schema.json",
         ROOT / "examples" / "portable-agent-prompts.md",
         ROOT / "examples" / "portable-evaluation-rubric.json",
         ROOT / "examples" / "portable-evaluation-suite.json",
@@ -147,6 +148,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     manifest_validator_path = ROOT / "examples" / "validate_portable_manifest.py"
     manifest_schema_path = ROOT / "schemas" / "portable-skill.schema.json"
     eval_schema_path = ROOT / "schemas" / "portable-evaluation-suite.schema.json"
+    reference_catalog_schema_path = ROOT / "schemas" / "reference-catalog.schema.json"
     integration_path = ROOT / "docs" / "integration-guide.md"
 
     if not portable_path.exists():
@@ -181,6 +183,9 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         return
     if not eval_schema_path.exists():
         fail(errors, "missing schemas/portable-evaluation-suite.schema.json")
+        return
+    if not reference_catalog_schema_path.exists():
+        fail(errors, "missing schemas/reference-catalog.schema.json")
         return
     if not integration_path.exists():
         fail(errors, "missing docs/integration-guide.md")
@@ -291,6 +296,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         fail(errors, "portable manifest missing fengshui-master/scripts/moon_phase.py")
     if "timing" not in manifest.get("domains", []):
         fail(errors, "portable manifest missing timing domain")
+    if manifest.get("schemas", {}).get("reference_catalog") != "schemas/reference-catalog.schema.json":
+        fail(errors, "portable manifest missing reference catalog schema")
     for term in [
         "Chat Assistant Setup",
         "Agent Framework Setup",
@@ -302,7 +309,11 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         if term not in integration:
             fail(errors, f"integration guide missing {term}")
 
-    for term in ["schemas/portable-skill.schema.json", "schemas/portable-evaluation-suite.schema.json"]:
+    for term in [
+        "schemas/portable-skill.schema.json",
+        "schemas/portable-evaluation-suite.schema.json",
+        "schemas/reference-catalog.schema.json",
+    ]:
         if term not in readme or term not in portable:
             fail(errors, f"portable schema path missing from public docs: {term}")
 

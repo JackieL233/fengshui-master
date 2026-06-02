@@ -104,6 +104,7 @@ docs/
 schemas/
   portable-skill.schema.json
   portable-evaluation-suite.schema.json
+  reference-catalog.schema.json
 examples/
   portable-agent-prompts.md
   portable-evaluation-rubric.json
@@ -185,6 +186,7 @@ Schema files are provided for platform integrations:
 
 - [`schemas/portable-skill.schema.json`](schemas/portable-skill.schema.json)
 - [`schemas/portable-evaluation-suite.schema.json`](schemas/portable-evaluation-suite.schema.json)
+- [`schemas/reference-catalog.schema.json`](schemas/reference-catalog.schema.json)
 
 Common integration patterns:
 
