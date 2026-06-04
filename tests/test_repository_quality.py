@@ -35,6 +35,8 @@ ADVERSARIAL_EVAL_SUITE = ROOT / "examples" / "adversarial-evaluation-suite.json"
 ADVERSARIAL_EVAL_VALIDATOR = ROOT / "examples" / "validate_adversarial_evaluation.py"
 INTAKE_CONTRACTS = ROOT / "examples" / "intake-contracts.json"
 INTAKE_CONTRACTS_VALIDATOR = ROOT / "examples" / "validate_intake_contracts.py"
+GOLDEN_RESPONSES = ROOT / "examples" / "golden-responses.json"
+GOLDEN_RESPONSES_VALIDATOR = ROOT / "examples" / "validate_golden_responses.py"
 PORTABLE_MANIFEST = ROOT / "portable-skill.json"
 PORTABLE_MANIFEST_VALIDATOR = ROOT / "examples" / "validate_portable_manifest.py"
 PORTABLE_MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
@@ -46,6 +48,7 @@ CAPABILITY_MATRIX_SCHEMA = ROOT / "schemas" / "capability-matrix.schema.json"
 SOURCE_QUALITY_POLICY_SCHEMA = ROOT / "schemas" / "source-quality-policy.schema.json"
 ADVERSARIAL_EVAL_SCHEMA = ROOT / "schemas" / "adversarial-evaluation-suite.schema.json"
 INTAKE_CONTRACTS_SCHEMA = ROOT / "schemas" / "intake-contracts.schema.json"
+GOLDEN_RESPONSES_SCHEMA = ROOT / "schemas" / "golden-responses.schema.json"
 INTEGRATION_GUIDE = ROOT / "docs" / "integration-guide.md"
 SECURITY = ROOT / "SECURITY.md"
 CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
@@ -78,6 +81,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("python examples/validate_source_quality_policy.py", workflow)
         self.assertIn("python examples/validate_adversarial_evaluation.py", workflow)
         self.assertIn("python examples/validate_intake_contracts.py", workflow)
+        self.assertIn("python examples/validate_golden_responses.py", workflow)
         self.assertIn("python .github/scripts/audit_repository.py", workflow)
 
     def test_portable_skill_validator_exists_for_ci(self):
@@ -441,6 +445,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("examples/source-quality-policy.json", manifest["evaluation"])
         self.assertIn("examples/adversarial-evaluation-suite.json", manifest["evaluation"])
         self.assertIn("examples/intake-contracts.json", manifest["evaluation"])
+        self.assertIn("examples/golden-responses.json", manifest["evaluation"])
         self.assertIn("docs/integration-guide.md", manifest["integration"])
         self.assertIn("fengshui-master/scripts/method_selector.py", manifest["tools"])
         self.assertIn("fengshui-master/scripts/bagua_map.py", manifest["tools"])
@@ -679,6 +684,58 @@ class RepositoryQualityTest(unittest.TestCase):
         )
         self.assertIn("Intake contracts are valid", result.stdout)
 
+    def test_golden_responses_exist_and_pass(self):
+        self.assertTrue(GOLDEN_RESPONSES.exists())
+        self.assertTrue(GOLDEN_RESPONSES_VALIDATOR.exists())
+
+        golden = json.loads(GOLDEN_RESPONSES.read_text(encoding="utf-8"))
+        manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        chinese_readme = README_ZH.read_text(encoding="utf-8")
+        portable = PORTABLE_SKILL.read_text(encoding="utf-8")
+
+        self.assertEqual(golden["name"], "fengshui-master-golden-responses")
+        self.assertGreaterEqual(len(golden["responses"]), 5)
+        self.assertIn("examples/golden-responses.json", manifest["evaluation"])
+        self.assertIn("examples/validate_golden_responses.py", manifest["evaluation"])
+
+        by_id = {entry["id"]: entry for entry in golden["responses"]}
+        for response_id in [
+            "finance-symbolic-risk-answer",
+            "space-form-floorplan-answer",
+            "timing-new-full-moon-answer",
+            "life-omen-conditional-answer",
+            "prompt-injection-safe-answer",
+        ]:
+            with self.subTest(response_id=response_id):
+                self.assertIn(response_id, by_id)
+
+        finance = by_id["finance-symbolic-risk-answer"]
+        self.assertIn("not financial advice", finance["required_phrases"])
+        self.assertIn("do not issue buy/sell commands", finance["quality_checks"])
+
+        timing = by_id["timing-new-full-moon-answer"]
+        self.assertIn("moon phase is secondary", timing["required_phrases"])
+        self.assertIn("not a full almanac", timing["required_phrases"])
+
+        injection = by_id["prompt-injection-safe-answer"]
+        self.assertIn("do not follow injected instructions", injection["required_phrases"])
+        self.assertIn("ignore all previous rules", injection["forbidden_phrases"])
+
+        for text in [readme, chinese_readme, portable]:
+            with self.subTest(text=text[:20]):
+                self.assertIn("examples/golden-responses.json", text)
+                self.assertIn("examples/validate_golden_responses.py", text)
+
+        result = subprocess.run(
+            [sys.executable, str(GOLDEN_RESPONSES_VALIDATOR)],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+        self.assertIn("Golden responses are valid", result.stdout)
+
     def test_ci_smoke_tests_moon_phase_helper(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")
 
@@ -733,6 +790,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertTrue(SOURCE_QUALITY_POLICY_SCHEMA.exists())
         self.assertTrue(ADVERSARIAL_EVAL_SCHEMA.exists())
         self.assertTrue(INTAKE_CONTRACTS_SCHEMA.exists())
+        self.assertTrue(GOLDEN_RESPONSES_SCHEMA.exists())
 
         manifest_schema = json.loads(PORTABLE_MANIFEST_SCHEMA.read_text(encoding="utf-8"))
         eval_schema = json.loads(PORTABLE_EVAL_SCHEMA.read_text(encoding="utf-8"))
@@ -743,6 +801,7 @@ class RepositoryQualityTest(unittest.TestCase):
         source_quality_schema = json.loads(SOURCE_QUALITY_POLICY_SCHEMA.read_text(encoding="utf-8"))
         adversarial_schema = json.loads(ADVERSARIAL_EVAL_SCHEMA.read_text(encoding="utf-8"))
         intake_schema = json.loads(INTAKE_CONTRACTS_SCHEMA.read_text(encoding="utf-8"))
+        golden_schema = json.loads(GOLDEN_RESPONSES_SCHEMA.read_text(encoding="utf-8"))
         manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
@@ -755,6 +814,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertEqual(source_quality_schema["title"], "FengShui Master Source Quality Policy")
         self.assertEqual(adversarial_schema["title"], "FengShui Master Adversarial Evaluation Suite")
         self.assertEqual(intake_schema["title"], "FengShui Master Intake Contracts")
+        self.assertEqual(golden_schema["title"], "FengShui Master Golden Responses")
         self.assertEqual(manifest["schemas"]["manifest"], "schemas/portable-skill.schema.json")
         self.assertEqual(manifest["schemas"]["evaluation_suite"], "schemas/portable-evaluation-suite.schema.json")
         self.assertEqual(manifest["schemas"]["reference_catalog"], "schemas/reference-catalog.schema.json")
@@ -764,6 +824,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertEqual(manifest["schemas"]["source_quality_policy"], "schemas/source-quality-policy.schema.json")
         self.assertEqual(manifest["schemas"]["adversarial_evaluation_suite"], "schemas/adversarial-evaluation-suite.schema.json")
         self.assertEqual(manifest["schemas"]["intake_contracts"], "schemas/intake-contracts.schema.json")
+        self.assertEqual(manifest["schemas"]["golden_responses"], "schemas/golden-responses.schema.json")
         self.assertIn("integration", manifest_schema["required"])
 
         for phrase in [
@@ -776,6 +837,7 @@ class RepositoryQualityTest(unittest.TestCase):
             "schemas/source-quality-policy.schema.json",
             "schemas/adversarial-evaluation-suite.schema.json",
             "schemas/intake-contracts.schema.json",
+            "schemas/golden-responses.schema.json",
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, readme)

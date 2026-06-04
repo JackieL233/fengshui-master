@@ -86,6 +86,7 @@ schemas/
   source-quality-policy.schema.json
   adversarial-evaluation-suite.schema.json
   intake-contracts.schema.json
+  golden-responses.schema.json
 examples/
   portable-agent-prompts.md
   portable-evaluation-rubric.json
@@ -97,6 +98,7 @@ examples/
   source-quality-policy.json
   adversarial-evaluation-suite.json
   intake-contracts.json
+  golden-responses.json
   validate_portable_evaluation.py
   validate_portable_manifest.py
   validate_reference_catalog.py
@@ -106,6 +108,7 @@ examples/
   validate_source_quality_policy.py
   validate_adversarial_evaluation.py
   validate_intake_contracts.py
+  validate_golden_responses.py
 fengshui-master/
   SKILL.md
   agents/openai.yaml
@@ -183,6 +186,7 @@ fengshui-master/
 - [`schemas/source-quality-policy.schema.json`](schemas/source-quality-policy.schema.json)
 - [`schemas/adversarial-evaluation-suite.schema.json`](schemas/adversarial-evaluation-suite.schema.json)
 - [`schemas/intake-contracts.schema.json`](schemas/intake-contracts.schema.json)
+- [`schemas/golden-responses.schema.json`](schemas/golden-responses.schema.json)
 
 常见接入方式：
 
@@ -200,6 +204,8 @@ fengshui-master/
 对抗提示、prompt-injection、越权与 scope-inflation 测试见 [`examples/adversarial-evaluation-suite.json`](examples/adversarial-evaluation-suite.json)，并可用 [`examples/validate_adversarial_evaluation.py`](examples/validate_adversarial_evaluation.py) 验证。
 
 领域输入、缺失信息与 ask-first 规则见 [`examples/intake-contracts.json`](examples/intake-contracts.json)，并可用 [`examples/validate_intake_contracts.py`](examples/validate_intake_contracts.py) 验证。
+
+标准输出骨架和 golden response fixtures 见 [`examples/golden-responses.json`](examples/golden-responses.json)，并可用 [`examples/validate_golden_responses.py`](examples/validate_golden_responses.py) 验证。
 
 验证 portable evaluation suite：
 
@@ -253,6 +259,12 @@ python examples/validate_adversarial_evaluation.py
 
 ```bash
 python examples/validate_intake_contracts.py
+```
+
+验证 golden responses：
+
+```bash
+python examples/validate_golden_responses.py
 ```
 
 ## Codex 安装

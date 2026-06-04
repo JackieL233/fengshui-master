@@ -77,11 +77,14 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "schemas" / "source-quality-policy.schema.json",
         ROOT / "schemas" / "adversarial-evaluation-suite.schema.json",
         ROOT / "schemas" / "intake-contracts.schema.json",
+        ROOT / "schemas" / "golden-responses.schema.json",
         ROOT / "examples" / "portable-agent-prompts.md",
         ROOT / "examples" / "portable-evaluation-rubric.json",
         ROOT / "examples" / "portable-evaluation-suite.json",
         ROOT / "examples" / "validate_portable_evaluation.py",
         ROOT / "examples" / "validate_portable_manifest.py",
+        ROOT / "examples" / "golden-responses.json",
+        ROOT / "examples" / "validate_golden_responses.py",
         SKILL / "SKILL.md",
         *sorted((SKILL / "references").glob("*.md")),
     ]
@@ -162,6 +165,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     adversarial_eval_validator_path = ROOT / "examples" / "validate_adversarial_evaluation.py"
     intake_contracts_path = ROOT / "examples" / "intake-contracts.json"
     intake_contracts_validator_path = ROOT / "examples" / "validate_intake_contracts.py"
+    golden_responses_path = ROOT / "examples" / "golden-responses.json"
+    golden_responses_validator_path = ROOT / "examples" / "validate_golden_responses.py"
     manifest_path = ROOT / "portable-skill.json"
     manifest_validator_path = ROOT / "examples" / "validate_portable_manifest.py"
     manifest_schema_path = ROOT / "schemas" / "portable-skill.schema.json"
@@ -173,6 +178,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     source_quality_policy_schema_path = ROOT / "schemas" / "source-quality-policy.schema.json"
     adversarial_eval_schema_path = ROOT / "schemas" / "adversarial-evaluation-suite.schema.json"
     intake_contracts_schema_path = ROOT / "schemas" / "intake-contracts.schema.json"
+    golden_responses_schema_path = ROOT / "schemas" / "golden-responses.schema.json"
     integration_path = ROOT / "docs" / "integration-guide.md"
 
     if not portable_path.exists():
@@ -232,6 +238,12 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     if not intake_contracts_validator_path.exists():
         fail(errors, "missing examples/validate_intake_contracts.py")
         return
+    if not golden_responses_path.exists():
+        fail(errors, "missing examples/golden-responses.json")
+        return
+    if not golden_responses_validator_path.exists():
+        fail(errors, "missing examples/validate_golden_responses.py")
+        return
     if not manifest_path.exists():
         fail(errors, "missing portable-skill.json")
         return
@@ -265,6 +277,9 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     if not intake_contracts_schema_path.exists():
         fail(errors, "missing schemas/intake-contracts.schema.json")
         return
+    if not golden_responses_schema_path.exists():
+        fail(errors, "missing schemas/golden-responses.schema.json")
+        return
     if not integration_path.exists():
         fail(errors, "missing docs/integration-guide.md")
         return
@@ -281,6 +296,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     source_quality_policy = json.loads(read(source_quality_policy_path))
     adversarial_eval = json.loads(read(adversarial_eval_path))
     intake_contracts = json.loads(read(intake_contracts_path))
+    golden_responses = json.loads(read(golden_responses_path))
     for term in [
         "Portable AI Skill",
         "System Instruction",
@@ -402,6 +418,10 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         if term not in readme or term not in chinese or term not in portable:
             fail(errors, f"intake contracts path missing from public docs: {term}")
 
+    for term in ["examples/golden-responses.json", "examples/validate_golden_responses.py"]:
+        if term not in readme or term not in chinese or term not in portable:
+            fail(errors, f"golden responses path missing from public docs: {term}")
+
     for term in ["portable-skill.json", "examples/validate_portable_manifest.py"]:
         if term not in readme or term not in portable:
             fail(errors, f"portable manifest path missing from public docs: {term}")
@@ -436,6 +456,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         fail(errors, "portable manifest missing adversarial evaluation schema")
     if manifest.get("schemas", {}).get("intake_contracts") != "schemas/intake-contracts.schema.json":
         fail(errors, "portable manifest missing intake contracts schema")
+    if manifest.get("schemas", {}).get("golden_responses") != "schemas/golden-responses.schema.json":
+        fail(errors, "portable manifest missing golden responses schema")
     for term in [
         "Chat Assistant Setup",
         "Agent Framework Setup",
@@ -457,6 +479,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         "schemas/source-quality-policy.schema.json",
         "schemas/adversarial-evaluation-suite.schema.json",
         "schemas/intake-contracts.schema.json",
+        "schemas/golden-responses.schema.json",
     ]:
         if term not in readme or term not in portable:
             fail(errors, f"portable schema path missing from public docs: {term}")
@@ -519,6 +542,10 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         fail(errors, "portable manifest missing intake contracts")
     if "examples/validate_intake_contracts.py" not in manifest.get("evaluation", []):
         fail(errors, "portable manifest missing intake contracts validator")
+    if "examples/golden-responses.json" not in manifest.get("evaluation", []):
+        fail(errors, "portable manifest missing golden responses")
+    if "examples/validate_golden_responses.py" not in manifest.get("evaluation", []):
+        fail(errors, "portable manifest missing golden responses validator")
     response_sections = {
         section.get("name")
         for section in response_contract.get("required_sections", [])
@@ -588,6 +615,20 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     for domain in ["space", "finance", "timing", "life_omen", "wellbeing", "legal_adjacent"]:
         if domain not in intake_domains:
             fail(errors, f"intake contracts missing {domain}")
+    golden_ids = {
+        response.get("id")
+        for response in golden_responses.get("responses", [])
+        if isinstance(response, dict)
+    }
+    for response_id in [
+        "finance-symbolic-risk-answer",
+        "space-form-floorplan-answer",
+        "timing-new-full-moon-answer",
+        "life-omen-conditional-answer",
+        "prompt-injection-safe-answer",
+    ]:
+        if response_id not in golden_ids:
+            fail(errors, f"golden responses missing {response_id}")
     for path, guardrail in {
         "fengshui-master/references/finance-adapter.md": "not financial advice",
         "fengshui-master/references/ethics-and-limits.md": "no guaranteed prediction",
@@ -702,6 +743,15 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     )
     if intake_validator.returncode != 0:
         fail(errors, f"intake contracts validator failed: {intake_validator.stderr.strip()}")
+
+    golden_validator = subprocess.run(
+        [sys.executable, str(golden_responses_validator_path)],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    if golden_validator.returncode != 0:
+        fail(errors, f"golden responses validator failed: {golden_validator.stderr.strip()}")
 
 
 def audit_bilingual_docs(errors: list[str]) -> None:

@@ -70,7 +70,9 @@
     "examples/adversarial-evaluation-suite.json",
     "examples/validate_adversarial_evaluation.py",
     "examples/intake-contracts.json",
-    "examples/validate_intake_contracts.py"
+    "examples/validate_intake_contracts.py",
+    "examples/golden-responses.json",
+    "examples/validate_golden_responses.py"
   ],
   "integration": [
     "docs/integration-guide.md"
@@ -84,7 +86,8 @@
     "capability_matrix": "schemas/capability-matrix.schema.json",
     "source_quality_policy": "schemas/source-quality-policy.schema.json",
     "adversarial_evaluation_suite": "schemas/adversarial-evaluation-suite.schema.json",
-    "intake_contracts": "schemas/intake-contracts.schema.json"
+    "intake_contracts": "schemas/intake-contracts.schema.json",
+    "golden_responses": "schemas/golden-responses.schema.json"
   },
   "governance": [
     "SECURITY.md",
