@@ -52,14 +52,15 @@
     },
     "schemas": {
       "type": "object",
-      "required": ["manifest", "evaluation_suite", "reference_catalog", "tool_catalog", "response_contract", "capability_matrix"],
+      "required": ["manifest", "evaluation_suite", "reference_catalog", "tool_catalog", "response_contract", "capability_matrix", "source_quality_policy"],
       "properties": {
         "manifest": { "type": "string" },
         "evaluation_suite": { "type": "string" },
         "reference_catalog": { "type": "string" },
         "tool_catalog": { "type": "string" },
         "response_contract": { "type": "string" },
-        "capability_matrix": { "type": "string" }
+        "capability_matrix": { "type": "string" },
+        "source_quality_policy": { "type": "string" }
       },
       "additionalProperties": false
     }

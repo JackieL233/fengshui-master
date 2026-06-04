@@ -64,7 +64,9 @@
     "examples/response-contract.json",
     "examples/validate_response_contract.py",
     "examples/capability-matrix.json",
-    "examples/validate_capability_matrix.py"
+    "examples/validate_capability_matrix.py",
+    "examples/source-quality-policy.json",
+    "examples/validate_source_quality_policy.py"
   ],
   "integration": [
     "docs/integration-guide.md"
@@ -75,7 +77,8 @@
     "reference_catalog": "schemas/reference-catalog.schema.json",
     "tool_catalog": "schemas/tool-catalog.schema.json",
     "response_contract": "schemas/response-contract.schema.json",
-    "capability_matrix": "schemas/capability-matrix.schema.json"
+    "capability_matrix": "schemas/capability-matrix.schema.json",
+    "source_quality_policy": "schemas/source-quality-policy.schema.json"
   },
   "governance": [
     "SECURITY.md",

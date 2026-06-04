@@ -74,6 +74,7 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "schemas" / "tool-catalog.schema.json",
         ROOT / "schemas" / "response-contract.schema.json",
         ROOT / "schemas" / "capability-matrix.schema.json",
+        ROOT / "schemas" / "source-quality-policy.schema.json",
         ROOT / "examples" / "portable-agent-prompts.md",
         ROOT / "examples" / "portable-evaluation-rubric.json",
         ROOT / "examples" / "portable-evaluation-suite.json",
@@ -153,6 +154,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     response_contract_validator_path = ROOT / "examples" / "validate_response_contract.py"
     capability_matrix_path = ROOT / "examples" / "capability-matrix.json"
     capability_matrix_validator_path = ROOT / "examples" / "validate_capability_matrix.py"
+    source_quality_policy_path = ROOT / "examples" / "source-quality-policy.json"
+    source_quality_policy_validator_path = ROOT / "examples" / "validate_source_quality_policy.py"
     manifest_path = ROOT / "portable-skill.json"
     manifest_validator_path = ROOT / "examples" / "validate_portable_manifest.py"
     manifest_schema_path = ROOT / "schemas" / "portable-skill.schema.json"
@@ -161,6 +164,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     tool_catalog_schema_path = ROOT / "schemas" / "tool-catalog.schema.json"
     response_contract_schema_path = ROOT / "schemas" / "response-contract.schema.json"
     capability_matrix_schema_path = ROOT / "schemas" / "capability-matrix.schema.json"
+    source_quality_policy_schema_path = ROOT / "schemas" / "source-quality-policy.schema.json"
     integration_path = ROOT / "docs" / "integration-guide.md"
 
     if not portable_path.exists():
@@ -202,6 +206,12 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     if not capability_matrix_validator_path.exists():
         fail(errors, "missing examples/validate_capability_matrix.py")
         return
+    if not source_quality_policy_path.exists():
+        fail(errors, "missing examples/source-quality-policy.json")
+        return
+    if not source_quality_policy_validator_path.exists():
+        fail(errors, "missing examples/validate_source_quality_policy.py")
+        return
     if not manifest_path.exists():
         fail(errors, "missing portable-skill.json")
         return
@@ -226,6 +236,9 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     if not capability_matrix_schema_path.exists():
         fail(errors, "missing schemas/capability-matrix.schema.json")
         return
+    if not source_quality_policy_schema_path.exists():
+        fail(errors, "missing schemas/source-quality-policy.schema.json")
+        return
     if not integration_path.exists():
         fail(errors, "missing docs/integration-guide.md")
         return
@@ -239,6 +252,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     tool_catalog = json.loads(read(tool_catalog_path))
     response_contract = json.loads(read(response_contract_path))
     capability_matrix = json.loads(read(capability_matrix_path))
+    source_quality_policy = json.loads(read(source_quality_policy_path))
     for term in [
         "Portable AI Skill",
         "System Instruction",
@@ -348,6 +362,10 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         if term not in readme or term not in chinese or term not in portable:
             fail(errors, f"capability matrix path missing from public docs: {term}")
 
+    for term in ["examples/source-quality-policy.json", "examples/validate_source_quality_policy.py"]:
+        if term not in readme or term not in chinese or term not in portable:
+            fail(errors, f"source quality policy path missing from public docs: {term}")
+
     for term in ["portable-skill.json", "examples/validate_portable_manifest.py"]:
         if term not in readme or term not in portable:
             fail(errors, f"portable manifest path missing from public docs: {term}")
@@ -376,6 +394,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         fail(errors, "portable manifest missing response contract schema")
     if manifest.get("schemas", {}).get("capability_matrix") != "schemas/capability-matrix.schema.json":
         fail(errors, "portable manifest missing capability matrix schema")
+    if manifest.get("schemas", {}).get("source_quality_policy") != "schemas/source-quality-policy.schema.json":
+        fail(errors, "portable manifest missing source quality policy schema")
     for term in [
         "Chat Assistant Setup",
         "Agent Framework Setup",
@@ -394,6 +414,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         "schemas/tool-catalog.schema.json",
         "schemas/response-contract.schema.json",
         "schemas/capability-matrix.schema.json",
+        "schemas/source-quality-policy.schema.json",
     ]:
         if term not in readme or term not in portable:
             fail(errors, f"portable schema path missing from public docs: {term}")
@@ -444,6 +465,10 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         fail(errors, "portable manifest missing capability matrix")
     if "examples/validate_capability_matrix.py" not in manifest.get("evaluation", []):
         fail(errors, "portable manifest missing capability matrix validator")
+    if "examples/source-quality-policy.json" not in manifest.get("evaluation", []):
+        fail(errors, "portable manifest missing source quality policy")
+    if "examples/validate_source_quality_policy.py" not in manifest.get("evaluation", []):
+        fail(errors, "portable manifest missing source quality policy validator")
     response_sections = {
         section.get("name")
         for section in response_contract.get("required_sections", [])
@@ -474,6 +499,22 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     ]:
         if capability_id not in capability_ids:
             fail(errors, f"capability matrix missing {capability_id}")
+    source_tiers = {
+        tier.get("id")
+        for tier in source_quality_policy.get("source_tiers", [])
+        if isinstance(tier, dict)
+    }
+    for tier_id in ["classical_anchor", "lineage_practice", "modern_adaptation", "practical_constraint"]:
+        if tier_id not in source_tiers:
+            fail(errors, f"source quality policy missing tier {tier_id}")
+    claim_types = {
+        claim.get("claim_type")
+        for claim in source_quality_policy.get("claim_policies", [])
+        if isinstance(claim, dict)
+    }
+    for claim_type in ["modern_cross_domain_adapter", "high_stakes_domain_claim", "full_bazi_or_almanac_claim"]:
+        if claim_type not in claim_types:
+            fail(errors, f"source quality policy missing claim policy {claim_type}")
     for path, guardrail in {
         "fengshui-master/references/finance-adapter.md": "not financial advice",
         "fengshui-master/references/ethics-and-limits.md": "no guaranteed prediction",
@@ -561,6 +602,15 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     )
     if capability_validator.returncode != 0:
         fail(errors, f"capability matrix validator failed: {capability_validator.stderr.strip()}")
+
+    source_quality_validator = subprocess.run(
+        [sys.executable, str(source_quality_policy_validator_path)],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    if source_quality_validator.returncode != 0:
+        fail(errors, f"source quality policy validator failed: {source_quality_validator.stderr.strip()}")
 
 
 def audit_bilingual_docs(errors: list[str]) -> None:

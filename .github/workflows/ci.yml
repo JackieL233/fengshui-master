@@ -45,6 +45,9 @@ jobs:
       - name: Validate capability matrix
         run: python examples/validate_capability_matrix.py
 
+      - name: Validate source quality policy
+        run: python examples/validate_source_quality_policy.py
+
       - name: Smoke test domain router
         run: python fengshui-master/scripts/domain_router.py "Should I buy this stock next month?" --pretty
 

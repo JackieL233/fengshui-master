@@ -16,6 +16,7 @@ REFERENCE_CATALOG_SCHEMA = ROOT / "schemas" / "reference-catalog.schema.json"
 TOOL_CATALOG_SCHEMA = ROOT / "schemas" / "tool-catalog.schema.json"
 RESPONSE_CONTRACT_SCHEMA = ROOT / "schemas" / "response-contract.schema.json"
 CAPABILITY_MATRIX_SCHEMA = ROOT / "schemas" / "capability-matrix.schema.json"
+SOURCE_QUALITY_POLICY_SCHEMA = ROOT / "schemas" / "source-quality-policy.schema.json"
 REQUIRED_TOP_LEVEL = {
     "name",
     "type",
@@ -73,6 +74,7 @@ def main() -> int:
         TOOL_CATALOG_SCHEMA: "FengShui Master Tool Catalog",
         RESPONSE_CONTRACT_SCHEMA: "FengShui Master Response Contract",
         CAPABILITY_MATRIX_SCHEMA: "FengShui Master Capability Matrix",
+        SOURCE_QUALITY_POLICY_SCHEMA: "FengShui Master Source Quality Policy",
     }
     for path, title in schema_titles.items():
         if not path.exists():
@@ -113,6 +115,8 @@ def main() -> int:
         fail(errors, "schemas.response_contract must point to schemas/response-contract.schema.json")
     if schemas.get("capability_matrix") != "schemas/capability-matrix.schema.json":
         fail(errors, "schemas.capability_matrix must point to schemas/capability-matrix.schema.json")
+    if schemas.get("source_quality_policy") != "schemas/source-quality-policy.schema.json":
+        fail(errors, "schemas.source_quality_policy must point to schemas/source-quality-policy.schema.json")
     for rel in schemas.values() if isinstance(schemas, dict) else []:
         if not (ROOT / rel).exists():
             fail(errors, f"schemas references missing path: {rel}")
@@ -134,6 +138,10 @@ def main() -> int:
         fail(errors, "evaluation missing examples/capability-matrix.json")
     if "examples/validate_capability_matrix.py" not in manifest.get("evaluation", []):
         fail(errors, "evaluation missing examples/validate_capability_matrix.py")
+    if "examples/source-quality-policy.json" not in manifest.get("evaluation", []):
+        fail(errors, "evaluation missing examples/source-quality-policy.json")
+    if "examples/validate_source_quality_policy.py" not in manifest.get("evaluation", []):
+        fail(errors, "evaluation missing examples/validate_source_quality_policy.py")
 
     domains = set(manifest.get("domains", []))
     missing_domains = sorted(REQUIRED_DOMAINS - domains)

@@ -29,6 +29,8 @@ RESPONSE_CONTRACT = ROOT / "examples" / "response-contract.json"
 RESPONSE_CONTRACT_VALIDATOR = ROOT / "examples" / "validate_response_contract.py"
 CAPABILITY_MATRIX = ROOT / "examples" / "capability-matrix.json"
 CAPABILITY_MATRIX_VALIDATOR = ROOT / "examples" / "validate_capability_matrix.py"
+SOURCE_QUALITY_POLICY = ROOT / "examples" / "source-quality-policy.json"
+SOURCE_QUALITY_POLICY_VALIDATOR = ROOT / "examples" / "validate_source_quality_policy.py"
 PORTABLE_MANIFEST = ROOT / "portable-skill.json"
 PORTABLE_MANIFEST_VALIDATOR = ROOT / "examples" / "validate_portable_manifest.py"
 PORTABLE_MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
@@ -37,6 +39,7 @@ REFERENCE_CATALOG_SCHEMA = ROOT / "schemas" / "reference-catalog.schema.json"
 TOOL_CATALOG_SCHEMA = ROOT / "schemas" / "tool-catalog.schema.json"
 RESPONSE_CONTRACT_SCHEMA = ROOT / "schemas" / "response-contract.schema.json"
 CAPABILITY_MATRIX_SCHEMA = ROOT / "schemas" / "capability-matrix.schema.json"
+SOURCE_QUALITY_POLICY_SCHEMA = ROOT / "schemas" / "source-quality-policy.schema.json"
 INTEGRATION_GUIDE = ROOT / "docs" / "integration-guide.md"
 SECURITY = ROOT / "SECURITY.md"
 CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
@@ -66,6 +69,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("python examples/validate_tool_catalog.py", workflow)
         self.assertIn("python examples/validate_response_contract.py", workflow)
         self.assertIn("python examples/validate_capability_matrix.py", workflow)
+        self.assertIn("python examples/validate_source_quality_policy.py", workflow)
         self.assertIn("python .github/scripts/audit_repository.py", workflow)
 
     def test_portable_skill_validator_exists_for_ci(self):
@@ -426,6 +430,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("examples/tool-catalog.json", manifest["evaluation"])
         self.assertIn("examples/response-contract.json", manifest["evaluation"])
         self.assertIn("examples/capability-matrix.json", manifest["evaluation"])
+        self.assertIn("examples/source-quality-policy.json", manifest["evaluation"])
         self.assertIn("docs/integration-guide.md", manifest["integration"])
         self.assertIn("fengshui-master/scripts/method_selector.py", manifest["tools"])
         self.assertIn("fengshui-master/scripts/bagua_map.py", manifest["tools"])
@@ -501,6 +506,66 @@ class RepositoryQualityTest(unittest.TestCase):
         )
         self.assertIn("Capability matrix is valid", result.stdout)
 
+    def test_source_quality_policy_exists_and_passes(self):
+        self.assertTrue(SOURCE_QUALITY_POLICY.exists())
+        self.assertTrue(SOURCE_QUALITY_POLICY_VALIDATOR.exists())
+
+        policy = json.loads(SOURCE_QUALITY_POLICY.read_text(encoding="utf-8"))
+        manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        chinese_readme = README_ZH.read_text(encoding="utf-8")
+        portable = PORTABLE_SKILL.read_text(encoding="utf-8")
+
+        self.assertEqual(policy["name"], "fengshui-master-source-quality-policy")
+        self.assertGreaterEqual(len(policy["source_tiers"]), 5)
+        self.assertGreaterEqual(len(policy["claim_policies"]), 6)
+        self.assertIn("examples/source-quality-policy.json", manifest["evaluation"])
+        self.assertIn("examples/validate_source_quality_policy.py", manifest["evaluation"])
+
+        tiers = {tier["id"]: tier for tier in policy["source_tiers"]}
+        for tier_id in [
+            "classical_anchor",
+            "scholarly_reference",
+            "lineage_practice",
+            "modern_adaptation",
+            "practical_constraint",
+        ]:
+            with self.subTest(tier_id=tier_id):
+                self.assertIn(tier_id, tiers)
+
+        claim_policies = {entry["claim_type"]: entry for entry in policy["claim_policies"]}
+        self.assertIn("classical_vocabulary", claim_policies)
+        self.assertIn("lineage_formula", claim_policies)
+        self.assertIn("modern_cross_domain_adapter", claim_policies)
+        self.assertIn("high_stakes_domain_claim", claim_policies)
+        self.assertIn("full_bazi_or_almanac_claim", claim_policies)
+
+        modern = claim_policies["modern_cross_domain_adapter"]
+        self.assertIn("label as modern symbolic adaptation", modern["required_labels"])
+        self.assertIn("do not present modern adapters as classical doctrine", modern["red_lines"])
+
+        high_stakes = claim_policies["high_stakes_domain_claim"]
+        self.assertIn("professional boundary first", high_stakes["required_labels"])
+        self.assertIn("do not use feng shui as the deciding authority", high_stakes["red_lines"])
+
+        bazi = claim_policies["full_bazi_or_almanac_claim"]
+        self.assertEqual(bazi["support_level"], "out_of_scope_without_external_source")
+        self.assertIn("do not invent missing calculations", bazi["red_lines"])
+
+        for text in [readme, chinese_readme, portable]:
+            with self.subTest(text=text[:20]):
+                self.assertIn("examples/source-quality-policy.json", text)
+                self.assertIn("examples/validate_source_quality_policy.py", text)
+
+        result = subprocess.run(
+            [sys.executable, str(SOURCE_QUALITY_POLICY_VALIDATOR)],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+        self.assertIn("Source quality policy is valid", result.stdout)
+
     def test_ci_smoke_tests_moon_phase_helper(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")
 
@@ -552,6 +617,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertTrue(TOOL_CATALOG_SCHEMA.exists())
         self.assertTrue(RESPONSE_CONTRACT_SCHEMA.exists())
         self.assertTrue(CAPABILITY_MATRIX_SCHEMA.exists())
+        self.assertTrue(SOURCE_QUALITY_POLICY_SCHEMA.exists())
 
         manifest_schema = json.loads(PORTABLE_MANIFEST_SCHEMA.read_text(encoding="utf-8"))
         eval_schema = json.loads(PORTABLE_EVAL_SCHEMA.read_text(encoding="utf-8"))
@@ -559,6 +625,7 @@ class RepositoryQualityTest(unittest.TestCase):
         tool_schema = json.loads(TOOL_CATALOG_SCHEMA.read_text(encoding="utf-8"))
         response_schema = json.loads(RESPONSE_CONTRACT_SCHEMA.read_text(encoding="utf-8"))
         capability_schema = json.loads(CAPABILITY_MATRIX_SCHEMA.read_text(encoding="utf-8"))
+        source_quality_schema = json.loads(SOURCE_QUALITY_POLICY_SCHEMA.read_text(encoding="utf-8"))
         manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
@@ -568,12 +635,14 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertEqual(tool_schema["title"], "FengShui Master Tool Catalog")
         self.assertEqual(response_schema["title"], "FengShui Master Response Contract")
         self.assertEqual(capability_schema["title"], "FengShui Master Capability Matrix")
+        self.assertEqual(source_quality_schema["title"], "FengShui Master Source Quality Policy")
         self.assertEqual(manifest["schemas"]["manifest"], "schemas/portable-skill.schema.json")
         self.assertEqual(manifest["schemas"]["evaluation_suite"], "schemas/portable-evaluation-suite.schema.json")
         self.assertEqual(manifest["schemas"]["reference_catalog"], "schemas/reference-catalog.schema.json")
         self.assertEqual(manifest["schemas"]["tool_catalog"], "schemas/tool-catalog.schema.json")
         self.assertEqual(manifest["schemas"]["response_contract"], "schemas/response-contract.schema.json")
         self.assertEqual(manifest["schemas"]["capability_matrix"], "schemas/capability-matrix.schema.json")
+        self.assertEqual(manifest["schemas"]["source_quality_policy"], "schemas/source-quality-policy.schema.json")
         self.assertIn("integration", manifest_schema["required"])
 
         for phrase in [
@@ -583,6 +652,7 @@ class RepositoryQualityTest(unittest.TestCase):
             "schemas/tool-catalog.schema.json",
             "schemas/response-contract.schema.json",
             "schemas/capability-matrix.schema.json",
+            "schemas/source-quality-policy.schema.json",
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, readme)

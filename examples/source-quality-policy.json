@@ -1,0 +1,119 @@
+{
+  "name": "fengshui-master-source-quality-policy",
+  "version": "1.0.0",
+  "purpose": "Machine-readable source, citation, and claim-quality policy for maintaining FengShui Master without blurring classical vocabulary, lineage methods, modern symbolic adapters, and high-stakes professional boundaries.",
+  "source_tiers": [
+    {
+      "id": "classical_anchor",
+      "label": "Classical anchor",
+      "best_for": ["qi vocabulary", "yin-yang image thinking", "bagua and trigram language", "five-phase vocabulary", "burial qi historical framing"],
+      "acceptable_evidence": ["named classical text", "named passage family", "careful secondary summary of a classical text"],
+      "output_posture": "Use as classical background or traditional vocabulary, not as proof that one text defines all feng shui practice.",
+      "limitations": ["avoid long copyrighted translations", "state when a claim is a broad anchor rather than an operational formula"]
+    },
+    {
+      "id": "scholarly_reference",
+      "label": "Scholarly or reference summary",
+      "best_for": ["historical overview", "school comparison", "built-environment context", "terminology explanation"],
+      "acceptable_evidence": ["academic source", "reputable encyclopedia", "museum or university reference", "careful bibliography note"],
+      "output_posture": "Use for cautious background, definitions, and school mapping.",
+      "limitations": ["do not treat summaries as lineage authorization", "verify current or contested claims before operational use"]
+    },
+    {
+      "id": "lineage_practice",
+      "label": "School or lineage practice",
+      "best_for": ["San He formulas", "San Yuan timing", "Xuan Kong flying-star conventions", "Eight Mansions formulas", "date-selection rules", "luopan ring conventions"],
+      "acceptable_evidence": ["named school", "named lineage family", "documented convention", "required inputs and limitations"],
+      "output_posture": "Name the school or lineage family and required inputs before making method-specific claims.",
+      "limitations": ["lineages may conflict", "do not silently merge incompatible formulas", "ask for missing inputs before precise claims"]
+    },
+    {
+      "id": "modern_adaptation",
+      "label": "Modern symbolic adaptation",
+      "best_for": ["finance lens", "brand and naming lens", "product and UX lens", "career or learning symbolism", "relationship communication symbolism"],
+      "acceptable_evidence": ["explicit adaptation label", "mapping through qi, form, flow, timing, support, leakage, balance, or wuxing", "native-domain reality check"],
+      "output_posture": "Label as modern symbolic adaptation and use it after the domain's real constraints.",
+      "limitations": ["not classical doctrine", "not a prediction engine", "not a substitute for professional review"]
+    },
+    {
+      "id": "practical_constraint",
+      "label": "Practical and professional constraint",
+      "best_for": ["safety", "law", "finance", "medical or wellbeing", "engineering or architecture", "accessibility", "budget and deadlines"],
+      "acceptable_evidence": ["user facts", "professional standard", "qualified expert advice", "observable constraint", "legal or safety requirement"],
+      "output_posture": "Treat as mandatory before symbolic interpretation.",
+      "limitations": ["feng shui cannot override professional duties", "symbolic preference cannot replace evidence or safety"]
+    }
+  ],
+  "claim_policies": [
+    {
+      "claim_type": "classical_vocabulary",
+      "support_level": "supported",
+      "minimum_sources": ["classical_anchor"],
+      "required_labels": ["classical background", "traditional vocabulary"],
+      "required_checks": ["name the concept", "avoid saying one text defines all practice"],
+      "red_lines": ["do not overstate textual certainty", "do not copy long translations"]
+    },
+    {
+      "claim_type": "school_overview",
+      "support_level": "supported",
+      "minimum_sources": ["scholarly_reference", "lineage_practice"],
+      "required_labels": ["school-specific method"],
+      "required_checks": ["name the school", "state required inputs", "state where lineages vary"],
+      "red_lines": ["do not collapse all schools into one rule", "do not mix schools silently"]
+    },
+    {
+      "claim_type": "lineage_formula",
+      "support_level": "cautious",
+      "minimum_sources": ["lineage_practice"],
+      "required_labels": ["lineage-dependent", "method-specific"],
+      "required_checks": ["state formula convention", "collect required inputs", "state limitations"],
+      "red_lines": ["do not invent missing formula steps", "do not present scaffold tools as complete lineage engines"]
+    },
+    {
+      "claim_type": "modern_cross_domain_adapter",
+      "support_level": "adapter_only",
+      "minimum_sources": ["modern_adaptation", "practical_constraint"],
+      "required_labels": ["label as modern symbolic adaptation", "native domain first"],
+      "required_checks": ["explain the wuxing or qi mapping", "separate real-world constraints from symbolic reading", "give low-risk actions"],
+      "red_lines": ["do not present modern adapters as classical doctrine", "do not guarantee outcomes from symbolic fit"]
+    },
+    {
+      "claim_type": "high_stakes_domain_claim",
+      "support_level": "high_stakes_symbolic_only",
+      "minimum_sources": ["practical_constraint", "modern_adaptation"],
+      "required_labels": ["professional boundary first", "symbolic support only"],
+      "required_checks": ["name the high-stakes domain", "prioritize qualified professional advice", "avoid deterministic recommendation"],
+      "red_lines": ["do not use feng shui as the deciding authority", "do not provide medical legal financial engineering tax or safety advice"]
+    },
+    {
+      "claim_type": "full_bazi_or_almanac_claim",
+      "support_level": "out_of_scope_without_external_source",
+      "minimum_sources": ["lineage_practice", "practical_constraint"],
+      "required_labels": ["outside current built-in scope", "external trusted chart or almanac required"],
+      "required_checks": ["state missing engine or source", "ask for externally supplied chart attributes if needed", "use available scaffolds only as limited context"],
+      "red_lines": ["do not invent missing calculations", "do not present ganzhi year, moon phase, solar terms, or flying-star scaffold as full bazi qimen liuren zi wei or tong shu work"]
+    },
+    {
+      "claim_type": "calendar_or_timing_claim",
+      "support_level": "cautious",
+      "minimum_sources": ["lineage_practice", "practical_constraint"],
+      "required_labels": ["secondary timing layer", "candidate-date dependent"],
+      "required_checks": ["ask for event type", "ask for location or timezone when precision matters", "state whether using moon phase, solar terms, annual cautions, or almanac attributes"],
+      "red_lines": ["do not guarantee auspiciousness", "do not treat one timing marker as a complete lucky-date formula"]
+    }
+  ],
+  "citation_rules": [
+    "Use short source labels such as classical background, school-specific method, lineage-dependent, modern symbolic adaptation, and practical constraint.",
+    "Prefer summaries over quotations, and avoid long copyrighted translation excerpts.",
+    "When adding a new formula, document the required inputs, lineage assumptions, and limitations before making it operational.",
+    "When adding a modern adapter, explain the mapping and keep native-domain constraints first.",
+    "When a claim may have changed, such as current standards, laws, financial context, or software integration behavior, verify it before presenting it as current."
+  ],
+  "red_lines": [
+    "Do not present modern symbolic adapters as classical doctrine.",
+    "Do not claim guaranteed wealth, health, marriage, pregnancy, career, legal, safety, or market outcomes.",
+    "Do not silently mix incompatible feng shui schools or lineage formulas.",
+    "Do not invent bazi, zi wei, qimen, liuren, tong shu, almanac, or full natal-chart calculations.",
+    "Do not let symbolic interpretation override safety, law, medicine, finance, engineering, accessibility, or user agency."
+  ]
+}
