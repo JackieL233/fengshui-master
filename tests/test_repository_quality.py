@@ -39,6 +39,8 @@ GOLDEN_RESPONSES = ROOT / "examples" / "golden-responses.json"
 GOLDEN_RESPONSES_VALIDATOR = ROOT / "examples" / "validate_golden_responses.py"
 UNIVERSAL_DOMAIN_PROTOCOL = ROOT / "examples" / "universal-domain-protocol.json"
 UNIVERSAL_DOMAIN_PROTOCOL_VALIDATOR = ROOT / "examples" / "validate_universal_domain_protocol.py"
+EXTERNAL_CALCULATION_CONTRACTS = ROOT / "examples" / "external-calculation-contracts.json"
+EXTERNAL_CALCULATION_CONTRACTS_VALIDATOR = ROOT / "examples" / "validate_external_calculation_contracts.py"
 PORTABLE_MANIFEST = ROOT / "portable-skill.json"
 PORTABLE_MANIFEST_VALIDATOR = ROOT / "examples" / "validate_portable_manifest.py"
 PORTABLE_MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
@@ -52,6 +54,7 @@ ADVERSARIAL_EVAL_SCHEMA = ROOT / "schemas" / "adversarial-evaluation-suite.schem
 INTAKE_CONTRACTS_SCHEMA = ROOT / "schemas" / "intake-contracts.schema.json"
 GOLDEN_RESPONSES_SCHEMA = ROOT / "schemas" / "golden-responses.schema.json"
 UNIVERSAL_DOMAIN_PROTOCOL_SCHEMA = ROOT / "schemas" / "universal-domain-protocol.schema.json"
+EXTERNAL_CALCULATION_CONTRACTS_SCHEMA = ROOT / "schemas" / "external-calculation-contracts.schema.json"
 INTEGRATION_GUIDE = ROOT / "docs" / "integration-guide.md"
 SECURITY = ROOT / "SECURITY.md"
 CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
@@ -86,6 +89,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("python examples/validate_intake_contracts.py", workflow)
         self.assertIn("python examples/validate_golden_responses.py", workflow)
         self.assertIn("python examples/validate_universal_domain_protocol.py", workflow)
+        self.assertIn("python examples/validate_external_calculation_contracts.py", workflow)
         self.assertIn("python .github/scripts/audit_repository.py", workflow)
 
     def test_portable_skill_validator_exists_for_ci(self):
@@ -451,6 +455,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("examples/intake-contracts.json", manifest["evaluation"])
         self.assertIn("examples/golden-responses.json", manifest["evaluation"])
         self.assertIn("examples/universal-domain-protocol.json", manifest["evaluation"])
+        self.assertIn("examples/external-calculation-contracts.json", manifest["evaluation"])
         self.assertIn("docs/integration-guide.md", manifest["integration"])
         self.assertIn("fengshui-master/scripts/method_selector.py", manifest["tools"])
         self.assertIn("fengshui-master/scripts/bagua_map.py", manifest["tools"])
@@ -799,6 +804,60 @@ class RepositoryQualityTest(unittest.TestCase):
             check=True,
         )
         self.assertIn("Universal domain protocol is valid", result.stdout)
+
+    def test_external_calculation_contracts_exist_and_pass(self):
+        self.assertTrue(EXTERNAL_CALCULATION_CONTRACTS.exists())
+        self.assertTrue(EXTERNAL_CALCULATION_CONTRACTS_VALIDATOR.exists())
+
+        contracts = json.loads(EXTERNAL_CALCULATION_CONTRACTS.read_text(encoding="utf-8"))
+        manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        chinese_readme = README_ZH.read_text(encoding="utf-8")
+        portable = PORTABLE_SKILL.read_text(encoding="utf-8")
+
+        self.assertEqual(contracts["name"], "fengshui-master-external-calculation-contracts")
+        self.assertIn("examples/external-calculation-contracts.json", manifest["evaluation"])
+        self.assertIn("examples/validate_external_calculation_contracts.py", manifest["evaluation"])
+        self.assertEqual(
+            manifest["schemas"]["external_calculation_contracts"],
+            "schemas/external-calculation-contracts.schema.json",
+        )
+
+        systems = {system["id"]: system for system in contracts["systems"]}
+        for system_id in [
+            "full_bazi_four_pillars",
+            "zi_wei_dou_shu",
+            "qi_men_dun_jia",
+            "liu_ren",
+            "tong_shu_date_selection",
+            "precision_astronomy_calendar",
+        ]:
+            with self.subTest(system_id=system_id):
+                self.assertIn(system_id, systems)
+
+        bazi = systems["full_bazi_four_pillars"]
+        self.assertIn("birth date", bazi["required_inputs"])
+        self.assertIn("birth time", bazi["required_inputs"])
+        self.assertIn("calendar conversion convention", bazi["required_inputs"])
+        self.assertIn("do not invent missing pillars", bazi["red_lines"])
+
+        almanac = systems["tong_shu_date_selection"]
+        self.assertIn("trusted almanac source", almanac["required_inputs"])
+        self.assertIn("do not invent tong shu attributes", almanac["red_lines"])
+
+        for text in [readme, chinese_readme, portable]:
+            with self.subTest(text=text[:20]):
+                self.assertIn("examples/external-calculation-contracts.json", text)
+                self.assertIn("examples/validate_external_calculation_contracts.py", text)
+
+        result = subprocess.run(
+            [sys.executable, str(EXTERNAL_CALCULATION_CONTRACTS_VALIDATOR)],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+        self.assertIn("External calculation contracts are valid", result.stdout)
 
     def test_ci_smoke_tests_moon_phase_helper(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")

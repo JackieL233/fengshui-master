@@ -1,0 +1,73 @@
+{
+  "name": "fengshui-master-external-calculation-contracts",
+  "version": "1.0.0",
+  "purpose": "Machine-readable contracts for safely extending FengShui Master with external engines or user-supplied trusted sources for advanced systems that are intentionally not calculated inside this repository.",
+  "systems": [
+    {
+      "id": "full_bazi_four_pillars",
+      "title": "Full bazi / four pillars natal chart",
+      "status": "external_or_user_supplied_source_required",
+      "required_inputs": ["birth date", "birth time", "birth location", "sex or lineage convention if used", "calendar conversion convention", "time zone", "li chun or lunar-year boundary convention"],
+      "required_source_proof": ["engine name or source title", "version or publication details", "calendar conversion method", "timezone handling", "lineage or school convention"],
+      "required_outputs": ["year pillar", "month pillar", "day pillar", "hour pillar", "ten gods or relationship labels if used", "luck-cycle method if used", "calculation limitations"],
+      "allowed_use": ["interpret a trusted chart cautiously", "compare symbolic tendencies", "ask for missing chart data", "state lineage assumptions"],
+      "red_lines": ["do not invent missing pillars", "do not infer birth time", "do not make deterministic fate claims", "do not predict health death wealth marriage or disaster"],
+      "fallback_without_engine": "Stay at year-level ganzhi or broad life-omen symbolism, clearly stating that complete four-pillar calculation is not available."
+    },
+    {
+      "id": "zi_wei_dou_shu",
+      "title": "Zi Wei Dou Shu natal chart",
+      "status": "external_or_user_supplied_source_required",
+      "required_inputs": ["birth date", "birth time", "birth location or timezone", "lunar calendar conversion", "leap month convention", "lineage or charting convention"],
+      "required_source_proof": ["engine name or source title", "version or publication details", "lunar conversion method", "leap month handling", "palace and star placement convention"],
+      "required_outputs": ["twelve palaces", "major star placements", "auxiliary star placements if used", "four transformations if used", "calculation limitations"],
+      "allowed_use": ["summarize a trusted supplied chart", "ask for missing chart source", "separate chart output from interpretation"],
+      "red_lines": ["do not invent palace placements", "do not fabricate stars", "do not use zi wei to issue deterministic life predictions"],
+      "fallback_without_engine": "Explain that Zi Wei charting is outside built-in scope and offer broad symbolic or intake-level guidance only."
+    },
+    {
+      "id": "qi_men_dun_jia",
+      "title": "Qi Men Dun Jia chart or divination plate",
+      "status": "external_or_user_supplied_source_required",
+      "required_inputs": ["question or event", "date and time", "location or timezone", "charting method", "yin or yang dun convention", "ju calculation convention"],
+      "required_source_proof": ["engine name or source title", "version or publication details", "charting method", "calendar conversion method", "palace arrangement convention"],
+      "required_outputs": ["nine palaces", "doors", "stars", "deities", "stems", "chart type and limitations"],
+      "allowed_use": ["interpret a supplied chart with caveats", "compare symbolic strategy posture", "ask for source data before precise claims"],
+      "red_lines": ["do not invent a qi men plate", "do not use qi men to guarantee outcomes", "do not advise illegal unsafe or coercive action"],
+      "fallback_without_engine": "Provide a method checklist and broad timing or strategy symbolism, not a Qi Men chart."
+    },
+    {
+      "id": "liu_ren",
+      "title": "Da Liu Ren chart",
+      "status": "external_or_user_supplied_source_required",
+      "required_inputs": ["question or event", "date and time", "location or timezone", "calendar conversion convention", "lineage or charting convention"],
+      "required_source_proof": ["engine name or source title", "version or publication details", "calendar conversion method", "charting convention", "lineage notes"],
+      "required_outputs": ["three transmissions", "four lessons", "heaven and earth plates if used", "deities if used", "calculation limitations"],
+      "allowed_use": ["interpret a trusted supplied chart cautiously", "ask for missing chart data", "separate chart construction from symbolic reading"],
+      "red_lines": ["do not invent transmissions or lessons", "do not make deterministic predictions", "do not replace legal medical safety or financial judgment"],
+      "fallback_without_engine": "State that Liu Ren charting is outside built-in scope and keep the answer at intake, boundary, or broad symbolic level."
+    },
+    {
+      "id": "tong_shu_date_selection",
+      "title": "Tong shu / almanac-backed date selection",
+      "status": "external_or_user_supplied_source_required",
+      "required_inputs": ["candidate dates", "event type", "location or timezone", "people involved when personal clashes matter", "trusted almanac source", "lineage or date-selection rules"],
+      "required_source_proof": ["source title", "publication year or version", "calendar timezone or locality", "listed day attributes", "method for conflicts or clashes"],
+      "required_outputs": ["day quality", "suitable and unsuitable activities", "12 officer or equivalent if used", "28 mansion or equivalent if used", "personal clashes if used", "source limitations"],
+      "allowed_use": ["compare user-supplied almanac attributes", "rank candidate dates with caveats", "state practical constraints first"],
+      "red_lines": ["do not invent tong shu attributes", "do not guarantee auspiciousness", "do not tell users to ignore legal safety medical or financial deadlines"],
+      "fallback_without_engine": "Use only built-in moon phase, solar term, annual caution, and event-fit symbolism, clearly stating that this is not full almanac date selection."
+    },
+    {
+      "id": "precision_astronomy_calendar",
+      "title": "Precision astronomy and calendar conversion",
+      "status": "external_required",
+      "required_inputs": ["date", "time", "location", "timezone", "calendar system", "precision requirement"],
+      "required_source_proof": ["ephemeris or astronomy engine name", "version", "timezone database version if available", "calendar conversion method", "precision limits"],
+      "required_outputs": ["converted date and time", "solar term moment if requested", "moon phase moment if requested", "timezone basis", "precision limits"],
+      "allowed_use": ["supply exact moments to timing analysis", "document conversion assumptions", "compare approximate built-in helpers with exact external data"],
+      "red_lines": ["do not present approximate helper output as precision astronomy", "do not hide timezone assumptions", "do not fabricate ephemeris values"],
+      "fallback_without_engine": "Use the built-in approximate moon phase or solar term helpers only as symbolic context and disclose the precision limit."
+    }
+  ]
+}

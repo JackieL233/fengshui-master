@@ -60,6 +60,9 @@ jobs:
       - name: Validate universal domain protocol
         run: python examples/validate_universal_domain_protocol.py
 
+      - name: Validate external calculation contracts
+        run: python examples/validate_external_calculation_contracts.py
+
       - name: Smoke test domain router
         run: python fengshui-master/scripts/domain_router.py "Should I buy this stock next month?" --pretty
 

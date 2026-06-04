@@ -79,6 +79,7 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "schemas" / "intake-contracts.schema.json",
         ROOT / "schemas" / "golden-responses.schema.json",
         ROOT / "schemas" / "universal-domain-protocol.schema.json",
+        ROOT / "schemas" / "external-calculation-contracts.schema.json",
         ROOT / "examples" / "portable-agent-prompts.md",
         ROOT / "examples" / "portable-evaluation-rubric.json",
         ROOT / "examples" / "portable-evaluation-suite.json",
@@ -88,6 +89,8 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "examples" / "validate_golden_responses.py",
         ROOT / "examples" / "universal-domain-protocol.json",
         ROOT / "examples" / "validate_universal_domain_protocol.py",
+        ROOT / "examples" / "external-calculation-contracts.json",
+        ROOT / "examples" / "validate_external_calculation_contracts.py",
         SKILL / "SKILL.md",
         *sorted((SKILL / "references").glob("*.md")),
     ]
@@ -172,6 +175,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     golden_responses_validator_path = ROOT / "examples" / "validate_golden_responses.py"
     universal_domain_protocol_path = ROOT / "examples" / "universal-domain-protocol.json"
     universal_domain_protocol_validator_path = ROOT / "examples" / "validate_universal_domain_protocol.py"
+    external_calculation_contracts_path = ROOT / "examples" / "external-calculation-contracts.json"
+    external_calculation_contracts_validator_path = ROOT / "examples" / "validate_external_calculation_contracts.py"
     manifest_path = ROOT / "portable-skill.json"
     manifest_validator_path = ROOT / "examples" / "validate_portable_manifest.py"
     manifest_schema_path = ROOT / "schemas" / "portable-skill.schema.json"
@@ -185,6 +190,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     intake_contracts_schema_path = ROOT / "schemas" / "intake-contracts.schema.json"
     golden_responses_schema_path = ROOT / "schemas" / "golden-responses.schema.json"
     universal_domain_protocol_schema_path = ROOT / "schemas" / "universal-domain-protocol.schema.json"
+    external_calculation_contracts_schema_path = ROOT / "schemas" / "external-calculation-contracts.schema.json"
     integration_path = ROOT / "docs" / "integration-guide.md"
 
     if not portable_path.exists():
@@ -256,6 +262,12 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     if not universal_domain_protocol_validator_path.exists():
         fail(errors, "missing examples/validate_universal_domain_protocol.py")
         return
+    if not external_calculation_contracts_path.exists():
+        fail(errors, "missing examples/external-calculation-contracts.json")
+        return
+    if not external_calculation_contracts_validator_path.exists():
+        fail(errors, "missing examples/validate_external_calculation_contracts.py")
+        return
     if not manifest_path.exists():
         fail(errors, "missing portable-skill.json")
         return
@@ -295,6 +307,9 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     if not universal_domain_protocol_schema_path.exists():
         fail(errors, "missing schemas/universal-domain-protocol.schema.json")
         return
+    if not external_calculation_contracts_schema_path.exists():
+        fail(errors, "missing schemas/external-calculation-contracts.schema.json")
+        return
     if not integration_path.exists():
         fail(errors, "missing docs/integration-guide.md")
         return
@@ -313,6 +328,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     intake_contracts = json.loads(read(intake_contracts_path))
     golden_responses = json.loads(read(golden_responses_path))
     universal_domain_protocol = json.loads(read(universal_domain_protocol_path))
+    external_calculation_contracts = json.loads(read(external_calculation_contracts_path))
     for term in [
         "Portable AI Skill",
         "System Instruction",
@@ -442,6 +458,10 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         if term not in readme or term not in chinese or term not in portable:
             fail(errors, f"universal domain protocol path missing from public docs: {term}")
 
+    for term in ["examples/external-calculation-contracts.json", "examples/validate_external_calculation_contracts.py"]:
+        if term not in readme or term not in chinese or term not in portable:
+            fail(errors, f"external calculation contracts path missing from public docs: {term}")
+
     for term in ["portable-skill.json", "examples/validate_portable_manifest.py"]:
         if term not in readme or term not in portable:
             fail(errors, f"portable manifest path missing from public docs: {term}")
@@ -480,6 +500,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         fail(errors, "portable manifest missing golden responses schema")
     if manifest.get("schemas", {}).get("universal_domain_protocol") != "schemas/universal-domain-protocol.schema.json":
         fail(errors, "portable manifest missing universal domain protocol schema")
+    if manifest.get("schemas", {}).get("external_calculation_contracts") != "schemas/external-calculation-contracts.schema.json":
+        fail(errors, "portable manifest missing external calculation contracts schema")
     for term in [
         "Chat Assistant Setup",
         "Agent Framework Setup",
@@ -503,6 +525,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         "schemas/intake-contracts.schema.json",
         "schemas/golden-responses.schema.json",
         "schemas/universal-domain-protocol.schema.json",
+        "schemas/external-calculation-contracts.schema.json",
     ]:
         if term not in readme or term not in portable:
             fail(errors, f"portable schema path missing from public docs: {term}")
@@ -573,6 +596,10 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         fail(errors, "portable manifest missing universal domain protocol")
     if "examples/validate_universal_domain_protocol.py" not in manifest.get("evaluation", []):
         fail(errors, "portable manifest missing universal domain protocol validator")
+    if "examples/external-calculation-contracts.json" not in manifest.get("evaluation", []):
+        fail(errors, "portable manifest missing external calculation contracts")
+    if "examples/validate_external_calculation_contracts.py" not in manifest.get("evaluation", []):
+        fail(errors, "portable manifest missing external calculation contracts validator")
     response_sections = {
         section.get("name")
         for section in response_contract.get("required_sections", [])
@@ -678,6 +705,21 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     for risk_id in ["low", "medium", "high", "critical"]:
         if risk_id not in universal_risk_ids:
             fail(errors, f"universal domain protocol missing risk level {risk_id}")
+    external_system_ids = {
+        system.get("id")
+        for system in external_calculation_contracts.get("systems", [])
+        if isinstance(system, dict)
+    }
+    for system_id in [
+        "full_bazi_four_pillars",
+        "zi_wei_dou_shu",
+        "qi_men_dun_jia",
+        "liu_ren",
+        "tong_shu_date_selection",
+        "precision_astronomy_calendar",
+    ]:
+        if system_id not in external_system_ids:
+            fail(errors, f"external calculation contracts missing {system_id}")
     for path, guardrail in {
         "fengshui-master/references/finance-adapter.md": "not financial advice",
         "fengshui-master/references/ethics-and-limits.md": "no guaranteed prediction",
@@ -810,6 +852,15 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     )
     if universal_validator.returncode != 0:
         fail(errors, f"universal domain protocol validator failed: {universal_validator.stderr.strip()}")
+
+    external_validator = subprocess.run(
+        [sys.executable, str(external_calculation_contracts_validator_path)],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    if external_validator.returncode != 0:
+        fail(errors, f"external calculation contracts validator failed: {external_validator.stderr.strip()}")
 
 
 def audit_bilingual_docs(errors: list[str]) -> None:
