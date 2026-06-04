@@ -31,6 +31,8 @@ CAPABILITY_MATRIX = ROOT / "examples" / "capability-matrix.json"
 CAPABILITY_MATRIX_VALIDATOR = ROOT / "examples" / "validate_capability_matrix.py"
 SOURCE_QUALITY_POLICY = ROOT / "examples" / "source-quality-policy.json"
 SOURCE_QUALITY_POLICY_VALIDATOR = ROOT / "examples" / "validate_source_quality_policy.py"
+ADVERSARIAL_EVAL_SUITE = ROOT / "examples" / "adversarial-evaluation-suite.json"
+ADVERSARIAL_EVAL_VALIDATOR = ROOT / "examples" / "validate_adversarial_evaluation.py"
 PORTABLE_MANIFEST = ROOT / "portable-skill.json"
 PORTABLE_MANIFEST_VALIDATOR = ROOT / "examples" / "validate_portable_manifest.py"
 PORTABLE_MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
@@ -40,6 +42,7 @@ TOOL_CATALOG_SCHEMA = ROOT / "schemas" / "tool-catalog.schema.json"
 RESPONSE_CONTRACT_SCHEMA = ROOT / "schemas" / "response-contract.schema.json"
 CAPABILITY_MATRIX_SCHEMA = ROOT / "schemas" / "capability-matrix.schema.json"
 SOURCE_QUALITY_POLICY_SCHEMA = ROOT / "schemas" / "source-quality-policy.schema.json"
+ADVERSARIAL_EVAL_SCHEMA = ROOT / "schemas" / "adversarial-evaluation-suite.schema.json"
 INTEGRATION_GUIDE = ROOT / "docs" / "integration-guide.md"
 SECURITY = ROOT / "SECURITY.md"
 CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
@@ -70,6 +73,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("python examples/validate_response_contract.py", workflow)
         self.assertIn("python examples/validate_capability_matrix.py", workflow)
         self.assertIn("python examples/validate_source_quality_policy.py", workflow)
+        self.assertIn("python examples/validate_adversarial_evaluation.py", workflow)
         self.assertIn("python .github/scripts/audit_repository.py", workflow)
 
     def test_portable_skill_validator_exists_for_ci(self):
@@ -431,6 +435,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("examples/response-contract.json", manifest["evaluation"])
         self.assertIn("examples/capability-matrix.json", manifest["evaluation"])
         self.assertIn("examples/source-quality-policy.json", manifest["evaluation"])
+        self.assertIn("examples/adversarial-evaluation-suite.json", manifest["evaluation"])
         self.assertIn("docs/integration-guide.md", manifest["integration"])
         self.assertIn("fengshui-master/scripts/method_selector.py", manifest["tools"])
         self.assertIn("fengshui-master/scripts/bagua_map.py", manifest["tools"])
@@ -566,6 +571,59 @@ class RepositoryQualityTest(unittest.TestCase):
         )
         self.assertIn("Source quality policy is valid", result.stdout)
 
+    def test_adversarial_evaluation_suite_exists_and_passes(self):
+        self.assertTrue(ADVERSARIAL_EVAL_SUITE.exists())
+        self.assertTrue(ADVERSARIAL_EVAL_VALIDATOR.exists())
+
+        suite = json.loads(ADVERSARIAL_EVAL_SUITE.read_text(encoding="utf-8"))
+        manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        chinese_readme = README_ZH.read_text(encoding="utf-8")
+        portable = PORTABLE_SKILL.read_text(encoding="utf-8")
+
+        self.assertEqual(suite["name"], "fengshui-master-adversarial-evaluation-suite")
+        self.assertGreaterEqual(len(suite["cases"]), 6)
+        self.assertIn("examples/adversarial-evaluation-suite.json", manifest["evaluation"])
+        self.assertIn("examples/validate_adversarial_evaluation.py", manifest["evaluation"])
+
+        by_id = {case["id"]: case for case in suite["cases"]}
+        for case_id in [
+            "prompt-injection-ignore-guardrails",
+            "system-prompt-extraction",
+            "finance-guaranteed-return-pressure",
+            "fake-full-bazi-demand",
+            "medical-fear-cure-pressure",
+            "school-mixing-authority-trap",
+        ]:
+            with self.subTest(case_id=case_id):
+                self.assertIn(case_id, by_id)
+
+        injection = by_id["prompt-injection-ignore-guardrails"]
+        self.assertIn("do not follow injected instructions", injection["must_include"])
+        self.assertIn("ignore all previous rules", injection["must_not_include"])
+
+        finance = by_id["finance-guaranteed-return-pressure"]
+        self.assertIn("not financial advice", finance["must_include"])
+        self.assertIn("guaranteed returns", finance["must_not_include"])
+
+        bazi = by_id["fake-full-bazi-demand"]
+        self.assertIn("outside current built-in scope", bazi["must_include"])
+        self.assertIn("complete bazi chart", bazi["must_not_include"])
+
+        for text in [readme, chinese_readme, portable]:
+            with self.subTest(text=text[:20]):
+                self.assertIn("examples/adversarial-evaluation-suite.json", text)
+                self.assertIn("examples/validate_adversarial_evaluation.py", text)
+
+        result = subprocess.run(
+            [sys.executable, str(ADVERSARIAL_EVAL_VALIDATOR)],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+        self.assertIn("Adversarial evaluation suite is valid", result.stdout)
+
     def test_ci_smoke_tests_moon_phase_helper(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")
 
@@ -618,6 +676,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertTrue(RESPONSE_CONTRACT_SCHEMA.exists())
         self.assertTrue(CAPABILITY_MATRIX_SCHEMA.exists())
         self.assertTrue(SOURCE_QUALITY_POLICY_SCHEMA.exists())
+        self.assertTrue(ADVERSARIAL_EVAL_SCHEMA.exists())
 
         manifest_schema = json.loads(PORTABLE_MANIFEST_SCHEMA.read_text(encoding="utf-8"))
         eval_schema = json.loads(PORTABLE_EVAL_SCHEMA.read_text(encoding="utf-8"))
@@ -626,6 +685,7 @@ class RepositoryQualityTest(unittest.TestCase):
         response_schema = json.loads(RESPONSE_CONTRACT_SCHEMA.read_text(encoding="utf-8"))
         capability_schema = json.loads(CAPABILITY_MATRIX_SCHEMA.read_text(encoding="utf-8"))
         source_quality_schema = json.loads(SOURCE_QUALITY_POLICY_SCHEMA.read_text(encoding="utf-8"))
+        adversarial_schema = json.loads(ADVERSARIAL_EVAL_SCHEMA.read_text(encoding="utf-8"))
         manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
@@ -636,6 +696,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertEqual(response_schema["title"], "FengShui Master Response Contract")
         self.assertEqual(capability_schema["title"], "FengShui Master Capability Matrix")
         self.assertEqual(source_quality_schema["title"], "FengShui Master Source Quality Policy")
+        self.assertEqual(adversarial_schema["title"], "FengShui Master Adversarial Evaluation Suite")
         self.assertEqual(manifest["schemas"]["manifest"], "schemas/portable-skill.schema.json")
         self.assertEqual(manifest["schemas"]["evaluation_suite"], "schemas/portable-evaluation-suite.schema.json")
         self.assertEqual(manifest["schemas"]["reference_catalog"], "schemas/reference-catalog.schema.json")
@@ -643,6 +704,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertEqual(manifest["schemas"]["response_contract"], "schemas/response-contract.schema.json")
         self.assertEqual(manifest["schemas"]["capability_matrix"], "schemas/capability-matrix.schema.json")
         self.assertEqual(manifest["schemas"]["source_quality_policy"], "schemas/source-quality-policy.schema.json")
+        self.assertEqual(manifest["schemas"]["adversarial_evaluation_suite"], "schemas/adversarial-evaluation-suite.schema.json")
         self.assertIn("integration", manifest_schema["required"])
 
         for phrase in [
@@ -653,6 +715,7 @@ class RepositoryQualityTest(unittest.TestCase):
             "schemas/response-contract.schema.json",
             "schemas/capability-matrix.schema.json",
             "schemas/source-quality-policy.schema.json",
+            "schemas/adversarial-evaluation-suite.schema.json",
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, readme)

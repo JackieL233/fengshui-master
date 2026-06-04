@@ -84,6 +84,7 @@ schemas/
   response-contract.schema.json
   capability-matrix.schema.json
   source-quality-policy.schema.json
+  adversarial-evaluation-suite.schema.json
 examples/
   portable-agent-prompts.md
   portable-evaluation-rubric.json
@@ -93,6 +94,7 @@ examples/
   response-contract.json
   capability-matrix.json
   source-quality-policy.json
+  adversarial-evaluation-suite.json
   validate_portable_evaluation.py
   validate_portable_manifest.py
   validate_reference_catalog.py
@@ -100,6 +102,7 @@ examples/
   validate_response_contract.py
   validate_capability_matrix.py
   validate_source_quality_policy.py
+  validate_adversarial_evaluation.py
 fengshui-master/
   SKILL.md
   agents/openai.yaml
@@ -175,6 +178,7 @@ fengshui-master/
 - [`schemas/response-contract.schema.json`](schemas/response-contract.schema.json)
 - [`schemas/capability-matrix.schema.json`](schemas/capability-matrix.schema.json)
 - [`schemas/source-quality-policy.schema.json`](schemas/source-quality-policy.schema.json)
+- [`schemas/adversarial-evaluation-suite.schema.json`](schemas/adversarial-evaluation-suite.schema.json)
 
 常见接入方式：
 
@@ -188,6 +192,8 @@ fengshui-master/
 能力、限制与 roadmap 路由见 [`examples/capability-matrix.json`](examples/capability-matrix.json)，并可用 [`examples/validate_capability_matrix.py`](examples/validate_capability_matrix.py) 验证。
 
 来源层级、引用姿态与 claim-quality 规则见 [`examples/source-quality-policy.json`](examples/source-quality-policy.json)，并可用 [`examples/validate_source_quality_policy.py`](examples/validate_source_quality_policy.py) 验证。
+
+对抗提示、prompt-injection、越权与 scope-inflation 测试见 [`examples/adversarial-evaluation-suite.json`](examples/adversarial-evaluation-suite.json)，并可用 [`examples/validate_adversarial_evaluation.py`](examples/validate_adversarial_evaluation.py) 验证。
 
 验证 portable evaluation suite：
 
@@ -229,6 +235,12 @@ python examples/validate_capability_matrix.py
 
 ```bash
 python examples/validate_source_quality_policy.py
+```
+
+验证 adversarial evaluation suite：
+
+```bash
+python examples/validate_adversarial_evaluation.py
 ```
 
 ## Codex 安装

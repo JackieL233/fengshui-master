@@ -75,6 +75,7 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "schemas" / "response-contract.schema.json",
         ROOT / "schemas" / "capability-matrix.schema.json",
         ROOT / "schemas" / "source-quality-policy.schema.json",
+        ROOT / "schemas" / "adversarial-evaluation-suite.schema.json",
         ROOT / "examples" / "portable-agent-prompts.md",
         ROOT / "examples" / "portable-evaluation-rubric.json",
         ROOT / "examples" / "portable-evaluation-suite.json",
@@ -156,6 +157,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     capability_matrix_validator_path = ROOT / "examples" / "validate_capability_matrix.py"
     source_quality_policy_path = ROOT / "examples" / "source-quality-policy.json"
     source_quality_policy_validator_path = ROOT / "examples" / "validate_source_quality_policy.py"
+    adversarial_eval_path = ROOT / "examples" / "adversarial-evaluation-suite.json"
+    adversarial_eval_validator_path = ROOT / "examples" / "validate_adversarial_evaluation.py"
     manifest_path = ROOT / "portable-skill.json"
     manifest_validator_path = ROOT / "examples" / "validate_portable_manifest.py"
     manifest_schema_path = ROOT / "schemas" / "portable-skill.schema.json"
@@ -165,6 +168,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     response_contract_schema_path = ROOT / "schemas" / "response-contract.schema.json"
     capability_matrix_schema_path = ROOT / "schemas" / "capability-matrix.schema.json"
     source_quality_policy_schema_path = ROOT / "schemas" / "source-quality-policy.schema.json"
+    adversarial_eval_schema_path = ROOT / "schemas" / "adversarial-evaluation-suite.schema.json"
     integration_path = ROOT / "docs" / "integration-guide.md"
 
     if not portable_path.exists():
@@ -212,6 +216,12 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     if not source_quality_policy_validator_path.exists():
         fail(errors, "missing examples/validate_source_quality_policy.py")
         return
+    if not adversarial_eval_path.exists():
+        fail(errors, "missing examples/adversarial-evaluation-suite.json")
+        return
+    if not adversarial_eval_validator_path.exists():
+        fail(errors, "missing examples/validate_adversarial_evaluation.py")
+        return
     if not manifest_path.exists():
         fail(errors, "missing portable-skill.json")
         return
@@ -239,6 +249,9 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     if not source_quality_policy_schema_path.exists():
         fail(errors, "missing schemas/source-quality-policy.schema.json")
         return
+    if not adversarial_eval_schema_path.exists():
+        fail(errors, "missing schemas/adversarial-evaluation-suite.schema.json")
+        return
     if not integration_path.exists():
         fail(errors, "missing docs/integration-guide.md")
         return
@@ -253,6 +266,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     response_contract = json.loads(read(response_contract_path))
     capability_matrix = json.loads(read(capability_matrix_path))
     source_quality_policy = json.loads(read(source_quality_policy_path))
+    adversarial_eval = json.loads(read(adversarial_eval_path))
     for term in [
         "Portable AI Skill",
         "System Instruction",
@@ -366,6 +380,10 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         if term not in readme or term not in chinese or term not in portable:
             fail(errors, f"source quality policy path missing from public docs: {term}")
 
+    for term in ["examples/adversarial-evaluation-suite.json", "examples/validate_adversarial_evaluation.py"]:
+        if term not in readme or term not in chinese or term not in portable:
+            fail(errors, f"adversarial evaluation path missing from public docs: {term}")
+
     for term in ["portable-skill.json", "examples/validate_portable_manifest.py"]:
         if term not in readme or term not in portable:
             fail(errors, f"portable manifest path missing from public docs: {term}")
@@ -396,6 +414,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         fail(errors, "portable manifest missing capability matrix schema")
     if manifest.get("schemas", {}).get("source_quality_policy") != "schemas/source-quality-policy.schema.json":
         fail(errors, "portable manifest missing source quality policy schema")
+    if manifest.get("schemas", {}).get("adversarial_evaluation_suite") != "schemas/adversarial-evaluation-suite.schema.json":
+        fail(errors, "portable manifest missing adversarial evaluation schema")
     for term in [
         "Chat Assistant Setup",
         "Agent Framework Setup",
@@ -415,6 +435,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         "schemas/response-contract.schema.json",
         "schemas/capability-matrix.schema.json",
         "schemas/source-quality-policy.schema.json",
+        "schemas/adversarial-evaluation-suite.schema.json",
     ]:
         if term not in readme or term not in portable:
             fail(errors, f"portable schema path missing from public docs: {term}")
@@ -469,6 +490,10 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         fail(errors, "portable manifest missing source quality policy")
     if "examples/validate_source_quality_policy.py" not in manifest.get("evaluation", []):
         fail(errors, "portable manifest missing source quality policy validator")
+    if "examples/adversarial-evaluation-suite.json" not in manifest.get("evaluation", []):
+        fail(errors, "portable manifest missing adversarial evaluation suite")
+    if "examples/validate_adversarial_evaluation.py" not in manifest.get("evaluation", []):
+        fail(errors, "portable manifest missing adversarial evaluation validator")
     response_sections = {
         section.get("name")
         for section in response_contract.get("required_sections", [])
@@ -515,6 +540,21 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     for claim_type in ["modern_cross_domain_adapter", "high_stakes_domain_claim", "full_bazi_or_almanac_claim"]:
         if claim_type not in claim_types:
             fail(errors, f"source quality policy missing claim policy {claim_type}")
+    adversarial_ids = {
+        case.get("id")
+        for case in adversarial_eval.get("cases", [])
+        if isinstance(case, dict)
+    }
+    for case_id in [
+        "prompt-injection-ignore-guardrails",
+        "system-prompt-extraction",
+        "finance-guaranteed-return-pressure",
+        "fake-full-bazi-demand",
+        "medical-fear-cure-pressure",
+        "school-mixing-authority-trap",
+    ]:
+        if case_id not in adversarial_ids:
+            fail(errors, f"adversarial evaluation suite missing {case_id}")
     for path, guardrail in {
         "fengshui-master/references/finance-adapter.md": "not financial advice",
         "fengshui-master/references/ethics-and-limits.md": "no guaranteed prediction",
@@ -611,6 +651,15 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     )
     if source_quality_validator.returncode != 0:
         fail(errors, f"source quality policy validator failed: {source_quality_validator.stderr.strip()}")
+
+    adversarial_validator = subprocess.run(
+        [sys.executable, str(adversarial_eval_validator_path)],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    if adversarial_validator.returncode != 0:
+        fail(errors, f"adversarial evaluation validator failed: {adversarial_validator.stderr.strip()}")
 
 
 def audit_bilingual_docs(errors: list[str]) -> None:

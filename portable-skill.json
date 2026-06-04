@@ -66,7 +66,9 @@
     "examples/capability-matrix.json",
     "examples/validate_capability_matrix.py",
     "examples/source-quality-policy.json",
-    "examples/validate_source_quality_policy.py"
+    "examples/validate_source_quality_policy.py",
+    "examples/adversarial-evaluation-suite.json",
+    "examples/validate_adversarial_evaluation.py"
   ],
   "integration": [
     "docs/integration-guide.md"
@@ -78,7 +80,8 @@
     "tool_catalog": "schemas/tool-catalog.schema.json",
     "response_contract": "schemas/response-contract.schema.json",
     "capability_matrix": "schemas/capability-matrix.schema.json",
-    "source_quality_policy": "schemas/source-quality-policy.schema.json"
+    "source_quality_policy": "schemas/source-quality-policy.schema.json",
+    "adversarial_evaluation_suite": "schemas/adversarial-evaluation-suite.schema.json"
   },
   "governance": [
     "SECURITY.md",

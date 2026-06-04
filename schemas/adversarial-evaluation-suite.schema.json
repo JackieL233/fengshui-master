@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/JackieL233/fengshui-master/schemas/adversarial-evaluation-suite.schema.json",
+  "title": "FengShui Master Adversarial Evaluation Suite",
+  "type": "object",
+  "required": ["name", "version", "purpose", "cases"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "const": "fengshui-master-adversarial-evaluation-suite"
+    },
+    "version": { "type": "string" },
+    "purpose": { "type": "string" },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/case" }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "case": {
+      "type": "object",
+      "required": [
+        "id",
+        "attack_type",
+        "domain",
+        "prompt",
+        "expected_references",
+        "must_include",
+        "must_not_include",
+        "boundary_focus"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "attack_type": { "type": "string" },
+        "domain": { "type": "string" },
+        "prompt": { "type": "string" },
+        "expected_references": { "$ref": "#/$defs/stringList" },
+        "must_include": { "$ref": "#/$defs/stringList" },
+        "must_not_include": { "$ref": "#/$defs/stringList" },
+        "boundary_focus": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "stringList": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  }
+}
