@@ -76,6 +76,7 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "schemas" / "capability-matrix.schema.json",
         ROOT / "schemas" / "source-quality-policy.schema.json",
         ROOT / "schemas" / "adversarial-evaluation-suite.schema.json",
+        ROOT / "schemas" / "intake-contracts.schema.json",
         ROOT / "examples" / "portable-agent-prompts.md",
         ROOT / "examples" / "portable-evaluation-rubric.json",
         ROOT / "examples" / "portable-evaluation-suite.json",
@@ -159,6 +160,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     source_quality_policy_validator_path = ROOT / "examples" / "validate_source_quality_policy.py"
     adversarial_eval_path = ROOT / "examples" / "adversarial-evaluation-suite.json"
     adversarial_eval_validator_path = ROOT / "examples" / "validate_adversarial_evaluation.py"
+    intake_contracts_path = ROOT / "examples" / "intake-contracts.json"
+    intake_contracts_validator_path = ROOT / "examples" / "validate_intake_contracts.py"
     manifest_path = ROOT / "portable-skill.json"
     manifest_validator_path = ROOT / "examples" / "validate_portable_manifest.py"
     manifest_schema_path = ROOT / "schemas" / "portable-skill.schema.json"
@@ -169,6 +172,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     capability_matrix_schema_path = ROOT / "schemas" / "capability-matrix.schema.json"
     source_quality_policy_schema_path = ROOT / "schemas" / "source-quality-policy.schema.json"
     adversarial_eval_schema_path = ROOT / "schemas" / "adversarial-evaluation-suite.schema.json"
+    intake_contracts_schema_path = ROOT / "schemas" / "intake-contracts.schema.json"
     integration_path = ROOT / "docs" / "integration-guide.md"
 
     if not portable_path.exists():
@@ -222,6 +226,12 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     if not adversarial_eval_validator_path.exists():
         fail(errors, "missing examples/validate_adversarial_evaluation.py")
         return
+    if not intake_contracts_path.exists():
+        fail(errors, "missing examples/intake-contracts.json")
+        return
+    if not intake_contracts_validator_path.exists():
+        fail(errors, "missing examples/validate_intake_contracts.py")
+        return
     if not manifest_path.exists():
         fail(errors, "missing portable-skill.json")
         return
@@ -252,6 +262,9 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     if not adversarial_eval_schema_path.exists():
         fail(errors, "missing schemas/adversarial-evaluation-suite.schema.json")
         return
+    if not intake_contracts_schema_path.exists():
+        fail(errors, "missing schemas/intake-contracts.schema.json")
+        return
     if not integration_path.exists():
         fail(errors, "missing docs/integration-guide.md")
         return
@@ -267,6 +280,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     capability_matrix = json.loads(read(capability_matrix_path))
     source_quality_policy = json.loads(read(source_quality_policy_path))
     adversarial_eval = json.loads(read(adversarial_eval_path))
+    intake_contracts = json.loads(read(intake_contracts_path))
     for term in [
         "Portable AI Skill",
         "System Instruction",
@@ -384,6 +398,10 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         if term not in readme or term not in chinese or term not in portable:
             fail(errors, f"adversarial evaluation path missing from public docs: {term}")
 
+    for term in ["examples/intake-contracts.json", "examples/validate_intake_contracts.py"]:
+        if term not in readme or term not in chinese or term not in portable:
+            fail(errors, f"intake contracts path missing from public docs: {term}")
+
     for term in ["portable-skill.json", "examples/validate_portable_manifest.py"]:
         if term not in readme or term not in portable:
             fail(errors, f"portable manifest path missing from public docs: {term}")
@@ -416,6 +434,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         fail(errors, "portable manifest missing source quality policy schema")
     if manifest.get("schemas", {}).get("adversarial_evaluation_suite") != "schemas/adversarial-evaluation-suite.schema.json":
         fail(errors, "portable manifest missing adversarial evaluation schema")
+    if manifest.get("schemas", {}).get("intake_contracts") != "schemas/intake-contracts.schema.json":
+        fail(errors, "portable manifest missing intake contracts schema")
     for term in [
         "Chat Assistant Setup",
         "Agent Framework Setup",
@@ -436,6 +456,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         "schemas/capability-matrix.schema.json",
         "schemas/source-quality-policy.schema.json",
         "schemas/adversarial-evaluation-suite.schema.json",
+        "schemas/intake-contracts.schema.json",
     ]:
         if term not in readme or term not in portable:
             fail(errors, f"portable schema path missing from public docs: {term}")
@@ -494,6 +515,10 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         fail(errors, "portable manifest missing adversarial evaluation suite")
     if "examples/validate_adversarial_evaluation.py" not in manifest.get("evaluation", []):
         fail(errors, "portable manifest missing adversarial evaluation validator")
+    if "examples/intake-contracts.json" not in manifest.get("evaluation", []):
+        fail(errors, "portable manifest missing intake contracts")
+    if "examples/validate_intake_contracts.py" not in manifest.get("evaluation", []):
+        fail(errors, "portable manifest missing intake contracts validator")
     response_sections = {
         section.get("name")
         for section in response_contract.get("required_sections", [])
@@ -555,6 +580,14 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     ]:
         if case_id not in adversarial_ids:
             fail(errors, f"adversarial evaluation suite missing {case_id}")
+    intake_domains = {
+        domain.get("domain")
+        for domain in intake_contracts.get("domains", [])
+        if isinstance(domain, dict)
+    }
+    for domain in ["space", "finance", "timing", "life_omen", "wellbeing", "legal_adjacent"]:
+        if domain not in intake_domains:
+            fail(errors, f"intake contracts missing {domain}")
     for path, guardrail in {
         "fengshui-master/references/finance-adapter.md": "not financial advice",
         "fengshui-master/references/ethics-and-limits.md": "no guaranteed prediction",
@@ -660,6 +693,15 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     )
     if adversarial_validator.returncode != 0:
         fail(errors, f"adversarial evaluation validator failed: {adversarial_validator.stderr.strip()}")
+
+    intake_validator = subprocess.run(
+        [sys.executable, str(intake_contracts_validator_path)],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    if intake_validator.returncode != 0:
+        fail(errors, f"intake contracts validator failed: {intake_validator.stderr.strip()}")
 
 
 def audit_bilingual_docs(errors: list[str]) -> None:

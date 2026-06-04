@@ -85,6 +85,7 @@ schemas/
   capability-matrix.schema.json
   source-quality-policy.schema.json
   adversarial-evaluation-suite.schema.json
+  intake-contracts.schema.json
 examples/
   portable-agent-prompts.md
   portable-evaluation-rubric.json
@@ -95,6 +96,7 @@ examples/
   capability-matrix.json
   source-quality-policy.json
   adversarial-evaluation-suite.json
+  intake-contracts.json
   validate_portable_evaluation.py
   validate_portable_manifest.py
   validate_reference_catalog.py
@@ -103,6 +105,7 @@ examples/
   validate_capability_matrix.py
   validate_source_quality_policy.py
   validate_adversarial_evaluation.py
+  validate_intake_contracts.py
 fengshui-master/
   SKILL.md
   agents/openai.yaml
@@ -179,6 +182,7 @@ fengshui-master/
 - [`schemas/capability-matrix.schema.json`](schemas/capability-matrix.schema.json)
 - [`schemas/source-quality-policy.schema.json`](schemas/source-quality-policy.schema.json)
 - [`schemas/adversarial-evaluation-suite.schema.json`](schemas/adversarial-evaluation-suite.schema.json)
+- [`schemas/intake-contracts.schema.json`](schemas/intake-contracts.schema.json)
 
 常见接入方式：
 
@@ -194,6 +198,8 @@ fengshui-master/
 来源层级、引用姿态与 claim-quality 规则见 [`examples/source-quality-policy.json`](examples/source-quality-policy.json)，并可用 [`examples/validate_source_quality_policy.py`](examples/validate_source_quality_policy.py) 验证。
 
 对抗提示、prompt-injection、越权与 scope-inflation 测试见 [`examples/adversarial-evaluation-suite.json`](examples/adversarial-evaluation-suite.json)，并可用 [`examples/validate_adversarial_evaluation.py`](examples/validate_adversarial_evaluation.py) 验证。
+
+领域输入、缺失信息与 ask-first 规则见 [`examples/intake-contracts.json`](examples/intake-contracts.json)，并可用 [`examples/validate_intake_contracts.py`](examples/validate_intake_contracts.py) 验证。
 
 验证 portable evaluation suite：
 
@@ -241,6 +247,12 @@ python examples/validate_source_quality_policy.py
 
 ```bash
 python examples/validate_adversarial_evaluation.py
+```
+
+验证 intake contracts：
+
+```bash
+python examples/validate_intake_contracts.py
 ```
 
 ## Codex 安装

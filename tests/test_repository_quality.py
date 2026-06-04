@@ -33,6 +33,8 @@ SOURCE_QUALITY_POLICY = ROOT / "examples" / "source-quality-policy.json"
 SOURCE_QUALITY_POLICY_VALIDATOR = ROOT / "examples" / "validate_source_quality_policy.py"
 ADVERSARIAL_EVAL_SUITE = ROOT / "examples" / "adversarial-evaluation-suite.json"
 ADVERSARIAL_EVAL_VALIDATOR = ROOT / "examples" / "validate_adversarial_evaluation.py"
+INTAKE_CONTRACTS = ROOT / "examples" / "intake-contracts.json"
+INTAKE_CONTRACTS_VALIDATOR = ROOT / "examples" / "validate_intake_contracts.py"
 PORTABLE_MANIFEST = ROOT / "portable-skill.json"
 PORTABLE_MANIFEST_VALIDATOR = ROOT / "examples" / "validate_portable_manifest.py"
 PORTABLE_MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
@@ -43,6 +45,7 @@ RESPONSE_CONTRACT_SCHEMA = ROOT / "schemas" / "response-contract.schema.json"
 CAPABILITY_MATRIX_SCHEMA = ROOT / "schemas" / "capability-matrix.schema.json"
 SOURCE_QUALITY_POLICY_SCHEMA = ROOT / "schemas" / "source-quality-policy.schema.json"
 ADVERSARIAL_EVAL_SCHEMA = ROOT / "schemas" / "adversarial-evaluation-suite.schema.json"
+INTAKE_CONTRACTS_SCHEMA = ROOT / "schemas" / "intake-contracts.schema.json"
 INTEGRATION_GUIDE = ROOT / "docs" / "integration-guide.md"
 SECURITY = ROOT / "SECURITY.md"
 CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
@@ -74,6 +77,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("python examples/validate_capability_matrix.py", workflow)
         self.assertIn("python examples/validate_source_quality_policy.py", workflow)
         self.assertIn("python examples/validate_adversarial_evaluation.py", workflow)
+        self.assertIn("python examples/validate_intake_contracts.py", workflow)
         self.assertIn("python .github/scripts/audit_repository.py", workflow)
 
     def test_portable_skill_validator_exists_for_ci(self):
@@ -436,6 +440,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("examples/capability-matrix.json", manifest["evaluation"])
         self.assertIn("examples/source-quality-policy.json", manifest["evaluation"])
         self.assertIn("examples/adversarial-evaluation-suite.json", manifest["evaluation"])
+        self.assertIn("examples/intake-contracts.json", manifest["evaluation"])
         self.assertIn("docs/integration-guide.md", manifest["integration"])
         self.assertIn("fengshui-master/scripts/method_selector.py", manifest["tools"])
         self.assertIn("fengshui-master/scripts/bagua_map.py", manifest["tools"])
@@ -624,6 +629,56 @@ class RepositoryQualityTest(unittest.TestCase):
         )
         self.assertIn("Adversarial evaluation suite is valid", result.stdout)
 
+    def test_intake_contracts_exist_and_pass(self):
+        self.assertTrue(INTAKE_CONTRACTS.exists())
+        self.assertTrue(INTAKE_CONTRACTS_VALIDATOR.exists())
+
+        contracts = json.loads(INTAKE_CONTRACTS.read_text(encoding="utf-8"))
+        manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        chinese_readme = README_ZH.read_text(encoding="utf-8")
+        portable = PORTABLE_SKILL.read_text(encoding="utf-8")
+
+        self.assertEqual(contracts["name"], "fengshui-master-intake-contracts")
+        self.assertGreaterEqual(len(contracts["domains"]), 10)
+        self.assertIn("examples/intake-contracts.json", manifest["evaluation"])
+        self.assertIn("examples/validate_intake_contracts.py", manifest["evaluation"])
+
+        by_domain = {entry["domain"]: entry for entry in contracts["domains"]}
+        for domain in ["space", "finance", "timing", "life_omen", "wellbeing", "legal_adjacent", "brand", "product"]:
+            with self.subTest(domain=domain):
+                self.assertIn(domain, by_domain)
+                self.assertGreaterEqual(len(by_domain[domain]["required_inputs"]), 3)
+                self.assertGreaterEqual(len(by_domain[domain]["ask_first_if_missing"]), 1)
+                self.assertGreaterEqual(len(by_domain[domain]["blocking_missing_inputs"]), 1)
+
+        finance = by_domain["finance"]
+        self.assertIn("risk tolerance", finance["required_inputs"])
+        self.assertIn("financial advice boundary", finance["boundary_disclosures"])
+        self.assertIn("do not issue buy/sell commands", finance["red_lines"])
+
+        space = by_domain["space"]
+        self.assertIn("floor plan or photos", space["required_inputs"])
+        self.assertIn("north arrow or compass bearing", space["ask_first_if_missing"])
+
+        timing = by_domain["timing"]
+        self.assertIn("candidate date or date range", timing["required_inputs"])
+        self.assertIn("event type", timing["blocking_missing_inputs"])
+
+        for text in [readme, chinese_readme, portable]:
+            with self.subTest(text=text[:20]):
+                self.assertIn("examples/intake-contracts.json", text)
+                self.assertIn("examples/validate_intake_contracts.py", text)
+
+        result = subprocess.run(
+            [sys.executable, str(INTAKE_CONTRACTS_VALIDATOR)],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+        self.assertIn("Intake contracts are valid", result.stdout)
+
     def test_ci_smoke_tests_moon_phase_helper(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")
 
@@ -677,6 +732,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertTrue(CAPABILITY_MATRIX_SCHEMA.exists())
         self.assertTrue(SOURCE_QUALITY_POLICY_SCHEMA.exists())
         self.assertTrue(ADVERSARIAL_EVAL_SCHEMA.exists())
+        self.assertTrue(INTAKE_CONTRACTS_SCHEMA.exists())
 
         manifest_schema = json.loads(PORTABLE_MANIFEST_SCHEMA.read_text(encoding="utf-8"))
         eval_schema = json.loads(PORTABLE_EVAL_SCHEMA.read_text(encoding="utf-8"))
@@ -686,6 +742,7 @@ class RepositoryQualityTest(unittest.TestCase):
         capability_schema = json.loads(CAPABILITY_MATRIX_SCHEMA.read_text(encoding="utf-8"))
         source_quality_schema = json.loads(SOURCE_QUALITY_POLICY_SCHEMA.read_text(encoding="utf-8"))
         adversarial_schema = json.loads(ADVERSARIAL_EVAL_SCHEMA.read_text(encoding="utf-8"))
+        intake_schema = json.loads(INTAKE_CONTRACTS_SCHEMA.read_text(encoding="utf-8"))
         manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
@@ -697,6 +754,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertEqual(capability_schema["title"], "FengShui Master Capability Matrix")
         self.assertEqual(source_quality_schema["title"], "FengShui Master Source Quality Policy")
         self.assertEqual(adversarial_schema["title"], "FengShui Master Adversarial Evaluation Suite")
+        self.assertEqual(intake_schema["title"], "FengShui Master Intake Contracts")
         self.assertEqual(manifest["schemas"]["manifest"], "schemas/portable-skill.schema.json")
         self.assertEqual(manifest["schemas"]["evaluation_suite"], "schemas/portable-evaluation-suite.schema.json")
         self.assertEqual(manifest["schemas"]["reference_catalog"], "schemas/reference-catalog.schema.json")
@@ -705,6 +763,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertEqual(manifest["schemas"]["capability_matrix"], "schemas/capability-matrix.schema.json")
         self.assertEqual(manifest["schemas"]["source_quality_policy"], "schemas/source-quality-policy.schema.json")
         self.assertEqual(manifest["schemas"]["adversarial_evaluation_suite"], "schemas/adversarial-evaluation-suite.schema.json")
+        self.assertEqual(manifest["schemas"]["intake_contracts"], "schemas/intake-contracts.schema.json")
         self.assertIn("integration", manifest_schema["required"])
 
         for phrase in [
@@ -716,6 +775,7 @@ class RepositoryQualityTest(unittest.TestCase):
             "schemas/capability-matrix.schema.json",
             "schemas/source-quality-policy.schema.json",
             "schemas/adversarial-evaluation-suite.schema.json",
+            "schemas/intake-contracts.schema.json",
         ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, readme)

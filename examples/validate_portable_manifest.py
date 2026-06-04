@@ -18,6 +18,7 @@ RESPONSE_CONTRACT_SCHEMA = ROOT / "schemas" / "response-contract.schema.json"
 CAPABILITY_MATRIX_SCHEMA = ROOT / "schemas" / "capability-matrix.schema.json"
 SOURCE_QUALITY_POLICY_SCHEMA = ROOT / "schemas" / "source-quality-policy.schema.json"
 ADVERSARIAL_EVALUATION_SCHEMA = ROOT / "schemas" / "adversarial-evaluation-suite.schema.json"
+INTAKE_CONTRACTS_SCHEMA = ROOT / "schemas" / "intake-contracts.schema.json"
 REQUIRED_TOP_LEVEL = {
     "name",
     "type",
@@ -77,6 +78,7 @@ def main() -> int:
         CAPABILITY_MATRIX_SCHEMA: "FengShui Master Capability Matrix",
         SOURCE_QUALITY_POLICY_SCHEMA: "FengShui Master Source Quality Policy",
         ADVERSARIAL_EVALUATION_SCHEMA: "FengShui Master Adversarial Evaluation Suite",
+        INTAKE_CONTRACTS_SCHEMA: "FengShui Master Intake Contracts",
     }
     for path, title in schema_titles.items():
         if not path.exists():
@@ -121,6 +123,8 @@ def main() -> int:
         fail(errors, "schemas.source_quality_policy must point to schemas/source-quality-policy.schema.json")
     if schemas.get("adversarial_evaluation_suite") != "schemas/adversarial-evaluation-suite.schema.json":
         fail(errors, "schemas.adversarial_evaluation_suite must point to schemas/adversarial-evaluation-suite.schema.json")
+    if schemas.get("intake_contracts") != "schemas/intake-contracts.schema.json":
+        fail(errors, "schemas.intake_contracts must point to schemas/intake-contracts.schema.json")
     for rel in schemas.values() if isinstance(schemas, dict) else []:
         if not (ROOT / rel).exists():
             fail(errors, f"schemas references missing path: {rel}")
@@ -150,6 +154,10 @@ def main() -> int:
         fail(errors, "evaluation missing examples/adversarial-evaluation-suite.json")
     if "examples/validate_adversarial_evaluation.py" not in manifest.get("evaluation", []):
         fail(errors, "evaluation missing examples/validate_adversarial_evaluation.py")
+    if "examples/intake-contracts.json" not in manifest.get("evaluation", []):
+        fail(errors, "evaluation missing examples/intake-contracts.json")
+    if "examples/validate_intake_contracts.py" not in manifest.get("evaluation", []):
+        fail(errors, "evaluation missing examples/validate_intake_contracts.py")
 
     domains = set(manifest.get("domains", []))
     missing_domains = sorted(REQUIRED_DOMAINS - domains)

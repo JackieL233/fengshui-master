@@ -1,0 +1,151 @@
+{
+  "name": "fengshui-master-intake-contracts",
+  "version": "1.0.0",
+  "purpose": "Machine-readable domain intake contracts for deciding what to ask, what can be assumed, when to proceed with caveats, and when a FengShui Master answer must stay at checklist level.",
+  "domains": [
+    {
+      "domain": "space",
+      "summary": "Homes, offices, shops, rooms, sites, entrances, beds, desks, kitchens, floor plans, and form-school layout review.",
+      "required_inputs": ["space type", "floor plan or photos", "occupant goals", "main entrance and circulation", "known safety or usability constraints"],
+      "optional_inputs": ["north arrow or compass bearing", "door, bed, desk, stove, and water positions", "photos of exterior approach", "allowed and forbidden changes", "budget and timeline"],
+      "ask_first_if_missing": ["north arrow or compass bearing", "floor plan or photos", "occupant goals"],
+      "blocking_missing_inputs": ["space type", "basic layout description", "user goal"],
+      "assumption_allowed_inputs": ["minor furniture details", "a rough compass direction for a non-precise form reading", "budget when recommendations can be low-cost"],
+      "boundary_disclosures": ["not architectural or engineering advice", "safety and code compliance first"],
+      "red_lines": ["do not claim guaranteed wealth health or relationship outcomes", "do not make precise compass claims from vague directions"],
+      "routing_hints": ["references/forms-and-environment.md", "references/analysis-templates.md", "references/floorplan-schema.md"]
+    },
+    {
+      "domain": "finance",
+      "summary": "Investing, portfolio, cash flow, market timing, budgeting, and wealth symbolism with finance-first boundaries.",
+      "required_inputs": ["decision type", "time horizon", "risk tolerance", "liquidity needs", "financial thesis and downside condition"],
+      "optional_inputs": ["existing allocation or concentration", "tax or legal constraints", "income stability", "debt obligations", "candidate timing window"],
+      "ask_first_if_missing": ["risk tolerance", "time horizon", "decision type"],
+      "blocking_missing_inputs": ["decision type", "risk tolerance", "financial advice boundary"],
+      "assumption_allowed_inputs": ["symbolic wuxing framing", "general risk-control posture", "non-personalized education"],
+      "boundary_disclosures": ["financial advice boundary", "not financial advice", "real financial analysis takes priority"],
+      "red_lines": ["do not issue buy/sell commands", "do not guarantee returns", "do not predict market price"],
+      "routing_hints": ["references/finance-adapter.md", "references/five-phase-domain-map.md", "references/ethics-and-limits.md"]
+    },
+    {
+      "domain": "timing",
+      "summary": "Moving, opening, renovation, signing, launches, moon phase, solar terms, annual cautions, and candidate-date comparison.",
+      "required_inputs": ["candidate date or date range", "event type", "local time zone or location", "hard deadlines and practical constraints"],
+      "optional_inputs": ["moon phase preference", "solar term context", "annual directional cautions", "trusted almanac attributes", "people involved when personal clashes matter"],
+      "ask_first_if_missing": ["candidate date or date range", "event type", "local time zone or location"],
+      "blocking_missing_inputs": ["event type", "candidate date or date range"],
+      "assumption_allowed_inputs": ["approximate moon phase for broad symbolism", "approximate solar term for seasonal posture", "general timing checklist"],
+      "boundary_disclosures": ["not a full almanac", "do not guarantee auspiciousness", "practical constraints take priority"],
+      "red_lines": ["do not treat one timing marker as a complete lucky-date formula", "do not invent tong shu attributes"],
+      "routing_hints": ["references/timing-and-date-selection.md", "scripts/moon_phase.py", "scripts/solar_terms.py", "scripts/annual_afflictions.py"]
+    },
+    {
+      "domain": "life_omen",
+      "summary": "Life pattern, luck, personal phase, ji/xiong, auspiciousness, inauspiciousness, and qu ji bi xiong planning.",
+      "required_inputs": ["topic area", "current life stage or relevant period", "goal for the reading", "hard real-world constraints"],
+      "optional_inputs": ["birth year or relevant year", "recent events", "environment context", "decision options", "support network"],
+      "ask_first_if_missing": ["topic area", "goal for the reading", "hard real-world constraints"],
+      "blocking_missing_inputs": ["topic area", "goal for the reading"],
+      "assumption_allowed_inputs": ["broad symbolic pattern", "year-level ganzhi scaffold", "conditional ji/xiong framing"],
+      "boundary_disclosures": ["no deterministic fate claims", "symbolic support only", "user agency first"],
+      "red_lines": ["do not predict health death wealth marriage or disaster", "do not present birth-year context as full bazi"],
+      "routing_hints": ["references/life-and-omen-adapter.md", "references/broad-symbolic-analysis.md", "references/five-phase-domain-map.md"]
+    },
+    {
+      "domain": "business",
+      "summary": "Business model, operations, customer path, revenue flow, bottlenecks, and organizational qi.",
+      "required_inputs": ["business model and stage", "main business goal", "customer path or sales funnel", "current bottleneck or leakage"],
+      "optional_inputs": ["budget and runway", "staffing constraints", "regulatory constraints", "brand positioning", "workspace or shop layout"],
+      "ask_first_if_missing": ["main business goal", "business model and stage", "current bottleneck or leakage"],
+      "blocking_missing_inputs": ["main business goal", "business model and stage"],
+      "assumption_allowed_inputs": ["general flow and leakage lens", "five-phase operating posture", "low-risk operational checklist"],
+      "boundary_disclosures": ["not business, legal, tax, or financial advice", "native business evidence first"],
+      "red_lines": ["do not guarantee revenue funding or customer outcomes", "do not replace compliance or financial review"],
+      "routing_hints": ["references/business-adapter.md", "references/domain-adapters.md", "references/five-phase-domain-map.md"]
+    },
+    {
+      "domain": "brand",
+      "summary": "Naming, colors, logo, identity, launch tone, audience perception, and wuxing design fit.",
+      "required_inputs": ["audience", "brand goal", "market constraints", "candidate names colors or identity directions"],
+      "optional_inputs": ["accessibility requirements", "legal or trademark constraints", "competitors", "launch timing", "visual references"],
+      "ask_first_if_missing": ["audience", "brand goal", "candidate names colors or identity directions"],
+      "blocking_missing_inputs": ["audience", "brand goal"],
+      "assumption_allowed_inputs": ["symbolic color and phase mapping", "general audience-tone check", "non-final naming feedback"],
+      "boundary_disclosures": ["does not replace trademark review", "does not replace accessibility review"],
+      "red_lines": ["do not claim a name guarantees success", "do not ignore accessibility or legal constraints"],
+      "routing_hints": ["references/brand-adapter.md", "references/five-phase-domain-map.md"]
+    },
+    {
+      "domain": "product",
+      "summary": "Product strategy, onboarding, UX flow, activation, retention, roadmap, and form-flow-leakage diagnosis.",
+      "required_inputs": ["product type and target user", "main product goal or metric", "user journey or funnel", "current friction drop-off or confusion"],
+      "optional_inputs": ["engineering constraints", "accessibility constraints", "privacy or security constraints", "analytics evidence", "roadmap options"],
+      "ask_first_if_missing": ["target user", "main product goal or metric", "current friction drop-off or confusion"],
+      "blocking_missing_inputs": ["product type and target user", "main product goal or metric"],
+      "assumption_allowed_inputs": ["symbolic flow and leakage diagnosis", "general UX friction checklist", "five-phase product posture"],
+      "boundary_disclosures": ["does not replace user research accessibility privacy or security review", "real product evidence first"],
+      "red_lines": ["do not guarantee adoption retention or product-market fit", "do not replace security or privacy review"],
+      "routing_hints": ["references/product-adapter.md", "references/five-phase-domain-map.md"]
+    },
+    {
+      "domain": "relationship",
+      "summary": "Romantic, family, friendship, team, shared-space, communication, conflict, and relationship timing questions.",
+      "required_inputs": ["relationship type", "goal for the reading", "safety or coercion concerns", "communication constraints and boundaries"],
+      "optional_inputs": ["shared-space context", "recent conflict pattern", "privacy needs", "timing pressure", "support resources"],
+      "ask_first_if_missing": ["relationship type", "goal for the reading", "safety or coercion concerns"],
+      "blocking_missing_inputs": ["safety or coercion concerns", "relationship type"],
+      "assumption_allowed_inputs": ["general communication-flow symbolism", "low-risk shared-space adjustment", "conditional pattern reading"],
+      "boundary_disclosures": ["consent privacy and safety first", "do not predict another person's feelings"],
+      "red_lines": ["do not encourage coercion surveillance or manipulation", "do not guarantee reconciliation or attraction"],
+      "routing_hints": ["references/relationship-adapter.md", "references/ethics-and-limits.md"]
+    },
+    {
+      "domain": "learning",
+      "summary": "Study, exams, focus, memory, practice routines, learning environment, and curriculum rhythm.",
+      "required_inputs": ["subject level and deadline", "learning goal", "current schedule and bottleneck", "study environment and distraction context"],
+      "optional_inputs": ["feedback or practice-test data", "accessibility needs", "sleep and energy pattern", "exam format", "available support"],
+      "ask_first_if_missing": ["learning goal", "deadline", "current bottleneck"],
+      "blocking_missing_inputs": ["learning goal", "subject level and deadline"],
+      "assumption_allowed_inputs": ["five-phase study balance", "general attention-flow advice", "low-risk environment changes"],
+      "boundary_disclosures": ["does not guarantee exam success or admission", "qualified learning or accessibility support may be needed"],
+      "red_lines": ["do not promise scores admissions or certification outcomes", "do not ignore health or accessibility needs"],
+      "routing_hints": ["references/learning-adapter.md", "references/five-phase-domain-map.md"]
+    },
+    {
+      "domain": "wellbeing",
+      "summary": "Sleep, stress, light, air, noise, ergonomics, clutter, rhythm, and health-adjacent environmental support.",
+      "required_inputs": ["specific wellbeing concern", "sleep light air noise and ergonomic context", "medical or safety issues already identified", "professional care constraints"],
+      "optional_inputs": ["photos or room layout", "daily rhythm", "stress triggers", "ventilation or moisture details", "budget for changes"],
+      "ask_first_if_missing": ["specific wellbeing concern", "medical or safety issues already identified", "sleep light air noise and ergonomic context"],
+      "blocking_missing_inputs": ["medical or safety issues already identified", "specific wellbeing concern"],
+      "assumption_allowed_inputs": ["low-risk environmental adjustment", "comfort and rhythm lens", "symbolic yin-yang balance"],
+      "boundary_disclosures": ["not medical advice", "do not diagnose or treat", "seek qualified medical support for health concerns"],
+      "red_lines": ["do not claim feng shui prevents or cures disease", "do not discourage medical care"],
+      "routing_hints": ["references/wellbeing-adapter.md", "references/ethics-and-limits.md"]
+    },
+    {
+      "domain": "legal_adjacent",
+      "summary": "Contracts, disputes, compliance, leases, employment terms, inheritance, negotiation, and legal-adjacent timing.",
+      "required_inputs": ["decision type", "hard deadlines and required procedures", "stakeholders and incentives", "whether qualified legal help is involved"],
+      "optional_inputs": ["documents or clauses the user can summarize", "evidence status", "risk tolerance", "negotiation goals", "symbolic timing preference"],
+      "ask_first_if_missing": ["hard deadlines and required procedures", "decision type", "whether qualified legal help is involved"],
+      "blocking_missing_inputs": ["hard deadlines and required procedures", "decision type"],
+      "assumption_allowed_inputs": ["preparation checklist", "symbolic timing as secondary layer", "communication and documentation flow"],
+      "boundary_disclosures": ["not legal advice", "legal deadlines and counsel take priority"],
+      "red_lines": ["do not interpret legal rights or obligations", "do not tell the user to ignore legal deadlines"],
+      "routing_hints": ["references/legal-adjacent-adapter.md", "references/ethics-and-limits.md", "references/timing-and-date-selection.md"]
+    },
+    {
+      "domain": "general",
+      "summary": "Mixed or unclear questions that need domain routing before symbolic interpretation.",
+      "required_inputs": ["native domain", "desired outcome", "real constraints", "whether spatial timing or symbolic analysis is wanted"],
+      "optional_inputs": ["candidate options", "timeline", "risk tolerance", "available evidence", "preferred school or method"],
+      "ask_first_if_missing": ["native domain", "desired outcome", "real constraints"],
+      "blocking_missing_inputs": ["native domain", "desired outcome"],
+      "assumption_allowed_inputs": ["broad symbolic framing", "low-risk next-step checklist", "method selection questions"],
+      "boundary_disclosures": ["real-world constraints before symbolism", "scope and method must be named"],
+      "red_lines": ["do not jump to certainty from vague context", "do not skip high-stakes boundaries"],
+      "routing_hints": ["references/consultation-brief.md", "scripts/domain_router.py", "scripts/create_brief.py", "scripts/method_selector.py"]
+    }
+  ]
+}

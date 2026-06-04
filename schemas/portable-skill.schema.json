@@ -52,7 +52,7 @@
     },
     "schemas": {
       "type": "object",
-      "required": ["manifest", "evaluation_suite", "reference_catalog", "tool_catalog", "response_contract", "capability_matrix", "source_quality_policy", "adversarial_evaluation_suite"],
+      "required": ["manifest", "evaluation_suite", "reference_catalog", "tool_catalog", "response_contract", "capability_matrix", "source_quality_policy", "adversarial_evaluation_suite", "intake_contracts"],
       "properties": {
         "manifest": { "type": "string" },
         "evaluation_suite": { "type": "string" },
@@ -61,7 +61,8 @@
         "response_contract": { "type": "string" },
         "capability_matrix": { "type": "string" },
         "source_quality_policy": { "type": "string" },
-        "adversarial_evaluation_suite": { "type": "string" }
+        "adversarial_evaluation_suite": { "type": "string" },
+        "intake_contracts": { "type": "string" }
       },
       "additionalProperties": false
     }
