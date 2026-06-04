@@ -81,6 +81,7 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "schemas" / "universal-domain-protocol.schema.json",
         ROOT / "schemas" / "external-calculation-contracts.schema.json",
         ROOT / "schemas" / "contribution-quality-gates.schema.json",
+        ROOT / "schemas" / "runtime-integration-profiles.schema.json",
         ROOT / "examples" / "portable-agent-prompts.md",
         ROOT / "examples" / "portable-evaluation-rubric.json",
         ROOT / "examples" / "portable-evaluation-suite.json",
@@ -94,6 +95,8 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "examples" / "validate_external_calculation_contracts.py",
         ROOT / "examples" / "contribution-quality-gates.json",
         ROOT / "examples" / "validate_contribution_quality_gates.py",
+        ROOT / "examples" / "runtime-integration-profiles.json",
+        ROOT / "examples" / "validate_runtime_integration_profiles.py",
         SKILL / "SKILL.md",
         *sorted((SKILL / "references").glob("*.md")),
     ]
@@ -182,6 +185,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     external_calculation_contracts_validator_path = ROOT / "examples" / "validate_external_calculation_contracts.py"
     contribution_quality_gates_path = ROOT / "examples" / "contribution-quality-gates.json"
     contribution_quality_gates_validator_path = ROOT / "examples" / "validate_contribution_quality_gates.py"
+    runtime_integration_profiles_path = ROOT / "examples" / "runtime-integration-profiles.json"
+    runtime_integration_profiles_validator_path = ROOT / "examples" / "validate_runtime_integration_profiles.py"
     manifest_path = ROOT / "portable-skill.json"
     manifest_validator_path = ROOT / "examples" / "validate_portable_manifest.py"
     manifest_schema_path = ROOT / "schemas" / "portable-skill.schema.json"
@@ -197,6 +202,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     universal_domain_protocol_schema_path = ROOT / "schemas" / "universal-domain-protocol.schema.json"
     external_calculation_contracts_schema_path = ROOT / "schemas" / "external-calculation-contracts.schema.json"
     contribution_quality_gates_schema_path = ROOT / "schemas" / "contribution-quality-gates.schema.json"
+    runtime_integration_profiles_schema_path = ROOT / "schemas" / "runtime-integration-profiles.schema.json"
     integration_path = ROOT / "docs" / "integration-guide.md"
 
     if not portable_path.exists():
@@ -280,6 +286,12 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     if not contribution_quality_gates_validator_path.exists():
         fail(errors, "missing examples/validate_contribution_quality_gates.py")
         return
+    if not runtime_integration_profiles_path.exists():
+        fail(errors, "missing examples/runtime-integration-profiles.json")
+        return
+    if not runtime_integration_profiles_validator_path.exists():
+        fail(errors, "missing examples/validate_runtime_integration_profiles.py")
+        return
     if not manifest_path.exists():
         fail(errors, "missing portable-skill.json")
         return
@@ -325,6 +337,9 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     if not contribution_quality_gates_schema_path.exists():
         fail(errors, "missing schemas/contribution-quality-gates.schema.json")
         return
+    if not runtime_integration_profiles_schema_path.exists():
+        fail(errors, "missing schemas/runtime-integration-profiles.schema.json")
+        return
     if not integration_path.exists():
         fail(errors, "missing docs/integration-guide.md")
         return
@@ -345,6 +360,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     universal_domain_protocol = json.loads(read(universal_domain_protocol_path))
     external_calculation_contracts = json.loads(read(external_calculation_contracts_path))
     contribution_quality_gates = json.loads(read(contribution_quality_gates_path))
+    runtime_integration_profiles = json.loads(read(runtime_integration_profiles_path))
     for term in [
         "Portable AI Skill",
         "System Instruction",
@@ -484,6 +500,10 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         if term not in read(ROOT / "CONTRIBUTING.md") or term not in read(ROOT / ".github" / "pull_request_template.md"):
             fail(errors, f"contribution quality gates path missing from contribution docs: {term}")
 
+    for term in ["examples/runtime-integration-profiles.json", "examples/validate_runtime_integration_profiles.py"]:
+        if term not in readme or term not in portable or term not in integration:
+            fail(errors, f"runtime integration profile path missing from public docs: {term}")
+
     for term in ["portable-skill.json", "examples/validate_portable_manifest.py"]:
         if term not in readme or term not in portable:
             fail(errors, f"portable manifest path missing from public docs: {term}")
@@ -526,6 +546,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         fail(errors, "portable manifest missing external calculation contracts schema")
     if manifest.get("schemas", {}).get("contribution_quality_gates") != "schemas/contribution-quality-gates.schema.json":
         fail(errors, "portable manifest missing contribution quality gates schema")
+    if manifest.get("schemas", {}).get("runtime_integration_profiles") != "schemas/runtime-integration-profiles.schema.json":
+        fail(errors, "portable manifest missing runtime integration profiles schema")
     for term in [
         "Chat Assistant Setup",
         "Agent Framework Setup",
@@ -551,6 +573,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         "schemas/universal-domain-protocol.schema.json",
         "schemas/external-calculation-contracts.schema.json",
         "schemas/contribution-quality-gates.schema.json",
+        "schemas/runtime-integration-profiles.schema.json",
     ]:
         if term not in readme or term not in portable:
             fail(errors, f"portable schema path missing from public docs: {term}")
@@ -629,6 +652,10 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         fail(errors, "portable manifest missing contribution quality gates")
     if "examples/validate_contribution_quality_gates.py" not in manifest.get("evaluation", []):
         fail(errors, "portable manifest missing contribution quality gates validator")
+    if "examples/runtime-integration-profiles.json" not in manifest.get("evaluation", []):
+        fail(errors, "portable manifest missing runtime integration profiles")
+    if "examples/validate_runtime_integration_profiles.py" not in manifest.get("evaluation", []):
+        fail(errors, "portable manifest missing runtime integration profiles validator")
     response_sections = {
         section.get("name")
         for section in response_contract.get("required_sections", [])
@@ -765,6 +792,14 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     ]:
         if gate_id not in contribution_gate_ids:
             fail(errors, f"contribution quality gates missing {gate_id}")
+    runtime_profile_ids = {
+        profile.get("id")
+        for profile in runtime_integration_profiles.get("profiles", [])
+        if isinstance(profile, dict)
+    }
+    for profile_id in ["chat_assistant", "agent_framework", "rag", "local_cli", "codex"]:
+        if profile_id not in runtime_profile_ids:
+            fail(errors, f"runtime integration profiles missing {profile_id}")
     for path, guardrail in {
         "fengshui-master/references/finance-adapter.md": "not financial advice",
         "fengshui-master/references/ethics-and-limits.md": "no guaranteed prediction",
@@ -915,6 +950,15 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     )
     if contribution_validator.returncode != 0:
         fail(errors, f"contribution quality gates validator failed: {contribution_validator.stderr.strip()}")
+
+    runtime_validator = subprocess.run(
+        [sys.executable, str(runtime_integration_profiles_validator_path)],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    if runtime_validator.returncode != 0:
+        fail(errors, f"runtime integration profiles validator failed: {runtime_validator.stderr.strip()}")
 
 
 def audit_bilingual_docs(errors: list[str]) -> None:

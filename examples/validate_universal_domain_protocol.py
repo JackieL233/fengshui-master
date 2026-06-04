@@ -24,6 +24,7 @@ REQUIRED_RULE_IDS = {
     "native_domain_first",
     "symbolic_layer_second",
     "wuxing_bridge",
+    "moon_phase_rhythm",
     "unsupported_calculation_boundary",
 }
 REQUIRED_EXAMPLE_DOMAINS = {"technology", "sports", "education", "finance", "unknown"}
@@ -153,6 +154,8 @@ def main() -> int:
     finance = next((example for example in examples if isinstance(example, dict) and example.get("domain") == "finance"), {})
     if finance.get("risk_level") != "high":
         fail(errors, "finance example must be high risk")
+    if "moon phase rhythm as secondary timing layer" not in finance.get("symbolic_lenses", []):
+        fail(errors, "finance example missing moon phase secondary timing layer")
     if "do not issue buy or sell commands" not in finance.get("safe_output_shape", []):
         fail(errors, "finance example missing buy/sell boundary")
 

@@ -52,7 +52,7 @@
     },
     "schemas": {
       "type": "object",
-      "required": ["manifest", "evaluation_suite", "reference_catalog", "tool_catalog", "response_contract", "capability_matrix", "source_quality_policy", "adversarial_evaluation_suite", "intake_contracts", "golden_responses", "universal_domain_protocol", "external_calculation_contracts", "contribution_quality_gates"],
+      "required": ["manifest", "evaluation_suite", "reference_catalog", "tool_catalog", "response_contract", "capability_matrix", "source_quality_policy", "adversarial_evaluation_suite", "intake_contracts", "golden_responses", "universal_domain_protocol", "external_calculation_contracts", "contribution_quality_gates", "runtime_integration_profiles"],
       "properties": {
         "manifest": { "type": "string" },
         "evaluation_suite": { "type": "string" },
@@ -66,7 +66,8 @@
         "golden_responses": { "type": "string" },
         "universal_domain_protocol": { "type": "string" },
         "external_calculation_contracts": { "type": "string" },
-        "contribution_quality_gates": { "type": "string" }
+        "contribution_quality_gates": { "type": "string" },
+        "runtime_integration_profiles": { "type": "string" }
       },
       "additionalProperties": false
     }

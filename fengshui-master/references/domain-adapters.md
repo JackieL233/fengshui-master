@@ -34,6 +34,7 @@ Do not pretend feng shui alone can price assets, diagnose illness, win negotiati
    - **Five phases**: growth, visibility, stability, precision, liquidity.
    - **Form and flow**: bottlenecks, leakage, support, pathways, friction.
    - **Timing**: preparation, activation, rest, launch, review cycles.
+   - **Moon phase rhythm**: hidden seeding, growth, visibility, review, release, pruning, and conservation when the user asks about new moon, full moon, lunar rhythm, timing symbolism, or broad ji/xiong cycles.
    - **Remedies**: low-risk adjustments, environment, process changes, symbolic anchors.
    - **Ji/xiong**: favorable or unfavorable conditions based on support, timing, leakage, and risk.
 5. Give domain-first advice and label feng shui symbolism separately.
@@ -68,6 +69,21 @@ For deeper common domains, load the specialized adapter:
 | Relationships | balance, privacy, shared space, communication flow | consent, communication, safety, counseling |
 | Negotiation | position, backing, timing, channels, leakage | BATNA, facts, incentives, legal terms |
 | Life pattern / omen | yin-yang rhythm, five-phase balance, support, leakage, timing | lived facts, choices, health/safety, family/work constraints |
+
+## Moon Phase Across Domains
+
+Use `timing-and-date-selection.md` and `scripts/moon_phase.py` when a non-spatial question asks about New Moon, Full Moon, moon phase, lunar rhythm, timing symbolism, auspiciousness, inauspiciousness, or a cycle of starting, revealing, pruning, and resting.
+
+Moon phase is a secondary symbolic rhythm layer:
+
+| Phase posture | Cross-domain meaning | Example use |
+| --- | --- | --- |
+| New Moon | hidden beginning, intent, reset, quiet preparation | research before investing, private beta planning, study reset, relationship repair intent |
+| Waxing | growth, accumulation, activation | staged product rollout, habit building, pipeline development, gradual negotiation |
+| Full Moon | visibility, culmination, illumination, review | public launch, portfolio exposure review, presentation, clear conversation |
+| Waning | release, simplification, pruning, leakage repair | reduce risk, declutter commitments, close old tasks, simplify spending |
+
+Do not use moon phase to predict market direction, diagnose a person, guarantee luck, force a launch, or override safety, financial, legal, medical, or operational evidence.
 
 ## Translation Lenses
 

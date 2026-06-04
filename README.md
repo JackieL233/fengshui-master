@@ -118,6 +118,7 @@ schemas/
   universal-domain-protocol.schema.json
   external-calculation-contracts.schema.json
   contribution-quality-gates.schema.json
+  runtime-integration-profiles.schema.json
 examples/
   portable-agent-prompts.md
   portable-evaluation-rubric.json
@@ -133,6 +134,7 @@ examples/
   universal-domain-protocol.json
   external-calculation-contracts.json
   contribution-quality-gates.json
+  runtime-integration-profiles.json
   validate_portable_evaluation.py
   validate_portable_manifest.py
   validate_reference_catalog.py
@@ -146,6 +148,7 @@ examples/
   validate_universal_domain_protocol.py
   validate_external_calculation_contracts.py
   validate_contribution_quality_gates.py
+  validate_runtime_integration_profiles.py
 fengshui-master/
   SKILL.md
   agents/openai.yaml
@@ -233,6 +236,7 @@ Schema files are provided for platform integrations:
 - [`schemas/universal-domain-protocol.schema.json`](schemas/universal-domain-protocol.schema.json)
 - [`schemas/external-calculation-contracts.schema.json`](schemas/external-calculation-contracts.schema.json)
 - [`schemas/contribution-quality-gates.schema.json`](schemas/contribution-quality-gates.schema.json)
+- [`schemas/runtime-integration-profiles.schema.json`](schemas/runtime-integration-profiles.schema.json)
 
 Common integration patterns:
 
@@ -241,7 +245,7 @@ Common integration patterns:
 - **RAG systems**: index `fengshui-master/references/`, keep `PORTABLE_SKILL.md` as the top-level behavior policy, and keep `fengshui-master/SKILL.md` as the Codex adapter.
 - **Manual use**: run `method_selector.py`, `create_brief.py`, `domain_router.py`, and `generate_report.py` from the command line to create structured analysis scaffolds before writing the final answer.
 
-For portable agent smoke tests and copyable prompts, see [`examples/portable-agent-prompts.md`](examples/portable-agent-prompts.md). For machine-readable adaptation checks, use [`examples/portable-evaluation-suite.json`](examples/portable-evaluation-suite.json). For adversarial red-team prompts, prompt-injection checks, and scope-inflation checks, use [`examples/adversarial-evaluation-suite.json`](examples/adversarial-evaluation-suite.json). For domain intake and missing-input rules, use [`examples/intake-contracts.json`](examples/intake-contracts.json). For compact golden response fixtures, use [`examples/golden-responses.json`](examples/golden-responses.json). For adapting FengShui Master to domains beyond the built-in list, use [`examples/universal-domain-protocol.json`](examples/universal-domain-protocol.json). For connecting external bazi, zi wei, qimen, liuren, tong shu, or precision astronomy engines, use [`examples/external-calculation-contracts.json`](examples/external-calculation-contracts.json). For contribution and PR quality gates, use [`examples/contribution-quality-gates.json`](examples/contribution-quality-gates.json). For output-quality scoring, use [`examples/portable-evaluation-rubric.json`](examples/portable-evaluation-rubric.json). For final-answer structure and red-line behavior, use [`examples/response-contract.json`](examples/response-contract.json). For RAG metadata and reference routing, use [`examples/reference-catalog.json`](examples/reference-catalog.json). For script metadata and agent tool registration, use [`examples/tool-catalog.json`](examples/tool-catalog.json). For capability, limitation, and roadmap routing, use [`examples/capability-matrix.json`](examples/capability-matrix.json). For source tiers, citation posture, and claim-quality rules, use [`examples/source-quality-policy.json`](examples/source-quality-policy.json). For deployment across non-Codex platforms, follow [`docs/integration-guide.md`](docs/integration-guide.md).
+For portable agent smoke tests and copyable prompts, see [`examples/portable-agent-prompts.md`](examples/portable-agent-prompts.md). For machine-readable adaptation checks, use [`examples/portable-evaluation-suite.json`](examples/portable-evaluation-suite.json). For adversarial red-team prompts, prompt-injection checks, and scope-inflation checks, use [`examples/adversarial-evaluation-suite.json`](examples/adversarial-evaluation-suite.json). For domain intake and missing-input rules, use [`examples/intake-contracts.json`](examples/intake-contracts.json). For compact golden response fixtures, use [`examples/golden-responses.json`](examples/golden-responses.json). For adapting FengShui Master to domains beyond the built-in list, use [`examples/universal-domain-protocol.json`](examples/universal-domain-protocol.json). For connecting external bazi, zi wei, qimen, liuren, tong shu, or precision astronomy engines, use [`examples/external-calculation-contracts.json`](examples/external-calculation-contracts.json). For contribution and PR quality gates, use [`examples/contribution-quality-gates.json`](examples/contribution-quality-gates.json). For machine-readable runtime setup profiles, use [`examples/runtime-integration-profiles.json`](examples/runtime-integration-profiles.json). For output-quality scoring, use [`examples/portable-evaluation-rubric.json`](examples/portable-evaluation-rubric.json). For final-answer structure and red-line behavior, use [`examples/response-contract.json`](examples/response-contract.json). For RAG metadata and reference routing, use [`examples/reference-catalog.json`](examples/reference-catalog.json). For script metadata and agent tool registration, use [`examples/tool-catalog.json`](examples/tool-catalog.json). For capability, limitation, and roadmap routing, use [`examples/capability-matrix.json`](examples/capability-matrix.json). For source tiers, citation posture, and claim-quality rules, use [`examples/source-quality-policy.json`](examples/source-quality-policy.json). For deployment across non-Codex platforms, follow [`docs/integration-guide.md`](docs/integration-guide.md).
 
 Validate the portable evaluation suite:
 
@@ -319,6 +323,12 @@ Validate the contribution quality gates:
 
 ```bash
 python examples/validate_contribution_quality_gates.py
+```
+
+Validate the runtime integration profiles:
+
+```bash
+python examples/validate_runtime_integration_profiles.py
 ```
 
 ## Codex Installation
@@ -424,6 +434,8 @@ python fengshui-master/scripts/moon_phase.py 2024-04-08 --pretty
 ```
 
 This helper supports moon-phase symbolism for timing questions. It is not a full almanac, precise astronomy engine, or guarantee of auspiciousness.
+
+For cross-domain questions, moon phase can also act as a secondary rhythm lens: New Moon for research, reset, and quiet preparation; waxing for staged growth; Full Moon for visibility, exposure review, culmination, and public release; waning for pruning, de-risking, cleanup, and conserving qi. In finance, business, product, career, relationship, or life-omen readings, it must stay behind real evidence, risk controls, professional constraints, and the native-domain analysis.
 
 Look up approximate 24 solar terms / seasonal qi context:
 

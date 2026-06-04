@@ -211,6 +211,8 @@ python fengshui-master/scripts/moon_phase.py 2024-04-08 --pretty
 
 Treat moon phase as a secondary symbolic timing layer. New moon can support quiet starts, intention-setting, and inward renewal; full moon can support visibility, culmination, release, and review. Do not use moon phase alone as a full almanac, guaranteed auspiciousness method, or substitute for local time zone, candidate-date attributes, professional constraints, or lineage-specific date selection.
 
+For non-spatial or broad ji/xiong questions, moon phase may also be used as a secondary rhythm lens: New Moon for hidden preparation, reset, and intent; waxing for growth and activation; Full Moon for visibility, review, culmination, and release; waning for pruning, de-risking, cleanup, and conservation. In finance, business, product, career, relationship, wellbeing, or life-pattern readings, keep moon phase behind native-domain evidence and never use it as a sole prediction or decision rule.
+
 Use `scripts/solar_terms.py` for approximate 24 solar terms / seasonal qi context:
 
 ```bash

@@ -90,6 +90,7 @@ schemas/
   universal-domain-protocol.schema.json
   external-calculation-contracts.schema.json
   contribution-quality-gates.schema.json
+  runtime-integration-profiles.schema.json
 examples/
   portable-agent-prompts.md
   portable-evaluation-rubric.json
@@ -105,6 +106,7 @@ examples/
   universal-domain-protocol.json
   external-calculation-contracts.json
   contribution-quality-gates.json
+  runtime-integration-profiles.json
   validate_portable_evaluation.py
   validate_portable_manifest.py
   validate_reference_catalog.py
@@ -118,6 +120,7 @@ examples/
   validate_universal_domain_protocol.py
   validate_external_calculation_contracts.py
   validate_contribution_quality_gates.py
+  validate_runtime_integration_profiles.py
 fengshui-master/
   SKILL.md
   agents/openai.yaml
@@ -199,6 +202,7 @@ fengshui-master/
 - [`schemas/universal-domain-protocol.schema.json`](schemas/universal-domain-protocol.schema.json)
 - [`schemas/external-calculation-contracts.schema.json`](schemas/external-calculation-contracts.schema.json)
 - [`schemas/contribution-quality-gates.schema.json`](schemas/contribution-quality-gates.schema.json)
+- [`schemas/runtime-integration-profiles.schema.json`](schemas/runtime-integration-profiles.schema.json)
 
 常见接入方式：
 
@@ -224,6 +228,8 @@ fengshui-master/
 外部八字、紫微、奇门、六壬、通书择日或精密天文历引擎接入契约见 [`examples/external-calculation-contracts.json`](examples/external-calculation-contracts.json)，并可用 [`examples/validate_external_calculation_contracts.py`](examples/validate_external_calculation_contracts.py) 验证。
 
 贡献者与 PR 质量门槛见 [`examples/contribution-quality-gates.json`](examples/contribution-quality-gates.json)，并可用 [`examples/validate_contribution_quality_gates.py`](examples/validate_contribution_quality_gates.py) 验证。
+
+跨平台运行时接入 profiles 见 [`examples/runtime-integration-profiles.json`](examples/runtime-integration-profiles.json)，并可用 [`examples/validate_runtime_integration_profiles.py`](examples/validate_runtime_integration_profiles.py) 验证。
 
 验证 portable evaluation suite：
 

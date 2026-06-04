@@ -66,6 +66,9 @@ jobs:
       - name: Validate contribution quality gates
         run: python examples/validate_contribution_quality_gates.py
 
+      - name: Validate runtime integration profiles
+        run: python examples/validate_runtime_integration_profiles.py
+
       - name: Smoke test domain router
         run: python fengshui-master/scripts/domain_router.py "Should I buy this stock next month?" --pretty
 

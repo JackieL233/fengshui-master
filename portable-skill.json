@@ -78,7 +78,9 @@
     "examples/external-calculation-contracts.json",
     "examples/validate_external_calculation_contracts.py",
     "examples/contribution-quality-gates.json",
-    "examples/validate_contribution_quality_gates.py"
+    "examples/validate_contribution_quality_gates.py",
+    "examples/runtime-integration-profiles.json",
+    "examples/validate_runtime_integration_profiles.py"
   ],
   "integration": [
     "docs/integration-guide.md"
@@ -96,7 +98,8 @@
     "golden_responses": "schemas/golden-responses.schema.json",
     "universal_domain_protocol": "schemas/universal-domain-protocol.schema.json",
     "external_calculation_contracts": "schemas/external-calculation-contracts.schema.json",
-    "contribution_quality_gates": "schemas/contribution-quality-gates.schema.json"
+    "contribution_quality_gates": "schemas/contribution-quality-gates.schema.json",
+    "runtime_integration_profiles": "schemas/runtime-integration-profiles.schema.json"
   },
   "governance": [
     "SECURITY.md",

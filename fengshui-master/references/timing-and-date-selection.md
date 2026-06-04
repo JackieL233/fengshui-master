@@ -125,6 +125,8 @@ Required cautions:
 
 Moon phase is not a complete feng shui formula by itself, but it can be used as a secondary symbolic timing layer in broad feng shui, date-selection discussion, ritual planning, and cross-domain decision support.
 
+In universal-domain use, read the moon as a rhythm of concealment, growth, visibility, review, release, and conservation. This makes it useful beyond spatial questions: finance can use it for preparation versus public action posture, product teams can use it for private beta versus public launch rhythm, career work can use it for quiet skill-building versus visible review, and life/omen readings can use it to describe whether a moment is better framed as seeding, revealing, pruning, or resting.
+
 Use the terms carefully:
 
 - **New Moon / 新月 / 朔**: traditionally useful as a symbolic image of hidden beginning, seed intent, quiet reset, inward gathering, planning, and starting with containment.
@@ -140,6 +142,14 @@ Do not say that new moon is always lucky or full moon is always lucky/unlucky. M
 | Launch preparation, gradual activation, habit building | Waxing moon can be symbolically supportive |
 | Public launch, announcement, review, culmination, release | Full Moon / 满月 can be symbolically supportive if visibility is desired |
 | Decluttering, ending a cycle, reducing leakage, simplifying | Waning moon can be symbolically supportive |
+
+| Cross-domain question | Moon-phase adaptation |
+| --- | --- |
+| Finance, investing, treasury, or budgeting | Use New Moon for research, watchlists, cash-flow reset, and risk-budget planning; use Full Moon for portfolio review, exposure check, and public/visible action only after normal financial analysis |
+| Product, brand, campaign, or creator launch | Use New Moon for hidden preparation and private beta; waxing for staged activation; Full Moon for announcement, public release, review, or culmination; waning for cleanup and simplification |
+| Career, learning, or personal development | Use New Moon for intention and skill seeding; waxing for practice; Full Moon for presentation or feedback; waning for editing, rest, and removing leakage |
+| Relationship, team, or negotiation | Use New Moon for private reflection and repair intent; Full Moon for clear conversation when visibility is useful; waning for de-escalation and boundary cleanup |
+| Life pattern, luck, omen, or ji/xiong reading | Use moon phase as a symbolic cycle marker: hidden beginning, rising qi, illumination, correction, release, or conservation |
 
 Required cautions:
 

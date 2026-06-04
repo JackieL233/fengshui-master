@@ -43,6 +43,8 @@ EXTERNAL_CALCULATION_CONTRACTS = ROOT / "examples" / "external-calculation-contr
 EXTERNAL_CALCULATION_CONTRACTS_VALIDATOR = ROOT / "examples" / "validate_external_calculation_contracts.py"
 CONTRIBUTION_QUALITY_GATES = ROOT / "examples" / "contribution-quality-gates.json"
 CONTRIBUTION_QUALITY_GATES_VALIDATOR = ROOT / "examples" / "validate_contribution_quality_gates.py"
+RUNTIME_INTEGRATION_PROFILES = ROOT / "examples" / "runtime-integration-profiles.json"
+RUNTIME_INTEGRATION_PROFILES_VALIDATOR = ROOT / "examples" / "validate_runtime_integration_profiles.py"
 PORTABLE_MANIFEST = ROOT / "portable-skill.json"
 PORTABLE_MANIFEST_VALIDATOR = ROOT / "examples" / "validate_portable_manifest.py"
 PORTABLE_MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
@@ -58,6 +60,7 @@ GOLDEN_RESPONSES_SCHEMA = ROOT / "schemas" / "golden-responses.schema.json"
 UNIVERSAL_DOMAIN_PROTOCOL_SCHEMA = ROOT / "schemas" / "universal-domain-protocol.schema.json"
 EXTERNAL_CALCULATION_CONTRACTS_SCHEMA = ROOT / "schemas" / "external-calculation-contracts.schema.json"
 CONTRIBUTION_QUALITY_GATES_SCHEMA = ROOT / "schemas" / "contribution-quality-gates.schema.json"
+RUNTIME_INTEGRATION_PROFILES_SCHEMA = ROOT / "schemas" / "runtime-integration-profiles.schema.json"
 INTEGRATION_GUIDE = ROOT / "docs" / "integration-guide.md"
 SECURITY = ROOT / "SECURITY.md"
 CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
@@ -94,6 +97,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("python examples/validate_universal_domain_protocol.py", workflow)
         self.assertIn("python examples/validate_external_calculation_contracts.py", workflow)
         self.assertIn("python examples/validate_contribution_quality_gates.py", workflow)
+        self.assertIn("python examples/validate_runtime_integration_profiles.py", workflow)
         self.assertIn("python .github/scripts/audit_repository.py", workflow)
 
     def test_portable_skill_validator_exists_for_ci(self):
@@ -461,6 +465,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("examples/universal-domain-protocol.json", manifest["evaluation"])
         self.assertIn("examples/external-calculation-contracts.json", manifest["evaluation"])
         self.assertIn("examples/contribution-quality-gates.json", manifest["evaluation"])
+        self.assertIn("examples/runtime-integration-profiles.json", manifest["evaluation"])
         self.assertIn("docs/integration-guide.md", manifest["integration"])
         self.assertIn("fengshui-master/scripts/method_selector.py", manifest["tools"])
         self.assertIn("fengshui-master/scripts/bagua_map.py", manifest["tools"])
@@ -787,14 +792,17 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("professional authority first", risk_levels["critical"]["required_posture"])
 
         adapters = {adapter["id"]: adapter for adapter in protocol["adapter_rules"]}
-        for adapter_id in ["native_domain_first", "symbolic_layer_second", "wuxing_bridge", "unsupported_calculation_boundary"]:
+        for adapter_id in ["native_domain_first", "symbolic_layer_second", "wuxing_bridge", "moon_phase_rhythm", "unsupported_calculation_boundary"]:
             with self.subTest(adapter_id=adapter_id):
                 self.assertIn(adapter_id, adapters)
+        self.assertIn("match moon phase to event type", adapters["moon_phase_rhythm"]["required_checks"])
+        self.assertIn("do not use moon phase as the sole decision rule", adapters["moon_phase_rhythm"]["red_lines"])
 
         examples = {example["domain"]: example for example in protocol["examples"]}
         for domain in ["technology", "sports", "education", "finance", "unknown"]:
             with self.subTest(domain=domain):
                 self.assertIn(domain, examples)
+        self.assertIn("moon phase rhythm as secondary timing layer", examples["finance"]["symbolic_lenses"])
 
         for text in [readme, chinese_readme, portable]:
             with self.subTest(text=text[:20]):
@@ -913,6 +921,54 @@ class RepositoryQualityTest(unittest.TestCase):
             check=True,
         )
         self.assertIn("Contribution quality gates are valid", result.stdout)
+
+    def test_runtime_integration_profiles_exist_and_pass(self):
+        self.assertTrue(RUNTIME_INTEGRATION_PROFILES.exists())
+        self.assertTrue(RUNTIME_INTEGRATION_PROFILES_VALIDATOR.exists())
+
+        profiles = json.loads(RUNTIME_INTEGRATION_PROFILES.read_text(encoding="utf-8"))
+        manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        guide = INTEGRATION_GUIDE.read_text(encoding="utf-8")
+        portable = PORTABLE_SKILL.read_text(encoding="utf-8")
+
+        self.assertEqual(profiles["name"], "fengshui-master-runtime-integration-profiles")
+        self.assertIn("examples/runtime-integration-profiles.json", manifest["evaluation"])
+        self.assertIn("examples/validate_runtime_integration_profiles.py", manifest["evaluation"])
+        self.assertEqual(
+            manifest["schemas"]["runtime_integration_profiles"],
+            "schemas/runtime-integration-profiles.schema.json",
+        )
+
+        by_id = {profile["id"]: profile for profile in profiles["profiles"]}
+        for profile_id in ["chat_assistant", "agent_framework", "rag", "local_cli", "codex"]:
+            with self.subTest(profile_id=profile_id):
+                self.assertIn(profile_id, by_id)
+                self.assertIn("PORTABLE_SKILL.md", by_id[profile_id]["required_assets"])
+                self.assertIn("examples/response-contract.json", by_id[profile_id]["required_assets"])
+                self.assertIn("python examples/validate_runtime_integration_profiles.py", by_id[profile_id]["validation_commands"])
+
+        agent = by_id["agent_framework"]
+        self.assertIn("examples/tool-catalog.json", agent["required_assets"])
+        self.assertIn("register tools from examples/tool-catalog.json", agent["required_steps"])
+
+        rag = by_id["rag"]
+        self.assertIn("examples/reference-catalog.json", rag["required_assets"])
+        self.assertIn("route first, retrieve second, answer third", rag["required_steps"])
+
+        for text in [readme, guide, portable]:
+            with self.subTest(text=text[:20]):
+                self.assertIn("examples/runtime-integration-profiles.json", text)
+                self.assertIn("examples/validate_runtime_integration_profiles.py", text)
+
+        result = subprocess.run(
+            [sys.executable, str(RUNTIME_INTEGRATION_PROFILES_VALIDATOR)],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+        self.assertIn("Runtime integration profiles are valid", result.stdout)
 
     def test_ci_smoke_tests_moon_phase_helper(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")

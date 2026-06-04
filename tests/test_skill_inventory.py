@@ -79,6 +79,22 @@ class SkillInventoryTest(unittest.TestCase):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, timing)
 
+    def test_moon_phase_covers_cross_domain_rhythm(self):
+        timing = (SKILL / "references" / "timing-and-date-selection.md").read_text(
+            encoding="utf-8"
+        )
+        adapters = (SKILL / "references" / "domain-adapters.md").read_text(
+            encoding="utf-8"
+        )
+
+        for phrase in ["Finance", "Product", "Career", "Life pattern", "Moon phase is secondary"]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, timing)
+
+        for phrase in ["Moon Phase Across Domains", "Finance", "Product", "New Moon", "Full Moon", "Waning"]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, adapters)
+
     def test_timing_reference_covers_solar_terms(self):
         timing = (SKILL / "references" / "timing-and-date-selection.md").read_text(
             encoding="utf-8"

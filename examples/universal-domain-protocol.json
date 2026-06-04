@@ -84,6 +84,12 @@
       "red_lines": ["do not make deterministic personality, market, medical, or legal claims from a five-phase mapping alone"]
     },
     {
+      "id": "moon_phase_rhythm",
+      "rule": "Use new moon, waxing, full moon, and waning moon as a secondary rhythm layer for seeding, growth, visibility, review, release, pruning, and conservation across domains.",
+      "required_checks": ["match moon phase to event type", "name practical constraints first", "state that moon phase is secondary"],
+      "red_lines": ["do not predict markets or fate from moon phase", "do not use moon phase as the sole decision rule"]
+    },
+    {
       "id": "unsupported_calculation_boundary",
       "rule": "When a user asks for full bazi, zi wei, qimen, liuren, tong shu, exact astronomy, or lineage-specific formulas, either use a trusted external source supplied by the user or stay at boundary/checklist level.",
       "required_checks": ["name the missing calculation", "ask for trusted source data when exact work is requested", "offer available scaffold only if clearly labeled"],
@@ -120,7 +126,7 @@
       "question_type": "investment reflection, portfolio posture, or timing symbolism",
       "risk_level": "high",
       "native_evidence_first": ["financial goal", "risk tolerance", "time horizon", "liquidity needs", "downside condition"],
-      "symbolic_lenses": ["Water liquidity", "Wood growth", "Fire market heat", "Earth reserves", "Metal risk discipline"],
+      "symbolic_lenses": ["Water liquidity", "Wood growth", "Fire market heat", "Earth reserves", "Metal risk discipline", "moon phase rhythm as secondary timing layer"],
       "safe_output_shape": ["include not financial advice", "do not issue buy or sell commands", "use symbolism only after real risk analysis"]
     },
     {

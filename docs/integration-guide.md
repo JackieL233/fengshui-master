@@ -2,6 +2,8 @@
 
 This guide shows how to adapt FengShui Master to common AI runtimes without making it Codex-only. Use `PORTABLE_SKILL.md` as the behavioral policy, `portable-skill.json` as the manifest, and the files under `fengshui-master/references/` as the knowledge base.
 
+For machine-readable runtime setup, use `examples/runtime-integration-profiles.json` and validate it with `examples/validate_runtime_integration_profiles.py`. The profiles mirror this guide for chat assistants, agent frameworks, RAG systems, local CLI workflows, and Codex.
+
 ## Integration Principles
 
 - Load `PORTABLE_SKILL.md` before task-specific context.
@@ -123,6 +125,7 @@ python examples/validate_portable_evaluation.py
 python examples/validate_reference_catalog.py
 python examples/validate_tool_catalog.py
 python examples/validate_response_contract.py
+python examples/validate_runtime_integration_profiles.py
 ```
 
 For structured floor plans:
@@ -157,6 +160,7 @@ An integration is ready when:
 - The assistant follows `examples/response-contract.json` for final-answer sections and red-line behavior.
 - The assistant passes `examples/portable-evaluation-suite.json`.
 - Human reviewers can score outputs with `examples/portable-evaluation-rubric.json`.
+- The selected runtime profile in `examples/runtime-integration-profiles.json` is satisfied.
 
 ## 中文接入摘要
 

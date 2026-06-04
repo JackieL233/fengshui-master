@@ -1,0 +1,52 @@
+{
+  "name": "fengshui-master-runtime-integration-profiles",
+  "version": "1.0.0",
+  "purpose": "Machine-readable integration profiles for installing FengShui Master into common AI runtimes while preserving policy, retrieval, tool, evaluation, and high-stakes safety behavior.",
+  "profiles": [
+    {
+      "id": "chat_assistant",
+      "runtime": "Hosted chat assistants such as ChatGPT, Claude, Gemini, or similar custom assistants.",
+      "required_assets": ["PORTABLE_SKILL.md", "docs/integration-guide.md", "examples/response-contract.json", "examples/portable-agent-prompts.md", "fengshui-master/references/ethics-and-limits.md"],
+      "required_steps": ["load PORTABLE_SKILL.md as top-level policy", "attach the minimal context pack", "add one specialized adapter for the user domain", "reject outputs that violate response-contract red lines"],
+      "tooling": ["tools optional", "if tools are unavailable state missing calculation instead of inventing precision"],
+      "validation_commands": ["python examples/validate_runtime_integration_profiles.py", "python examples/validate_response_contract.py", "python examples/validate_portable_evaluation.py"],
+      "red_lines": ["do not omit high-stakes boundaries", "do not load all references when a narrow adapter is enough", "do not present symbolic output as guaranteed prediction"]
+    },
+    {
+      "id": "agent_framework",
+      "runtime": "Agent frameworks such as LangChain, LlamaIndex, AutoGen, CrewAI, semantic kernels, or custom tool-using runtimes.",
+      "required_assets": ["PORTABLE_SKILL.md", "portable-skill.json", "examples/tool-catalog.json", "examples/response-contract.json", "examples/reference-catalog.json"],
+      "required_steps": ["register portable-skill.json as the capability manifest", "register tools from examples/tool-catalog.json", "load response-contract after retrieval and tool use", "call or emulate method_selector.py before method-specific claims"],
+      "tooling": ["use command templates from examples/tool-catalog.json", "preserve tool-specific guardrails", "treat tool outputs as scaffolds not final authority"],
+      "validation_commands": ["python examples/validate_runtime_integration_profiles.py", "python examples/validate_tool_catalog.py", "python examples/validate_portable_manifest.py"],
+      "red_lines": ["do not weaken tool guardrails", "do not let tool output override safety law finance or medical evidence", "do not silently mix schools"]
+    },
+    {
+      "id": "rag",
+      "runtime": "Retrieval-augmented generation systems that index the reference folder.",
+      "required_assets": ["PORTABLE_SKILL.md", "examples/reference-catalog.json", "examples/response-contract.json", "fengshui-master/references/ethics-and-limits.md"],
+      "required_steps": ["index references as separate documents", "route first, retrieve second, answer third", "prefer exact adapter files over broad files", "always retrieve ethics-and-limits.md for high-stakes domains"],
+      "tooling": ["tools optional", "use reference-catalog metadata for retrieval filters"],
+      "validation_commands": ["python examples/validate_runtime_integration_profiles.py", "python examples/validate_reference_catalog.py", "python examples/validate_response_contract.py"],
+      "red_lines": ["do not inject the entire knowledge base by default", "do not answer high-stakes requests without ethics-and-limits.md", "do not fabricate missing sources"]
+    },
+    {
+      "id": "local_cli",
+      "runtime": "Local command-line use with Python available.",
+      "required_assets": ["PORTABLE_SKILL.md", "examples/response-contract.json", "examples/tool-catalog.json", "fengshui-master/scripts/domain_router.py"],
+      "required_steps": ["run domain_router.py before selecting references", "run method_selector.py for school or method-specific requests", "run create_brief.py before substantial reports", "run validators before publishing changes"],
+      "tooling": ["python fengshui-master/scripts/domain_router.py \"<question>\" --pretty", "python fengshui-master/scripts/method_selector.py \"<question>\" --pretty", "python fengshui-master/scripts/create_brief.py \"<question>\" --pretty"],
+      "validation_commands": ["python examples/validate_runtime_integration_profiles.py", "python -m unittest discover -s tests", "python .github/scripts/audit_repository.py"],
+      "red_lines": ["do not skip guardrails from create_brief.py", "do not treat CLI scaffolds as complete readings", "do not invent unavailable calculations"]
+    },
+    {
+      "id": "codex",
+      "runtime": "Codex skill runtime using fengshui-master/SKILL.md as the Codex-facing entrypoint.",
+      "required_assets": ["PORTABLE_SKILL.md", "fengshui-master/SKILL.md", "examples/response-contract.json", "examples/tool-catalog.json"],
+      "required_steps": ["install or copy fengshui-master/ into the local skills directory", "invoke the fengshui-master skill for feng shui questions", "use PORTABLE_SKILL.md for platform-neutral behavior parity", "run skill validation before publishing"],
+      "tooling": ["python .github/scripts/quick_validate.py fengshui-master", "python fengshui-master/scripts/create_brief.py \"<question>\" --pretty"],
+      "validation_commands": ["python examples/validate_runtime_integration_profiles.py", "python .github/scripts/quick_validate.py fengshui-master", "python -m unittest discover -s tests"],
+      "red_lines": ["do not make the portable assets Codex-only", "do not diverge Codex behavior from portable guardrails", "do not remove bilingual discovery paths"]
+    }
+  ]
+}
