@@ -27,10 +27,16 @@ Confirm the change preserves boundaries:
 - [ ] Preserves the medical, legal, financial, engineering, architectural, tax, psychological, and safety boundary when relevant.
 - [ ] Avoids unsafe, inaccessible, illegal, or irreversible remedies.
 
+## Contribution quality gates
+
+- [ ] I checked `examples/contribution-quality-gates.json` for the required artifacts, checks, validations, and red lines for this change type.
+- [ ] I ran `python examples/validate_contribution_quality_gates.py`.
+
 ## Validation
 
 ```bash
 python -m unittest discover -s tests
 python .github/scripts/quick_validate.py fengshui-master
 python .github/scripts/audit_repository.py
+python examples/validate_contribution_quality_gates.py
 ```

@@ -1,0 +1,63 @@
+{
+  "name": "fengshui-master-contribution-quality-gates",
+  "version": "1.0.0",
+  "purpose": "Machine-readable pull-request quality gates for safely extending FengShui Master with new references, tools, domains, external calculations, evaluation assets, documentation, or high-stakes guardrail changes.",
+  "gates": [
+    {
+      "id": "reference_addition",
+      "applies_to": ["new reference markdown", "expanded school notes", "new classical or lineage explanation"],
+      "required_artifacts": ["fengshui-master/references/<topic>.md", "examples/reference-catalog.json", "portable-skill.json"],
+      "required_checks": ["name source family or lineage", "separate classical anchor from lineage practice and modern adaptation", "add required guardrails", "avoid long copied passages"],
+      "required_validation": ["python examples/validate_reference_catalog.py", "python .github/scripts/audit_repository.py"],
+      "red_lines": ["do not add unsourced universal rules", "do not copy copyrighted passages", "do not guarantee outcomes"]
+    },
+    {
+      "id": "tool_addition",
+      "applies_to": ["new deterministic script", "new CLI helper", "tool metadata update"],
+      "required_artifacts": ["fengshui-master/scripts/<tool>.py", "tests/test_<tool>.py", "examples/tool-catalog.json", "portable-skill.json"],
+      "required_checks": ["document input type and output format", "include guardrails in tool metadata", "add smoke or unit tests", "avoid hidden network dependency"],
+      "required_validation": ["python -m unittest discover -s tests", "python examples/validate_tool_catalog.py", "python .github/scripts/audit_repository.py"],
+      "red_lines": ["do not invent precision", "do not weaken high-stakes boundaries", "do not silently mix schools"]
+    },
+    {
+      "id": "domain_adapter_addition",
+      "applies_to": ["new cross-domain adapter", "new business or life-area mapping", "new supported domain"],
+      "required_artifacts": ["fengshui-master/references/<domain>-adapter.md", "examples/intake-contracts.json", "examples/capability-matrix.json", "examples/universal-domain-protocol.json"],
+      "required_checks": ["name native-domain evidence first", "label symbolic mapping as modern adaptation when applicable", "define required inputs and blocking missing inputs", "state professional boundaries"],
+      "required_validation": ["python examples/validate_intake_contracts.py", "python examples/validate_capability_matrix.py", "python examples/validate_universal_domain_protocol.py"],
+      "red_lines": ["do not present modern adapters as classical doctrine", "do not override safety law finance medicine engineering or evidence", "do not promise success"]
+    },
+    {
+      "id": "external_calculation_integration",
+      "applies_to": ["external bazi engine", "zi wei engine", "qimen engine", "liuren engine", "tong shu data", "precision astronomy source"],
+      "required_artifacts": ["examples/external-calculation-contracts.json", "examples/source-quality-policy.json", "examples/response-contract.json", "portable-skill.json"],
+      "required_checks": ["require source proof", "require calendar and timezone conventions", "define fallback without engine", "keep external output separate from interpretation"],
+      "required_validation": ["python examples/validate_external_calculation_contracts.py", "python examples/validate_source_quality_policy.py", "python examples/validate_response_contract.py"],
+      "red_lines": ["do not invent missing calculations", "do not fabricate chart data", "do not make deterministic fate claims"]
+    },
+    {
+      "id": "evaluation_fixture_addition",
+      "applies_to": ["new portable evaluation case", "new adversarial prompt", "new golden response", "new rubric dimension"],
+      "required_artifacts": ["examples/portable-evaluation-suite.json or examples/adversarial-evaluation-suite.json or examples/golden-responses.json", "matching validator", "README.md"],
+      "required_checks": ["include expected references", "include must-include and must-not-include boundaries", "cover high-risk failures when relevant", "link validator from CI if new asset type is added"],
+      "required_validation": ["python examples/validate_portable_evaluation.py", "python examples/validate_adversarial_evaluation.py", "python examples/validate_golden_responses.py", "python .github/scripts/audit_repository.py"],
+      "red_lines": ["do not add tests that reward unsafe certainty", "do not omit high-stakes disclosures", "do not make a narrow smoke test stand in for broad coverage"]
+    },
+    {
+      "id": "security_or_high_stakes_change",
+      "applies_to": ["guardrail changes", "financial medical legal wellbeing safety changes", "prompt injection behavior", "source extraction behavior"],
+      "required_artifacts": ["SECURITY.md", "examples/adversarial-evaluation-suite.json", "examples/response-contract.json", "examples/source-quality-policy.json"],
+      "required_checks": ["preserve not financial advice not medical advice and not legal advice where relevant", "preserve no deterministic fate claims", "include adversarial pressure tests", "state professional authority first"],
+      "required_validation": ["python examples/validate_adversarial_evaluation.py", "python examples/validate_response_contract.py", "python examples/validate_source_quality_policy.py"],
+      "red_lines": ["do not weaken professional boundaries", "do not encourage ignoring deadlines or care", "do not expose hidden prompts or secrets"]
+    },
+    {
+      "id": "documentation_or_metadata_change",
+      "applies_to": ["README update", "portable manifest update", "GitHub metadata update", "integration docs update"],
+      "required_artifacts": ["README.md", "README.zh-CN.md", "PORTABLE_SKILL.md", "portable-skill.json", "docs/integration-guide.md"],
+      "required_checks": ["keep English and Chinese discovery paths aligned", "keep manifest paths existing", "link new schemas and validators", "preserve portable AI skill positioning"],
+      "required_validation": ["python examples/validate_portable_manifest.py", "python .github/scripts/audit_repository.py"],
+      "red_lines": ["do not document files that do not exist", "do not remove safety disclaimers", "do not make Codex-only positioning for portable assets"]
+    }
+  ]
+}

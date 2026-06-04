@@ -89,6 +89,7 @@ schemas/
   golden-responses.schema.json
   universal-domain-protocol.schema.json
   external-calculation-contracts.schema.json
+  contribution-quality-gates.schema.json
 examples/
   portable-agent-prompts.md
   portable-evaluation-rubric.json
@@ -103,6 +104,7 @@ examples/
   golden-responses.json
   universal-domain-protocol.json
   external-calculation-contracts.json
+  contribution-quality-gates.json
   validate_portable_evaluation.py
   validate_portable_manifest.py
   validate_reference_catalog.py
@@ -115,6 +117,7 @@ examples/
   validate_golden_responses.py
   validate_universal_domain_protocol.py
   validate_external_calculation_contracts.py
+  validate_contribution_quality_gates.py
 fengshui-master/
   SKILL.md
   agents/openai.yaml
@@ -195,6 +198,7 @@ fengshui-master/
 - [`schemas/golden-responses.schema.json`](schemas/golden-responses.schema.json)
 - [`schemas/universal-domain-protocol.schema.json`](schemas/universal-domain-protocol.schema.json)
 - [`schemas/external-calculation-contracts.schema.json`](schemas/external-calculation-contracts.schema.json)
+- [`schemas/contribution-quality-gates.schema.json`](schemas/contribution-quality-gates.schema.json)
 
 常见接入方式：
 
@@ -218,6 +222,8 @@ fengshui-master/
 任意新领域的通用适配协议见 [`examples/universal-domain-protocol.json`](examples/universal-domain-protocol.json)，并可用 [`examples/validate_universal_domain_protocol.py`](examples/validate_universal_domain_protocol.py) 验证。
 
 外部八字、紫微、奇门、六壬、通书择日或精密天文历引擎接入契约见 [`examples/external-calculation-contracts.json`](examples/external-calculation-contracts.json)，并可用 [`examples/validate_external_calculation_contracts.py`](examples/validate_external_calculation_contracts.py) 验证。
+
+贡献者与 PR 质量门槛见 [`examples/contribution-quality-gates.json`](examples/contribution-quality-gates.json)，并可用 [`examples/validate_contribution_quality_gates.py`](examples/validate_contribution_quality_gates.py) 验证。
 
 验证 portable evaluation suite：
 

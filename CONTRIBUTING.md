@@ -34,6 +34,14 @@ Before opening a pull request, run:
 python -m unittest discover -s tests
 ```
 
+Use the machine-readable contribution gates to identify the required artifacts, checks, validations, and red lines for your change type:
+
+```bash
+python examples/validate_contribution_quality_gates.py
+```
+
+See `examples/contribution-quality-gates.json` before adding references, tools, domain adapters, external calculation integrations, evaluation fixtures, security guardrails, or metadata.
+
 If you have the Codex skill-creator tools installed, also run:
 
 ```bash

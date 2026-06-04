@@ -22,6 +22,7 @@ INTAKE_CONTRACTS_SCHEMA = ROOT / "schemas" / "intake-contracts.schema.json"
 GOLDEN_RESPONSES_SCHEMA = ROOT / "schemas" / "golden-responses.schema.json"
 UNIVERSAL_DOMAIN_PROTOCOL_SCHEMA = ROOT / "schemas" / "universal-domain-protocol.schema.json"
 EXTERNAL_CALCULATION_CONTRACTS_SCHEMA = ROOT / "schemas" / "external-calculation-contracts.schema.json"
+CONTRIBUTION_QUALITY_GATES_SCHEMA = ROOT / "schemas" / "contribution-quality-gates.schema.json"
 REQUIRED_TOP_LEVEL = {
     "name",
     "type",
@@ -85,6 +86,7 @@ def main() -> int:
         GOLDEN_RESPONSES_SCHEMA: "FengShui Master Golden Responses",
         UNIVERSAL_DOMAIN_PROTOCOL_SCHEMA: "FengShui Master Universal Domain Protocol",
         EXTERNAL_CALCULATION_CONTRACTS_SCHEMA: "FengShui Master External Calculation Contracts",
+        CONTRIBUTION_QUALITY_GATES_SCHEMA: "FengShui Master Contribution Quality Gates",
     }
     for path, title in schema_titles.items():
         if not path.exists():
@@ -137,6 +139,8 @@ def main() -> int:
         fail(errors, "schemas.universal_domain_protocol must point to schemas/universal-domain-protocol.schema.json")
     if schemas.get("external_calculation_contracts") != "schemas/external-calculation-contracts.schema.json":
         fail(errors, "schemas.external_calculation_contracts must point to schemas/external-calculation-contracts.schema.json")
+    if schemas.get("contribution_quality_gates") != "schemas/contribution-quality-gates.schema.json":
+        fail(errors, "schemas.contribution_quality_gates must point to schemas/contribution-quality-gates.schema.json")
     for rel in schemas.values() if isinstance(schemas, dict) else []:
         if not (ROOT / rel).exists():
             fail(errors, f"schemas references missing path: {rel}")
@@ -182,6 +186,10 @@ def main() -> int:
         fail(errors, "evaluation missing examples/external-calculation-contracts.json")
     if "examples/validate_external_calculation_contracts.py" not in manifest.get("evaluation", []):
         fail(errors, "evaluation missing examples/validate_external_calculation_contracts.py")
+    if "examples/contribution-quality-gates.json" not in manifest.get("evaluation", []):
+        fail(errors, "evaluation missing examples/contribution-quality-gates.json")
+    if "examples/validate_contribution_quality_gates.py" not in manifest.get("evaluation", []):
+        fail(errors, "evaluation missing examples/validate_contribution_quality_gates.py")
 
     domains = set(manifest.get("domains", []))
     missing_domains = sorted(REQUIRED_DOMAINS - domains)

@@ -41,6 +41,8 @@ UNIVERSAL_DOMAIN_PROTOCOL = ROOT / "examples" / "universal-domain-protocol.json"
 UNIVERSAL_DOMAIN_PROTOCOL_VALIDATOR = ROOT / "examples" / "validate_universal_domain_protocol.py"
 EXTERNAL_CALCULATION_CONTRACTS = ROOT / "examples" / "external-calculation-contracts.json"
 EXTERNAL_CALCULATION_CONTRACTS_VALIDATOR = ROOT / "examples" / "validate_external_calculation_contracts.py"
+CONTRIBUTION_QUALITY_GATES = ROOT / "examples" / "contribution-quality-gates.json"
+CONTRIBUTION_QUALITY_GATES_VALIDATOR = ROOT / "examples" / "validate_contribution_quality_gates.py"
 PORTABLE_MANIFEST = ROOT / "portable-skill.json"
 PORTABLE_MANIFEST_VALIDATOR = ROOT / "examples" / "validate_portable_manifest.py"
 PORTABLE_MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
@@ -55,6 +57,7 @@ INTAKE_CONTRACTS_SCHEMA = ROOT / "schemas" / "intake-contracts.schema.json"
 GOLDEN_RESPONSES_SCHEMA = ROOT / "schemas" / "golden-responses.schema.json"
 UNIVERSAL_DOMAIN_PROTOCOL_SCHEMA = ROOT / "schemas" / "universal-domain-protocol.schema.json"
 EXTERNAL_CALCULATION_CONTRACTS_SCHEMA = ROOT / "schemas" / "external-calculation-contracts.schema.json"
+CONTRIBUTION_QUALITY_GATES_SCHEMA = ROOT / "schemas" / "contribution-quality-gates.schema.json"
 INTEGRATION_GUIDE = ROOT / "docs" / "integration-guide.md"
 SECURITY = ROOT / "SECURITY.md"
 CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
@@ -90,6 +93,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("python examples/validate_golden_responses.py", workflow)
         self.assertIn("python examples/validate_universal_domain_protocol.py", workflow)
         self.assertIn("python examples/validate_external_calculation_contracts.py", workflow)
+        self.assertIn("python examples/validate_contribution_quality_gates.py", workflow)
         self.assertIn("python .github/scripts/audit_repository.py", workflow)
 
     def test_portable_skill_validator_exists_for_ci(self):
@@ -456,6 +460,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("examples/golden-responses.json", manifest["evaluation"])
         self.assertIn("examples/universal-domain-protocol.json", manifest["evaluation"])
         self.assertIn("examples/external-calculation-contracts.json", manifest["evaluation"])
+        self.assertIn("examples/contribution-quality-gates.json", manifest["evaluation"])
         self.assertIn("docs/integration-guide.md", manifest["integration"])
         self.assertIn("fengshui-master/scripts/method_selector.py", manifest["tools"])
         self.assertIn("fengshui-master/scripts/bagua_map.py", manifest["tools"])
@@ -858,6 +863,56 @@ class RepositoryQualityTest(unittest.TestCase):
             check=True,
         )
         self.assertIn("External calculation contracts are valid", result.stdout)
+
+    def test_contribution_quality_gates_exist_and_pass(self):
+        self.assertTrue(CONTRIBUTION_QUALITY_GATES.exists())
+        self.assertTrue(CONTRIBUTION_QUALITY_GATES_VALIDATOR.exists())
+
+        gates = json.loads(CONTRIBUTION_QUALITY_GATES.read_text(encoding="utf-8"))
+        manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        contributing = (ROOT / "CONTRIBUTING.md").read_text(encoding="utf-8")
+        pr_template = PR_TEMPLATE.read_text(encoding="utf-8")
+        portable = PORTABLE_SKILL.read_text(encoding="utf-8")
+
+        self.assertEqual(gates["name"], "fengshui-master-contribution-quality-gates")
+        self.assertIn("examples/contribution-quality-gates.json", manifest["evaluation"])
+        self.assertIn("examples/validate_contribution_quality_gates.py", manifest["evaluation"])
+        self.assertEqual(
+            manifest["schemas"]["contribution_quality_gates"],
+            "schemas/contribution-quality-gates.schema.json",
+        )
+
+        gate_ids = {gate["id"]: gate for gate in gates["gates"]}
+        for gate_id in [
+            "reference_addition",
+            "tool_addition",
+            "domain_adapter_addition",
+            "external_calculation_integration",
+            "evaluation_fixture_addition",
+            "security_or_high_stakes_change",
+            "documentation_or_metadata_change",
+        ]:
+            with self.subTest(gate_id=gate_id):
+                self.assertIn(gate_id, gate_ids)
+
+        external = gate_ids["external_calculation_integration"]
+        self.assertIn("examples/external-calculation-contracts.json", external["required_artifacts"])
+        self.assertIn("do not invent missing calculations", external["red_lines"])
+
+        for text in [readme, contributing, pr_template, portable]:
+            with self.subTest(text=text[:20]):
+                self.assertIn("examples/contribution-quality-gates.json", text)
+                self.assertIn("examples/validate_contribution_quality_gates.py", text)
+
+        result = subprocess.run(
+            [sys.executable, str(CONTRIBUTION_QUALITY_GATES_VALIDATOR)],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+        self.assertIn("Contribution quality gates are valid", result.stdout)
 
     def test_ci_smoke_tests_moon_phase_helper(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")
