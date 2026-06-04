@@ -20,6 +20,7 @@ SOURCE_QUALITY_POLICY_SCHEMA = ROOT / "schemas" / "source-quality-policy.schema.
 ADVERSARIAL_EVALUATION_SCHEMA = ROOT / "schemas" / "adversarial-evaluation-suite.schema.json"
 INTAKE_CONTRACTS_SCHEMA = ROOT / "schemas" / "intake-contracts.schema.json"
 GOLDEN_RESPONSES_SCHEMA = ROOT / "schemas" / "golden-responses.schema.json"
+UNIVERSAL_DOMAIN_PROTOCOL_SCHEMA = ROOT / "schemas" / "universal-domain-protocol.schema.json"
 REQUIRED_TOP_LEVEL = {
     "name",
     "type",
@@ -81,6 +82,7 @@ def main() -> int:
         ADVERSARIAL_EVALUATION_SCHEMA: "FengShui Master Adversarial Evaluation Suite",
         INTAKE_CONTRACTS_SCHEMA: "FengShui Master Intake Contracts",
         GOLDEN_RESPONSES_SCHEMA: "FengShui Master Golden Responses",
+        UNIVERSAL_DOMAIN_PROTOCOL_SCHEMA: "FengShui Master Universal Domain Protocol",
     }
     for path, title in schema_titles.items():
         if not path.exists():
@@ -129,6 +131,8 @@ def main() -> int:
         fail(errors, "schemas.intake_contracts must point to schemas/intake-contracts.schema.json")
     if schemas.get("golden_responses") != "schemas/golden-responses.schema.json":
         fail(errors, "schemas.golden_responses must point to schemas/golden-responses.schema.json")
+    if schemas.get("universal_domain_protocol") != "schemas/universal-domain-protocol.schema.json":
+        fail(errors, "schemas.universal_domain_protocol must point to schemas/universal-domain-protocol.schema.json")
     for rel in schemas.values() if isinstance(schemas, dict) else []:
         if not (ROOT / rel).exists():
             fail(errors, f"schemas references missing path: {rel}")
@@ -166,6 +170,10 @@ def main() -> int:
         fail(errors, "evaluation missing examples/golden-responses.json")
     if "examples/validate_golden_responses.py" not in manifest.get("evaluation", []):
         fail(errors, "evaluation missing examples/validate_golden_responses.py")
+    if "examples/universal-domain-protocol.json" not in manifest.get("evaluation", []):
+        fail(errors, "evaluation missing examples/universal-domain-protocol.json")
+    if "examples/validate_universal_domain_protocol.py" not in manifest.get("evaluation", []):
+        fail(errors, "evaluation missing examples/validate_universal_domain_protocol.py")
 
     domains = set(manifest.get("domains", []))
     missing_domains = sorted(REQUIRED_DOMAINS - domains)

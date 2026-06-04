@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/JackieL233/fengshui-master/schemas/universal-domain-protocol.schema.json",
+  "title": "FengShui Master Universal Domain Protocol",
+  "type": "object",
+  "required": ["name", "version", "purpose", "stages", "risk_levels", "adapter_rules", "examples"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "const": "fengshui-master-universal-domain-protocol"
+    },
+    "version": { "type": "string" },
+    "purpose": { "type": "string" },
+    "stages": {
+      "type": "array",
+      "minItems": 5,
+      "items": { "$ref": "#/$defs/stage" }
+    },
+    "risk_levels": {
+      "type": "array",
+      "minItems": 4,
+      "items": { "$ref": "#/$defs/riskLevel" }
+    },
+    "adapter_rules": {
+      "type": "array",
+      "minItems": 4,
+      "items": { "$ref": "#/$defs/adapterRule" }
+    },
+    "examples": {
+      "type": "array",
+      "minItems": 5,
+      "items": { "$ref": "#/$defs/example" }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "stage": {
+      "type": "object",
+      "required": ["id", "goal", "required_actions", "output"],
+      "properties": {
+        "id": { "type": "string" },
+        "goal": { "type": "string" },
+        "required_actions": { "$ref": "#/$defs/stringList" },
+        "output": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "riskLevel": {
+      "type": "object",
+      "required": ["id", "description", "required_posture", "must_include", "must_not_do"],
+      "properties": {
+        "id": { "type": "string" },
+        "description": { "type": "string" },
+        "required_posture": { "$ref": "#/$defs/stringList" },
+        "must_include": { "$ref": "#/$defs/stringList" },
+        "must_not_do": { "$ref": "#/$defs/stringList" }
+      },
+      "additionalProperties": false
+    },
+    "adapterRule": {
+      "type": "object",
+      "required": ["id", "rule", "required_checks", "red_lines"],
+      "properties": {
+        "id": { "type": "string" },
+        "rule": { "type": "string" },
+        "required_checks": { "$ref": "#/$defs/stringList" },
+        "red_lines": { "$ref": "#/$defs/stringList" }
+      },
+      "additionalProperties": false
+    },
+    "example": {
+      "type": "object",
+      "required": ["domain", "question_type", "risk_level", "native_evidence_first", "symbolic_lenses", "safe_output_shape"],
+      "properties": {
+        "domain": { "type": "string" },
+        "question_type": { "type": "string" },
+        "risk_level": { "type": "string" },
+        "native_evidence_first": { "$ref": "#/$defs/stringList" },
+        "symbolic_lenses": { "$ref": "#/$defs/stringList" },
+        "safe_output_shape": { "$ref": "#/$defs/stringList" }
+      },
+      "additionalProperties": false
+    },
+    "stringList": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  }
+}

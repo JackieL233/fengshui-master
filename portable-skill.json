@@ -72,7 +72,9 @@
     "examples/intake-contracts.json",
     "examples/validate_intake_contracts.py",
     "examples/golden-responses.json",
-    "examples/validate_golden_responses.py"
+    "examples/validate_golden_responses.py",
+    "examples/universal-domain-protocol.json",
+    "examples/validate_universal_domain_protocol.py"
   ],
   "integration": [
     "docs/integration-guide.md"
@@ -87,7 +89,8 @@
     "source_quality_policy": "schemas/source-quality-policy.schema.json",
     "adversarial_evaluation_suite": "schemas/adversarial-evaluation-suite.schema.json",
     "intake_contracts": "schemas/intake-contracts.schema.json",
-    "golden_responses": "schemas/golden-responses.schema.json"
+    "golden_responses": "schemas/golden-responses.schema.json",
+    "universal_domain_protocol": "schemas/universal-domain-protocol.schema.json"
   },
   "governance": [
     "SECURITY.md",

@@ -1,0 +1,135 @@
+{
+  "name": "fengshui-master-universal-domain-protocol",
+  "version": "1.0.0",
+  "purpose": "A portable protocol for adapting FengShui Master to domains not already listed in the manifest while preserving native-domain evidence, risk boundaries, symbolic transparency, and wuxing/feng shui interpretive discipline.",
+  "stages": [
+    {
+      "id": "classify_native_domain",
+      "goal": "Name the real-world domain before applying feng shui symbolism.",
+      "required_actions": ["identify the native domain", "identify the decision or question type", "identify whether the user asks for space, timing, life-omen, wuxing, or general symbolism"],
+      "output": "A one-line domain classification and the symbolic layer requested."
+    },
+    {
+      "id": "rate_domain_risk",
+      "goal": "Choose the safety posture before analysis.",
+      "required_actions": ["detect medical legal financial safety engineering psychological privacy or compliance stakes", "choose low medium high or critical risk", "state professional or evidence-first boundaries when needed"],
+      "output": "A risk level and the required boundary language."
+    },
+    {
+      "id": "collect_minimum_inputs",
+      "goal": "Ask for the few inputs needed to avoid false precision.",
+      "required_actions": ["ask for the user's goal", "ask for real constraints and evidence", "ask for candidate options or timing window when comparison is requested", "ask for location, timezone, or spatial orientation only when relevant"],
+      "output": "A brief intake checklist or a caveated answer if enough context exists."
+    },
+    {
+      "id": "apply_symbolic_lenses",
+      "goal": "Use feng shui as a named symbolic layer, not as the native authority.",
+      "required_actions": ["label the method or lens", "map qi flow, yin-yang, wuxing, bagua, form, timing, or ji/xiong only when relevant", "separate observation from interpretation", "avoid presenting modern adapters as classical doctrine"],
+      "output": "A transparent symbolic reading tied to the user's domain evidence."
+    },
+    {
+      "id": "produce_bounded_answer",
+      "goal": "Return practical, reversible, and bounded guidance.",
+      "required_actions": ["lead with native-domain constraints", "give low-risk actions or comparison criteria", "state what would change the reading", "avoid guarantees, deterministic fate claims, and forbidden professional advice"],
+      "output": "A structured answer with reality check, symbolic lens, options, boundaries, and next data to collect."
+    }
+  ],
+  "risk_levels": [
+    {
+      "id": "low",
+      "description": "Creative, reflective, low-cost, reversible, or preference-based questions.",
+      "required_posture": ["symbolic support allowed", "keep claims conditional", "prefer reversible suggestions"],
+      "must_include": ["method label", "user goal", "practical constraints"],
+      "must_not_do": ["guarantee outcomes", "claim classical authority for modern adapters"]
+    },
+    {
+      "id": "medium",
+      "description": "Business, brand, product, career, relationship, education, sports, or technology choices with meaningful but non-catastrophic consequences.",
+      "required_posture": ["native evidence first", "symbolic layer second", "compare options instead of commanding one choice"],
+      "must_include": ["decision criteria", "tradeoffs", "what evidence would change the answer"],
+      "must_not_do": ["override domain evidence", "promise revenue adoption success scores or relationships"]
+    },
+    {
+      "id": "high",
+      "description": "Finance, legal-adjacent, health-adjacent, safety-adjacent, employment, compliance, security, or privacy decisions.",
+      "required_posture": ["professional boundary first", "real evidence first", "symbolic support only"],
+      "must_include": ["not professional advice", "risk and downside conditions", "qualified expert or official-source reminder when relevant"],
+      "must_not_do": ["issue buy sell legal medical safety or compliance commands", "discourage professional help", "guarantee protection or profit"]
+    },
+    {
+      "id": "critical",
+      "description": "Emergency, imminent harm, legal deadline, medical symptoms, self-harm, violence, structural danger, or irreversible high-stakes action.",
+      "required_posture": ["professional authority first", "do not use feng shui as decision authority", "provide emergency or official-channel direction when appropriate"],
+      "must_include": ["safety or deadline priority", "qualified professional or emergency support", "no symbolic override"],
+      "must_not_do": ["delay urgent care or deadlines for auspicious timing", "provide deterministic fate claims", "replace emergency legal medical or safety procedures"]
+    }
+  ],
+  "adapter_rules": [
+    {
+      "id": "native_domain_first",
+      "rule": "Every answer must identify the domain's native evidence and constraints before interpreting qi, wuxing, bagua, timing, or ji/xiong.",
+      "required_checks": ["name the native domain", "name the decision criteria", "state hard constraints"],
+      "red_lines": ["do not let symbolism override safety law finance medicine engineering privacy or evidence"]
+    },
+    {
+      "id": "symbolic_layer_second",
+      "rule": "Feng shui language should be framed as symbolic, cultural, spatial, timing, or reflective support unless a specific classical method is actually being used.",
+      "required_checks": ["label the method", "separate classical doctrine from modern adaptation", "state confidence and limitation"],
+      "red_lines": ["do not present modern cross-domain metaphors as classical doctrine", "do not claim certainty"]
+    },
+    {
+      "id": "wuxing_bridge",
+      "rule": "Use five phases as an analogy for balance, process, behavior, resource flow, and timing posture across domains.",
+      "required_checks": ["map Water to flow or liquidity", "map Wood to growth", "map Fire to visibility or heat", "map Earth to stability", "map Metal to structure or discipline"],
+      "red_lines": ["do not make deterministic personality, market, medical, or legal claims from a five-phase mapping alone"]
+    },
+    {
+      "id": "unsupported_calculation_boundary",
+      "rule": "When a user asks for full bazi, zi wei, qimen, liuren, tong shu, exact astronomy, or lineage-specific formulas, either use a trusted external source supplied by the user or stay at boundary/checklist level.",
+      "required_checks": ["name the missing calculation", "ask for trusted source data when exact work is requested", "offer available scaffold only if clearly labeled"],
+      "red_lines": ["do not invent missing almanac attributes", "do not present year-level ganzhi or approximate moon phase as a complete system"]
+    }
+  ],
+  "examples": [
+    {
+      "domain": "technology",
+      "question_type": "software architecture or launch decision",
+      "risk_level": "medium",
+      "native_evidence_first": ["requirements", "security and privacy constraints", "performance data", "user impact"],
+      "symbolic_lenses": ["flow and blockage", "five-phase product posture", "timing as secondary layer"],
+      "safe_output_shape": ["state engineering evidence first", "use feng shui as a metaphor for flow and stability", "avoid replacing security privacy or reliability review"]
+    },
+    {
+      "domain": "sports",
+      "question_type": "training rhythm, competition preparation, or team momentum",
+      "risk_level": "medium",
+      "native_evidence_first": ["coach guidance", "injury status", "training load", "competition schedule"],
+      "symbolic_lenses": ["yin-yang recovery and exertion", "five-phase rhythm", "timing and visibility"],
+      "safe_output_shape": ["prioritize health and coaching", "suggest symbolic preparation routines", "do not promise wins or ignore injury"]
+    },
+    {
+      "domain": "education",
+      "question_type": "study plan, exam preparation, or learning environment",
+      "risk_level": "medium",
+      "native_evidence_first": ["deadline", "subject requirements", "practice-test evidence", "accessibility needs"],
+      "symbolic_lenses": ["Wood growth", "Fire recall and performance", "Earth consolidation", "Metal review discipline", "Water rest and memory flow"],
+      "safe_output_shape": ["give study structure", "add environmental and rhythm suggestions", "do not guarantee scores admissions or certification"]
+    },
+    {
+      "domain": "finance",
+      "question_type": "investment reflection, portfolio posture, or timing symbolism",
+      "risk_level": "high",
+      "native_evidence_first": ["financial goal", "risk tolerance", "time horizon", "liquidity needs", "downside condition"],
+      "symbolic_lenses": ["Water liquidity", "Wood growth", "Fire market heat", "Earth reserves", "Metal risk discipline"],
+      "safe_output_shape": ["include not financial advice", "do not issue buy or sell commands", "use symbolism only after real risk analysis"]
+    },
+    {
+      "domain": "unknown",
+      "question_type": "unclear or mixed-domain request",
+      "risk_level": "medium",
+      "native_evidence_first": ["ask for the native domain", "ask for desired outcome", "ask for real constraints"],
+      "symbolic_lenses": ["general qi flow", "yin-yang balance", "five-phase diagnostic framing"],
+      "safe_output_shape": ["ask one to three clarifying questions", "offer only broad symbolic framing", "avoid precise or high-stakes claims until domain is known"]
+    }
+  ]
+}

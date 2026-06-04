@@ -57,6 +57,9 @@ jobs:
       - name: Validate golden responses
         run: python examples/validate_golden_responses.py
 
+      - name: Validate universal domain protocol
+        run: python examples/validate_universal_domain_protocol.py
+
       - name: Smoke test domain router
         run: python fengshui-master/scripts/domain_router.py "Should I buy this stock next month?" --pretty
 

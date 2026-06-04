@@ -78,6 +78,7 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "schemas" / "adversarial-evaluation-suite.schema.json",
         ROOT / "schemas" / "intake-contracts.schema.json",
         ROOT / "schemas" / "golden-responses.schema.json",
+        ROOT / "schemas" / "universal-domain-protocol.schema.json",
         ROOT / "examples" / "portable-agent-prompts.md",
         ROOT / "examples" / "portable-evaluation-rubric.json",
         ROOT / "examples" / "portable-evaluation-suite.json",
@@ -85,6 +86,8 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "examples" / "validate_portable_manifest.py",
         ROOT / "examples" / "golden-responses.json",
         ROOT / "examples" / "validate_golden_responses.py",
+        ROOT / "examples" / "universal-domain-protocol.json",
+        ROOT / "examples" / "validate_universal_domain_protocol.py",
         SKILL / "SKILL.md",
         *sorted((SKILL / "references").glob("*.md")),
     ]
@@ -167,6 +170,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     intake_contracts_validator_path = ROOT / "examples" / "validate_intake_contracts.py"
     golden_responses_path = ROOT / "examples" / "golden-responses.json"
     golden_responses_validator_path = ROOT / "examples" / "validate_golden_responses.py"
+    universal_domain_protocol_path = ROOT / "examples" / "universal-domain-protocol.json"
+    universal_domain_protocol_validator_path = ROOT / "examples" / "validate_universal_domain_protocol.py"
     manifest_path = ROOT / "portable-skill.json"
     manifest_validator_path = ROOT / "examples" / "validate_portable_manifest.py"
     manifest_schema_path = ROOT / "schemas" / "portable-skill.schema.json"
@@ -179,6 +184,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     adversarial_eval_schema_path = ROOT / "schemas" / "adversarial-evaluation-suite.schema.json"
     intake_contracts_schema_path = ROOT / "schemas" / "intake-contracts.schema.json"
     golden_responses_schema_path = ROOT / "schemas" / "golden-responses.schema.json"
+    universal_domain_protocol_schema_path = ROOT / "schemas" / "universal-domain-protocol.schema.json"
     integration_path = ROOT / "docs" / "integration-guide.md"
 
     if not portable_path.exists():
@@ -244,6 +250,12 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     if not golden_responses_validator_path.exists():
         fail(errors, "missing examples/validate_golden_responses.py")
         return
+    if not universal_domain_protocol_path.exists():
+        fail(errors, "missing examples/universal-domain-protocol.json")
+        return
+    if not universal_domain_protocol_validator_path.exists():
+        fail(errors, "missing examples/validate_universal_domain_protocol.py")
+        return
     if not manifest_path.exists():
         fail(errors, "missing portable-skill.json")
         return
@@ -280,6 +292,9 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     if not golden_responses_schema_path.exists():
         fail(errors, "missing schemas/golden-responses.schema.json")
         return
+    if not universal_domain_protocol_schema_path.exists():
+        fail(errors, "missing schemas/universal-domain-protocol.schema.json")
+        return
     if not integration_path.exists():
         fail(errors, "missing docs/integration-guide.md")
         return
@@ -297,6 +312,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     adversarial_eval = json.loads(read(adversarial_eval_path))
     intake_contracts = json.loads(read(intake_contracts_path))
     golden_responses = json.loads(read(golden_responses_path))
+    universal_domain_protocol = json.loads(read(universal_domain_protocol_path))
     for term in [
         "Portable AI Skill",
         "System Instruction",
@@ -422,6 +438,10 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         if term not in readme or term not in chinese or term not in portable:
             fail(errors, f"golden responses path missing from public docs: {term}")
 
+    for term in ["examples/universal-domain-protocol.json", "examples/validate_universal_domain_protocol.py"]:
+        if term not in readme or term not in chinese or term not in portable:
+            fail(errors, f"universal domain protocol path missing from public docs: {term}")
+
     for term in ["portable-skill.json", "examples/validate_portable_manifest.py"]:
         if term not in readme or term not in portable:
             fail(errors, f"portable manifest path missing from public docs: {term}")
@@ -458,6 +478,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         fail(errors, "portable manifest missing intake contracts schema")
     if manifest.get("schemas", {}).get("golden_responses") != "schemas/golden-responses.schema.json":
         fail(errors, "portable manifest missing golden responses schema")
+    if manifest.get("schemas", {}).get("universal_domain_protocol") != "schemas/universal-domain-protocol.schema.json":
+        fail(errors, "portable manifest missing universal domain protocol schema")
     for term in [
         "Chat Assistant Setup",
         "Agent Framework Setup",
@@ -480,6 +502,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         "schemas/adversarial-evaluation-suite.schema.json",
         "schemas/intake-contracts.schema.json",
         "schemas/golden-responses.schema.json",
+        "schemas/universal-domain-protocol.schema.json",
     ]:
         if term not in readme or term not in portable:
             fail(errors, f"portable schema path missing from public docs: {term}")
@@ -546,6 +569,10 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         fail(errors, "portable manifest missing golden responses")
     if "examples/validate_golden_responses.py" not in manifest.get("evaluation", []):
         fail(errors, "portable manifest missing golden responses validator")
+    if "examples/universal-domain-protocol.json" not in manifest.get("evaluation", []):
+        fail(errors, "portable manifest missing universal domain protocol")
+    if "examples/validate_universal_domain_protocol.py" not in manifest.get("evaluation", []):
+        fail(errors, "portable manifest missing universal domain protocol validator")
     response_sections = {
         section.get("name")
         for section in response_contract.get("required_sections", [])
@@ -629,6 +656,28 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     ]:
         if response_id not in golden_ids:
             fail(errors, f"golden responses missing {response_id}")
+    universal_stage_ids = {
+        stage.get("id")
+        for stage in universal_domain_protocol.get("stages", [])
+        if isinstance(stage, dict)
+    }
+    for stage_id in [
+        "classify_native_domain",
+        "rate_domain_risk",
+        "collect_minimum_inputs",
+        "apply_symbolic_lenses",
+        "produce_bounded_answer",
+    ]:
+        if stage_id not in universal_stage_ids:
+            fail(errors, f"universal domain protocol missing stage {stage_id}")
+    universal_risk_ids = {
+        level.get("id")
+        for level in universal_domain_protocol.get("risk_levels", [])
+        if isinstance(level, dict)
+    }
+    for risk_id in ["low", "medium", "high", "critical"]:
+        if risk_id not in universal_risk_ids:
+            fail(errors, f"universal domain protocol missing risk level {risk_id}")
     for path, guardrail in {
         "fengshui-master/references/finance-adapter.md": "not financial advice",
         "fengshui-master/references/ethics-and-limits.md": "no guaranteed prediction",
@@ -752,6 +801,15 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     )
     if golden_validator.returncode != 0:
         fail(errors, f"golden responses validator failed: {golden_validator.stderr.strip()}")
+
+    universal_validator = subprocess.run(
+        [sys.executable, str(universal_domain_protocol_validator_path)],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    if universal_validator.returncode != 0:
+        fail(errors, f"universal domain protocol validator failed: {universal_validator.stderr.strip()}")
 
 
 def audit_bilingual_docs(errors: list[str]) -> None:

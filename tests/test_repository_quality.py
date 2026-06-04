@@ -37,6 +37,8 @@ INTAKE_CONTRACTS = ROOT / "examples" / "intake-contracts.json"
 INTAKE_CONTRACTS_VALIDATOR = ROOT / "examples" / "validate_intake_contracts.py"
 GOLDEN_RESPONSES = ROOT / "examples" / "golden-responses.json"
 GOLDEN_RESPONSES_VALIDATOR = ROOT / "examples" / "validate_golden_responses.py"
+UNIVERSAL_DOMAIN_PROTOCOL = ROOT / "examples" / "universal-domain-protocol.json"
+UNIVERSAL_DOMAIN_PROTOCOL_VALIDATOR = ROOT / "examples" / "validate_universal_domain_protocol.py"
 PORTABLE_MANIFEST = ROOT / "portable-skill.json"
 PORTABLE_MANIFEST_VALIDATOR = ROOT / "examples" / "validate_portable_manifest.py"
 PORTABLE_MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
@@ -49,6 +51,7 @@ SOURCE_QUALITY_POLICY_SCHEMA = ROOT / "schemas" / "source-quality-policy.schema.
 ADVERSARIAL_EVAL_SCHEMA = ROOT / "schemas" / "adversarial-evaluation-suite.schema.json"
 INTAKE_CONTRACTS_SCHEMA = ROOT / "schemas" / "intake-contracts.schema.json"
 GOLDEN_RESPONSES_SCHEMA = ROOT / "schemas" / "golden-responses.schema.json"
+UNIVERSAL_DOMAIN_PROTOCOL_SCHEMA = ROOT / "schemas" / "universal-domain-protocol.schema.json"
 INTEGRATION_GUIDE = ROOT / "docs" / "integration-guide.md"
 SECURITY = ROOT / "SECURITY.md"
 CODE_OF_CONDUCT = ROOT / "CODE_OF_CONDUCT.md"
@@ -82,6 +85,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("python examples/validate_adversarial_evaluation.py", workflow)
         self.assertIn("python examples/validate_intake_contracts.py", workflow)
         self.assertIn("python examples/validate_golden_responses.py", workflow)
+        self.assertIn("python examples/validate_universal_domain_protocol.py", workflow)
         self.assertIn("python .github/scripts/audit_repository.py", workflow)
 
     def test_portable_skill_validator_exists_for_ci(self):
@@ -446,6 +450,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("examples/adversarial-evaluation-suite.json", manifest["evaluation"])
         self.assertIn("examples/intake-contracts.json", manifest["evaluation"])
         self.assertIn("examples/golden-responses.json", manifest["evaluation"])
+        self.assertIn("examples/universal-domain-protocol.json", manifest["evaluation"])
         self.assertIn("docs/integration-guide.md", manifest["integration"])
         self.assertIn("fengshui-master/scripts/method_selector.py", manifest["tools"])
         self.assertIn("fengshui-master/scripts/bagua_map.py", manifest["tools"])
@@ -735,6 +740,65 @@ class RepositoryQualityTest(unittest.TestCase):
             check=True,
         )
         self.assertIn("Golden responses are valid", result.stdout)
+
+    def test_universal_domain_protocol_exists_and_passes(self):
+        self.assertTrue(UNIVERSAL_DOMAIN_PROTOCOL.exists())
+        self.assertTrue(UNIVERSAL_DOMAIN_PROTOCOL_VALIDATOR.exists())
+
+        protocol = json.loads(UNIVERSAL_DOMAIN_PROTOCOL.read_text(encoding="utf-8"))
+        manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        chinese_readme = README_ZH.read_text(encoding="utf-8")
+        portable = PORTABLE_SKILL.read_text(encoding="utf-8")
+
+        self.assertEqual(protocol["name"], "fengshui-master-universal-domain-protocol")
+        self.assertIn("examples/universal-domain-protocol.json", manifest["evaluation"])
+        self.assertIn("examples/validate_universal_domain_protocol.py", manifest["evaluation"])
+        self.assertEqual(
+            manifest["schemas"]["universal_domain_protocol"],
+            "schemas/universal-domain-protocol.schema.json",
+        )
+
+        stages = {stage["id"]: stage for stage in protocol["stages"]}
+        for stage_id in [
+            "classify_native_domain",
+            "rate_domain_risk",
+            "collect_minimum_inputs",
+            "apply_symbolic_lenses",
+            "produce_bounded_answer",
+        ]:
+            with self.subTest(stage_id=stage_id):
+                self.assertIn(stage_id, stages)
+
+        risk_levels = {level["id"]: level for level in protocol["risk_levels"]}
+        for risk_id in ["low", "medium", "high", "critical"]:
+            with self.subTest(risk_id=risk_id):
+                self.assertIn(risk_id, risk_levels)
+        self.assertIn("professional authority first", risk_levels["critical"]["required_posture"])
+
+        adapters = {adapter["id"]: adapter for adapter in protocol["adapter_rules"]}
+        for adapter_id in ["native_domain_first", "symbolic_layer_second", "wuxing_bridge", "unsupported_calculation_boundary"]:
+            with self.subTest(adapter_id=adapter_id):
+                self.assertIn(adapter_id, adapters)
+
+        examples = {example["domain"]: example for example in protocol["examples"]}
+        for domain in ["technology", "sports", "education", "finance", "unknown"]:
+            with self.subTest(domain=domain):
+                self.assertIn(domain, examples)
+
+        for text in [readme, chinese_readme, portable]:
+            with self.subTest(text=text[:20]):
+                self.assertIn("examples/universal-domain-protocol.json", text)
+                self.assertIn("examples/validate_universal_domain_protocol.py", text)
+
+        result = subprocess.run(
+            [sys.executable, str(UNIVERSAL_DOMAIN_PROTOCOL_VALIDATOR)],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+        self.assertIn("Universal domain protocol is valid", result.stdout)
 
     def test_ci_smoke_tests_moon_phase_helper(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")

@@ -2,7 +2,7 @@
 
 This file turns FengShui Master into a platform-independent skill. Use it with any LLM, agent framework, RAG system, local assistant, or automation runtime. `fengshui-master/SKILL.md` remains the Codex Compatibility entry point; this file is the general agent capability pack entry point.
 
-For platform-specific setup patterns, see `docs/integration-guide.md`. For RAG metadata, reference routing, risk levels, tags, and required guardrails, use `examples/reference-catalog.json` and validate it with `examples/validate_reference_catalog.py`. For script metadata and agent tool registration, use `examples/tool-catalog.json` and validate it with `examples/validate_tool_catalog.py`. For final-answer structure, high-stakes disclosures, and red-line behavior, use `examples/response-contract.json` and validate it with `examples/validate_response_contract.py`. For capability, limitation, and roadmap routing, use `examples/capability-matrix.json` and validate it with `examples/validate_capability_matrix.py`. For source tiers, citation posture, and claim-quality rules, use `examples/source-quality-policy.json` and validate it with `examples/validate_source_quality_policy.py`. For adversarial red-team prompts, prompt-injection checks, and scope-inflation checks, use `examples/adversarial-evaluation-suite.json` and validate it with `examples/validate_adversarial_evaluation.py`. For domain intake and missing-input rules, use `examples/intake-contracts.json` and validate it with `examples/validate_intake_contracts.py`. For compact golden response fixtures, use `examples/golden-responses.json` and validate it with `examples/validate_golden_responses.py`. For copyable test prompts and expected boundary behavior, see `examples/portable-agent-prompts.md`. For output-quality scoring, use `examples/portable-evaluation-rubric.json`. For machine-readable adaptation checks, use `examples/portable-evaluation-suite.json` and validate it with `examples/validate_portable_evaluation.py`. For platform discovery, use `portable-skill.json` and validate it with `examples/validate_portable_manifest.py`. JSON Schemas live in `schemas/portable-skill.schema.json`, `schemas/portable-evaluation-suite.schema.json`, `schemas/reference-catalog.schema.json`, `schemas/tool-catalog.schema.json`, `schemas/response-contract.schema.json`, `schemas/capability-matrix.schema.json`, `schemas/source-quality-policy.schema.json`, `schemas/adversarial-evaluation-suite.schema.json`, `schemas/intake-contracts.schema.json`, and `schemas/golden-responses.schema.json`.
+For platform-specific setup patterns, see `docs/integration-guide.md`. For RAG metadata, reference routing, risk levels, tags, and required guardrails, use `examples/reference-catalog.json` and validate it with `examples/validate_reference_catalog.py`. For script metadata and agent tool registration, use `examples/tool-catalog.json` and validate it with `examples/validate_tool_catalog.py`. For final-answer structure, high-stakes disclosures, and red-line behavior, use `examples/response-contract.json` and validate it with `examples/validate_response_contract.py`. For capability, limitation, and roadmap routing, use `examples/capability-matrix.json` and validate it with `examples/validate_capability_matrix.py`. For source tiers, citation posture, and claim-quality rules, use `examples/source-quality-policy.json` and validate it with `examples/validate_source_quality_policy.py`. For adversarial red-team prompts, prompt-injection checks, and scope-inflation checks, use `examples/adversarial-evaluation-suite.json` and validate it with `examples/validate_adversarial_evaluation.py`. For domain intake and missing-input rules, use `examples/intake-contracts.json` and validate it with `examples/validate_intake_contracts.py`. For compact golden response fixtures, use `examples/golden-responses.json` and validate it with `examples/validate_golden_responses.py`. For adapting to domains beyond the built-in list, use `examples/universal-domain-protocol.json` and validate it with `examples/validate_universal_domain_protocol.py`. For copyable test prompts and expected boundary behavior, see `examples/portable-agent-prompts.md`. For output-quality scoring, use `examples/portable-evaluation-rubric.json`. For machine-readable adaptation checks, use `examples/portable-evaluation-suite.json` and validate it with `examples/validate_portable_evaluation.py`. For platform discovery, use `portable-skill.json` and validate it with `examples/validate_portable_manifest.py`. JSON Schemas live in `schemas/portable-skill.schema.json`, `schemas/portable-evaluation-suite.schema.json`, `schemas/reference-catalog.schema.json`, `schemas/tool-catalog.schema.json`, `schemas/response-contract.schema.json`, `schemas/capability-matrix.schema.json`, `schemas/source-quality-policy.schema.json`, `schemas/adversarial-evaluation-suite.schema.json`, `schemas/intake-contracts.schema.json`, `schemas/golden-responses.schema.json`, and `schemas/universal-domain-protocol.schema.json`.
 
 ## System Instruction
 
@@ -23,6 +23,8 @@ For every substantial request:
 7. For high-stakes topics, explicitly say that the reading is symbolic support only and that the user should rely on qualified professionals and evidence for decisions.
 
 Use the reference files under fengshui-master/references/ as the knowledge base. Use deterministic scripts under fengshui-master/scripts/ when available. If a script is unavailable in the host environment, describe the missing calculation instead of inventing precision.
+
+When the domain is not listed, follow examples/universal-domain-protocol.json: classify the native domain, rate risk, collect minimum inputs, apply feng shui as a named symbolic layer, and produce bounded guidance.
 ```
 
 ## Use With Any Agent
@@ -75,18 +77,20 @@ Use the reference files under fengshui-master/references/ as the knowledge base.
 13. Use `examples/adversarial-evaluation-suite.json` for red-team prompts covering prompt injection, prompt extraction, high-stakes pressure, scope inflation, fabricated sources, and method confusion.
 14. Use `examples/intake-contracts.json` for domain required inputs, ask-first fields, blocking missing inputs, assumption rules, and red lines.
 15. Use `examples/golden-responses.json` for compact answer fixtures that demonstrate expected structure, boundaries, required phrases, forbidden phrases, and quality checks.
-16. Run `python examples/validate_portable_evaluation.py` before publishing changes to portable evaluation cases.
-17. Run `python examples/validate_reference_catalog.py` before publishing reference metadata changes.
-18. Run `python examples/validate_tool_catalog.py` before publishing tool metadata changes.
-19. Run `python examples/validate_response_contract.py` before publishing response-contract changes.
-20. Run `python examples/validate_capability_matrix.py` before publishing capability-matrix changes.
-21. Run `python examples/validate_source_quality_policy.py` before publishing source-quality policy changes.
-22. Run `python examples/validate_adversarial_evaluation.py` before publishing adversarial evaluation changes.
-23. Run `python examples/validate_intake_contracts.py` before publishing intake-contract changes.
-24. Run `python examples/validate_golden_responses.py` before publishing golden-response changes.
-25. Use `portable-skill.json` when a platform needs a machine-readable manifest of entrypoints, tools, references, integration docs, governance files, domains, and guardrails.
-26. Run `python examples/validate_portable_manifest.py` before publishing manifest changes.
-27. Use `schemas/portable-skill.schema.json`, `schemas/portable-evaluation-suite.schema.json`, `schemas/reference-catalog.schema.json`, `schemas/tool-catalog.schema.json`, `schemas/response-contract.schema.json`, `schemas/capability-matrix.schema.json`, `schemas/source-quality-policy.schema.json`, `schemas/adversarial-evaluation-suite.schema.json`, `schemas/intake-contracts.schema.json`, and `schemas/golden-responses.schema.json` when a platform needs JSON Schema validation.
+16. Use `examples/universal-domain-protocol.json` when a request falls outside the built-in domain list but still needs feng shui, wuxing, timing, qi-flow, or ji/xiong adaptation.
+17. Run `python examples/validate_portable_evaluation.py` before publishing changes to portable evaluation cases.
+18. Run `python examples/validate_reference_catalog.py` before publishing reference metadata changes.
+19. Run `python examples/validate_tool_catalog.py` before publishing tool metadata changes.
+20. Run `python examples/validate_response_contract.py` before publishing response-contract changes.
+21. Run `python examples/validate_capability_matrix.py` before publishing capability-matrix changes.
+22. Run `python examples/validate_source_quality_policy.py` before publishing source-quality policy changes.
+23. Run `python examples/validate_adversarial_evaluation.py` before publishing adversarial evaluation changes.
+24. Run `python examples/validate_intake_contracts.py` before publishing intake-contract changes.
+25. Run `python examples/validate_golden_responses.py` before publishing golden-response changes.
+26. Run `python examples/validate_universal_domain_protocol.py` before publishing universal-domain protocol changes.
+27. Use `portable-skill.json` when a platform needs a machine-readable manifest of entrypoints, tools, references, integration docs, governance files, domains, and guardrails.
+28. Run `python examples/validate_portable_manifest.py` before publishing manifest changes.
+29. Use `schemas/portable-skill.schema.json`, `schemas/portable-evaluation-suite.schema.json`, `schemas/reference-catalog.schema.json`, `schemas/tool-catalog.schema.json`, `schemas/response-contract.schema.json`, `schemas/capability-matrix.schema.json`, `schemas/source-quality-policy.schema.json`, `schemas/adversarial-evaluation-suite.schema.json`, `schemas/intake-contracts.schema.json`, `schemas/golden-responses.schema.json`, and `schemas/universal-domain-protocol.schema.json` when a platform needs JSON Schema validation.
 
 ## Output Pattern
 

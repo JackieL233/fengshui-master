@@ -52,7 +52,7 @@
     },
     "schemas": {
       "type": "object",
-      "required": ["manifest", "evaluation_suite", "reference_catalog", "tool_catalog", "response_contract", "capability_matrix", "source_quality_policy", "adversarial_evaluation_suite", "intake_contracts", "golden_responses"],
+      "required": ["manifest", "evaluation_suite", "reference_catalog", "tool_catalog", "response_contract", "capability_matrix", "source_quality_policy", "adversarial_evaluation_suite", "intake_contracts", "golden_responses", "universal_domain_protocol"],
       "properties": {
         "manifest": { "type": "string" },
         "evaluation_suite": { "type": "string" },
@@ -63,7 +63,8 @@
         "source_quality_policy": { "type": "string" },
         "adversarial_evaluation_suite": { "type": "string" },
         "intake_contracts": { "type": "string" },
-        "golden_responses": { "type": "string" }
+        "golden_responses": { "type": "string" },
+        "universal_domain_protocol": { "type": "string" }
       },
       "additionalProperties": false
     }
