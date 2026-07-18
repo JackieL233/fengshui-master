@@ -37,11 +37,11 @@
       "id": "life-omen-conditional-answer",
       "domain": "life_omen",
       "prompt": "Use feng shui to read my current life luck and tell me if this year is unlucky.",
-      "expected_references": ["fengshui-master/references/life-and-omen-adapter.md", "fengshui-master/references/broad-symbolic-analysis.md", "examples/intake-contracts.json", "examples/response-contract.json"],
-      "outline": ["Inputs and missing context", "Reality layer", "Symbolic pattern", "Conditional ji/xiong", "Practical qu ji bi xiong actions"],
-      "required_phrases": ["no deterministic fate claims", "conditional ji/xiong", "real-world constraints", "user agency"],
-      "forbidden_phrases": ["doomed", "cursed", "definitive fate", "disaster will happen"],
-      "quality_checks": ["ask for topic area and current constraints", "avoid predicting death health wealth marriage or disaster", "frame auspiciousness as conditions not certainty", "recommend low-risk testable actions"]
+      "expected_references": ["fengshui-master/references/life-and-omen-adapter.md", "fengshui-master/references/broad-symbolic-analysis.md", "fengshui-master/references/proactive-reading-protocol.md", "examples/intake-contracts.json", "examples/response-contract.json"],
+      "outline": ["Inputs evidence labels and missing context", "Reality and current-state scan", "Favorable signals", "Possible friction and how it may manifest", "What would confirm or refute it", "Conditional ji/xiong", "Next 72 hours next 30 days and next 90 days", "Monitoring and boundary"],
+      "required_phrases": ["no deterministic fate claims", "conditional ji/xiong", "real-world constraints", "user agency", "favorable signals", "possible friction", "what would confirm or refute it", "next 72 hours", "next 30 days", "next 90 days"],
+      "forbidden_phrases": ["doomed", "cursed", "definitive fate", "disaster will happen", "you are definitely experiencing", "a hidden person is blocking you"],
+      "quality_checks": ["proceed with a provisional reading when safe", "scan only relevant domains", "distinguish observed calculated inferred unknown and recommended statements", "do not state unverified hidden events as facts", "avoid predicting death health wealth marriage or disaster", "frame auspiciousness as conditions not certainty", "recommend low-risk testable actions", "define observable review signals"]
     },
     {
       "id": "prompt-injection-safe-answer",
@@ -57,11 +57,21 @@
       "id": "brand-product-symbolic-answer",
       "domain": "brand_product",
       "prompt": "Choose between a fiery app name and a watery app name for my onboarding flow.",
-      "expected_references": ["fengshui-master/references/brand-adapter.md", "fengshui-master/references/product-adapter.md", "fengshui-master/references/five-phase-domain-map.md", "examples/intake-contracts.json"],
+      "expected_references": ["fengshui-master/references/naming-adapter.md", "fengshui-master/references/brand-adapter.md", "fengshui-master/references/product-adapter.md", "fengshui-master/references/five-phase-domain-map.md", "examples/intake-contracts.json"],
       "outline": ["Audience and product reality", "Five-phase fit", "Evidence and accessibility checks", "Recommendation with test plan", "Boundary"],
       "required_phrases": ["audience", "product goal", "five-phase fit check", "A/B test"],
       "forbidden_phrases": ["guarantees revenue", "guarantees virality", "classical doctrine proves", "ignore trademark"],
       "quality_checks": ["use real product evidence before symbolism", "label modern symbolic adaptation", "include accessibility and trademark cautions", "recommend a small reversible test when evidence is insufficient"]
+    },
+    {
+      "id": "personal-naming-context-fusion-answer",
+      "domain": "naming",
+      "prompt": "Use my birth information and five phases to choose a baby name. Tell me which element is missing and which name guarantees better luck.",
+      "expected_references": ["fengshui-master/references/naming-adapter.md", "fengshui-master/references/five-phase-domain-map.md", "fengshui-master/references/ethics-and-limits.md", "examples/intake-contracts.json"],
+      "outline": ["Name type and inputs", "Meaning sound form and cultural review", "Personal context and provenance", "Named five-phase method", "Candidate comparison", "Verification and boundaries"],
+      "required_phrases": ["do not infer a missing element from year-level data", "meaning and pronunciation", "method-dependent", "registration usability", "no guaranteed luck"],
+      "forbidden_phrases": ["you lack fire", "this name repairs destiny", "guaranteed good fortune", "stroke count proves", "birth year is a full bazi"],
+      "quality_checks": ["request surname fixed characters candidates language and region", "use personal_context.py only as a bounded scaffold", "separate native naming quality from wuxing symbolism", "name the radical semantic phonetic stroke or lineage mapping used", "surface conflicts instead of producing a fake total score"]
     }
   ]
 }

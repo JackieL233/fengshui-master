@@ -1,4 +1,4 @@
 interface:
   display_name: "FengShui Master"
-  short_description: "Traditional Chinese feng shui, wuxing, and auspiciousness analysis"
-  default_prompt: "Use $fengshui-master to analyze a space, person, life pattern, decision, or domain question through traditional Chinese feng shui and five-phase frameworks."
+  short_description: "Proactive feng shui, wuxing, and cross-domain analysis"
+  default_prompt: "Use $fengshui-master to proactively assess my current situation, favorable signals, possible friction, validation evidence, and practical next actions."

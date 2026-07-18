@@ -27,6 +27,7 @@ class SkillInventoryTest(unittest.TestCase):
             "finance-adapter.md",
             "business-adapter.md",
             "brand-adapter.md",
+            "naming-adapter.md",
             "career-adapter.md",
             "relationship-adapter.md",
             "product-adapter.md",
@@ -34,6 +35,7 @@ class SkillInventoryTest(unittest.TestCase):
             "wellbeing-adapter.md",
             "legal-adjacent-adapter.md",
             "life-and-omen-adapter.md",
+            "proactive-reading-protocol.md",
             "five-phase-domain-map.md",
             "floorplan-schema.md",
             "ethics-and-limits.md",
@@ -60,6 +62,7 @@ class SkillInventoryTest(unittest.TestCase):
             "ganzhi.py",
             "annual_afflictions.py",
             "create_brief.py",
+            "personal_context.py",
             "generate_report.py",
             "domain_router.py",
             "analyze_floorplan.py",
@@ -142,6 +145,28 @@ class SkillInventoryTest(unittest.TestCase):
         )
 
         for phrase in ["观气", "取象", "辨势", "吉凶", "生平", "金融"]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, protocol)
+
+    def test_proactive_reading_protocol_requires_validation_and_actions(self):
+        protocol = (SKILL / "references" / "proactive-reading-protocol.md").read_text(
+            encoding="utf-8"
+        )
+
+        for phrase in [
+            "observed",
+            "calculated",
+            "inferred",
+            "unknown",
+            "recommended",
+            "Favorable signals",
+            "Possible friction",
+            "confirm or refute",
+            "Next 72 hours",
+            "Next 30 days",
+            "Next 90 days",
+            "cold reading",
+        ]:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, protocol)
 

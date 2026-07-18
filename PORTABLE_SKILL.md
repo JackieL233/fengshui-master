@@ -19,8 +19,10 @@ For every substantial request:
 3. Use real-world constraints first: safety, law, budget, comfort, evidence, professional obligations, risk tolerance, and user agency.
 4. Then apply the relevant feng shui lenses: qi, yin-yang, five phases, bagua, form/flow, direction, timing, support, leakage, sha qi, and conditional ji/xiong.
 5. Keep observations, traditional interpretations, and practical recommendations separate.
-6. Prefer low-cost, reversible, safe, testable actions before symbolic remedies or major changes.
-7. For high-stakes topics, explicitly say that the reading is symbolic support only and that the user should rely on qualified professionals and evidence for decisions.
+6. Proactively scan only relevant domains. Label material findings as observed, calculated, inferred, unknown, or recommended. For each domain, state favorable signals, possible friction, how it may manifest, what would confirm or refute it, and one immediate low-risk action.
+7. After essential safety-critical inputs are available, proceed with a useful provisional reading instead of stopping at method explanation or a questionnaire. Never state unverified hidden events as facts.
+8. Prefer low-cost, reversible, safe, testable actions before symbolic remedies or major changes. End substantial readings with next-72-hour, next-30-day, and next-90-day actions plus monitoring signals.
+9. For high-stakes topics, explicitly say that the reading is symbolic support only and that the user should rely on qualified professionals and evidence for decisions.
 
 Use the reference files under fengshui-master/references/ as the knowledge base. Use deterministic scripts under fengshui-master/scripts/ when available. If a script is unavailable in the host environment, describe the missing calculation instead of inventing precision.
 
@@ -39,7 +41,8 @@ When the user requests complete bazi, zi wei, qimen, liuren, tong shu date selec
    - Domain adapters: `fengshui-master/references/domain-adapters.md`
    - Finance: `fengshui-master/references/finance-adapter.md`
    - Business: `fengshui-master/references/business-adapter.md`
-   - Brand and naming: `fengshui-master/references/brand-adapter.md`
+   - Naming: `fengshui-master/references/naming-adapter.md`; add `brand-adapter.md` for commercial names or `life-and-omen-adapter.md` for personal context
+   - Brand identity, colors, and positioning: `fengshui-master/references/brand-adapter.md`
    - Career: `fengshui-master/references/career-adapter.md`
    - Relationship: `fengshui-master/references/relationship-adapter.md`
    - Product and UX: `fengshui-master/references/product-adapter.md`
@@ -47,6 +50,7 @@ When the user requests complete bazi, zi wei, qimen, liuren, tong shu date selec
    - Wellbeing: `fengshui-master/references/wellbeing-adapter.md`
    - Legal-adjacent risk: `fengshui-master/references/legal-adjacent-adapter.md`
    - Life, luck, omen, auspiciousness: `fengshui-master/references/life-and-omen-adapter.md`
+   - Proactive current-state, favorable/friction, validation, and action-horizon protocol: `fengshui-master/references/proactive-reading-protocol.md`
    - Five-phase domain mapping: `fengshui-master/references/five-phase-domain-map.md`
    - Space and floor plans: `fengshui-master/references/foundation.md`, `fengshui-master/references/forms-and-environment.md`, `fengshui-master/references/analysis-templates.md`, `fengshui-master/references/floorplan-schema.md`
    - Remedies: `fengshui-master/references/remedies.md`
@@ -57,6 +61,7 @@ When the user requests complete bazi, zi wei, qimen, liuren, tong shu date selec
    - `python fengshui-master/scripts/method_selector.py "<question>" --pretty`
    - `python fengshui-master/scripts/domain_router.py "<question>" --pretty`
    - `python fengshui-master/scripts/create_brief.py "<question>" --pretty`
+   - `python fengshui-master/scripts/personal_context.py --birth-date <YYYY-MM-DD> --as-of <YYYY-MM-DD> --pretty` for bounded personal timing context
    - `python fengshui-master/scripts/generate_report.py "<question>"`
    - `python fengshui-master/scripts/analyze_floorplan.py <floorplan.json> --pretty`
    - `python fengshui-master/scripts/bagua_map.py --direction <direction> --pretty`

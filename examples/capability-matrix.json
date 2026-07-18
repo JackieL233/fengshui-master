@@ -152,13 +152,13 @@
       "title": "Life pattern, luck, omen, auspiciousness, and ji/xiong symbolic analysis",
       "status": "fully_covered",
       "domains": ["life_omen", "symbolic"],
-      "supported_questions": ["life phase reading", "personal pattern analysis", "auspiciousness and inauspiciousness framing", "practical qu ji bi xiong planning"],
+      "supported_questions": ["life phase reading", "personal pattern analysis", "current-state proactive scan", "favorable areas and possible difficulties", "auspiciousness and inauspiciousness framing", "practical qu ji bi xiong planning"],
       "required_inputs": ["user's situation", "time period or event", "real constraints", "desired decision or next step"],
-      "references": ["fengshui-master/references/broad-symbolic-analysis.md", "fengshui-master/references/life-and-omen-adapter.md", "fengshui-master/references/five-phase-domain-map.md", "fengshui-master/references/ethics-and-limits.md"],
-      "optional_tools": ["fengshui-master/scripts/domain_router.py", "fengshui-master/scripts/create_brief.py", "fengshui-master/scripts/ganzhi.py"],
-      "guardrails": ["no deterministic fate claims", "do not predict health death wealth marriage or disaster", "separate reality layer from symbolic layer"],
+      "references": ["fengshui-master/references/broad-symbolic-analysis.md", "fengshui-master/references/life-and-omen-adapter.md", "fengshui-master/references/proactive-reading-protocol.md", "fengshui-master/references/five-phase-domain-map.md", "fengshui-master/references/ethics-and-limits.md"],
+      "optional_tools": ["fengshui-master/scripts/domain_router.py", "fengshui-master/scripts/create_brief.py", "fengshui-master/scripts/personal_context.py", "fengshui-master/scripts/ganzhi.py"],
+      "guardrails": ["no deterministic fate claims", "do not predict health death wealth marriage or disaster", "do not state unverified hidden events as facts", "separate reality layer from symbolic layer"],
       "limitations": ["complete bazi, zi wei, qimen, liuren, and full almanac readings are outside current scope unless external tools are supplied", "symbolic interpretation does not override user agency"],
-      "adaptation_notes": ["Frame ji/xiong conditionally: what supports, what leaks, what can be reduced, and what evidence would change the reading."]
+      "adaptation_notes": ["Use personal_context.py to assemble bounded personal timing scaffolds without inventing full natal calculations.", "Frame ji/xiong conditionally: what supports, what leaks, what can be reduced, and what evidence would change the reading.", "Proceed provisionally when safe and end with next-72-hour, next-30-day, and next-90-day actions plus monitoring signals."]
     },
     {
       "id": "finance-symbolic-decision-support",
@@ -172,6 +172,19 @@
       "guardrails": ["not financial advice", "do not guarantee returns", "do not issue buy/sell commands", "real financial analysis takes priority"],
       "limitations": ["no investment recommendation engine", "no market-price forecasting", "no tax or legal optimization"],
       "adaptation_notes": ["Use five phases as a risk-and-behavior lens: Water liquidity, Wood growth, Fire heat, Earth reserves, Metal discipline."]
+    },
+    {
+      "id": "naming-multilayer-analysis",
+      "title": "Personal and commercial naming with context fusion and wuxing symbolism",
+      "status": "fully_covered",
+      "domains": ["naming", "life_omen", "brand", "product", "business"],
+      "supported_questions": ["personal or baby naming", "adult renaming", "pen or stage names", "brand company shop or product names", "candidate name comparison"],
+      "required_inputs": ["name type and purpose", "fixed surname characters or words", "candidate names or generation permission", "language pronunciation culture and region", "desired impression and real constraints"],
+      "references": ["fengshui-master/references/naming-adapter.md", "fengshui-master/references/five-phase-domain-map.md", "fengshui-master/references/ethics-and-limits.md"],
+      "optional_tools": ["fengshui-master/scripts/domain_router.py", "fengshui-master/scripts/create_brief.py", "fengshui-master/scripts/personal_context.py"],
+      "guardrails": ["do not infer element deficiency from year-level data", "do not silently mix naming systems", "do not guarantee fate wealth health relationships or business success"],
+      "limitations": ["no universal character-to-element mapping is asserted", "full bazi balancing requires a trusted external chart source", "registration trademark domain and dialect checks remain external"],
+      "adaptation_notes": ["Rank native naming quality and legal usability above symbolic fit.", "Show conflicts between meaning sound form culture personal context and wuxing method instead of averaging them into a fake score."]
     },
     {
       "id": "business-brand-product-adapters",

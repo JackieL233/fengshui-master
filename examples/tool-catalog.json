@@ -48,6 +48,25 @@
       "required_guardrails": ["preserve brief guardrails in final answer"]
     },
     {
+      "name": "personal_context",
+      "path": "fengshui-master/scripts/personal_context.py",
+      "category": "personal_context",
+      "description": "Combine bounded birth-year, ming gua, current-year, san yuan, annual-direction, solar-term, and moon-phase scaffolds for a personal reading.",
+      "command_template": "python fengshui-master/scripts/personal_context.py --birth-date <YYYY-MM-DD> --as-of <YYYY-MM-DD> --pretty",
+      "inputs": [
+        {"name": "birth_date", "type": "date", "required": true, "description": "Gregorian birth date in YYYY-MM-DD format."},
+        {"name": "birth_time", "type": "string", "required": false, "description": "Civil birth time in 24-hour HH:MM format; recorded but not converted into an hour pillar."},
+        {"name": "sex", "type": "string", "required": false, "description": "Formula input for the common ming gua helper: male or female."},
+        {"name": "birth_location", "type": "string", "required": false, "description": "Birth locality for provenance and future timezone-sensitive integrations."},
+        {"name": "timezone", "type": "string", "required": false, "description": "IANA-style timezone label when known."},
+        {"name": "as_of", "type": "date", "required": false, "description": "Gregorian analysis date; defaults to the current local date."},
+        {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
+      ],
+      "output_format": "json",
+      "risk_level": "high",
+      "required_guardrails": ["not a complete bazi", "do not make deterministic fate claims"]
+    },
+    {
       "name": "generate_report",
       "path": "fengshui-master/scripts/generate_report.py",
       "category": "reporting",

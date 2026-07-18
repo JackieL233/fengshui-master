@@ -108,6 +108,14 @@
       "required_guardrails": ["do not replace trademark or accessibility review"]
     },
     {
+      "path": "fengshui-master/references/naming-adapter.md",
+      "title": "Naming Adapter",
+      "primary_domain": "naming",
+      "risk_level": "medium",
+      "tags": ["personal_name", "baby_name", "rename", "stage_name", "brand_name", "wuxing", "pronunciation", "meaning"],
+      "required_guardrails": ["do not infer element deficiency from year-level data", "do not claim a name guarantees fate or success"]
+    },
+    {
       "path": "fengshui-master/references/career-adapter.md",
       "title": "Career Adapter",
       "primary_domain": "career",
@@ -162,6 +170,14 @@
       "risk_level": "high",
       "tags": ["life_pattern", "omen", "luck", "auspiciousness", "ji_xiong", "fate_boundary"],
       "required_guardrails": ["no deterministic fate claims", "do not predict health death wealth marriage or disaster"]
+    },
+    {
+      "path": "fengshui-master/references/proactive-reading-protocol.md",
+      "title": "Proactive Reading Protocol",
+      "primary_domain": "response_method",
+      "risk_level": "high",
+      "tags": ["proactive_reading", "current_state", "evidence_labels", "validation", "action_horizons", "cold_reading_boundary"],
+      "required_guardrails": ["do not state unverified hidden events as facts", "treat possible difficulties as conditional hypotheses", "scan only relevant domains"]
     },
     {
       "path": "fengshui-master/references/five-phase-domain-map.md",

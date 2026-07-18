@@ -41,7 +41,7 @@ REQUIRED_TOP_LEVEL = {
     "domains",
     "schemas",
 }
-REQUIRED_DOMAINS = {"space", "life_omen", "finance", "brand", "product", "legal_adjacent", "timing"}
+REQUIRED_DOMAINS = {"space", "life_omen", "finance", "brand", "naming", "product", "legal_adjacent", "timing"}
 
 
 def fail(errors: list[str], message: str) -> None:
@@ -158,6 +158,8 @@ def main() -> int:
         fail(errors, "tools missing fengshui-master/scripts/method_selector.py")
     if "fengshui-master/scripts/moon_phase.py" not in manifest.get("tools", []):
         fail(errors, "tools missing fengshui-master/scripts/moon_phase.py")
+    if "fengshui-master/scripts/personal_context.py" not in manifest.get("tools", []):
+        fail(errors, "tools missing fengshui-master/scripts/personal_context.py")
     if "fengshui-master/scripts/solar_terms.py" not in manifest.get("tools", []):
         fail(errors, "tools missing fengshui-master/scripts/solar_terms.py")
     if "fengshui-master/scripts/bagua_map.py" not in manifest.get("tools", []):

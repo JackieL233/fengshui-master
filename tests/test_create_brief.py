@@ -35,6 +35,19 @@ class CreateBriefScriptTest(unittest.TestCase):
         self.assertIn("time horizon", data["missing_inputs"])
         self.assertIn("references/broad-symbolic-analysis.md", data["references"])
         self.assertIn("Symbolic analysis protocol", data["report_sections"])
+        self.assertIn("Current-state scan", data["report_sections"])
+        self.assertIn("Favorable conditions", data["report_sections"])
+        self.assertIn(
+            "Possible friction and validation questions", data["report_sections"]
+        )
+        self.assertIn("Actions: next 72 hours", data["report_sections"])
+        self.assertIn("Actions: next 30 days", data["report_sections"])
+        self.assertIn("Actions: next 90 days", data["report_sections"])
+        self.assertIn("Monitoring signals", data["report_sections"])
+        self.assertIn(
+            "Label facts, calculations, inferences, unknowns, and recommendations separately.",
+            data["answer_contract"],
+        )
 
     def test_chinese_life_omen_question_creates_life_brief(self):
         data = run_brief("帮我用风水分析一个人的生平五行吉凶和运势")
@@ -46,6 +59,26 @@ class CreateBriefScriptTest(unittest.TestCase):
         self.assertIn("Ji/xiong assessment", data["report_sections"])
         self.assertIn("references/broad-symbolic-analysis.md", data["references"])
         self.assertIn("Symbolic analysis protocol", data["report_sections"])
+
+    def test_life_omen_brief_does_not_report_inputs_already_provided(self):
+        data = run_brief(
+            "I was born in 1998 and want an analysis of my recent luck and career."
+        )
+
+        self.assertEqual(data["domain"], "life_omen")
+        self.assertNotIn("birth year or relevant year", data["missing_inputs"])
+        self.assertNotIn("topic area", data["missing_inputs"])
+        self.assertNotIn("goal for the reading", data["missing_inputs"])
+
+    def test_chinese_birth_date_counts_as_provided_birth_year(self):
+        data = run_brief(
+            "1998年3月22日18:30左右出生，男，浙江桐乡。主动分析我最近的运势和事业。"
+        )
+
+        self.assertEqual(data["domain"], "life_omen")
+        self.assertNotIn("birth year or relevant year", data["missing_inputs"])
+        self.assertNotIn("topic area", data["missing_inputs"])
+        self.assertNotIn("goal for the reading", data["missing_inputs"])
 
     def test_floorplan_path_adds_space_analysis(self):
         data = run_brief(
@@ -95,6 +128,20 @@ class CreateBriefScriptTest(unittest.TestCase):
             data["missing_inputs"],
         )
         self.assertIn("Solar term seasonal qi layer", data["report_sections"])
+
+    def test_naming_question_creates_multilayer_brief(self):
+        data = run_brief(
+            "Help me choose a personal name using five phases, meaning, and pronunciation"
+        )
+
+        self.assertEqual(data["domain"], "naming")
+        self.assertIn("references/naming-adapter.md", data["references"])
+        self.assertIn(
+            "name type: personal, baby, adult rename, pen/stage, brand, company, or product",
+            data["missing_inputs"],
+        )
+        self.assertIn("Native naming constraints", data["report_sections"])
+        self.assertIn("Five-phase symbolic fit", data["report_sections"])
 
 
 if __name__ == "__main__":

@@ -32,6 +32,9 @@ python fengshui-master/scripts/generate_report.py "Review this apartment" --floo
 - Do not invent missing data.
 - Do not convert guardrails into tiny disclaimers; keep them visible when the domain is high-stakes.
 - End with low-risk, reversible next actions where possible.
+- Label material content as observed, calculated, inferred, unknown, or recommended.
+- For each relevant domain, include favorable signals, possible friction, ordinary manifestations, evidence that would confirm or refute the inference, and an immediate low-risk action.
+- End substantial proactive reports with next-72-hour, next-30-day, and next-90-day actions plus observable monitoring signals.
 
 ## Section Guidance
 
@@ -41,6 +44,8 @@ python fengshui-master/scripts/generate_report.py "Review this apartment" --floo
 | Reality layer | Native domain constraints before symbolism |
 | Symbolic analysis protocol | 观气, 取象, 辨势, 吉凶, 化解, and 复核 summary for broad non-spatial readings |
 | Symbolic layer | Yin-yang, five phases, form/flow, timing, bagua, or ji/xiong interpretation |
+| Current-state scan | Relevant favorable signals and possible friction, each with evidence status and validation conditions |
+| Action horizons | Actions for the next 72 hours, 30 days, and 90 days, followed by monitoring signals |
 | Structured floor-plan analysis | JSON findings, issues, and recommendations, with visual-verification caveats |
 | Recommendations | Prioritized, practical, reversible actions |
 | Missing data | Inputs that would materially change confidence |

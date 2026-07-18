@@ -1,6 +1,6 @@
 ---
 name: fengshui-master
-description: "Use when applying traditional Chinese feng shui and broad wuxing symbolic analysis to spaces, people, life patterns, auspiciousness, luck, decisions, finance, investing, business, brand, career, wellbeing, relationships, homes, offices, shops, land, floor plans, date selection, luopan bearings, ming gua, xuan kong flying stars, yin house, bagua, five phases, form school, compass school, eight mansions, san he, san yuan, or culturally grounded feng shui explanations."
+description: "Use when applying traditional Chinese feng shui and broad wuxing symbolic analysis to spaces, people, life patterns, current fortune, current-state assessment, favorable areas, possible difficulties, proactive action planning, auspiciousness, luck, decisions, finance, investing, business, brand, personal or commercial naming, baby names, renaming, career, wellbeing, relationships, homes, offices, shops, land, floor plans, date selection, luopan bearings, ming gua, xuan kong flying stars, yin house, bagua, five phases, form school, compass school, eight mansions, san he, san yuan, or culturally grounded feng shui explanations."
 ---
 
 # FengShui Master
@@ -13,17 +13,29 @@ This file is the Codex-compatible entry point for a broader portable AI skill. F
 
 Keep the answer transparent: state which school or method is being used, what input is missing, which conclusions are strong, and which are interpretive.
 
+Fuse all relevant available context, not every file indiscriminately. Preserve provenance and resolve conflicts in this order: safety/law/native evidence, verified deterministic outputs, named traditional methods, modern symbolic mappings, then aesthetic preference.
+
 ## First Move
 
 Ask for only the missing inputs needed for the requested analysis. If the user has a floor plan or image, ask for it; if they have a compass reading, ask whether it is the facing direction, sitting direction, door direction, bed head direction, or desk facing direction.
 
-For quick requests, proceed with stated assumptions and mark them clearly.
+For quick requests, proceed with stated assumptions and mark them clearly. After essential safety-critical inputs are available, do not stop at method explanation or a questionnaire: provide a useful provisional reading.
+
+Load `references/proactive-reading-protocol.md` for current-state, current-luck, life-phase, cross-domain, or decision readings. Label material findings as `observed`, `calculated`, `inferred`, `unknown`, or `recommended`; scan only relevant domains; and state favorable signals, possible friction, validation evidence, immediate action, and 72-hour / 30-day / 90-day horizons. Never state an unverified hidden event as fact.
 
 For substantial readings, cross-domain decisions, finance, life/omen questions, or structured floor-plan reviews, create a consultation brief first:
 
 ```bash
 python fengshui-master/scripts/create_brief.py "<question>" --pretty
 ```
+
+For personal life, luck, or current-phase readings with birth data, build a bounded context pack before interpretation:
+
+```bash
+python fengshui-master/scripts/personal_context.py --birth-date <YYYY-MM-DD> --birth-time <HH:MM> --sex <male|female> --birth-location "<place>" --timezone <IANA-zone> --as-of <YYYY-MM-DD> --pretty
+```
+
+Use the result as labeled year-level, ming-gua, period, annual-direction, solar-term, and moon-phase scaffolds only. Never infer missing pillars or present it as complete bazi, zi wei, qimen, liuren, or tong shu work.
 
 Load `references/consultation-brief.md` if the brief needs interpretation or adaptation.
 
@@ -46,11 +58,13 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
    - Use `scripts/domain_router.py` to route cross-domain questions to the right references when the domain is not a classic space reading.
    - Use `references/broad-symbolic-analysis.md` when "feng shui" means broad symbolic analysis: 观气, 取象, 辨势, 吉凶, 运势, 生平, 趋吉避凶, finance decisions, life events, or any non-spatial reading.
    - Use `references/life-and-omen-adapter.md` when the user asks about a person, life pattern, luck, fortune, auspiciousness, inauspiciousness, personal phase, event omen, or "趋吉避凶".
+   - Use `references/proactive-reading-protocol.md` when the user expects an active assessment of what is favorable now, what may be difficult, how it may manifest, what would confirm or refute it, and what to do next.
    - Use `references/five-phase-domain-map.md` when translating wuxing into careers, industries, finance, brand, product, relationships, negotiation, learning, or personal patterns.
    - Use `references/domain-adapters.md` when applying feng shui to finance, business, brand, career, product, learning, wellbeing, relationships, negotiation, or other non-spatial domains.
    - Use `references/finance-adapter.md` for investment, trading, portfolio, budgeting, wealth, cash flow, business finance, market timing, or crypto questions.
    - Use `references/business-adapter.md` for business strategy, operations, customer flow, revenue, partnerships, hiring, fundraising, and organizational decisions.
    - Use `references/brand-adapter.md` for brand strategy, naming, logo, colors, tone, launch identity, campaigns, and product positioning.
+   - Use `references/naming-adapter.md` for personal names, baby names, adult renaming, generation names, pen/stage names, brands, companies, shops, and product names. Load `brand-adapter.md` only for commercial naming and `life-and-omen-adapter.md` only when personal context is relevant.
    - Use `references/career-adapter.md` for career direction, promotion, interviews, leadership, negotiation, job search, and work environment support.
    - Use `references/relationship-adapter.md` for romantic, family, friendship, team, roommate, communication, shared-space, and conflict questions.
    - Use `references/product-adapter.md` for product strategy, onboarding, UX flow, activation, retention, roadmap, and product-market-fit questions.
@@ -72,9 +86,11 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
    - Use `references/sources.md` when extending historical, classical, or lineage-specific claims.
    - Use `references/classical-source-map.md` when labeling whether a claim is classical background, school-specific method, lineage-dependent, or modern symbolic extension.
    - Use `references/ethics-and-limits.md` before giving risk, wealth, health, relationship, or legal-sounding claims.
-4. Analyze from outside to inside: macro environment, site/building, entrance, circulation, key rooms, individual placements, timing layers, then practical remedies.
-5. Separate observations from interpretations. Prefer "this layout is traditionally read as..." over certainty.
-6. Give prioritized actions: low-cost fixes first, reversible changes before renovations, and safety/code/comfort before symbolic adjustments.
+4. Compose available context: record which user inputs, tools, adapters, dates, timezones, schools, and source conventions are used; exclude irrelevant context and surface conflicts instead of averaging them.
+5. Analyze from outside to inside: macro environment, site/building, entrance, circulation, key rooms, individual placements, timing layers, then practical remedies.
+6. Run a proactive scan across only the requested and materially adjacent domains. For each, report favorable signals, possible friction, ordinary manifestations, confirmation/refutation evidence, and one immediate low-risk action.
+7. Separate observations from interpretations. Prefer "this layout is traditionally read as..." over certainty.
+8. Give prioritized actions: next 72 hours, next 30 days, and next 90 days; include observable monitoring signals and a review point.
 
 ## Quick Reference
 
@@ -82,10 +98,14 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
 | --- | --- |
 | Broad symbolic feng shui, 观气, 取象, 辨势, 吉凶, 运势, 生平, 趋吉避凶, event omen, finance symbolism | `references/broad-symbolic-analysis.md` plus the relevant specialized adapter |
 | Person, life pattern, luck, fortune, omen, auspiciousness, inauspiciousness, 趋吉避凶, 吉凶, 运势, 生平 | `references/broad-symbolic-analysis.md` plus `references/life-and-omen-adapter.md`, `references/five-phase-domain-map.md`, and `references/ethics-and-limits.md` |
+| Current status, current luck, likely favorable areas, possible difficulties, validation questions, what to do now | `references/proactive-reading-protocol.md` plus the relevant native-domain adapter |
+| Personal reading with birth date, time, sex convention, location, and analysis date | Run `python fengshui-master/scripts/personal_context.py ...`; interpret only the labeled scaffolds and disclose full-chart limits |
 | Five phases for careers, industries, finance, brand, products, relationships, personal behavior | `references/five-phase-domain-map.md` |
 | Finance, investing, trading, budgeting, wealth, cash flow | `references/finance-adapter.md` plus `references/ethics-and-limits.md` |
 | Business strategy, operations, customer flow, revenue, partnerships | `references/business-adapter.md` plus `references/domain-adapters.md` |
-| Brand, naming, logo, colors, launch, campaign, product positioning | `references/brand-adapter.md` plus `references/five-phase-domain-map.md` |
+| Personal name, baby name, adult rename, generation name, pen/stage name | `references/naming-adapter.md`; use `scripts/personal_context.py` only when birth context is supplied |
+| Brand/company/shop/product name | `references/naming-adapter.md` plus `references/brand-adapter.md` and `references/five-phase-domain-map.md` |
+| Brand, logo, colors, launch, campaign, product positioning | `references/brand-adapter.md` plus `references/five-phase-domain-map.md` |
 | Career, promotion, job search, interview, negotiation, leadership | `references/career-adapter.md` plus `references/life-and-omen-adapter.md` if symbolic timing is requested |
 | Relationship, family, romance, friendship, roommate, communication, conflict | `references/relationship-adapter.md` plus `references/ethics-and-limits.md` |
 | Product strategy, onboarding, UX, activation, retention, roadmap | `references/product-adapter.md` plus `references/five-phase-domain-map.md` |
@@ -127,10 +147,11 @@ Structure substantial readings as:
 
 1. **Inputs and assumptions**: what was provided and what is inferred.
 2. **Method**: the schools or reference frames used.
-3. **Findings**: outside environment, entrance, circulation, major rooms, personal placements, timing if relevant.
-4. **Recommendations**: ranked actions with reason, difficulty, and trade-offs.
-5. **Missing data**: what would improve confidence.
-6. **Cultural note**: when a claim is symbolic, school-specific, or contested.
+3. **Current-state scan**: relevant favorable signals, possible friction, ordinary manifestations, and evidence that would confirm or refute each inference.
+4. **Findings**: outside environment, entrance, circulation, major rooms, personal placements, timing if relevant.
+5. **Recommendations**: ranked actions for the next 72 hours, 30 days, and 90 days with monitoring signals.
+6. **Missing data**: what would improve confidence.
+7. **Cultural note**: when a claim is symbolic, school-specific, or contested.
 
 ## Deterministic Tools
 
@@ -145,6 +166,14 @@ With structured floor-plan JSON:
 ```bash
 python fengshui-master/scripts/create_brief.py "Review this apartment layout" --floorplan fengshui-master/assets/sample-floorplan.json --pretty
 ```
+
+Use `scripts/personal_context.py` to assemble safe personal-reading context from the existing deterministic helpers:
+
+```bash
+python fengshui-master/scripts/personal_context.py --birth-date 1998-03-22 --birth-time 18:30 --sex male --birth-location "Tongxiang, Zhejiang, China" --timezone Asia/Shanghai --as-of 2026-07-18 --pretty
+```
+
+The output records supplied birth data, year-level ganzhi, optional ming gua, current san yuan period, annual directional cautions, approximate solar terms, and approximate moon phase. It deliberately omits month/day/hour pillars and all unsupported full-chart claims.
 
 Treat the brief as an intake contract, not the final answer.
 
@@ -275,6 +304,7 @@ Treat the result as an intake and form-analysis scaffold. Continue with visual e
 - Do not present the basic flying-star helper as a full replacement-star or lineage-specific xuan kong engine.
 - Do not treat cross-domain feng shui as a substitute for finance, medical, legal, engineering, tax, or other professional analysis.
 - Do not present broad life, luck, omen, or auspiciousness readings as deterministic fate, complete bazi, guaranteed wealth, illness, marriage, disaster, or market prediction.
+- Do not use cold reading: never state unverified conflicts, losses, illness, betrayal, hidden people, or other private events as observed facts.
 
 ## Source Posture
 

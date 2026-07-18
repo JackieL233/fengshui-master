@@ -78,6 +78,22 @@
       "red_lines": ["do not present modern adapters as classical doctrine", "do not guarantee outcomes from symbolic fit"]
     },
     {
+      "claim_type": "naming_element_mapping",
+      "support_level": "method_dependent",
+      "minimum_sources": ["lineage_practice", "modern_adaptation", "practical_constraint"],
+      "required_labels": ["mapping method named", "method-dependent symbolic association"],
+      "required_checks": ["state whether the mapping uses semantics radical pronunciation stroke system user intent or lineage table", "check meaning pronunciation form culture and legal usability separately", "show conflicts between naming systems", "require a trusted full chart before claiming element deficiency"],
+      "red_lines": ["do not claim one universal character-to-element mapping", "do not infer element deficiency from birth year zodiac ming gua moon phase or approximate solar term", "do not present stroke or five-grid numerology as objective science", "do not claim a name repairs destiny"]
+    },
+    {
+      "claim_type": "proactive_current_state_inference",
+      "support_level": "cautious",
+      "minimum_sources": ["practical_constraint", "modern_adaptation"],
+      "required_labels": ["inferred not observed", "provisional and testable"],
+      "required_checks": ["tie the inference to supplied or calculated context", "state how it may manifest conditionally", "state what would confirm or refute it", "give a low-risk action that remains useful if the inference is wrong", "update or withdraw the inference when user evidence contradicts it"],
+      "red_lines": ["do not state unverified hidden events as facts", "do not treat user agreement with one vague statement as proof of the whole reading", "do not use fear or high-base-rate cold-reading claims"]
+    },
+    {
       "claim_type": "high_stakes_domain_claim",
       "support_level": "high_stakes_symbolic_only",
       "minimum_sources": ["practical_constraint", "modern_adaptation"],
@@ -113,6 +129,7 @@
     "Do not present modern symbolic adapters as classical doctrine.",
     "Do not claim guaranteed wealth, health, marriage, pregnancy, career, legal, safety, or market outcomes.",
     "Do not silently mix incompatible feng shui schools or lineage formulas.",
+    "Do not state unverified hidden events or cold-reading hypotheses as observed facts.",
     "Do not invent bazi, zi wei, qimen, liuren, tong shu, almanac, or full natal-chart calculations.",
     "Do not let symbolic interpretation override safety, law, medicine, finance, engineering, accessibility, or user agency."
   ]

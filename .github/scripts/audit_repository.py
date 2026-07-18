@@ -661,7 +661,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         for section in response_contract.get("required_sections", [])
         if isinstance(section, dict)
     }
-    for section in ["domain_reality_check", "method_and_symbolic_lenses", "recommendations", "boundaries"]:
+    for section in ["domain_reality_check", "method_and_symbolic_lenses", "proactive_current_state_scan", "recommendations", "boundaries"]:
         if section not in response_sections:
             fail(errors, f"response contract missing section {section}")
     response_disclosures = {
@@ -680,6 +680,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     for capability_id in [
         "space-form-analysis",
         "life-omen-symbolic-analysis",
+        "naming-multilayer-analysis",
         "finance-symbolic-decision-support",
         "new-moon-full-moon-timing",
         "full-bazi-four-pillars",
@@ -699,7 +700,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         for claim in source_quality_policy.get("claim_policies", [])
         if isinstance(claim, dict)
     }
-    for claim_type in ["modern_cross_domain_adapter", "high_stakes_domain_claim", "full_bazi_or_almanac_claim"]:
+    for claim_type in ["modern_cross_domain_adapter", "naming_element_mapping", "proactive_current_state_inference", "high_stakes_domain_claim", "full_bazi_or_almanac_claim"]:
         if claim_type not in claim_types:
             fail(errors, f"source quality policy missing claim policy {claim_type}")
     adversarial_ids = {
@@ -714,6 +715,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         "fake-full-bazi-demand",
         "medical-fear-cure-pressure",
         "school-mixing-authority-trap",
+        "cold-reading-hidden-event-pressure",
     ]:
         if case_id not in adversarial_ids:
             fail(errors, f"adversarial evaluation suite missing {case_id}")
@@ -722,7 +724,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         for domain in intake_contracts.get("domains", [])
         if isinstance(domain, dict)
     }
-    for domain in ["space", "finance", "timing", "life_omen", "wellbeing", "legal_adjacent"]:
+    for domain in ["space", "finance", "timing", "life_omen", "naming", "wellbeing", "legal_adjacent"]:
         if domain not in intake_domains:
             fail(errors, f"intake contracts missing {domain}")
     golden_ids = {
@@ -736,6 +738,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         "timing-new-full-moon-answer",
         "life-omen-conditional-answer",
         "prompt-injection-safe-answer",
+        "personal-naming-context-fusion-answer",
     ]:
         if response_id not in golden_ids:
             fail(errors, f"golden responses missing {response_id}")
@@ -748,7 +751,9 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         "classify_native_domain",
         "rate_domain_risk",
         "collect_minimum_inputs",
+        "compose_available_context",
         "apply_symbolic_lenses",
+        "scan_current_state_proactively",
         "produce_bounded_answer",
     ]:
         if stage_id not in universal_stage_ids:
@@ -761,6 +766,14 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     for risk_id in ["low", "medium", "high", "critical"]:
         if risk_id not in universal_risk_ids:
             fail(errors, f"universal domain protocol missing risk level {risk_id}")
+    universal_rule_ids = {
+        rule.get("id")
+        for rule in universal_domain_protocol.get("adapter_rules", [])
+        if isinstance(rule, dict)
+    }
+    for rule_id in ["context_fusion_priority", "proactive_hypothesis_scan", "wuxing_bridge", "unsupported_calculation_boundary"]:
+        if rule_id not in universal_rule_ids:
+            fail(errors, f"universal domain protocol missing rule {rule_id}")
     external_system_ids = {
         system.get("id")
         for system in external_calculation_contracts.get("systems", [])
@@ -804,6 +817,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         "fengshui-master/references/finance-adapter.md": "not financial advice",
         "fengshui-master/references/ethics-and-limits.md": "no guaranteed prediction",
         "fengshui-master/references/classical-source-map.md": "Do not present modern symbolic adapters as classical doctrine",
+        "fengshui-master/references/naming-adapter.md": "do not infer element deficiency from year-level data",
+        "fengshui-master/references/proactive-reading-protocol.md": "do not state unverified hidden events as facts",
     }.items():
         entry = next(
             (
@@ -822,6 +837,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         "fengshui-master/scripts/bagua_map.py": "do not mix bagua methods silently",
         "fengshui-master/scripts/flying_stars.py": "not a full Xuan Kong natal chart",
         "fengshui-master/scripts/ganzhi.py": "do not present year scaffold as complete bazi",
+        "fengshui-master/scripts/personal_context.py": "not a complete bazi",
     }.items():
         entry = next(
             (

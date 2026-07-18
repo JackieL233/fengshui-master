@@ -20,6 +20,11 @@ All notable changes to FengShui Master are documented here.
 - Added Security Policy and Code of Conduct for high-stakes safety, prompt-injection, cultural respect, and collaboration boundaries.
 - Added cross-domain adapters for finance, business, brand, career, relationship, product, learning, wellbeing, legal-adjacent risk, and life/omen readings.
 - Added deterministic helpers for domain routing, consultation briefs, report scaffolds, floor-plan JSON analysis, luopan bearings, ming gua, ganzhi year scaffolds, annual directional cautions, san yuan periods, and flying-star scaffolds.
+- Added `personal_context.py` to combine supplied birth data with bounded year-ganzhi, ming-gua, san-yuan, annual-direction, solar-term, and moon-phase context without claiming a complete natal chart.
+- Added a dedicated naming domain and `naming-adapter.md` for personal, baby, adult-renaming, pen/stage, brand, company, shop, and product names, with native naming checks separated from method-dependent wuxing symbolism.
+- Added context-fusion priority rules so relevant personal, spatial, timing, business, deterministic, traditional, and symbolic layers are linked with provenance instead of silently mixed or reduced to a fake score.
+- Added `proactive-reading-protocol.md` and a machine-readable proactive scan contract so current-state readings identify favorable signals, conditional friction, validation evidence, immediate actions, and 72-hour / 30-day / 90-day horizons without cold-reading claims.
+- Improved life/omen consultation briefs so birth year, topic, and reading goal are not reported missing when the question already supplies them.
 - Added bilingual README files, GitHub repository metadata, CI, issue templates, pull request template, deployment checklist, sample reports, and repository audit tooling.
 
 ### Safety

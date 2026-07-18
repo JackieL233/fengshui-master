@@ -17,6 +17,7 @@ REQUIRED_IDS = {
     "space-form-analysis",
     "bagua-compass-sector",
     "life-omen-symbolic-analysis",
+    "naming-multilayer-analysis",
     "finance-symbolic-decision-support",
     "new-moon-full-moon-timing",
     "portable-agent-integration",
@@ -122,6 +123,7 @@ def main() -> int:
     expected_statuses = {
         "space-form-analysis": "fully_covered",
         "life-omen-symbolic-analysis": "fully_covered",
+        "naming-multilayer-analysis": "fully_covered",
         "finance-symbolic-decision-support": "partially_covered",
         "new-moon-full-moon-timing": "partially_covered",
         "full-bazi-four-pillars": "not_covered",
@@ -135,6 +137,16 @@ def main() -> int:
     for guardrail in ["not financial advice", "do not issue buy/sell commands"]:
         if guardrail not in finance.get("guardrails", []):
             fail(errors, f"finance-symbolic-decision-support missing guardrail {guardrail}")
+
+    life_omen = by_id.get("life-omen-symbolic-analysis", {})
+    if "fengshui-master/scripts/personal_context.py" not in life_omen.get("optional_tools", []):
+        fail(errors, "life-omen-symbolic-analysis missing personal_context.py tool")
+
+    naming = by_id.get("naming-multilayer-analysis", {})
+    if "fengshui-master/references/naming-adapter.md" not in naming.get("references", []):
+        fail(errors, "naming-multilayer-analysis missing naming adapter")
+    if "do not infer element deficiency from year-level data" not in naming.get("guardrails", []):
+        fail(errors, "naming-multilayer-analysis missing year-level element guardrail")
 
     moon = by_id.get("new-moon-full-moon-timing", {})
     if "fengshui-master/scripts/moon_phase.py" not in moon.get("optional_tools", []):

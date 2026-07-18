@@ -39,6 +39,7 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 - Foundational concepts: qi, yin-yang, five phases, bagua, stems/branches, 24 mountains.
 - Broad symbolic feng shui protocol: 观气, 取象, 辨势, conditional 吉凶, 化解, and 复核 for non-spatial readings.
 - Broad symbolic analysis: life-pattern reading, auspiciousness/inauspiciousness framing, personal phase balance, event and decision omens, and "趋吉避凶" planning.
+- Proactive reading protocol: assess current favorable signals, conditional friction, likely manifestations, confirmation/refutation evidence, and practical actions for the next 72 hours, 30 days, and 90 days without inventing hidden events.
 - Five-phase domain map: careers, industries, finance, brands, products, learning, relationships, negotiation, and personal behavior.
 - Form analysis: landform, roads, water, buildings, entrances, circulation, sha qi, light, air, clutter.
 - School selection: form school, compass school, san he, san yuan, xuan kong flying stars, eight mansions, symbolic bagua.
@@ -50,13 +51,14 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 - Cross-domain adapters: finance, business, brand, career, product, learning, wellbeing, relationships, and negotiation.
 - Finance adapter: symbolic feng shui lens for investing, portfolio, budget, cash flow, and market-timing questions with strong financial guardrails.
 - Business, brand, career, relationship, product, learning, wellbeing, and legal-adjacent adapters: specialized non-spatial workflows with native-domain constraints and feng shui symbolism kept separate.
+- Multilayer naming: personal, baby, adult-renaming, generation, pen/stage, brand, company, shop, and product names with meaning, sound, form, cultural, legal, digital, personal-context, and wuxing checks kept distinct.
 - Consultation brief protocol: select methods, route questions, identify references, list missing inputs, apply guardrails, and define report sections before substantial readings.
 - Reporting protocol: generate Markdown report scaffolds from briefs for reusable deliverables and examples.
 - Structured floor-plan input: JSON schema, sample plan, and analyzer for repeatable room/site intake.
 - Glossary and case patterns: Chinese terminology, response templates, comparison matrices.
 - Safety and ethics: high-stakes claims, cultural respect, modern building constraints.
 - Source and school mapping: classical anchors, Form School, San He, San Yuan, Xuan Kong, Eight Mansions, date selection, 24 solar terms, moon phase, and modern cross-domain extension boundaries.
-- Tooling: bagua sector mapping, compass bearing to 24-mountain conversion, ming gua lookup, Gregorian-year ganzhi scaffold, annual tai sui/sui po/san sha cautions, 24 solar terms / seasonal qi lookup, san yuan period lookup, basic flying-star scaffold.
+- Tooling: bounded personal-reading context packs, bagua sector mapping, compass bearing to 24-mountain conversion, ming gua lookup, Gregorian-year ganzhi scaffold, annual tai sui/sui po/san sha cautions, 24 solar terms / seasonal qi lookup, san yuan period lookup, basic flying-star scaffold.
 
 ## Coverage Matrix
 
@@ -66,6 +68,9 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 | Bagua sector / trigram / life-area mapping | Fully covered | Bagua helper maps direction, bearing, trigram, and life area; does not prove auspiciousness |
 | Broad symbolic protocol beyond space | Fully covered | 观气, 取象, 辨势, 吉凶, 生平, 金融, and decision-support protocol included |
 | Broad life / omen / auspiciousness analysis | Fully covered | Symbolic life-pattern and ji/xiong adapter included; not deterministic fate-telling |
+| Proactive current-state analysis | Fully covered | Evidence labels, relevant-domain scan, favorable/friction hypotheses, validation questions, action horizons, and monitoring signals included; no cold-reading claims |
+| Personal reading context pack | Fully covered | Combines supplied birth data with bounded year, ming-gua, period, annual-direction, solar-term, and moon-phase scaffolds; not complete bazi |
+| Personal and commercial naming | Fully covered | Context-fused meaning, sound, form, culture, registration/trademark, digital usability, and named wuxing method; no universal character-element or fate claim |
 | Ganzhi year scaffold | Fully covered | Heavenly stem, earthly branch, zodiac, phase, and yin-yang helper included; not complete bazi |
 | Five-phase cross-domain mapping | Fully covered | Careers, industries, finance, brand, product, relationship, learning, and negotiation mappings included |
 | Form school for homes, offices, shops, land, rooms | Fully covered | Practical outside-to-inside workflow included |
@@ -171,6 +176,7 @@ fengshui-master/
     finance-adapter.md
     business-adapter.md
     brand-adapter.md
+    naming-adapter.md
     career-adapter.md
     relationship-adapter.md
     product-adapter.md
@@ -178,6 +184,7 @@ fengshui-master/
     wellbeing-adapter.md
     legal-adjacent-adapter.md
     life-and-omen-adapter.md
+    proactive-reading-protocol.md
     five-phase-domain-map.md
     floorplan-schema.md
     ethics-and-limits.md
@@ -193,6 +200,7 @@ fengshui-master/
     moon_phase.py
     solar_terms.py
     create_brief.py
+    personal_context.py
     generate_report.py
     periods.py
     flying_stars.py
@@ -356,6 +364,7 @@ Then ask Codex to use `$fengshui-master`.
 - `Use FengShui Master to compare two retail storefronts for customer flow and entrance quality.`
 - `Use FengShui Master to analyze my career phase through five phases and 趋吉避凶 planning.`
 - `Use FengShui Master to review this investment decision through finance-first analysis and feng shui symbolism.`
+- `Use FengShui Master to compare personal or brand names through meaning, pronunciation, cultural fit, real-world constraints, personal/business context, and a clearly named five-phase method.`
 - `Use FengShui Master to explain the difference between san he, san yuan, xuan kong, and ba zhai.`
 
 In Codex, the same prompts can use `$fengshui-master`.
@@ -375,6 +384,14 @@ python fengshui-master/scripts/create_brief.py "Review this apartment layout" --
 ```
 
 The brief defines references, guardrails, missing inputs, and report sections. It is not the final reading.
+
+Build a bounded personal-reading context pack from supplied birth data and an analysis date:
+
+```bash
+python fengshui-master/scripts/personal_context.py --birth-date 1998-03-22 --birth-time 18:30 --sex male --birth-location "Tongxiang, Zhejiang, China" --timezone Asia/Shanghai --as-of 2026-07-18 --pretty
+```
+
+This combines the existing year-ganzhi, ming-gua, san-yuan, annual-direction, solar-term, and moon-phase helpers. It does not calculate complete four pillars or deterministic fate.
 
 Generate a Markdown report scaffold:
 

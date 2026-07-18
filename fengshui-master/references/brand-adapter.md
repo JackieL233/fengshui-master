@@ -6,6 +6,8 @@ Use this file when the user asks for feng shui or five-phase guidance on brand s
 
 Use feng shui and wuxing as symbolic design constraints, not as substitutes for audience research, accessibility, trademark review, usability, or brand strategy.
 
+For brand, company, shop, app, or product names, load `naming-adapter.md` first for meaning, sound, form, cultural, legal, digital, and method-conflict checks. Use this file for the broader identity, audience, color, channel, and positioning layers.
+
 ## Brand Intake
 
 Ask for:

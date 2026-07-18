@@ -4,10 +4,12 @@ Question: Review this apartment layout
 Domain: space
 
 ## References To Load
+- references/foundation.md
 - references/analysis-templates.md
 - references/forms-and-environment.md
 - references/remedies.md
 - references/ethics-and-limits.md
+- references/proactive-reading-protocol.md
 - references/floorplan-schema.md
 
 ## Guardrails
@@ -33,6 +35,9 @@ Domain: space
 ## Answer Contract
 - Separate real-world constraints from feng shui symbolism.
 - State method, assumptions, and missing inputs before conclusions.
+- Label facts, calculations, inferences, unknowns, and recommendations separately.
+- For each relevant domain, state favorable signals, possible friction, validation evidence, and the next low-risk action.
+- Proceed provisionally when optional data is missing; do not invent hidden events or deterministic outcomes.
 - Prioritize low-risk, reversible actions.
 - Do not present symbolic readings as guaranteed outcomes.
 
@@ -78,6 +83,38 @@ Draft this section from supplied evidence. Separate observation, traditional int
 Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
 
 ## Structured floor-plan findings
+
+Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+
+## Current-state scan
+
+Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+
+## Favorable conditions
+
+Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+
+## Possible friction and validation questions
+
+Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+
+## Cross-domain priorities
+
+Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+
+## Actions: next 72 hours
+
+Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+
+## Actions: next 30 days
+
+Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+
+## Actions: next 90 days
+
+Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+
+## Monitoring signals
 
 Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
 

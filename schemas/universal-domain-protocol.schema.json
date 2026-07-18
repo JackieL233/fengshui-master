@@ -13,12 +13,12 @@
     "purpose": { "type": "string" },
     "stages": {
       "type": "array",
-      "minItems": 5,
+      "minItems": 6,
       "items": { "$ref": "#/$defs/stage" }
     },
     "risk_levels": {
       "type": "array",
-      "minItems": 4,
+      "minItems": 6,
       "items": { "$ref": "#/$defs/riskLevel" }
     },
     "adapter_rules": {
@@ -28,7 +28,7 @@
     },
     "examples": {
       "type": "array",
-      "minItems": 5,
+      "minItems": 6,
       "items": { "$ref": "#/$defs/example" }
     }
   },

@@ -9,6 +9,7 @@ For machine-readable runtime setup, use `examples/runtime-integration-profiles.j
 - Load `PORTABLE_SKILL.md` before task-specific context.
 - Keep `fengshui-master/references/ethics-and-limits.md` available for every high-stakes question.
 - Select the method and route the user's request before answering. Use `fengshui-master/scripts/method_selector.py` and `fengshui-master/scripts/domain_router.py` when Python tools are available.
+- Compose only relevant context and preserve provenance. For naming, load `fengshui-master/references/naming-adapter.md`; add personal context for personal names and brand context for commercial names, but do not infer element deficiency from a year-level scaffold.
 - Use `examples/tool-catalog.json` when registering scripts as agent tools or function-call wrappers.
 - Retrieve only the relevant reference files for the domain. Avoid injecting the entire knowledge base when a narrow question only needs one adapter.
 - Use deterministic scripts for calculations that the host can run. If a tool is unavailable, state the missing calculation and avoid invented precision.
@@ -65,6 +66,7 @@ Use this setup for LangChain, LlamaIndex, AutoGen, CrewAI, semantic kernels, or 
    - `fengshui-master/scripts/domain_router.py`
    - `fengshui-master/scripts/method_selector.py`
    - `fengshui-master/scripts/create_brief.py`
+   - `fengshui-master/scripts/personal_context.py`
    - `fengshui-master/scripts/generate_report.py`
    - `fengshui-master/scripts/analyze_floorplan.py`
    - `fengshui-master/scripts/luopan.py`
@@ -119,6 +121,7 @@ Use the scripts for repeatable local workflows:
 python fengshui-master/scripts/domain_router.py "Should I buy this stock next month?" --pretty
 python fengshui-master/scripts/method_selector.py "Use Xuan Kong flying stars for this Period 9 renovation" --pretty
 python fengshui-master/scripts/create_brief.py "Should I buy this stock next month?" --pretty
+python fengshui-master/scripts/personal_context.py --birth-date 1998-03-22 --birth-time 18:30 --sex male --birth-location "Tongxiang, Zhejiang, China" --timezone Asia/Shanghai --as-of 2026-07-18 --pretty
 python fengshui-master/scripts/generate_report.py "Should I buy this stock next month?"
 python examples/validate_portable_manifest.py
 python examples/validate_portable_evaluation.py
@@ -155,6 +158,9 @@ An integration is ready when:
 - The assistant can identify the domain before answering.
 - The assistant retrieves or loads the correct adapter files.
 - The assistant keeps observations, symbolism, and practical recommendations separate.
+- The assistant proceeds with a provisional reading when safe, scans only relevant domains, and labels observed, calculated, inferred, unknown, and recommended content.
+- The assistant includes favorable signals, possible friction, confirmation/refutation evidence, 72-hour / 30-day / 90-day actions, and monitoring signals.
+- The assistant never states an unverified hidden event as fact or uses cold-reading agreement as proof.
 - The assistant uses high-stakes disclaimers in the correct domains.
 - The assistant refuses deterministic fortune, medical, legal, financial, engineering, architectural, or safety claims.
 - The assistant follows `examples/response-contract.json` for final-answer sections and red-line behavior.
@@ -164,4 +170,4 @@ An integration is ready when:
 
 ## 中文接入摘要
 
-通用接入时，把 `PORTABLE_SKILL.md` 作为顶层行为规范，把 `fengshui-master/references/` 作为知识库，把 `fengshui-master/scripts/` 作为可选工具。复杂问题先路由领域，再读取对应 adapter，最后生成 brief 或报告。金融、健康、法律、建筑、安全、生平吉凶等问题必须先处理现实约束，再使用风水象义，不做确定预测或专业替代建议。
+通用接入时，把 `PORTABLE_SKILL.md` 作为顶层行为规范，把 `fengshui-master/references/` 作为知识库，把 `fengshui-master/scripts/` 作为可选工具。复杂问题先路由领域，再读取对应 adapter 与 `proactive-reading-protocol.md`，最后生成 brief 或报告。关键安全信息足够后应先给临时研判，不停在追问清单；只扫描相关领域，区分事实、计算、推断、未知和建议，并给出有利面、潜在阻力、核验依据、72 小时/30 天/90 天行动与复盘信号。金融、健康、法律、建筑、安全、生平吉凶等问题必须先处理现实约束，不做确定预测、冷读断言或专业替代建议。

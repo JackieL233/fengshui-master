@@ -19,6 +19,7 @@ REQUIRED_DOMAINS = {
     "life_omen",
     "business",
     "brand",
+    "naming",
     "product",
     "relationship",
     "learning",
@@ -117,6 +118,12 @@ def main() -> int:
         fail(errors, "finance missing financial advice boundary")
     if "do not issue buy/sell commands" not in finance.get("red_lines", []):
         fail(errors, "finance missing buy/sell red line")
+
+    naming = by_domain.get("naming", {})
+    if "name type and purpose" not in naming.get("required_inputs", []):
+        fail(errors, "naming missing name type and purpose required input")
+    if "do not infer missing elements from year-level data" not in naming.get("red_lines", []):
+        fail(errors, "naming missing year-level element red line")
 
     space = by_domain.get("space", {})
     if "floor plan or photos" not in space.get("required_inputs", []):

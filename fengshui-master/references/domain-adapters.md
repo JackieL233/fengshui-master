@@ -47,6 +47,7 @@ For deeper common domains, load the specialized adapter:
 | Finance | `finance-adapter.md` |
 | Business | `business-adapter.md` |
 | Brand | `brand-adapter.md` |
+| Naming | `naming-adapter.md` plus `brand-adapter.md` for commercial names or `life-and-omen-adapter.md` for personal context |
 | Career | `career-adapter.md` |
 | Relationships | `relationship-adapter.md` |
 | Product | `product-adapter.md` |

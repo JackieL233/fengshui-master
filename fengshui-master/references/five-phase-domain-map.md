@@ -10,6 +10,7 @@ Use this file when translating wuxing (wood, fire, earth, metal, water) into non
 - Industry and Career Map
 - Finance Map
 - Brand and Product Map
+- Naming Map
 - Personal Pattern Map
 - Balancing Moves
 
@@ -78,6 +79,20 @@ Use with `finance-adapter.md`.
 | Premium and precision | Metal | Avoid coldness or inaccessibility |
 | Exploration and networks | Water | Avoid vague positioning |
 | Growth and learning | Wood | Avoid promising more than can be delivered |
+
+## Naming Map
+
+Use with `naming-adapter.md`. Treat these as impression-level symbolic associations, not universal character classifications.
+
+| Naming goal | Possible phase posture | Native checks that still take priority |
+| --- | --- | --- |
+| Growth, vitality, learning | Wood | meaning, surname flow, age and cultural fit |
+| Visibility, warmth, charisma | Fire | pronunciation, overstatement, unwanted homophones |
+| Trust, stability, continuity | Earth | heaviness, memorability, writing complexity |
+| Precision, clarity, premium restraint | Metal | coldness, accessibility, category expectations |
+| Depth, adaptability, intelligence | Water | ambiguity, weak anchoring, searchability |
+
+Always state whether an elemental label comes from semantics, radical, sound, stroke system, user intent, or a named lineage. Do not combine conflicting mappings into a fake element score.
 
 ## Personal Pattern Map
 

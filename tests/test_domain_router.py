@@ -36,6 +36,21 @@ class DomainRouterTest(unittest.TestCase):
         self.assertIn("references/domain-adapters.md", data["references"])
         self.assertIn("references/brand-adapter.md", data["references"])
 
+    def test_personal_naming_routes_to_naming_adapter(self):
+        data = run_router(
+            "Help me choose a personal name using five phases, meaning, pronunciation, and birth context"
+        )
+
+        self.assertEqual(data["domain"], "naming")
+        self.assertIn("references/naming-adapter.md", data["references"])
+        self.assertIn("Do not infer a missing element from year-level data", " ".join(data["guardrails"]))
+
+    def test_chinese_personal_name_routes_to_naming(self):
+        data = run_router("结合五行、出生信息、字义和读音帮宝宝取名")
+
+        self.assertEqual(data["domain"], "naming")
+        self.assertIn("references/naming-adapter.md", data["references"])
+
     def test_business_routes_to_business_adapter(self):
         data = run_router("Use feng shui to review my business strategy and customer flow")
 
@@ -58,6 +73,16 @@ class DomainRouterTest(unittest.TestCase):
         data = run_router("Use feng shui to improve this product onboarding flow")
 
         self.assertEqual(data["domain"], "product")
+        self.assertIn("references/product-adapter.md", data["references"])
+
+    def test_mixed_naming_and_product_request_fuses_both_adapters(self):
+        data = run_router(
+            "Compare these app names and onboarding flows for meaning, pronunciation, and conversion"
+        )
+
+        self.assertIn("naming", data["domains"])
+        self.assertIn("product", data["domains"])
+        self.assertIn("references/naming-adapter.md", data["references"])
         self.assertIn("references/product-adapter.md", data["references"])
 
     def test_learning_routes_to_learning_adapter(self):

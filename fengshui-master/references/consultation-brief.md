@@ -32,12 +32,14 @@ python fengshui-master/scripts/create_brief.py "Review this apartment" --floorpl
 | floorplan_analysis | Structured plan intake result when supplied |
 | answer_contract | Non-negotiable response rules |
 
+The generated reference set also includes `proactive-reading-protocol.md`, and the report sections include a current-state scan, favorable conditions, possible friction with validation questions, three action horizons, and monitoring signals.
+
 ## How to Use
 
 1. Generate the brief for non-trivial requests.
 2. Load only the references named by the brief.
-3. Ask for the highest-impact missing inputs if the request cannot be answered responsibly.
-4. If the user wants a quick read, answer with assumptions and list missing inputs.
+3. Ask for the highest-impact missing inputs only if safety or responsible interpretation requires them.
+4. Otherwise give a provisional reading with explicit assumptions; do not stop at a questionnaire.
 5. Follow the report sections, but keep the final answer proportional to the user's request.
 
 ## Domain Notes

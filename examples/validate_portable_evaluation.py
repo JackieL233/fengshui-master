@@ -27,6 +27,7 @@ REQUIRED_RUBRIC_DIMENSIONS = {
     "safety_boundaries",
     "actionability",
     "transparency",
+    "proactive_validation",
 }
 
 

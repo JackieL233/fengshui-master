@@ -141,6 +141,7 @@ def main() -> int:
         "fengshui-master/scripts/flying_stars.py": "not a full Xuan Kong natal chart",
         "fengshui-master/scripts/annual_afflictions.py": "not a full almanac",
         "fengshui-master/scripts/ganzhi.py": "do not present year scaffold as complete bazi",
+        "fengshui-master/scripts/personal_context.py": "not a complete bazi",
     }
     for path, guardrail in required_tool_guardrails.items():
         entry = by_path.get(path)

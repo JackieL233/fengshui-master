@@ -22,10 +22,22 @@
       "output": "A brief intake checklist or a caveated answer if enough context exists."
     },
     {
+      "id": "compose_available_context",
+      "goal": "Link all relevant available evidence, deterministic outputs, adapters, and symbolic layers without mixing their authority.",
+      "required_actions": ["load only references and tools relevant to the routed domains", "record the source method date timezone and limitation of each calculated input", "reuse supplied personal spatial timing business or candidate context", "identify conflicts and missing inputs before interpretation", "rank safety and native evidence above symbolic preference"],
+      "output": "A provenance-aware context map showing used inputs, unused inputs, conflicts, missing data, and authority order."
+    },
+    {
       "id": "apply_symbolic_lenses",
       "goal": "Use feng shui as a named symbolic layer, not as the native authority.",
       "required_actions": ["label the method or lens", "map qi flow, yin-yang, wuxing, bagua, form, timing, or ji/xiong only when relevant", "separate observation from interpretation", "avoid presenting modern adapters as classical doctrine"],
       "output": "A transparent symbolic reading tied to the user's domain evidence."
+    },
+    {
+      "id": "scan_current_state_proactively",
+      "goal": "Turn available evidence and named symbolic methods into a useful, testable current-state assessment instead of stopping at framework explanation.",
+      "required_actions": ["scan only the requested and materially adjacent domains", "label findings as observed calculated inferred unknown or recommended", "state favorable signals and possible friction", "explain how inferred friction may manifest without asserting hidden events", "state what would confirm or refute each material inference", "give an immediate low-risk action"],
+      "output": "A relevant-domain scan with evidence status, favorable and friction hypotheses, validation conditions, and immediate actions."
     },
     {
       "id": "produce_bounded_answer",
@@ -84,6 +96,18 @@
       "red_lines": ["do not make deterministic personality, market, medical, or legal claims from a five-phase mapping alone"]
     },
     {
+      "id": "context_fusion_priority",
+      "rule": "Combine every relevant available layer while preserving provenance and authority: safety and native-domain evidence first, verified deterministic context second, named traditional methods third, modern symbolic mappings fourth, and aesthetic preference last.",
+      "required_checks": ["list which inputs and tools were used", "label each method and source", "surface conflicts instead of averaging them", "exclude irrelevant context", "state what missing evidence could change the result"],
+      "red_lines": ["do not treat all inputs as equally authoritative", "do not silently mix schools or naming systems", "do not create a fake precision score from incompatible layers"]
+    },
+    {
+      "id": "proactive_hypothesis_scan",
+      "rule": "After essential safety-critical inputs are available, proceed with a provisional reading that identifies favorable signals, conditional friction, validation evidence, and prioritized action horizons.",
+      "required_checks": ["distinguish observed calculated inferred unknown and recommended statements", "scan only relevant domains", "state what would confirm or refute inferred difficulties", "include next 72 hours next 30 days and next 90 days", "define observable monitoring signals"],
+      "red_lines": ["do not stop at a questionnaire when a safe provisional reading is possible", "do not state unverified hidden events as facts", "do not use cold-reading agreement as proof"]
+    },
+    {
       "id": "moon_phase_rhythm",
       "rule": "Use new moon, waxing, full moon, and waning moon as a secondary rhythm layer for seeding, growth, visibility, review, release, pruning, and conservation across domains.",
       "required_checks": ["match moon phase to event type", "name practical constraints first", "state that moon phase is secondary"],
@@ -128,6 +152,14 @@
       "native_evidence_first": ["financial goal", "risk tolerance", "time horizon", "liquidity needs", "downside condition"],
       "symbolic_lenses": ["Water liquidity", "Wood growth", "Fire market heat", "Earth reserves", "Metal risk discipline", "moon phase rhythm as secondary timing layer"],
       "safe_output_shape": ["include not financial advice", "do not issue buy or sell commands", "use symbolism only after real risk analysis"]
+    },
+    {
+      "domain": "naming",
+      "question_type": "personal name, baby name, adult rename, pen or stage name, brand, company, shop, or product naming",
+      "risk_level": "medium",
+      "native_evidence_first": ["name type and purpose", "surname or fixed characters", "meaning and pronunciation", "language dialect and cultural fit", "registration trademark domain or platform constraints"],
+      "symbolic_lenses": ["five-phase impression with named mapping method", "yin-yang tone and visibility", "personal_context.py only when birth data is supplied", "timing only as a secondary layer"],
+      "safe_output_shape": ["separate native naming quality from symbolism", "show context provenance and method conflicts", "do not infer a missing element from year-level data", "do not claim a name guarantees fate or business success"]
     },
     {
       "domain": "unknown",

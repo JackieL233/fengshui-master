@@ -60,6 +60,17 @@ class MethodSelectorTest(unittest.TestCase):
         self.assertEqual(primary["method"], "broad_symbolic")
         self.assertIn("native-domain reality comes first", primary["guardrails"])
 
+    def test_naming_analysis_links_personal_context_and_native_constraints(self):
+        data = run_selector(
+            "Choose a personal name using meaning pronunciation birth context and five phases"
+        )
+
+        primary = data["primary_method"]
+        self.assertEqual(primary["method"], "naming_analysis")
+        self.assertIn("references/naming-adapter.md", primary["references"])
+        self.assertIn("fengshui-master/scripts/personal_context.py", primary["tools"])
+        self.assertIn("do not infer element deficiency from year-level data", primary["guardrails"])
+
     def test_compass_bagua_for_wealth_corner(self):
         data = run_selector("Review the southeast bagua wealth corner")
 

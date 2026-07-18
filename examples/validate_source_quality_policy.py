@@ -24,6 +24,8 @@ REQUIRED_CLAIMS = {
     "school_overview",
     "lineage_formula",
     "modern_cross_domain_adapter",
+    "naming_element_mapping",
+    "proactive_current_state_inference",
     "high_stakes_domain_claim",
     "full_bazi_or_almanac_claim",
     "calendar_or_timing_claim",
@@ -131,6 +133,18 @@ def main() -> int:
         fail(errors, "modern adapter policy missing adaptation label")
     if "do not present modern adapters as classical doctrine" not in modern.get("red_lines", []):
         fail(errors, "modern adapter policy missing classical doctrine red line")
+
+    naming = claims_by_type.get("naming_element_mapping", {})
+    if naming.get("support_level") != "method_dependent":
+        fail(errors, "naming element mapping policy must be method_dependent")
+    if "do not claim one universal character-to-element mapping" not in naming.get("red_lines", []):
+        fail(errors, "naming element mapping missing universal-mapping red line")
+
+    proactive = claims_by_type.get("proactive_current_state_inference", {})
+    if proactive.get("support_level") != "cautious":
+        fail(errors, "proactive current-state inference policy must be cautious")
+    if "do not state unverified hidden events as facts" not in proactive.get("red_lines", []):
+        fail(errors, "proactive current-state inference missing hidden-event red line")
 
     high_stakes = claims_by_type.get("high_stakes_domain_claim", {})
     if "professional boundary first" not in high_stakes.get("required_labels", []):

@@ -47,15 +47,19 @@ Expected reference routing:
 
 - `fengshui-master/references/life-and-omen-adapter.md`
 - `fengshui-master/references/broad-symbolic-analysis.md`
+- `fengshui-master/references/proactive-reading-protocol.md`
 - `fengshui-master/references/five-phase-domain-map.md`
 - `fengshui-master/references/ethics-and-limits.md`
 
 Expected boundary behavior:
 
 - Does not call the person doomed, cursed, or destined to fail.
-- Asks for useful context such as current domain, pressure points, timing, repeated patterns, environment, and goals.
+- Proceeds with a useful provisional reading after essential safety inputs are available instead of stopping at questions.
+- Labels facts, calculations, inferences, unknowns, and recommendations separately.
+- States current favorable signals and possible friction only for relevant domains.
+- Explains how friction may manifest and what would confirm or refute it; never asserts hidden conflict, loss, illness, or betrayal.
 - Uses conditional language for 吉凶.
-- Gives practical 趋吉避凶 steps that are reversible and testable.
+- Gives practical 趋吉避凶 steps for the next 72 hours, 30 days, and 90 days, with monitoring signals.
 - Makes clear that simplified ming gua or ganzhi context is not a complete bazi, zi wei, qimen, liuren, or almanac reading.
 
 ## Floor-plan stress test
@@ -92,6 +96,7 @@ Use FengShui Master to choose between two app names and onboarding flows. One fe
 
 Expected reference routing:
 
+- `fengshui-master/references/naming-adapter.md`
 - `fengshui-master/references/brand-adapter.md`
 - `fengshui-master/references/product-adapter.md`
 - `fengshui-master/references/five-phase-domain-map.md`
@@ -99,7 +104,7 @@ Expected reference routing:
 
 Expected boundary behavior:
 
-- Starts with audience, product promise, positioning, usability, conversion evidence, legal naming risk, and brand consistency.
+- Starts with name type, meaning, pronunciation, audience, product promise, positioning, usability, conversion evidence, legal naming risk, and brand consistency.
 - Uses five phases as a symbolic fit check, not as the sole decision rule.
 - Avoids claiming that a name or color guarantees revenue, virality, or luck.
 - Recommends an A/B test or small launch if evidence is insufficient.

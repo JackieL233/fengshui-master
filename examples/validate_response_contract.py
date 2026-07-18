@@ -17,6 +17,7 @@ REQUIRED_SECTIONS = {
     "domain_reality_check",
     "method_and_symbolic_lenses",
     "observations_and_interpretations",
+    "proactive_current_state_scan",
     "conditional_ji_xiong_assessment",
     "recommendations",
     "confidence_and_missing_data",
@@ -35,6 +36,10 @@ REQUIRED_RULE_TERMS = {
     "moon phase",
     "reversible",
     "final authority",
+    "provenance",
+    "provisional reading",
+    "confirm or refute",
+    "next 72 hours",
 }
 
 
@@ -112,13 +117,13 @@ def main() -> int:
     if not isinstance(red_lines, list) or len(red_lines) < len(rubric_red_lines):
         fail(errors, "contract red_lines must cover at least the rubric red line count")
     red_line_text = " ".join(red_lines).lower() if isinstance(red_lines, list) else ""
-    for term in ["guaranteed", "buy/sell", "doomed", "safety", "complete bazi"]:
+    for term in ["guaranteed", "buy/sell", "doomed", "safety", "complete bazi", "element deficiency"]:
         if term not in red_line_text:
             fail(errors, f"red_lines missing {term}")
 
     output_modes = contract.get("output_modes", [])
     mode_names = {mode.get("name") for mode in output_modes if isinstance(mode, dict)}
-    for mode in ["brief_answer", "full_report"]:
+    for mode in ["brief_answer", "full_report", "proactive_reading"]:
         if mode not in mode_names:
             fail(errors, f"output_modes missing {mode}")
 

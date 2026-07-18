@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -41,6 +42,15 @@ DOMAIN_MISSING_INPUTS = {
         "current life stage",
         "goal for the reading",
         "hard real-world constraints",
+    ],
+    "naming": [
+        "name type: personal, baby, adult rename, pen/stage, brand, company, or product",
+        "surname, fixed characters, generation character, or required words",
+        "candidate names or permission to generate naming directions",
+        "language, pronunciation, dialect, transliteration, and target region",
+        "desired meaning, impression, identity, and avoided associations",
+        "registration, trademark, domain, accessibility, or platform constraints",
+        "requested wuxing, stroke, bazi, phonetic, or lineage method",
     ],
     "space": [
         "floor plan or photos",
@@ -137,6 +147,15 @@ DOMAIN_SECTIONS = {
         "Actions for seeking favorable conditions",
         "Limits and missing data",
     ],
+    "naming": [
+        "Inputs and naming type",
+        "Native naming constraints",
+        "Meaning, sound, form, and cultural review",
+        "Available personal or business context",
+        "Five-phase symbolic fit",
+        "Candidate comparison and conflicts",
+        "Verification and boundaries",
+    ],
     "space": [
         "Inputs and assumptions",
         "Method",
@@ -230,12 +249,72 @@ DOMAIN_SECTIONS = {
 }
 
 
+PROACTIVE_REPORT_SECTIONS = [
+    "Current-state scan",
+    "Favorable conditions",
+    "Possible friction and validation questions",
+    "Cross-domain priorities",
+    "Actions: next 72 hours",
+    "Actions: next 30 days",
+    "Actions: next 90 days",
+    "Monitoring signals",
+]
+
+
 def merge_unique(left: list[str], right: list[str]) -> list[str]:
     result: list[str] = []
     for value in [*left, *right]:
         if value not in result:
             result.append(value)
     return result
+
+
+def remove_provided_life_inputs(question: str, missing_inputs: list[str]) -> list[str]:
+    lowered = question.lower()
+    provided: set[str] = set()
+    if re.search(r"(?<!\d)(?:19|20)\d{2}(?!\d)", question):
+        provided.add("birth year or relevant year")
+    if any(
+        term in lowered
+        for term in [
+            "life",
+            "luck",
+            "fortune",
+            "career",
+            "wealth",
+            "relationship",
+            "health",
+            "运势",
+            "生平",
+            "事业",
+            "职业",
+            "财运",
+            "投资",
+            "基金",
+            "感情",
+            "婚姻",
+            "健康",
+        ]
+    ):
+        provided.add("topic area")
+    if any(
+        term in lowered
+        for term in [
+            "want",
+            "help me",
+            "analyze",
+            "analysis",
+            "should i",
+            "想看",
+            "帮我",
+            "分析",
+            "看看",
+            "如何",
+            "怎么样",
+        ]
+    ):
+        provided.add("goal for the reading")
+    return [value for value in missing_inputs if value not in provided]
 
 
 def create_brief(question: str, floorplan_path: str | None = None) -> dict[str, Any]:
@@ -245,12 +324,24 @@ def create_brief(question: str, floorplan_path: str | None = None) -> dict[str, 
     guardrails = list(route["guardrails"])
     report_sections = list(DOMAIN_SECTIONS.get(domain, DOMAIN_SECTIONS["general"]))
     missing_inputs = list(DOMAIN_MISSING_INPUTS.get(domain, DOMAIN_MISSING_INPUTS["general"]))
+    if domain == "life_omen":
+        missing_inputs = remove_provided_life_inputs(question, missing_inputs)
     if (
         "references/broad-symbolic-analysis.md" in references
         and "Symbolic analysis protocol" not in report_sections
     ):
         insert_at = 3 if len(report_sections) >= 3 else len(report_sections)
         report_sections.insert(insert_at, "Symbolic analysis protocol")
+
+    references = merge_unique(references, ["references/proactive-reading-protocol.md"])
+    proactive_insert_at = (
+        report_sections.index("Symbolic analysis protocol") + 1
+        if "Symbolic analysis protocol" in report_sections
+        else min(3, len(report_sections))
+    )
+    for section in reversed(PROACTIVE_REPORT_SECTIONS):
+        if section not in report_sections:
+            report_sections.insert(proactive_insert_at, section)
 
     floorplan_analysis = None
     if floorplan_path:
@@ -272,6 +363,8 @@ def create_brief(question: str, floorplan_path: str | None = None) -> dict[str, 
     return {
         "question": question,
         "domain": domain,
+        "domains": route.get("domains", [domain]),
+        "domain_scores": route.get("domain_scores", {domain: 1}),
         "references": references,
         "guardrails": guardrails,
         "lenses": route["lens"],
@@ -281,6 +374,9 @@ def create_brief(question: str, floorplan_path: str | None = None) -> dict[str, 
         "answer_contract": [
             "Separate real-world constraints from feng shui symbolism.",
             "State method, assumptions, and missing inputs before conclusions.",
+            "Label facts, calculations, inferences, unknowns, and recommendations separately.",
+            "For each relevant domain, state favorable signals, possible friction, validation evidence, and the next low-risk action.",
+            "Proceed provisionally when optional data is missing; do not invent hidden events or deterministic outcomes.",
             "Prioritize low-risk, reversible actions.",
             "Do not present symbolic readings as guaranteed outcomes.",
         ],

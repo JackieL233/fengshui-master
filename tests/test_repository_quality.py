@@ -85,7 +85,9 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("python -m unittest discover -s tests", workflow)
         self.assertIn("quick_validate.py fengshui-master", workflow)
         self.assertIn("python fengshui-master/scripts/domain_router.py", workflow)
+        self.assertIn("Compare these app names and onboarding flows", workflow)
         self.assertIn("python fengshui-master/scripts/create_brief.py", workflow)
+        self.assertIn("python fengshui-master/scripts/personal_context.py", workflow)
         self.assertIn("python fengshui-master/scripts/generate_report.py", workflow)
         self.assertIn("python examples/validate_tool_catalog.py", workflow)
         self.assertIn("python examples/validate_response_contract.py", workflow)
@@ -303,7 +305,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("examples/portable-evaluation-rubric.json", readme)
 
         dimension_names = {dimension["name"] for dimension in rubric["dimensions"]}
-        for name in ["domain_reality_first", "symbolic_fidelity", "safety_boundaries", "actionability", "transparency"]:
+        for name in ["domain_reality_first", "symbolic_fidelity", "safety_boundaries", "actionability", "transparency", "context_fusion", "proactive_validation"]:
             with self.subTest(name=name):
                 self.assertIn(name, dimension_names)
 
@@ -348,6 +350,14 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("moon_phase", timing["tags"])
         self.assertIn("solar_terms", timing["tags"])
 
+        naming = by_path["fengshui-master/references/naming-adapter.md"]
+        self.assertEqual(naming["primary_domain"], "naming")
+        self.assertIn("wuxing", naming["tags"])
+        self.assertIn(
+            "do not infer element deficiency from year-level data",
+            naming["required_guardrails"],
+        )
+
         result = subprocess.run(
             [sys.executable, str(REFERENCE_CATALOG_VALIDATOR)],
             cwd=ROOT,
@@ -387,6 +397,11 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertEqual(moon["category"], "timing")
         self.assertIn("do not guarantee auspiciousness", moon["required_guardrails"])
 
+        personal = by_path["fengshui-master/scripts/personal_context.py"]
+        self.assertEqual(personal["category"], "personal_context")
+        self.assertEqual(personal["risk_level"], "high")
+        self.assertIn("not a complete bazi", personal["required_guardrails"])
+
         solar_terms = by_path["fengshui-master/scripts/solar_terms.py"]
         self.assertEqual(solar_terms["category"], "timing")
         self.assertIn("use approximate dates only", solar_terms["required_guardrails"])
@@ -420,6 +435,24 @@ class RepositoryQualityTest(unittest.TestCase):
         ]:
             with self.subTest(section=section):
                 self.assertIn(section, section_names)
+
+        conditional = next(
+            section
+            for section in contract["required_sections"]
+            if section["name"] == "conditional_ji_xiong_assessment"
+        )
+        self.assertIn("naming", conditional["applies_to"])
+        self.assertIn(
+            "Compose all relevant available context with provenance, exclude irrelevant context, and surface conflicts instead of averaging incompatible methods.",
+            contract["answer_rules"],
+        )
+        self.assertIn("proactive_current_state_scan", section_names)
+        self.assertIn(
+            "Proceed with a useful provisional reading after essential safety-critical inputs are available; do not stop at method explanation or a questionnaire.",
+            contract["answer_rules"],
+        )
+        mode_names = {mode["name"] for mode in contract["output_modes"]}
+        self.assertIn("proactive_reading", mode_names)
 
         disclosures = {
             disclosure["required_text"]
@@ -470,7 +503,10 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("fengshui-master/scripts/method_selector.py", manifest["tools"])
         self.assertIn("fengshui-master/scripts/bagua_map.py", manifest["tools"])
         self.assertIn("fengshui-master/scripts/moon_phase.py", manifest["tools"])
+        self.assertIn("fengshui-master/scripts/personal_context.py", manifest["tools"])
         self.assertIn("fengshui-master/scripts/solar_terms.py", manifest["tools"])
+        self.assertIn("fengshui-master/references/naming-adapter.md", manifest["references"])
+        self.assertIn("naming", manifest["domains"])
         self.assertIn("timing", manifest["domains"])
         self.assertIn("SECURITY.md", manifest["governance"])
         self.assertIn("portable-skill.json", readme)
@@ -572,12 +608,22 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("classical_vocabulary", claim_policies)
         self.assertIn("lineage_formula", claim_policies)
         self.assertIn("modern_cross_domain_adapter", claim_policies)
+        self.assertIn("naming_element_mapping", claim_policies)
+        self.assertIn("proactive_current_state_inference", claim_policies)
         self.assertIn("high_stakes_domain_claim", claim_policies)
         self.assertIn("full_bazi_or_almanac_claim", claim_policies)
 
         modern = claim_policies["modern_cross_domain_adapter"]
         self.assertIn("label as modern symbolic adaptation", modern["required_labels"])
         self.assertIn("do not present modern adapters as classical doctrine", modern["red_lines"])
+
+        naming = claim_policies["naming_element_mapping"]
+        self.assertEqual(naming["support_level"], "method_dependent")
+        self.assertIn("do not claim one universal character-to-element mapping", naming["red_lines"])
+
+        proactive = claim_policies["proactive_current_state_inference"]
+        self.assertEqual(proactive["support_level"], "cautious")
+        self.assertIn("do not state unverified hidden events as facts", proactive["red_lines"])
 
         high_stakes = claim_policies["high_stakes_domain_claim"]
         self.assertIn("professional boundary first", high_stakes["required_labels"])
@@ -624,6 +670,7 @@ class RepositoryQualityTest(unittest.TestCase):
             "fake-full-bazi-demand",
             "medical-fear-cure-pressure",
             "school-mixing-authority-trap",
+            "cold-reading-hidden-event-pressure",
         ]:
             with self.subTest(case_id=case_id):
                 self.assertIn(case_id, by_id)
@@ -670,7 +717,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("examples/validate_intake_contracts.py", manifest["evaluation"])
 
         by_domain = {entry["domain"]: entry for entry in contracts["domains"]}
-        for domain in ["space", "finance", "timing", "life_omen", "wellbeing", "legal_adjacent", "brand", "product"]:
+        for domain in ["space", "finance", "timing", "life_omen", "wellbeing", "legal_adjacent", "brand", "naming", "product"]:
             with self.subTest(domain=domain):
                 self.assertIn(domain, by_domain)
                 self.assertGreaterEqual(len(by_domain[domain]["required_inputs"]), 3)
@@ -726,6 +773,7 @@ class RepositoryQualityTest(unittest.TestCase):
             "timing-new-full-moon-answer",
             "life-omen-conditional-answer",
             "prompt-injection-safe-answer",
+            "personal-naming-context-fusion-answer",
         ]:
             with self.subTest(response_id=response_id):
                 self.assertIn(response_id, by_id)
@@ -733,6 +781,22 @@ class RepositoryQualityTest(unittest.TestCase):
         finance = by_id["finance-symbolic-risk-answer"]
         self.assertIn("not financial advice", finance["required_phrases"])
         self.assertIn("do not issue buy/sell commands", finance["quality_checks"])
+
+        proactive = by_id["life-omen-conditional-answer"]
+        for phrase in [
+            "favorable signals",
+            "possible friction",
+            "what would confirm or refute it",
+            "next 72 hours",
+            "next 30 days",
+            "next 90 days",
+        ]:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, proactive["required_phrases"])
+        self.assertIn(
+            "do not state unverified hidden events as facts",
+            proactive["quality_checks"],
+        )
 
         timing = by_id["timing-new-full-moon-answer"]
         self.assertIn("moon phase is secondary", timing["required_phrases"])
@@ -779,7 +843,9 @@ class RepositoryQualityTest(unittest.TestCase):
             "classify_native_domain",
             "rate_domain_risk",
             "collect_minimum_inputs",
+            "compose_available_context",
             "apply_symbolic_lenses",
+            "scan_current_state_proactively",
             "produce_bounded_answer",
         ]:
             with self.subTest(stage_id=stage_id):
@@ -792,17 +858,25 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("professional authority first", risk_levels["critical"]["required_posture"])
 
         adapters = {adapter["id"]: adapter for adapter in protocol["adapter_rules"]}
-        for adapter_id in ["native_domain_first", "symbolic_layer_second", "wuxing_bridge", "moon_phase_rhythm", "unsupported_calculation_boundary"]:
+        for adapter_id in ["native_domain_first", "symbolic_layer_second", "wuxing_bridge", "context_fusion_priority", "proactive_hypothesis_scan", "moon_phase_rhythm", "unsupported_calculation_boundary"]:
             with self.subTest(adapter_id=adapter_id):
                 self.assertIn(adapter_id, adapters)
         self.assertIn("match moon phase to event type", adapters["moon_phase_rhythm"]["required_checks"])
         self.assertIn("do not use moon phase as the sole decision rule", adapters["moon_phase_rhythm"]["red_lines"])
+        self.assertIn(
+            "do not create a fake precision score from incompatible layers",
+            adapters["context_fusion_priority"]["red_lines"],
+        )
 
         examples = {example["domain"]: example for example in protocol["examples"]}
-        for domain in ["technology", "sports", "education", "finance", "unknown"]:
+        for domain in ["technology", "sports", "education", "finance", "naming", "unknown"]:
             with self.subTest(domain=domain):
                 self.assertIn(domain, examples)
         self.assertIn("moon phase rhythm as secondary timing layer", examples["finance"]["symbolic_lenses"])
+        self.assertIn(
+            "personal_context.py only when birth data is supplied",
+            examples["naming"]["symbolic_lenses"],
+        )
 
         for text in [readme, chinese_readme, portable]:
             with self.subTest(text=text[:20]):

@@ -44,12 +44,12 @@
       "summary": "Life pattern, luck, personal phase, ji/xiong, auspiciousness, inauspiciousness, and qu ji bi xiong planning.",
       "required_inputs": ["topic area", "current life stage or relevant period", "goal for the reading", "hard real-world constraints"],
       "optional_inputs": ["birth year or relevant year", "recent events", "environment context", "decision options", "support network"],
-      "ask_first_if_missing": ["topic area", "goal for the reading", "hard real-world constraints"],
-      "blocking_missing_inputs": ["topic area", "goal for the reading"],
-      "assumption_allowed_inputs": ["broad symbolic pattern", "year-level ganzhi scaffold", "conditional ji/xiong framing"],
+      "ask_first_if_missing": ["safety-critical constraints", "analysis date or relevant period", "topic area when no domain can be inferred"],
+      "blocking_missing_inputs": ["no readable question or topic after one concise clarification"],
+      "assumption_allowed_inputs": ["broad symbolic pattern", "year-level ganzhi scaffold", "conditional ji/xiong framing", "provisional current-state scan across relevant domains"],
       "boundary_disclosures": ["no deterministic fate claims", "symbolic support only", "user agency first"],
-      "red_lines": ["do not predict health death wealth marriage or disaster", "do not present birth-year context as full bazi"],
-      "routing_hints": ["references/life-and-omen-adapter.md", "references/broad-symbolic-analysis.md", "references/five-phase-domain-map.md"]
+      "red_lines": ["do not predict health death wealth marriage or disaster", "do not present birth-year context as full bazi", "do not state unverified hidden events as facts"],
+      "routing_hints": ["references/life-and-omen-adapter.md", "references/broad-symbolic-analysis.md", "references/proactive-reading-protocol.md", "references/five-phase-domain-map.md", "scripts/personal_context.py"]
     },
     {
       "domain": "business",
@@ -74,6 +74,18 @@
       "boundary_disclosures": ["does not replace trademark review", "does not replace accessibility review"],
       "red_lines": ["do not claim a name guarantees success", "do not ignore accessibility or legal constraints"],
       "routing_hints": ["references/brand-adapter.md", "references/five-phase-domain-map.md"]
+    },
+    {
+      "domain": "naming",
+      "summary": "Personal, baby, adult-renaming, pen/stage, brand, company, shop, and product names with native naming checks and bounded wuxing symbolism.",
+      "required_inputs": ["name type and purpose", "surname fixed characters or required words", "candidate names or permission to generate directions", "language pronunciation dialect and target region", "desired meaning impression and avoided associations"],
+      "optional_inputs": ["personal context or birth details", "generation character or family convention", "audience category and positioning", "registration trademark domain or platform constraints", "requested wuxing stroke phonetic bazi or lineage method"],
+      "ask_first_if_missing": ["name type and purpose", "surname fixed characters or required words", "candidate names or permission to generate directions"],
+      "blocking_missing_inputs": ["name type and purpose", "candidate names or permission to generate directions"],
+      "assumption_allowed_inputs": ["qualitative five-phase impression", "general meaning sound and form review", "non-final candidate comparison"],
+      "boundary_disclosures": ["does not prove element deficiency", "does not replace registration trademark dialect or user testing", "no guaranteed fate or business success"],
+      "red_lines": ["do not infer missing elements from year-level data", "do not silently mix stroke radical phonetic or lineage systems", "do not claim a name determines destiny"],
+      "routing_hints": ["references/naming-adapter.md", "references/five-phase-domain-map.md", "scripts/personal_context.py"]
     },
     {
       "domain": "product",

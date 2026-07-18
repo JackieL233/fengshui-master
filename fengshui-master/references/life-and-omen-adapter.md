@@ -2,7 +2,7 @@
 
 Use this file when the user asks to apply feng shui, wuxing, bagua, yin-yang, stems/branches, auspiciousness, inauspiciousness, luck, life pattern, personal phase, destiny-adjacent interpretation, or broad Chinese symbolic reasoning to a person, event, decision, year, period, career path, relationship pattern, or life story.
 
-For the general 观气 / 取象 / 辨势 / 吉凶 protocol, load `broad-symbolic-analysis.md` first. Use this file for the life, omen, and personal-pattern specialization.
+For the general 观气 / 取象 / 辨势 / 吉凶 protocol, load `broad-symbolic-analysis.md` first. Load `proactive-reading-protocol.md` for current-state scans, favorable and friction hypotheses, validation evidence, and action horizons. Use this file for the life, omen, and personal-pattern specialization.
 
 ## Table of Contents
 
@@ -14,6 +14,7 @@ For the general 观气 / 取象 / 辨势 / 吉凶 protocol, load `broad-symbolic
 - Five-Phase Personal Lens
 - Event and Decision Lens
 - Output Pattern
+- Proactive Current-State Reading
 - Forbidden Claims
 
 ## Core Rule
@@ -39,6 +40,8 @@ Ask only for what matters to the requested depth:
 
 Do not ask for sensitive identifiers, exact private records, account details, or medical records.
 
+After essential safety-critical inputs are known, proceed with a provisional reading even when optional context is missing. Ask no more than three high-impact validation questions; do not replace the reading with an intake questionnaire.
+
 ## Method Stack
 
 Use the lightest adequate method:
@@ -46,7 +49,7 @@ Use the lightest adequate method:
 | User asks for | Use |
 | --- | --- |
 | "What does this phase of life feel like?" | yin-yang, five phases, timing cycles, current constraints |
-| "Analyze my life using feng shui" | life pattern reading plus optional ming gua or `scripts/ganzhi.py`; disclose that full bazi is not implemented |
+| "Analyze my life using feng shui" | run `scripts/personal_context.py` when birth data and an analysis date are available; disclose that full bazi is not implemented |
 | "Is this auspicious?" | auspiciousness pattern: support, timing, balance, leakage, sha, reversibility |
 | "What element am I missing?" | five-phase personal lens; do not reduce a person to one element |
 | "Which career/industry fits?" | five-phase domain map plus skills, market, evidence, and preferences |
@@ -54,6 +57,8 @@ Use the lightest adequate method:
 | "Use feng shui for finance" | `finance-adapter.md` first, then this file if life/luck symbolism is requested |
 
 Use `scripts/ganzhi.py <year>` when a year stem/branch, zodiac, or annual five-phase scaffold would help. It only returns a Gregorian-year scaffold, so confirm li chun or lunar-year boundaries for birth-year or annual-luck questions near year transitions.
+
+Use `scripts/personal_context.py` when the user supplies birth details and asks about current luck, a personal phase, or a one-to-two-year outlook. Read its output in this order: supplied inputs, birth-year/ming-gua scaffolds, current timing layers, real-world constraints, conditional ji/xiong, then reversible actions. Do not derive missing pillars from the output.
 
 ## Life Reading Pattern
 
@@ -117,6 +122,14 @@ Use this structure for substantial non-spatial life/omen readings:
 5. **Actions**: practical and symbolic adjustments, prioritized by safety and reversibility.
 6. **Missing data**: what would improve confidence.
 
+## Proactive Current-State Reading
+
+For current luck, recent conditions, or a one-to-two-year outlook, use the five evidence labels in `proactive-reading-protocol.md`: `observed`, `calculated`, `inferred`, `unknown`, and `recommended`.
+
+Scan only relevant areas among timing posture, career/learning, finance/resources, relationships/support, wellbeing/environment, and decision load. For each scanned area include favorable signals, possible friction, how it may manifest, what would confirm or refute it, and one immediate low-risk action. Finish with actions for the next 72 hours, 30 days, and 90 days plus observable review signals.
+
+Possible difficulties are hypotheses, not discovered facts. Say "this may show up as scattered effort; check whether that is present" rather than "you are currently failing because your energy is scattered."
+
 ## Forbidden Claims
 
 Do not claim:
@@ -125,6 +138,7 @@ Do not claim:
 - A complete bazi, zi wei, qimen, liuren, or almanac result unless a real engine/source is present.
 - That a feng shui reading overrides medical, legal, financial, psychological, engineering, or safety advice.
 - That a person is unlucky, cursed, doomed, or inherently harmful.
+- That an unreported conflict, loss, illness, betrayal, dismissal, or hidden person is currently present.
 
 Allowed:
 

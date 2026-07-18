@@ -39,6 +39,7 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 - 基础理论：气、阴阳、五行、八卦、天干地支、二十四山。
 - 广义风水象义协议：观气、取象、辨势、条件式吉凶、化解、复核。
 - 生平与运势：人生阶段、五行偏性、吉凶条件、趋吉避凶行动建议。
+- 主动研判：在关键安全信息足够后直接给出临时研判，主动说明当前有利面、潜在阻力、可能表现、证实或证伪依据，以及未来 72 小时、30 天、90 天的行动，不把未提供的经历说成事实。
 - 空间风水：住宅、办公室、商铺、房间、土地、户型、门、床、桌、厨房、卫生间。
 - 形势派与环境：道路、水、山、建筑形体、明堂、煞气、采光、通风、动线。
 - 理气与时空：八宅命卦、三元九运、玄空飞星基础脚手架、太岁、岁破、三煞、二十四节气与月相。
@@ -60,6 +61,8 @@ FengShui Master 不是医疗、法律、金融、工程、建筑、税务、心�
 - 风水象义可以覆盖专业检查、法律义务、金融风控或医学判断。
 
 推荐使用方式是：先看真实约束，再看风水象义，最后给出低风险、可逆、可验证的行动。
+
+对于“我最近运势怎样”一类问题，Skill 不只解释方法，也会在必要安全信息足够后主动扫描相关领域。所有重要判断区分为已知事实、工具计算、条件推断、未知信息和行动建议；潜在困难必须配有核验问题，不能用冷读方式断言用户正在遭遇冲突、破财、疾病或背叛。
 
 ## 目录结构
 
@@ -143,6 +146,7 @@ fengshui-master/
     finance-adapter.md
     business-adapter.md
     brand-adapter.md
+    naming-adapter.md
     career-adapter.md
     relationship-adapter.md
     product-adapter.md
@@ -150,6 +154,7 @@ fengshui-master/
     wellbeing-adapter.md
     legal-adjacent-adapter.md
     life-and-omen-adapter.md
+    proactive-reading-protocol.md
     five-phase-domain-map.md
     floorplan-schema.md
     ethics-and-limits.md
@@ -165,6 +170,7 @@ fengshui-master/
     moon_phase.py
     solar_terms.py
     create_brief.py
+    personal_context.py
     generate_report.py
     periods.py
     flying_stars.py
@@ -321,6 +327,7 @@ Use $fengshui-master to analyze ...
 - `Use $fengshui-master to analyze a person's life pattern, 五行 balance, 吉凶 conditions, and practical next steps.`
 - `Use $fengshui-master to review this product onboarding flow through form, flow, leakage, and symbolic lenses.`
 - `Use $fengshui-master to compare brand names and colors through wuxing and audience constraints.`
+- `Use $fengshui-master to compare personal or brand names through meaning, pronunciation, cultural fit, real-world constraints, personal/business context, and a clearly named five-phase method.`
 
 ## 常用命令
 
@@ -329,6 +336,14 @@ Use $fengshui-master to analyze ...
 ```bash
 python fengshui-master/scripts/create_brief.py "Should I buy this stock next month using feng shui?" --pretty
 ```
+
+个人出生信息与当前时运的安全上下文包：
+
+```bash
+python fengshui-master/scripts/personal_context.py --birth-date 1998-03-22 --birth-time 18:30 --sex male --birth-location "浙江嘉兴桐乡" --timezone Asia/Shanghai --as-of 2026-07-18 --pretty
+```
+
+该工具只组合出生年干支、命卦、三元九运、流年方位、节气与月相脚手架，不计算完整八字，也不作确定命运判断。
 
 生成 Markdown 报告脚手架：
 

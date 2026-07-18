@@ -76,6 +76,55 @@ DOMAIN_RULES = [
         ],
     ),
     (
+        "naming",
+        {
+            "name",
+            "names",
+            "naming",
+            "rename",
+            "renaming",
+            "given name",
+            "baby name",
+            "personal name",
+            "stage name",
+            "pen name",
+            "pseudonym",
+            "company name",
+            "brand name",
+            "product name",
+            "meaning",
+            "pronunciation",
+            "homophone",
+            "取名",
+            "起名",
+            "改名",
+            "姓名",
+            "名字",
+            "宝宝取名",
+            "艺名",
+            "笔名",
+            "公司名",
+            "品牌名",
+            "产品名",
+            "字义",
+            "读音",
+            "谐音",
+        },
+        [
+            "references/broad-symbolic-analysis.md",
+            "references/naming-adapter.md",
+            "references/five-phase-domain-map.md",
+            "references/foundation.md",
+            "references/ethics-and-limits.md",
+        ],
+        [
+            "Do not infer a missing element from year-level data or an approximate personal context scaffold.",
+            "Do not claim that a name guarantees luck, wealth, health, relationships, status, or business success.",
+            "Prioritize meaning, pronunciation, cultural fit, registration or trademark constraints, and user intent before symbolic mapping.",
+            "Name the character-element, stroke, phonetic, bazi, or lineage method instead of silently mixing systems.",
+        ],
+    ),
+    (
         "life_omen",
         {
             "auspicious",
@@ -115,6 +164,7 @@ DOMAIN_RULES = [
         [
             "references/broad-symbolic-analysis.md",
             "references/life-and-omen-adapter.md",
+            "references/proactive-reading-protocol.md",
             "references/five-phase-domain-map.md",
             "references/foundation.md",
             "references/ethics-and-limits.md",
@@ -534,31 +584,60 @@ DOMAIN_RULES = [
 
 
 def route(question: str) -> dict[str, object]:
-    best = None
-    best_score = 0
-    for domain, keywords, references, guardrails in DOMAIN_RULES:
+    scored: list[tuple[int, int, str, list[str], list[str]]] = []
+    for index, (domain, keywords, references, guardrails) in enumerate(DOMAIN_RULES):
         score = score_question(question, keywords)
-        if score > best_score:
-            best = (domain, references, guardrails)
-            best_score = score
+        if score > 0:
+            scored.append((score, index, domain, references, guardrails))
 
-    if best is None:
-        best = (
-            "general",
-            [
-                "references/broad-symbolic-analysis.md",
-                "references/domain-adapters.md",
-                "references/foundation.md",
+    if not scored:
+        return {
+            "domain": "general",
+            "domains": ["general"],
+            "domain_scores": {"general": 1},
+            "references": [
+            "references/broad-symbolic-analysis.md",
+            "references/domain-adapters.md",
+            "references/proactive-reading-protocol.md",
+            "references/foundation.md",
                 "references/ethics-and-limits.md",
             ],
-            [
+            "guardrails": [
                 "Identify the domain first, then apply feng shui as an auxiliary symbolic lens.",
             ],
-        )
+            "lens": [
+                "yin-yang balance",
+                "five-phase relationships",
+                "timing and activation",
+                "form, flow, and containment",
+                "risk and remedy hierarchy",
+            ],
+        }
 
-    domain, references, guardrails = best
+    scored.sort(key=lambda item: (-item[0], item[1]))
+    _, _, primary_domain, _, _ = scored[0]
+    selected = [item for item in scored if item[0] >= 2][:3]
+    if not selected:
+        selected = [scored[0]]
+
+    references: list[str] = []
+    guardrails: list[str] = []
+    domains: list[str] = []
+    domain_scores: dict[str, int] = {}
+    for score, _, domain, domain_references, domain_guardrails in selected:
+        domains.append(domain)
+        domain_scores[domain] = score
+        for value in domain_references:
+            if value not in references:
+                references.append(value)
+        for value in domain_guardrails:
+            if value not in guardrails:
+                guardrails.append(value)
+
     return {
-        "domain": domain,
+        "domain": primary_domain,
+        "domains": domains,
+        "domain_scores": domain_scores,
         "references": references,
         "guardrails": guardrails,
         "lens": [

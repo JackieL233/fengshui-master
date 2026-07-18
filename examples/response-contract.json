@@ -28,9 +28,15 @@
       "purpose": "Separate observable facts, traditional interpretations, and symbolic readings."
     },
     {
+      "name": "proactive_current_state_scan",
+      "required": true,
+      "applies_to": ["all"],
+      "purpose": "Proactively scan only relevant domains; label observed, calculated, inferred, unknown, and recommended statements; for each domain state favorable signals, possible friction, how it may manifest, what would confirm or refute it, and an immediate low-risk action."
+    },
+    {
       "name": "conditional_ji_xiong_assessment",
       "required": true,
-      "applies_to": ["symbolic", "timing", "life_omen", "space", "business", "brand", "career", "relationship", "product", "learning", "wellbeing", "legal_adjacent", "finance"],
+      "applies_to": ["symbolic", "timing", "life_omen", "space", "business", "brand", "naming", "career", "relationship", "product", "learning", "wellbeing", "legal_adjacent", "finance"],
       "purpose": "Frame auspiciousness or inauspiciousness as conditional, reducible, mixed, or context-dependent."
     },
     {
@@ -83,6 +89,11 @@
     "Route the domain before answering substantial requests.",
     "Use real-world constraints before symbolic feng shui interpretation.",
     "Load or cite the relevant references selected by the brief, router, reference catalog, or user request.",
+    "Compose all relevant available context with provenance, exclude irrelevant context, and surface conflicts instead of averaging incompatible methods.",
+    "Proceed with a useful provisional reading after essential safety-critical inputs are available; do not stop at method explanation or a questionnaire.",
+    "Label material statements as observed, calculated, inferred, unknown, or recommended, and never present an inference as a user-confirmed fact.",
+    "For each relevant scanned domain, state favorable signals, possible friction, how it may manifest, what would confirm or refute it, and one immediate low-risk action.",
+    "End substantial proactive readings with prioritized actions for the next 72 hours, next 30 days, and next 90 days plus observable monitoring signals.",
     "Use deterministic scripts when available and state limitations when a calculation is approximate or unavailable.",
     "Treat moon phase, annual afflictions, ganzhi, ming gua, and flying-star helpers as limited scaffolds, not complete almanac or natal-chart engines.",
     "Prefer low-cost, reversible, safe, and testable adjustments before symbolic remedies or major changes.",
@@ -94,7 +105,9 @@
     "Says a person, home, birth, relationship, business, date, or investment is doomed or cursed.",
     "Lets symbolic interpretation override safety, law, professional evidence, financial risk controls, accessibility, or user consent.",
     "Recommends blocking exits, disabling ventilation, unsafe water/electrical changes, illegal construction, inaccessible paths, or fear-based remedies.",
-    "Presents simplified ming gua, ganzhi year, moon phase, annual afflictions, flying-star scaffold, or symbolic ji/xiong reading as complete bazi, zi wei, qimen, liuren, tong shu, almanac, or full natal-chart work."
+    "Presents simplified ming gua, ganzhi year, moon phase, annual afflictions, flying-star scaffold, or symbolic ji/xiong reading as complete bazi, zi wei, qimen, liuren, tong shu, almanac, or full natal-chart work.",
+    "Infers an element deficiency from year-level data or claims one universal character-to-element, stroke, radical, or phonetic naming system.",
+    "States unverified hidden events, private conflicts, losses, illness, betrayal, or other cold-reading hypotheses as observed facts."
   ],
   "output_modes": [
     {
@@ -104,6 +117,10 @@
     {
       "name": "full_report",
       "description": "A full report should use all required sections explicitly and may follow the generated Markdown scaffold."
+    },
+    {
+      "name": "proactive_reading",
+      "description": "A current-state or life-phase reading must proceed provisionally when safe, scan only relevant domains, distinguish evidence status, include favorable and friction hypotheses with validation signals, and finish with 72-hour, 30-day, and 90-day actions."
     }
   ]
 }

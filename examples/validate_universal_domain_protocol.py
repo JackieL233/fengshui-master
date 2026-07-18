@@ -16,7 +16,9 @@ REQUIRED_STAGE_IDS = {
     "classify_native_domain",
     "rate_domain_risk",
     "collect_minimum_inputs",
+    "compose_available_context",
     "apply_symbolic_lenses",
+    "scan_current_state_proactively",
     "produce_bounded_answer",
 }
 REQUIRED_RISK_IDS = {"low", "medium", "high", "critical"}
@@ -24,10 +26,12 @@ REQUIRED_RULE_IDS = {
     "native_domain_first",
     "symbolic_layer_second",
     "wuxing_bridge",
+    "context_fusion_priority",
+    "proactive_hypothesis_scan",
     "moon_phase_rhythm",
     "unsupported_calculation_boundary",
 }
-REQUIRED_EXAMPLE_DOMAINS = {"technology", "sports", "education", "finance", "unknown"}
+REQUIRED_EXAMPLE_DOMAINS = {"technology", "sports", "education", "finance", "naming", "unknown"}
 
 
 def fail(errors: list[str], message: str) -> None:
@@ -76,8 +80,8 @@ def main() -> int:
         fail(errors, "manifest schemas missing schemas/universal-domain-protocol.schema.json")
 
     stages = protocol.get("stages", [])
-    if not isinstance(stages, list) or len(stages) < 5:
-        fail(errors, "stages must contain at least 5 entries")
+    if not isinstance(stages, list) or len(stages) < 6:
+        fail(errors, "stages must contain at least 6 entries")
         stages = []
     stage_ids: set[str] = set()
     for stage in stages:
@@ -132,6 +136,26 @@ def main() -> int:
             validate_string_list(errors, rule_id, field, rule.get(field))
     for rule_id in sorted(REQUIRED_RULE_IDS - rule_ids):
         fail(errors, f"protocol missing adapter rule {rule_id}")
+    fusion = next(
+        (
+            rule
+            for rule in adapter_rules
+            if isinstance(rule, dict) and rule.get("id") == "context_fusion_priority"
+        ),
+        {},
+    )
+    if "do not create a fake precision score from incompatible layers" not in fusion.get("red_lines", []):
+        fail(errors, "context fusion rule missing fake-precision red line")
+    proactive = next(
+        (
+            rule
+            for rule in adapter_rules
+            if isinstance(rule, dict) and rule.get("id") == "proactive_hypothesis_scan"
+        ),
+        {},
+    )
+    if "do not state unverified hidden events as facts" not in proactive.get("red_lines", []):
+        fail(errors, "proactive hypothesis scan missing hidden-event red line")
 
     examples = protocol.get("examples", [])
     example_domains: set[str] = set()
@@ -158,6 +182,19 @@ def main() -> int:
         fail(errors, "finance example missing moon phase secondary timing layer")
     if "do not issue buy or sell commands" not in finance.get("safe_output_shape", []):
         fail(errors, "finance example missing buy/sell boundary")
+
+    naming = next(
+        (
+            example
+            for example in examples
+            if isinstance(example, dict) and example.get("domain") == "naming"
+        ),
+        {},
+    )
+    if "personal_context.py only when birth data is supplied" not in naming.get("symbolic_lenses", []):
+        fail(errors, "naming example missing conditional personal context lens")
+    if "do not infer a missing element from year-level data" not in naming.get("safe_output_shape", []):
+        fail(errors, "naming example missing year-level element boundary")
 
     if errors:
         for error in errors:
