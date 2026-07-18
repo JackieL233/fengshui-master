@@ -2,6 +2,7 @@ import unittest
 import subprocess
 import sys
 import json
+import importlib.util
 from pathlib import Path
 
 
@@ -107,6 +108,20 @@ class RepositoryQualityTest(unittest.TestCase):
 
     def test_repository_audit_script_exists_for_ci(self):
         self.assertTrue(AUDIT_REPOSITORY.exists())
+
+    def test_repository_audit_strips_sentence_punctuation_from_paths(self):
+        spec = importlib.util.spec_from_file_location("audit_repository", AUDIT_REPOSITORY)
+        self.assertIsNotNone(spec)
+        self.assertIsNotNone(spec.loader)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+
+        self.assertEqual(
+            module.referenced_paths(
+                "Use examples/external-calculation-contracts.json.", "examples/"
+            ),
+            {"examples/external-calculation-contracts.json"},
+        )
 
     def test_repository_metadata_apply_script_exists_and_dry_runs(self):
         self.assertTrue(APPLY_REPOSITORY_METADATA.exists())

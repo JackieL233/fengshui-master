@@ -24,7 +24,7 @@ def fail(errors: list[str], message: str) -> None:
 
 def referenced_paths(text: str, prefix: str) -> set[str]:
     pattern = re.compile(rf"{re.escape(prefix)}[A-Za-z0-9_.\-/]+")
-    return set(pattern.findall(text))
+    return {match.rstrip(".,;:") for match in pattern.findall(text)}
 
 
 def skill_path_mentioned(text: str, rel: str) -> bool:
