@@ -23,6 +23,8 @@ For quick requests, proceed with stated assumptions and mark them clearly. After
 
 Load `references/proactive-reading-protocol.md` for current-state, current-luck, life-phase, cross-domain, or decision readings. Label material findings as `observed`, `calculated`, `inferred`, `unknown`, or `recommended`; scan only relevant domains; and state favorable signals, possible friction, validation evidence, immediate action, and 72-hour / 30-day / 90-day horizons. Never state an unverified hidden event as fact.
 
+For each material claim, preserve `status`, `confidence`, `method`, `evidence_refs`, and `falsifiers`. Observations need a user or artifact pointer; calculations need tool, input, and method provenance; inferences need concrete basis and falsifiers; unknowns need missing inputs; recommendations need a basis, reversibility, and verification. In the full portable repository, enforce this with `examples/claim-evidence-policy.json`, `schemas/agent-claims.schema.json`, and `examples/validate_claim_evidence.py`.
+
 For substantial readings, cross-domain decisions, finance, life/omen questions, or structured floor-plan reviews, create a consultation brief first:
 
 ```bash
@@ -206,7 +208,7 @@ python fengshui-master/scripts/bagua_map.py --direction southeast --pretty
 python fengshui-master/scripts/bagua_map.py --life-area wealth --method symbolic --pretty
 ```
 
-Do not use the script as proof of wealth, relationship, health, or career outcomes. It only maps later-heaven bagua symbolism and method labels; compass bagua, door-aligned bagua, eight mansions, and flying stars must not be mixed silently.
+Do not use the script as proof of wealth, relationship, health, or career outcomes. It enforces separate compass, door-aligned, and symbolic input contracts; compass bagua, door-aligned bagua, eight mansions, and flying stars must not be mixed silently.
 
 Use `scripts/minggua.py` for a common eight mansions personal gua calculation:
 

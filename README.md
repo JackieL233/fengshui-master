@@ -245,6 +245,7 @@ Schema files are provided for platform integrations:
 - [`schemas/external-calculation-contracts.schema.json`](schemas/external-calculation-contracts.schema.json)
 - [`schemas/contribution-quality-gates.schema.json`](schemas/contribution-quality-gates.schema.json)
 - [`schemas/runtime-integration-profiles.schema.json`](schemas/runtime-integration-profiles.schema.json)
+- [`schemas/agent-claims.schema.json`](schemas/agent-claims.schema.json)
 
 Common integration patterns:
 
@@ -254,6 +255,15 @@ Common integration patterns:
 - **Manual use**: run `method_selector.py`, `create_brief.py`, `domain_router.py`, and `generate_report.py` from the command line to create structured analysis scaffolds before writing the final answer.
 
 For portable agent smoke tests and copyable prompts, see [`examples/portable-agent-prompts.md`](examples/portable-agent-prompts.md). For machine-readable adaptation checks, use [`examples/portable-evaluation-suite.json`](examples/portable-evaluation-suite.json). For adversarial red-team prompts, prompt-injection checks, and scope-inflation checks, use [`examples/adversarial-evaluation-suite.json`](examples/adversarial-evaluation-suite.json). For domain intake and missing-input rules, use [`examples/intake-contracts.json`](examples/intake-contracts.json). For compact golden response fixtures, use [`examples/golden-responses.json`](examples/golden-responses.json). For adapting FengShui Master to domains beyond the built-in list, use [`examples/universal-domain-protocol.json`](examples/universal-domain-protocol.json). For connecting external bazi, zi wei, qimen, liuren, tong shu, or precision astronomy engines, use [`examples/external-calculation-contracts.json`](examples/external-calculation-contracts.json). For contribution and PR quality gates, use [`examples/contribution-quality-gates.json`](examples/contribution-quality-gates.json). For machine-readable runtime setup profiles, use [`examples/runtime-integration-profiles.json`](examples/runtime-integration-profiles.json). For output-quality scoring, use [`examples/portable-evaluation-rubric.json`](examples/portable-evaluation-rubric.json). For final-answer structure and red-line behavior, use [`examples/response-contract.json`](examples/response-contract.json). For RAG metadata and reference routing, use [`examples/reference-catalog.json`](examples/reference-catalog.json). For script metadata and agent tool registration, use [`examples/tool-catalog.json`](examples/tool-catalog.json). For capability, limitation, and roadmap routing, use [`examples/capability-matrix.json`](examples/capability-matrix.json). For source tiers, citation posture, and claim-quality rules, use [`examples/source-quality-policy.json`](examples/source-quality-policy.json). For deployment across non-Codex platforms, follow [`docs/integration-guide.md`](docs/integration-guide.md).
+
+For material-claim provenance, confidence, falsifiers, and cold-reading resistance, use [`examples/claim-evidence-policy.json`](examples/claim-evidence-policy.json) and validate agent claim documents with [`examples/validate_claim_evidence.py`](examples/validate_claim_evidence.py).
+
+Install development dependencies and execute every declared JSON Schema against its artifact:
+
+```bash
+python -m pip install -r requirements-dev.txt
+python examples/validate_json_schemas.py
+```
 
 Validate the portable evaluation suite:
 
@@ -391,7 +401,7 @@ Build a bounded personal-reading context pack from supplied birth data and an an
 python fengshui-master/scripts/personal_context.py --birth-date 1998-03-22 --birth-time 18:30 --sex male --birth-location "Tongxiang, Zhejiang, China" --timezone Asia/Shanghai --as-of 2026-07-18 --pretty
 ```
 
-This combines the existing year-ganzhi, ming-gua, san-yuan, annual-direction, solar-term, and moon-phase helpers. It does not calculate complete four pillars or deterministic fate.
+Use `--year-boundary li_chun_approx` when a documented February 4 approximation is appropriate. The output exposes the effective year and boundary provenance; it does not calculate the exact local Li Chun moment. Birth time, location, and timezone are preserved for external precision work but do not turn the bundled year-level scaffold into complete four pillars or deterministic fate.
 
 Generate a Markdown report scaffold:
 
@@ -408,10 +418,10 @@ python fengshui-master/scripts/generate_report.py "Should I buy this stock next 
 Convert a compass bearing into a 24-mountain sector:
 
 ```bash
-python fengshui-master/scripts/luopan.py 187 --pretty
+python fengshui-master/scripts/luopan.py 187 --uncertainty-degrees 1.5 --north-basis true --pretty
 ```
 
-The helper only maps bearings. It does not judge auspiciousness by itself.
+The helper maps finite bearings and reports distance to the nearest 24-mountain boundary. It does not correct magnetic declination or judge auspiciousness by itself.
 
 Map a bagua sector, trigram, direction, or life-area symbolism:
 
@@ -420,7 +430,7 @@ python fengshui-master/scripts/bagua_map.py --direction southeast --pretty
 python fengshui-master/scripts/bagua_map.py --life-area wealth --method symbolic --pretty
 ```
 
-This helper maps later-heaven bagua symbolism and method labels. It does not prove wealth, relationship, health, or career outcomes.
+This helper enforces separate compass, door-aligned, and symbolic input contracts. A door-aligned or symbolic lookup does not claim to perform a compass calculation, and no bagua lookup proves wealth, relationship, health, or career outcomes.
 
 Calculate a common Eight Mansions ming gua:
 
@@ -522,7 +532,7 @@ python -m unittest discover -s tests
 Run the Codex skill validator if available:
 
 ```bash
-python C:/Users/Administrator/.codex/skills/.system/skill-creator/scripts/quick_validate.py fengshui-master
+python .github/scripts/quick_validate.py fengshui-master
 ```
 
 Run the portable repository consistency audit:

@@ -34,6 +34,7 @@ Top-level fields:
 | `facing_degrees` | optional | Building/unit/shop/site facing direction |
 | `north_degrees` | optional | North direction in the coordinate system |
 | `units` | optional | `meters`, `feet`, `pixels`, or other stated unit |
+| `analysis_tolerances` | optional | Explicit positive `alignment` and `stove_sink` thresholds in the stated unit; required for pixel or custom-unit proximity findings |
 | `bounds` | yes | Overall width and height |
 | `rooms` | yes | Rectangular room or zone annotations |
 | `features` | yes | Doors, windows, furniture, fixtures, roads, water, etc. |
@@ -73,6 +74,7 @@ Feature object:
 {
   "id": "front-door",
   "type": "door",
+  "role": "main_entrance",
   "room": "entry",
   "x": 5,
   "y": 0,
@@ -107,6 +109,24 @@ Common features:
 - `corner`
 
 Use additional feature types when needed, but explain them in `notes`.
+
+Every door must include `role: "main_entrance"` or `role: "interior"`. The bundled analyzer permits one main entrance and does not treat every door as the qi mouth. Features that the helper cannot evaluate are returned under `not_assessed` instead of being silently ignored.
+
+Windows may use `role: "rear_exterior"`, `"exterior"`, or `"interior"`. Only an explicitly identified `rear_exterior` opening is considered for the front-back alignment candidate, and the result still requires an on-site sightline and circulation check.
+
+All coordinates, dimensions, tolerances, and bearings must be finite numbers. Dimensions and explicit tolerances must be positive; rooms and features must remain within plan bounds; IDs must be unique within their collection; and bearings must be in `[0, 360)`. `NaN`, infinity, negative dimensions, broken room references, and out-of-bounds annotations are rejected.
+
+Meter and foot plans receive documented default proximity tolerances. Pixel and custom-unit plans need both explicit thresholds:
+
+```json
+{
+  "units": "pixels",
+  "analysis_tolerances": {
+    "alignment": 8,
+    "stove_sink": 60
+  }
+}
+```
 
 ## Analysis Workflow
 

@@ -49,7 +49,8 @@ class GenerateReportScriptTest(unittest.TestCase):
         self.assertIn("Domain: space", report)
         self.assertIn("## Structured Floor-Plan Analysis", report)
         self.assertIn("front_back_alignment", report)
-        self.assertIn("Create a pause point", report)
+        self.assertIn("Create a visual or circulation pause", report)
+        self.assertIn("accessible egress route", report)
 
     def test_product_report_uses_broad_symbolic_protocol(self):
         report = run_report("Use feng shui to review this product onboarding flow")

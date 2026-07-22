@@ -33,6 +33,30 @@ class LuopanScriptTest(unittest.TestCase):
         self.assertEqual(data["mountain"], "zi")
         self.assertEqual(data["direction"], "north")
 
+    def test_boundary_uncertainty_and_north_basis_are_exposed(self):
+        data = run_luopan(
+            "7.4",
+            "--uncertainty-degrees",
+            "0.2",
+            "--north-basis",
+            "true",
+        )
+
+        self.assertEqual(data["north_basis"], "true")
+        self.assertAlmostEqual(data["distance_to_boundary_degrees"], 0.1)
+        self.assertEqual(data["boundary_status"], "uncertainty_crosses_boundary")
+
+    def test_non_finite_bearing_is_rejected(self):
+        result = subprocess.run(
+            [sys.executable, str(SCRIPT), "NaN"],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+        )
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("bearing must be finite", result.stderr)
+
     def test_cli_output_is_ascii_safe_by_default(self):
         result = subprocess.run(
             [sys.executable, str(SCRIPT), "180", "--pretty"],

@@ -562,7 +562,11 @@ class RepositoryQualityTest(unittest.TestCase):
             with self.subTest(capability_id=capability_id):
                 self.assertIn(capability_id, by_id)
 
-        self.assertEqual(by_id["space-form-analysis"]["status"], "fully_covered")
+        self.assertEqual(by_id["space-form-analysis"]["status"], "partially_covered")
+        self.assertEqual(by_id["eight-mansions-ming-gua"]["status"], "partially_covered")
+        self.assertEqual(by_id["naming-multilayer-analysis"]["status"], "partially_covered")
+        self.assertEqual(by_id["san-he-site-intake"]["status"], "partially_covered")
+        self.assertEqual(by_id["luopan-24-mountain-mapping"]["status"], "fully_covered")
         self.assertEqual(by_id["finance-symbolic-decision-support"]["status"], "partially_covered")
         self.assertEqual(by_id["new-moon-full-moon-timing"]["status"], "partially_covered")
         self.assertEqual(by_id["full-bazi-four-pillars"]["status"], "not_covered")
@@ -1030,12 +1034,18 @@ class RepositoryQualityTest(unittest.TestCase):
         )
 
         by_id = {profile["id"]: profile for profile in profiles["profiles"]}
-        for profile_id in ["chat_assistant", "agent_framework", "rag", "local_cli", "codex"]:
+        for profile_id in ["chat_assistant", "agent_framework", "rag", "local_cli"]:
             with self.subTest(profile_id=profile_id):
                 self.assertIn(profile_id, by_id)
                 self.assertIn("PORTABLE_SKILL.md", by_id[profile_id]["required_assets"])
                 self.assertIn("examples/response-contract.json", by_id[profile_id]["required_assets"])
                 self.assertIn("python examples/validate_runtime_integration_profiles.py", by_id[profile_id]["validation_commands"])
+
+        codex = by_id["codex"]
+        self.assertIn("fengshui-master/SKILL.md", codex["required_assets"])
+        self.assertNotIn("PORTABLE_SKILL.md", codex["required_assets"])
+        self.assertNotIn("examples/response-contract.json", codex["required_assets"])
+        self.assertIn("python examples/validate_runtime_integration_profiles.py", codex["validation_commands"])
 
         agent = by_id["agent_framework"]
         self.assertIn("examples/tool-catalog.json", agent["required_assets"])

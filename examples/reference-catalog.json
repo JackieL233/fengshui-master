@@ -210,6 +210,54 @@
       "risk_level": "medium",
       "tags": ["classical_sources", "lineage_labeling", "school_map", "modern_extension_boundary"],
       "required_guardrails": ["Do not present modern symbolic adapters as classical doctrine"]
+    },
+    {
+      "path": "fengshui-master/references/case-patterns.md",
+      "title": "Case Patterns",
+      "primary_domain": "response_method",
+      "risk_level": "medium",
+      "tags": ["case_patterns", "comparison", "intake", "response_structure"],
+      "required_guardrails": ["adapt patterns to supplied evidence and domain constraints"]
+    },
+    {
+      "path": "fengshui-master/references/consultation-brief.md",
+      "title": "Consultation Brief",
+      "primary_domain": "response_method",
+      "risk_level": "high",
+      "tags": ["brief", "routing", "missing_inputs", "guardrails", "cross_domain"],
+      "required_guardrails": ["merge all selected high-stakes domain guardrails"]
+    },
+    {
+      "path": "fengshui-master/references/glossary.md",
+      "title": "Bilingual Glossary",
+      "primary_domain": "terminology",
+      "risk_level": "low",
+      "tags": ["glossary", "chinese", "english", "translation", "pinyin"],
+      "required_guardrails": ["preserve school and translation differences"]
+    },
+    {
+      "path": "fengshui-master/references/reporting-protocol.md",
+      "title": "Reporting Protocol",
+      "primary_domain": "response_method",
+      "risk_level": "high",
+      "tags": ["report", "evidence_status", "confidence", "actions", "boundaries"],
+      "required_guardrails": ["separate observations calculations inferences unknowns and recommendations"]
+    },
+    {
+      "path": "fengshui-master/references/sample-readings.md",
+      "title": "Sample Readings",
+      "primary_domain": "examples",
+      "risk_level": "medium",
+      "tags": ["samples", "tone", "structure", "spatial", "cross_domain"],
+      "required_guardrails": ["do not reuse sample conclusions without matching evidence"]
+    },
+    {
+      "path": "fengshui-master/references/sources.md",
+      "title": "Sources and Research Posture",
+      "primary_domain": "source_map",
+      "risk_level": "medium",
+      "tags": ["sources", "research", "citation", "classical", "lineage"],
+      "required_guardrails": ["cite exact editions and distinguish classical anchors from modern adaptations"]
     }
   ]
 }

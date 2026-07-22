@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from dataclasses import dataclass
 from typing import Any
 
@@ -149,14 +150,14 @@ METHOD_RULES = [
         ["references/xuan-kong-flying-stars.md", "references/timing-and-date-selection.md", "references/schools.md", "references/ethics-and-limits.md"],
         ["fengshui-master/scripts/periods.py", "fengshui-master/scripts/flying_stars.py"],
         ["not a full Xuan Kong natal chart", "do not guarantee wealth or illness outcomes"],
-        ["The helper is only a Luo Shu scaffold.", "Full natal charts require lineage-specific formulas and reliable inputs."],
+        ["The helper is only a period-number Luo Shu scaffold; --year performs a period lookup and does not calculate an annual chart.", "Natal, annual, and monthly charts require documented lineage-specific formulas and reliable inputs."],
     ),
     MethodRule(
         "san_he",
         "San He / 三合",
         {
             "san",
-            "he",
+            "san he",
             "water",
             "outlet",
             "land",
@@ -297,13 +298,18 @@ METHOD_RULES = [
 
 
 def score(question: str, keywords: set[str]) -> int:
-    normalized = question.lower()
-    tokens = {token.strip(".,?!:;()[]{}\"'").lower() for token in question.split()}
-    result = len(tokens & keywords)
-    for keyword in keywords:
-        if keyword and keyword in normalized and keyword not in tokens:
-            result += 1
-    return result
+    normalized = question.casefold()
+    return sum(1 for keyword in keywords if keyword_matches(normalized, keyword))
+
+
+def keyword_matches(normalized_text: str, keyword: str) -> bool:
+    normalized_keyword = keyword.casefold().strip()
+    if not normalized_keyword:
+        return False
+    if any(ord(character) > 127 for character in normalized_keyword):
+        return normalized_keyword in normalized_text
+    pattern = rf"(?<![a-z0-9_]){re.escape(normalized_keyword)}(?![a-z0-9_])"
+    return re.search(pattern, normalized_text) is not None
 
 
 def rule_payload(rule: MethodRule, score_value: int) -> dict[str, Any]:
@@ -333,6 +339,7 @@ def select_methods(question: str, limit: int = 3) -> dict[str, Any]:
 
     return {
         "question": question,
+        "selection_status": "matched" if any(value > 0 for value, _ in scored) else "fallback",
         "primary_method": rule_payload(primary_rule, primary_score),
         "candidate_methods": payloads,
         "answer_rules": [

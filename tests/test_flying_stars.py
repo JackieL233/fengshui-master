@@ -44,6 +44,11 @@ class FlyingStarsScriptTest(unittest.TestCase):
 
         self.assertEqual(data["period"], 9)
         self.assertEqual(data["period_year_range"], "2024-2043")
+        self.assertEqual(data["chart_type"], "period_luo_shu_scaffold")
+        self.assertEqual(data["input_mode"], "year_period_lookup")
+        self.assertEqual(data["lookup_year"], 2026)
+        self.assertIn("annual flying-star chart", data["unavailable_layers"])
+        self.assertIn("not a natal, annual, or monthly", data["note"])
 
 
 if __name__ == "__main__":

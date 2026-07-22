@@ -8,6 +8,7 @@ import json
 from dataclasses import asdict
 from datetime import date, datetime, time
 from typing import Any
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import annual_afflictions
 import ganzhi
@@ -45,6 +46,19 @@ PROACTIVE_SCAN_CONTRACT = {
     "inference_rule": "state possible problems as conditional hypotheses and ask what evidence confirms or refutes them",
 }
 
+IANA_REGION_PREFIXES = {
+    "Africa",
+    "America",
+    "Antarctica",
+    "Arctic",
+    "Asia",
+    "Atlantic",
+    "Australia",
+    "Europe",
+    "Indian",
+    "Pacific",
+}
+
 
 def parse_date(value: str) -> date:
     try:
@@ -60,6 +74,69 @@ def parse_time(value: str) -> time:
         raise argparse.ArgumentTypeError("time must use 24-hour HH:MM format") from exc
 
 
+def validate_timezone(value: str | None) -> str | None:
+    if value is None:
+        return None
+    try:
+        ZoneInfo(value)
+    except ZoneInfoNotFoundError as exc:
+        parts = value.split("/")
+        structurally_valid = (
+            len(parts) >= 2
+            and parts[0] in IANA_REGION_PREFIXES
+            and all(
+                part
+                and all(character.isalnum() or character in "_-+" for character in part)
+                for part in parts
+            )
+        )
+        if not structurally_valid:
+            raise ValueError(f"unknown IANA timezone: {value}") from exc
+    return value
+
+
+def timezone_validation_level(value: str | None) -> str:
+    if value is None:
+        return "not supplied"
+    try:
+        ZoneInfo(value)
+        return "validated against the runtime IANA timezone database"
+    except ZoneInfoNotFoundError:
+        return "IANA region syntax validated; runtime timezone database unavailable"
+
+
+def effective_year_for_date(value: date, boundary_mode: str) -> tuple[int, dict[str, Any]]:
+    if boundary_mode == "gregorian":
+        return value.year, {
+            "mode": "gregorian",
+            "effective_year": value.year,
+            "boundary": f"{value.year}-01-01",
+            "precision": "civil calendar year",
+        }
+    if boundary_mode != "li_chun_approx":
+        raise ValueError("year boundary must be gregorian or li_chun_approx")
+
+    approximate_boundary = date(value.year, 2, 4)
+    effective_year = value.year - 1 if value < approximate_boundary else value.year
+    return effective_year, {
+        "mode": "li_chun_approx",
+        "effective_year": effective_year,
+        "boundary": approximate_boundary.isoformat(),
+        "precision": "common approximate Li Chun date; not the exact local solar-term moment",
+    }
+
+
+def safe_period_context(year: int) -> dict[str, Any]:
+    try:
+        return asdict(periods.period_for_year(year))
+    except ValueError as exc:
+        return {
+            "status": "unavailable",
+            "year": year,
+            "reason": str(exc),
+        }
+
+
 def build_personal_context(
     birth_date: date,
     *,
@@ -68,11 +145,21 @@ def build_personal_context(
     birth_location: str | None = None,
     timezone: str | None = None,
     as_of: date | None = None,
+    year_boundary: str = "gregorian",
 ) -> dict[str, Any]:
     target = as_of or date.today()
-    birth_year = asdict(ganzhi.ganzhi_for_year(birth_date.year))
-    current_year = asdict(ganzhi.ganzhi_for_year(target.year))
-    personal_gua = asdict(minggua.ming_gua(birth_date.year, sex)) if sex else None
+    timezone = validate_timezone(timezone)
+    birth_effective_year, birth_boundary = effective_year_for_date(
+        birth_date, year_boundary
+    )
+    current_effective_year, current_boundary = effective_year_for_date(
+        target, year_boundary
+    )
+    birth_year = asdict(ganzhi.ganzhi_for_year(birth_effective_year))
+    current_year = asdict(ganzhi.ganzhi_for_year(current_effective_year))
+    personal_gua = (
+        asdict(minggua.ming_gua(birth_effective_year, sex)) if sex else None
+    )
 
     missing_inputs: list[str] = []
     if birth_time is None:
@@ -93,18 +180,32 @@ def build_personal_context(
             "birth_location": birth_location,
             "timezone": timezone,
             "as_of": target.isoformat(),
+            "year_boundary": year_boundary,
+        },
+        "input_usage": {
+            "birth_date": "used for the selected year-boundary scaffold and approximate date helpers",
+            "birth_time": "recorded for external full-chart or precision-calendar work; not used in the bundled year-level calculations",
+            "birth_location": "recorded for external locality-sensitive work; not geocoded or used in the bundled calculations",
+            "timezone": "recorded for external precision work; date-only bundled helpers do not use an exact instant",
+        },
+        "validation_provenance": {
+            "timezone": timezone_validation_level(timezone),
         },
         "birth_context": {
+            "effective_year": birth_effective_year,
+            "year_boundary_provenance": birth_boundary,
             "year_ganzhi": birth_year,
             "ming_gua": personal_gua,
             "approximate_solar_term": solar_terms.solar_terms_for_date(birth_date),
             "approximate_moon_phase": moon_phase.moon_phase(birth_date),
         },
         "current_context": {
+            "effective_year": current_effective_year,
+            "year_boundary_provenance": current_boundary,
             "year_ganzhi": current_year,
-            "san_yuan_period": asdict(periods.period_for_year(target.year)),
+            "san_yuan_period": safe_period_context(current_effective_year),
             "annual_directional_cautions": annual_afflictions.annual_afflictions_for_year(
-                target.year
+                current_effective_year
             ),
             "approximate_solar_term": solar_terms.solar_terms_for_date(target),
             "approximate_moon_phase": moon_phase.moon_phase(target),
@@ -122,6 +223,8 @@ def build_personal_context(
             "This is not a complete bazi, zi wei, qimen, liuren, or tong shu calculation.",
             "It does not calculate month, day, or hour pillars, true solar time, lunar-calendar conversion, or lineage-specific chart rules.",
             "Birth and current moon phases and solar terms are approximate helper outputs, not precision astronomy.",
+            "The li_chun_approx mode uses February 4 as a documented approximation and does not calculate the exact local Li Chun moment.",
+            "Birth time, location, and timezone do not turn this year-level scaffold into a full natal chart.",
             "Do not use this context pack for deterministic fate, health, wealth, marriage, disaster, or market predictions.",
         ],
     }
@@ -136,24 +239,30 @@ def main() -> None:
     parser.add_argument("--sex", choices=["male", "female"])
     parser.add_argument("--birth-location")
     parser.add_argument("--timezone")
+    parser.add_argument(
+        "--year-boundary",
+        choices=["gregorian", "li_chun_approx"],
+        default="gregorian",
+        help="Year boundary convention for year-level ganzhi and ming gua scaffolds.",
+    )
     parser.add_argument("--as-of", type=parse_date, default=date.today())
     parser.add_argument("--pretty", action="store_true", help="Print indented JSON.")
     args = parser.parse_args()
 
-    print(
-        json.dumps(
-            build_personal_context(
-                args.birth_date,
-                birth_time=args.birth_time,
-                sex=args.sex,
-                birth_location=args.birth_location,
-                timezone=args.timezone,
-                as_of=args.as_of,
-            ),
-            ensure_ascii=True,
-            indent=2 if args.pretty else None,
+    try:
+        result = build_personal_context(
+            args.birth_date,
+            birth_time=args.birth_time,
+            sex=args.sex,
+            birth_location=args.birth_location,
+            timezone=args.timezone,
+            as_of=args.as_of,
+            year_boundary=args.year_boundary,
         )
-    )
+    except ValueError as exc:
+        parser.error(str(exc))
+
+    print(json.dumps(result, ensure_ascii=True, indent=2 if args.pretty else None))
 
 
 if __name__ == "__main__":

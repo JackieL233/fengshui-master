@@ -65,6 +65,7 @@
             "supported",
             "cautious",
             "adapter_only",
+            "method_dependent",
             "high_stakes_symbolic_only",
             "out_of_scope_without_external_source"
           ]

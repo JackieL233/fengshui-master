@@ -143,6 +143,29 @@ class CreateBriefScriptTest(unittest.TestCase):
         self.assertIn("Native naming constraints", data["report_sections"])
         self.assertIn("Five-phase symbolic fit", data["report_sections"])
 
+    def test_cross_domain_brief_merges_inputs_sections_and_guardrails(self):
+        data = run_brief(
+            "Compare fintech product names, onboarding, investment risk, and privacy terms"
+        )
+
+        self.assertIn("naming", data["domains"])
+        self.assertIn("product", data["domains"])
+        self.assertIn("finance", data["domains"])
+        self.assertIn("legal_adjacent", data["domains"])
+        self.assertIn("risk tolerance", data["missing_inputs"])
+        self.assertIn("product type and target user", data["missing_inputs"])
+        self.assertIn("Legal reality first", data["report_sections"])
+        self.assertIn("Product reality layer", data["report_sections"])
+        self.assertIn("This is not financial advice.", data["guardrails"])
+        self.assertEqual(data["input_state"]["missing"], data["missing_inputs"])
+
+    def test_critical_safety_route_blocks_symbolic_analysis(self):
+        data = run_brief("I have chest pain in my bedroom; tell me the feng shui cause")
+
+        self.assertFalse(data["symbolic_analysis_allowed"])
+        self.assertEqual(data["route_status"], "critical_safety")
+        self.assertTrue(data["input_state"]["blocking"])
+
 
 if __name__ == "__main__":
     unittest.main()

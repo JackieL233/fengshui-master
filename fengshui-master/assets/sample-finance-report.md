@@ -36,10 +36,12 @@ Domain: finance
 - Separate real-world constraints from feng shui symbolism.
 - State method, assumptions, and missing inputs before conclusions.
 - Label facts, calculations, inferences, unknowns, and recommendations separately.
+- For material claims preserve confidence, method, evidence pointers, and falsifiers; calculations also need tool and input provenance.
 - For each relevant domain, state favorable signals, possible friction, validation evidence, and the next low-risk action.
 - Proceed provisionally when optional data is missing; do not invent hidden events or deterministic outcomes.
 - Prioritize low-risk, reversible actions.
 - Do not present symbolic readings as guaranteed outcomes.
+- Suspend symbolic analysis when the route marks an urgent safety or medical concern.
 
 ## Report Sections
 

@@ -85,6 +85,17 @@ class MethodSelectorTest(unittest.TestCase):
         self.assertEqual(data["primary_method"]["method"], "broad_symbolic")
         self.assertIn("Name the selected method before conclusions.", data["answer_rules"])
 
+    def test_the_contract_does_not_false_match_san_he(self):
+        data = run_selector("Review the contract before the deadline")
+
+        methods = {item["method"] for item in data["candidate_methods"]}
+        self.assertNotIn("san_he", methods)
+
+    def test_selection_status_exposes_fallback(self):
+        data = run_selector("completely unrelated request")
+
+        self.assertEqual(data["selection_status"], "fallback")
+
 
 if __name__ == "__main__":
     unittest.main()

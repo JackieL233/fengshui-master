@@ -92,6 +92,7 @@
     "Compose all relevant available context with provenance, exclude irrelevant context, and surface conflicts instead of averaging incompatible methods.",
     "Proceed with a useful provisional reading after essential safety-critical inputs are available; do not stop at method explanation or a questionnaire.",
     "Label material statements as observed, calculated, inferred, unknown, or recommended, and never present an inference as a user-confirmed fact.",
+    "For every material claim preserve confidence, method, evidence_refs, and falsifiers; require user or artifact pointers for observations, tool and input provenance for calculations, basis_refs for inferences, missing_inputs for unknowns, and verification for recommendations.",
     "For each relevant scanned domain, state favorable signals, possible friction, how it may manifest, what would confirm or refute it, and one immediate low-risk action.",
     "End substantial proactive readings with prioritized actions for the next 72 hours, next 30 days, and next 90 days plus observable monitoring signals.",
     "Use deterministic scripts when available and state limitations when a calculation is approximate or unavailable.",

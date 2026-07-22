@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create a basic Luo Shu flying-star chart from a period or year."""
+"""Create a period-number Luo Shu flight scaffold with explicit scope."""
 
 from __future__ import annotations
 
@@ -89,17 +89,21 @@ def flying_chart(period: int, direction: str = "forward") -> FlyingStarsChart:
         direction=direction,
         period_year_range=None,
         palaces=palaces,
-        note="Basic Luo Shu flight only. This is not a full Xuan Kong natal chart; mountain/wealth stars, replacement stars, facing/sitting, and lineage rules are not calculated.",
+        note="Period-number Luo Shu flight only. It is not a natal, annual, or monthly Xuan Kong chart; mountain/facing stars, replacement stars, facing/sitting rules, annual centers, monthly centers, and lineage rules are not calculated.",
     )
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Create a basic Luo Shu flying-star chart from a period or year."
+        description="Create a period-number Luo Shu flight scaffold. A year only looks up its San Yuan period; it does not calculate an annual flying-star chart."
     )
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--period", type=int, help="San Yuan period number, 1-9.")
-    group.add_argument("--year", type=int, help="Gregorian year, 1864-2043.")
+    group.add_argument(
+        "--year",
+        type=int,
+        help="Gregorian year used only to look up its San Yuan period, 1864-2043.",
+    )
     parser.add_argument(
         "--direction",
         choices=["forward", "reverse"],
@@ -125,6 +129,16 @@ def main() -> None:
 
     data = asdict(chart)
     data["period_year_range"] = period_year_range
+    data["chart_type"] = "period_luo_shu_scaffold"
+    data["input_mode"] = "year_period_lookup" if args.year is not None else "period"
+    data["lookup_year"] = args.year
+    data["implemented_layers"] = ["period-number Luo Shu sequence"]
+    data["unavailable_layers"] = [
+        "natal mountain and facing star chart",
+        "annual flying-star chart",
+        "monthly flying-star chart",
+        "lineage-specific replacement-star rules",
+    ]
     print(json.dumps(data, ensure_ascii=True, indent=2 if args.pretty else None))
 
 

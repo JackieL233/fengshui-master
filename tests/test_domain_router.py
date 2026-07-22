@@ -166,6 +166,60 @@ class DomainRouterTest(unittest.TestCase):
         self.assertIn("references/timing-and-date-selection.md", data["references"])
         self.assertIn("solar terms", " ".join(data["guardrails"]))
 
+    def test_full_portfolio_does_not_false_match_timing(self):
+        data = run_router("Review my full portfolio and downside risk")
+
+        self.assertEqual(data["domain"], "finance")
+        self.assertNotIn("timing", data["domains"])
+
+    def test_all_high_risk_domains_are_preserved(self):
+        data = run_router(
+            "Review the investment terms, healthcare privacy, and legal contract for this fintech product"
+        )
+
+        self.assertIn("finance", data["domains"])
+        self.assertIn("wellbeing", data["domains"])
+        self.assertIn("legal_adjacent", data["domains"])
+        self.assertEqual(data["risk_level"], "high")
+
+    def test_urgent_medical_prompt_suppresses_symbolic_analysis(self):
+        data = run_router("I have chest pain in my bedroom; use feng shui to explain it")
+
+        self.assertIn("wellbeing", data["domains"])
+        self.assertEqual(data["route_status"], "critical_safety")
+        self.assertEqual(data["risk_level"], "critical")
+        self.assertFalse(data["symbolic_analysis_allowed"])
+        self.assertGreaterEqual(len(data["clarifying_questions"]), 1)
+
+    def test_chinese_urgent_medical_prompt_suppresses_symbolic_analysis(self):
+        data = run_router("我现在胸痛和呼吸困难，卧室风水是不是有问题")
+
+        self.assertIn("wellbeing", data["domains"])
+        self.assertEqual(data["route_status"], "critical_safety")
+        self.assertFalse(data["symbolic_analysis_allowed"])
+
+    def test_critical_fallback_cannot_bypass_safety_suppression(self):
+        data = run_router("There is imminent danger right now")
+
+        self.assertEqual(data["route_status"], "critical_safety")
+        self.assertEqual(data["risk_level"], "critical")
+        self.assertFalse(data["symbolic_analysis_allowed"])
+        self.assertIn("before symbolic analysis", " ".join(data["guardrails"]))
+
+    def test_legal_deadline_is_critical_and_preserves_legal_domain(self):
+        data = run_router("I have a legal deadline today; choose an auspicious filing time")
+
+        self.assertIn("legal_adjacent", data["domains"])
+        self.assertEqual(data["route_status"], "critical_safety")
+        self.assertFalse(data["symbolic_analysis_allowed"])
+
+    def test_fintech_naming_preserves_finance_guardrails(self):
+        data = run_router("Help with fintech naming")
+
+        self.assertIn("naming", data["domains"])
+        self.assertIn("finance", data["domains"])
+        self.assertIn("This is not financial advice.", data["guardrails"])
+
     def test_chinese_solar_term_question_routes_to_timing(self):
         data = run_router("立春和冬至哪个更适合开业择时")
 

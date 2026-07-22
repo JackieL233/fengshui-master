@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 from dataclasses import dataclass
 from typing import Any
 
@@ -250,6 +251,8 @@ def sector_by_key(key: str) -> BaguaSector:
 
 
 def sector_by_degrees(degrees: float) -> BaguaSector:
+    if not math.isfinite(degrees):
+        raise ValueError("degrees must be finite")
     bearing = degrees % 360
     if 337.5 <= bearing or bearing < 22.5:
         direction = "north"
@@ -277,12 +280,21 @@ def bagua_lookup(
     trigram: str | None = None,
     life_area: str | None = None,
     method: str = "compass",
+    uncertainty_degrees: float | None = None,
 ) -> dict[str, Any]:
     supplied = [value is not None for value in [direction, degrees, trigram, life_area]].count(True)
     if supplied != 1:
         raise ValueError("provide exactly one of direction, degrees, trigram, or life_area")
     if method not in {"compass", "door_aligned", "symbolic"}:
         raise ValueError("method must be compass, door_aligned, or symbolic")
+    if uncertainty_degrees is not None and (
+        not math.isfinite(uncertainty_degrees) or uncertainty_degrees < 0
+    ):
+        raise ValueError("uncertainty_degrees must be a finite non-negative number")
+    if method == "compass" and life_area is not None:
+        raise ValueError("compass method requires direction, degrees, or trigram; use symbolic for life_area")
+    if method in {"door_aligned", "symbolic"} and life_area is None and trigram is None:
+        raise ValueError(f"{method} method requires life_area or trigram, not a compass direction or bearing")
 
     if degrees is not None:
         sector = sector_by_degrees(degrees)
@@ -294,6 +306,31 @@ def bagua_lookup(
         assert life_area is not None
         sector = sector_by_key(life_area)
 
+    boundary_context: dict[str, Any] | None = None
+    if degrees is not None:
+        bearing = degrees % 360
+        assert sector.center_degrees is not None
+        angular_delta = abs(((bearing - sector.center_degrees + 180) % 360) - 180)
+        distance_to_boundary = 22.5 - angular_delta
+        boundary_context = {
+            "normalized_bearing": bearing,
+            "distance_to_sector_boundary_degrees": round(distance_to_boundary, 6),
+            "uncertainty_degrees": uncertainty_degrees,
+            "boundary_status": (
+                "uncertainty_crosses_boundary"
+                if uncertainty_degrees is not None and uncertainty_degrees >= distance_to_boundary
+                else "within_sector"
+                if uncertainty_degrees is not None
+                else "measurement_uncertainty_not_supplied"
+            ),
+        }
+
+    orientation_basis = {
+        "compass": "absolute later-heaven compass direction; requires a reliable north basis",
+        "door_aligned": "entrance-aligned symbolic overlay; no compass calculation is performed",
+        "symbolic": "life-area or trigram symbolism only; no spatial direction is inferred",
+    }[method]
+
     return {
         "query": {
             "direction": direction,
@@ -301,7 +338,16 @@ def bagua_lookup(
             "trigram": trigram,
             "life_area": life_area,
             "method": method,
+            "uncertainty_degrees": uncertainty_degrees,
         },
+        "input_contract": (
+            ["direction", "degrees", "trigram"]
+            if method == "compass"
+            else ["life_area", "trigram"]
+        ),
+        "orientation_basis": orientation_basis,
+        "calculation_performed": method == "compass" and degrees is not None,
+        "boundary_context": boundary_context,
         "sector": sector_to_payload(sector, method),
         "feng_shui_use": [
             "Use compass bagua only when a reliable north/facing convention is available.",
@@ -329,22 +375,27 @@ def main() -> None:
         choices=["compass", "door_aligned", "symbolic"],
         help="Bagua method label.",
     )
+    parser.add_argument(
+        "--uncertainty-degrees",
+        type=float,
+        help="Optional bearing uncertainty; meaningful only with --degrees.",
+    )
     parser.add_argument("--pretty", action="store_true", help="Print indented JSON.")
     args = parser.parse_args()
 
-    print(
-        json.dumps(
-            bagua_lookup(
-                direction=args.direction,
-                degrees=args.degrees,
-                trigram=args.trigram,
-                life_area=args.life_area,
-                method=args.method,
-            ),
-            ensure_ascii=True,
-            indent=2 if args.pretty else None,
+    try:
+        data = bagua_lookup(
+            direction=args.direction,
+            degrees=args.degrees,
+            trigram=args.trigram,
+            life_area=args.life_area,
+            method=args.method,
+            uncertainty_degrees=args.uncertainty_degrees,
         )
-    )
+    except ValueError as exc:
+        parser.error(str(exc))
+
+    print(json.dumps(data, ensure_ascii=True, indent=2 if args.pretty else None))
 
 
 if __name__ == "__main__":

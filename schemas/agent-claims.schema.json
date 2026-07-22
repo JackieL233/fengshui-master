@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/JackieL233/fengshui-master/schemas/agent-claims.schema.json",
+  "title": "FengShui Master Agent Claims",
+  "type": "object",
+  "required": ["claims"],
+  "properties": {
+    "claims": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/claim" }
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "stringList": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "evidenceList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^(user|artifact|tool|source|claim):"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "claim": {
+      "type": "object",
+      "required": ["id", "text", "status", "confidence", "method", "evidence_refs", "falsifiers"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "text": { "type": "string", "minLength": 1 },
+        "status": {
+          "enum": ["observed", "calculated", "inferred", "unknown", "recommended"]
+        },
+        "confidence": { "enum": ["high", "medium", "low", "not_applicable"] },
+        "method": { "type": "string", "minLength": 1 },
+        "evidence_refs": { "$ref": "#/$defs/evidenceList" },
+        "falsifiers": { "$ref": "#/$defs/stringList" },
+        "calculation": {
+          "type": "object",
+          "required": ["tool", "inputs", "method"],
+          "properties": {
+            "tool": { "type": "string", "minLength": 1 },
+            "inputs": { "type": ["object", "array"] },
+            "method": { "type": "string", "minLength": 1 },
+            "convention": { "type": "string" }
+          },
+          "additionalProperties": true
+        },
+        "basis_refs": { "$ref": "#/$defs/stringList" },
+        "missing_inputs": { "$ref": "#/$defs/stringList" },
+        "based_on": { "$ref": "#/$defs/stringList" },
+        "reversibility": { "enum": ["reversible", "partly_reversible", "irreversible"] },
+        "verification": { "type": "string", "minLength": 1 },
+        "high_stakes_domain": {
+          "enum": ["finance", "medical", "legal", "engineering", "safety", "none"]
+        },
+        "boundary_ref": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "observed" } } },
+          "then": {
+            "properties": {
+              "evidence_refs": {
+                "contains": { "pattern": "^(user|artifact):" }
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "status": { "const": "calculated" } } },
+          "then": {
+            "required": ["calculation"],
+            "properties": {
+              "evidence_refs": {
+                "contains": { "pattern": "^tool:" }
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "status": { "const": "inferred" } } },
+          "then": { "required": ["basis_refs"] }
+        },
+        {
+          "if": { "properties": { "status": { "const": "unknown" } } },
+          "then": { "required": ["missing_inputs"] }
+        },
+        {
+          "if": { "properties": { "status": { "const": "recommended" } } },
+          "then": { "required": ["based_on", "reversibility", "verification"] }
+        },
+        {
+          "if": {
+            "properties": {
+              "high_stakes_domain": {
+                "enum": ["finance", "medical", "legal", "engineering", "safety"]
+              }
+            },
+            "required": ["high_stakes_domain"]
+          },
+          "then": { "required": ["boundary_ref"] }
+        }
+      ],
+      "additionalProperties": true
+    }
+  }
+}

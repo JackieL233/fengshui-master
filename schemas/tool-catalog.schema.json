@@ -37,7 +37,7 @@
         "path": { "type": "string" },
         "category": {
           "type": "string",
-          "enum": ["routing", "briefing", "reporting", "floorplan", "calculation", "timing"]
+          "enum": ["routing", "briefing", "reporting", "floorplan", "calculation", "timing", "personal_context"]
         },
         "description": { "type": "string" },
         "command_template": { "type": "string" },

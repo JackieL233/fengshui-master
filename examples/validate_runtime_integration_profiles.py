@@ -79,9 +79,15 @@ def main() -> int:
         by_id[profile_id] = entry
         for field in ["required_assets", "required_steps", "tooling", "validation_commands", "red_lines"]:
             validate_string_list(errors, profile_id, field, entry.get(field))
-        for required in ["PORTABLE_SKILL.md", "examples/response-contract.json"]:
-            if required not in entry.get("required_assets", []):
-                fail(errors, f"{profile_id} missing required asset {required}")
+        if profile_id != "codex":
+            for required in [
+                "PORTABLE_SKILL.md",
+                "examples/response-contract.json",
+                "examples/claim-evidence-policy.json",
+                "schemas/agent-claims.schema.json",
+            ]:
+                if required not in entry.get("required_assets", []):
+                    fail(errors, f"{profile_id} missing required asset {required}")
         if "python examples/validate_runtime_integration_profiles.py" not in entry.get("validation_commands", []):
             fail(errors, f"{profile_id} missing runtime profile validator")
 
@@ -104,6 +110,13 @@ def main() -> int:
     codex = by_id.get("codex", {})
     if "fengshui-master/SKILL.md" not in codex.get("required_assets", []):
         fail(errors, "codex profile missing Codex entrypoint")
+    if any(
+        path in codex.get("required_assets", [])
+        for path in ["PORTABLE_SKILL.md", "examples/response-contract.json"]
+    ):
+        fail(errors, "codex installed-runtime assets must not require repository-root files")
+    if "do not require repository-root files after installing only the fengshui-master folder" not in codex.get("red_lines", []):
+        fail(errors, "codex profile missing installed-folder portability red line")
     if "do not make the portable assets Codex-only" not in codex.get("red_lines", []):
         fail(errors, "codex profile missing portable red line")
 

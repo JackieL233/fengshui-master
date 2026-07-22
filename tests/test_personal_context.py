@@ -84,6 +84,58 @@ class PersonalContextScriptTest(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("HH:MM", result.stderr)
 
+    def test_li_chun_approx_uses_previous_effective_year_before_february_fourth(self):
+        data = run_context(
+            "--birth-date",
+            "1998-01-20",
+            "--sex",
+            "male",
+            "--as-of",
+            "2026-01-20",
+            "--year-boundary",
+            "li_chun_approx",
+        )
+
+        self.assertEqual(data["birth_context"]["effective_year"], 1997)
+        self.assertEqual(data["current_context"]["effective_year"], 2025)
+        self.assertEqual(
+            data["birth_context"]["year_boundary_provenance"]["mode"],
+            "li_chun_approx",
+        )
+        self.assertIn(
+            "not the exact local solar-term moment",
+            data["birth_context"]["year_boundary_provenance"]["precision"],
+        )
+
+    def test_invalid_timezone_is_rejected(self):
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--birth-date",
+                "1998-03-22",
+                "--timezone",
+                "Mars/Olympus",
+            ],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+        )
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("unknown IANA timezone", result.stderr)
+
+    def test_period_outside_helper_range_is_reported_without_crashing(self):
+        data = run_context(
+            "--birth-date",
+            "1998-03-22",
+            "--as-of",
+            "2050-07-18",
+        )
+
+        self.assertEqual(data["current_context"]["san_yuan_period"]["status"], "unavailable")
+        self.assertIn("1864-2043", data["current_context"]["san_yuan_period"]["reason"])
+
 
 if __name__ == "__main__":
     unittest.main()

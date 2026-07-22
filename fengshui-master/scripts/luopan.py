@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 from dataclasses import asdict, dataclass
 
 
@@ -49,17 +50,42 @@ class MountainResult:
     center_degrees: float
     range_start_degrees: float
     range_end_degrees: float
+    distance_to_boundary_degrees: float
+    uncertainty_degrees: float | None
+    boundary_status: str
+    north_basis: str
+    note: str
 
 
 def normalize_bearing(bearing: float) -> float:
     return bearing % 360.0
 
 
-def mountain_for_bearing(bearing: float) -> MountainResult:
+def mountain_for_bearing(
+    bearing: float,
+    uncertainty_degrees: float | None = None,
+    north_basis: str = "unspecified",
+) -> MountainResult:
+    if not math.isfinite(bearing):
+        raise ValueError("bearing must be finite")
+    if uncertainty_degrees is not None and (
+        not math.isfinite(uncertainty_degrees) or uncertainty_degrees < 0
+    ):
+        raise ValueError("uncertainty must be a finite non-negative number")
+    if north_basis not in {"magnetic", "true", "grid", "unspecified"}:
+        raise ValueError("north basis must be magnetic, true, grid, or unspecified")
     normalized = normalize_bearing(bearing)
     index = int(((normalized + 7.5) % 360) // 15)
     mountain, hanzi, direction, element, animal, sector = MOUNTAINS[index]
     center = (index * 15.0) % 360.0
+    angular_delta = abs(((normalized - center + 180) % 360) - 180)
+    distance_to_boundary = 7.5 - angular_delta
+    if uncertainty_degrees is None:
+        boundary_status = "measurement_uncertainty_not_supplied"
+    elif uncertainty_degrees >= distance_to_boundary:
+        boundary_status = "uncertainty_crosses_boundary"
+    else:
+        boundary_status = "within_sector"
     return MountainResult(
         bearing=bearing,
         normalized_bearing=normalized,
@@ -72,6 +98,11 @@ def mountain_for_bearing(bearing: float) -> MountainResult:
         center_degrees=center,
         range_start_degrees=(center - 7.5) % 360.0,
         range_end_degrees=(center + 7.5) % 360.0,
+        distance_to_boundary_degrees=round(distance_to_boundary, 6),
+        uncertainty_degrees=uncertainty_degrees,
+        boundary_status=boundary_status,
+        north_basis=north_basis,
+        note="A 24-mountain lookup is only as reliable as the supplied bearing, uncertainty, north basis, site measurement, and lineage convention.",
     )
 
 
@@ -81,11 +112,31 @@ def main() -> None:
     )
     parser.add_argument("bearing", type=float, help="Compass bearing in degrees.")
     parser.add_argument(
+        "--uncertainty-degrees",
+        type=float,
+        help="Optional estimated bearing uncertainty in degrees.",
+    )
+    parser.add_argument(
+        "--north-basis",
+        choices=["magnetic", "true", "grid", "unspecified"],
+        default="unspecified",
+        help="Reference north used by the supplied bearing.",
+    )
+    parser.add_argument(
         "--pretty", action="store_true", help="Print indented JSON for humans."
     )
     args = parser.parse_args()
 
-    data = asdict(mountain_for_bearing(args.bearing))
+    try:
+        data = asdict(
+            mountain_for_bearing(
+                args.bearing,
+                uncertainty_degrees=args.uncertainty_degrees,
+                north_basis=args.north_basis,
+            )
+        )
+    except ValueError as exc:
+        parser.error(str(exc))
     print(json.dumps(data, ensure_ascii=True, indent=2 if args.pretty else None))
 
 

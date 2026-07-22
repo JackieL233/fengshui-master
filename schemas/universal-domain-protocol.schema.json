@@ -18,7 +18,7 @@
     },
     "risk_levels": {
       "type": "array",
-      "minItems": 6,
+      "minItems": 4,
       "items": { "$ref": "#/$defs/riskLevel" }
     },
     "adapter_rules": {

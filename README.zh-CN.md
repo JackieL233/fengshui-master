@@ -209,6 +209,7 @@ fengshui-master/
 - [`schemas/external-calculation-contracts.schema.json`](schemas/external-calculation-contracts.schema.json)
 - [`schemas/contribution-quality-gates.schema.json`](schemas/contribution-quality-gates.schema.json)
 - [`schemas/runtime-integration-profiles.schema.json`](schemas/runtime-integration-profiles.schema.json)
+- [`schemas/agent-claims.schema.json`](schemas/agent-claims.schema.json)
 
 常见接入方式：
 
@@ -296,6 +297,22 @@ python examples/validate_intake_contracts.py
 ```bash
 python examples/validate_golden_responses.py
 ```
+
+## 证据声明契约
+
+对于所有实质性结论，使用 [`examples/claim-evidence-policy.json`](examples/claim-evidence-policy.json) 保存状态、置信度、方法、证据指针和可证伪条件。`observed` 必须指向用户陈述或工件，`calculated` 必须公开工具、输入和方法，`inferred` 必须有具体依据，`unknown` 必须列出缺失输入，`recommended` 必须说明依据、可逆性和验证步骤。智能体输出可使用 [`schemas/agent-claims.schema.json`](schemas/agent-claims.schema.json) 与以下命令验证：
+
+```bash
+python examples/validate_claim_evidence.py <claims.json>
+```
+
+## 精度与输入边界
+
+- `personal_context.py --year-boundary li_chun_approx` 使用 2 月 4 日作为公开的近似立春边界，并返回 `effective_year` 与边界来源；它不计算当地精确交节时刻，也不是完整八字。
+- `flying_stars.py --year <year>` 只查询该年的三元运，并以运数生成洛书飞布说明；它不是流年飞星、月飞星或宅命盘引擎。
+- 户型中的门必须标记 `role: main_entrance|interior`；只有标记为 `rear_exterior` 的后部外窗才参与前后通透候选。像素或自定义单位必须提供 `analysis_tolerances`，否则距离判断返回 `not_assessed`。
+- `bagua_map.py` 区分 compass、door-aligned 与 symbolic 输入契约；`luopan.py` 可记录测量误差与 magnetic、true、grid 等北向基准。靠近分界线时应重新测量，不应选择“更吉”的一侧。
+- 金融、医疗、法律、工程和安全问题必须先处理真实证据、截止期和专业支持；紧急情况会暂停象征分析。
 
 ## Codex 安装
 

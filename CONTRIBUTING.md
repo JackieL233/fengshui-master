@@ -42,10 +42,10 @@ python examples/validate_contribution_quality_gates.py
 
 See `examples/contribution-quality-gates.json` before adding references, tools, domain adapters, external calculation integrations, evaluation fixtures, security guardrails, or metadata.
 
-If you have the Codex skill-creator tools installed, also run:
+Validate the Codex-compatible skill entrypoint with the repository validator:
 
 ```bash
-python C:/Users/Administrator/.codex/skills/.system/skill-creator/scripts/quick_validate.py fengshui-master
+python .github/scripts/quick_validate.py fengshui-master
 ```
 
 Run the portable repository audit before opening a pull request:

@@ -15,6 +15,7 @@ For machine-readable runtime setup, use `examples/runtime-integration-profiles.j
 - Use deterministic scripts for calculations that the host can run. If a tool is unavailable, state the missing calculation and avoid invented precision.
 - Keep real-world constraints ahead of symbolic reading, especially for finance, health, law, construction, safety, and relationships.
 - Use `examples/response-contract.json` to enforce final-answer sections, high-stakes disclosures, output modes, and red-line behavior.
+- Use `examples/claim-evidence-policy.json` and `schemas/agent-claims.schema.json` to preserve evidence pointers, calculation provenance, confidence, falsifiers, and recommendation verification for material claims.
 - Evaluate adapters with `examples/portable-evaluation-suite.json` and score outputs with `examples/portable-evaluation-rubric.json`.
 
 ## Minimal Context Pack

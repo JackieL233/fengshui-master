@@ -317,15 +317,39 @@ def remove_provided_life_inputs(question: str, missing_inputs: list[str]) -> lis
     return [value for value in missing_inputs if value not in provided]
 
 
+def life_input_state(question: str) -> tuple[list[str], list[str]]:
+    configured = list(DOMAIN_MISSING_INPUTS["life_omen"])
+    missing = remove_provided_life_inputs(question, configured)
+    provided = [value for value in configured if value not in missing]
+    return provided, missing
+
+
 def create_brief(question: str, floorplan_path: str | None = None) -> dict[str, Any]:
     route = domain_router.route(question)
     domain = str(route["domain"])
+    domains = [str(value) for value in route.get("domains", [domain])]
     references = list(route["references"])
     guardrails = list(route["guardrails"])
-    report_sections = list(DOMAIN_SECTIONS.get(domain, DOMAIN_SECTIONS["general"]))
-    missing_inputs = list(DOMAIN_MISSING_INPUTS.get(domain, DOMAIN_MISSING_INPUTS["general"]))
-    if domain == "life_omen":
-        missing_inputs = remove_provided_life_inputs(question, missing_inputs)
+    report_sections: list[str] = []
+    missing_inputs: list[str] = []
+    provided_inputs: list[str] = []
+    domain_report_sections: dict[str, list[str]] = {}
+    for selected_domain in domains:
+        sections = list(
+            DOMAIN_SECTIONS.get(selected_domain, DOMAIN_SECTIONS["general"])
+        )
+        domain_report_sections[selected_domain] = sections
+        report_sections = merge_unique(report_sections, sections)
+
+        configured_inputs = list(
+            DOMAIN_MISSING_INPUTS.get(
+                selected_domain, DOMAIN_MISSING_INPUTS["general"]
+            )
+        )
+        if selected_domain == "life_omen":
+            life_provided, configured_inputs = life_input_state(question)
+            provided_inputs = merge_unique(provided_inputs, life_provided)
+        missing_inputs = merge_unique(missing_inputs, configured_inputs)
     if (
         "references/broad-symbolic-analysis.md" in references
         and "Symbolic analysis protocol" not in report_sections
@@ -348,6 +372,10 @@ def create_brief(question: str, floorplan_path: str | None = None) -> dict[str, 
         path = Path(floorplan_path)
         plan = json.loads(path.read_text(encoding="utf-8"))
         floorplan_analysis = floorplan_analyzer.analyze(plan)
+        provided_inputs = merge_unique(provided_inputs, ["structured floor plan"])
+        if "space" not in domains:
+            domains.append("space")
+            domain_report_sections["space"] = list(DOMAIN_SECTIONS["space"])
         references = merge_unique(references, ["references/floorplan-schema.md"])
         if "Structured floor-plan findings" not in report_sections:
             report_sections.insert(2, "Structured floor-plan findings")
@@ -363,22 +391,48 @@ def create_brief(question: str, floorplan_path: str | None = None) -> dict[str, 
     return {
         "question": question,
         "domain": domain,
-        "domains": route.get("domains", [domain]),
+        "domains": domains,
         "domain_scores": route.get("domain_scores", {domain: 1}),
+        "candidate_domains": route.get("candidate_domains", []),
+        "route_status": route.get("route_status", "matched"),
+        "risk_level": route.get("risk_level", "standard"),
+        "symbolic_analysis_allowed": route.get(
+            "symbolic_analysis_allowed", True
+        ),
+        "clarifying_questions": route.get("clarifying_questions", []),
         "references": references,
         "guardrails": guardrails,
         "lenses": route["lens"],
         "missing_inputs": missing_inputs,
+        "input_state": {
+            "provided": provided_inputs,
+            "missing": missing_inputs,
+            "ambiguous": (
+                route.get("clarifying_questions", [])
+                if route.get("route_status") == "ambiguous"
+                else []
+            ),
+            "blocking": (
+                [
+                    "Resolve the urgent real-world safety or medical concern before symbolic analysis."
+                ]
+                if not route.get("symbolic_analysis_allowed", True)
+                else []
+            ),
+        },
         "report_sections": report_sections,
+        "domain_report_sections": domain_report_sections,
         "floorplan_analysis": floorplan_analysis,
         "answer_contract": [
             "Separate real-world constraints from feng shui symbolism.",
             "State method, assumptions, and missing inputs before conclusions.",
             "Label facts, calculations, inferences, unknowns, and recommendations separately.",
+            "For material claims preserve confidence, method, evidence pointers, and falsifiers; calculations also need tool and input provenance.",
             "For each relevant domain, state favorable signals, possible friction, validation evidence, and the next low-risk action.",
             "Proceed provisionally when optional data is missing; do not invent hidden events or deterministic outcomes.",
             "Prioritize low-risk, reversible actions.",
             "Do not present symbolic readings as guaranteed outcomes.",
+            "Suspend symbolic analysis when the route marks an urgent safety or medical concern.",
         ],
     }
 

@@ -76,12 +76,26 @@ def main() -> int:
 
     manifest_refs = set(manifest.get("references", []))
     catalog_refs = set(by_path)
+    disk_refs = {
+        path.relative_to(ROOT).as_posix()
+        for path in (ROOT / "fengshui-master" / "references").glob("*.md")
+    }
     missing = sorted(manifest_refs - catalog_refs)
     extra = sorted(catalog_refs - manifest_refs)
     if missing:
         fail(errors, f"catalog missing manifest references: {', '.join(missing)}")
     if extra:
         fail(errors, f"catalog has references outside manifest: {', '.join(extra)}")
+    missing_from_inventory = sorted(disk_refs - manifest_refs)
+    stale_inventory = sorted(manifest_refs - disk_refs)
+    if missing_from_inventory:
+        fail(
+            errors,
+            "reference files missing from manifest and catalog: "
+            + ", ".join(missing_from_inventory),
+        )
+    if stale_inventory:
+        fail(errors, "manifest references missing on disk: " + ", ".join(stale_inventory))
 
     required_high_guardrails = {
         "fengshui-master/references/finance-adapter.md": "not financial advice",

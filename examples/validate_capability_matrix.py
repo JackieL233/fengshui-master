@@ -21,6 +21,8 @@ REQUIRED_IDS = {
     "finance-symbolic-decision-support",
     "new-moon-full-moon-timing",
     "portable-agent-integration",
+    "san-he-site-intake",
+    "luopan-24-mountain-mapping",
     "full-bazi-four-pillars",
 }
 
@@ -121,9 +123,11 @@ def main() -> int:
         fail(errors, f"matrix missing required capabilities: {', '.join(missing_ids)}")
 
     expected_statuses = {
-        "space-form-analysis": "fully_covered",
+        "space-form-analysis": "partially_covered",
         "life-omen-symbolic-analysis": "fully_covered",
-        "naming-multilayer-analysis": "fully_covered",
+        "naming-multilayer-analysis": "partially_covered",
+        "san-he-site-intake": "partially_covered",
+        "luopan-24-mountain-mapping": "fully_covered",
         "finance-symbolic-decision-support": "partially_covered",
         "new-moon-full-moon-timing": "partially_covered",
         "full-bazi-four-pillars": "not_covered",

@@ -1,0 +1,61 @@
+{
+  "name": "fengshui-master-claim-evidence-policy",
+  "version": "1.0.0",
+  "purpose": "Enforce provenance, uncertainty, falsifiability, and action verification for material FengShui Master claims across portable agents and RAG systems.",
+  "purpose_zh": "为通用智能体与 RAG 系统中的实质性风水结论强制提供来源、不确定性、可证伪条件与行动验证。",
+  "schema": "schemas/agent-claims.schema.json",
+  "statuses": {
+    "observed": "Directly supplied by the user or visible in an identified artifact.",
+    "calculated": "Produced by a named tool from disclosed inputs and a named method.",
+    "inferred": "A conditional interpretation supported by identified observations, calculations, or sources.",
+    "unknown": "Not established because required evidence or inputs are missing.",
+    "recommended": "A proposed action linked to established findings and a verification step."
+  },
+  "required_common_fields": [
+    "id",
+    "text",
+    "status",
+    "confidence",
+    "method",
+    "evidence_refs",
+    "falsifiers"
+  ],
+  "evidence_pointer_prefixes": ["user:", "artifact:", "tool:", "source:", "claim:"],
+  "status_requirements": {
+    "observed": ["at least one user: or artifact: evidence pointer"],
+    "calculated": ["calculation.tool", "calculation.inputs", "calculation.method", "at least one tool: evidence pointer"],
+    "inferred": ["basis_refs", "at least one falsifier", "no personalized hidden-event claim without a concrete basis"],
+    "unknown": ["missing_inputs"],
+    "recommended": ["based_on", "reversibility", "verification"]
+  },
+  "high_stakes_rule": "Claims in finance, medical, legal, engineering, or safety domains require boundary_ref and may not use symbolism as the sole evidence.",
+  "cold_reading_rule": "Do not label a sparse-input personalized hypothesis as observed; use inferred with concrete basis_refs and falsifiers or unknown with missing_inputs.",
+  "valid_example": {
+    "claims": [
+      {
+        "id": "c1",
+        "text": "The supplied plan marks the main entrance at feature front-door.",
+        "status": "observed",
+        "confidence": "high",
+        "method": "structured artifact inspection",
+        "evidence_refs": ["artifact:floorplan.json#/features/front-door"],
+        "falsifiers": ["The user confirms that the marked door is not the primary entrance."],
+        "high_stakes_domain": "none"
+      },
+      {
+        "id": "c2",
+        "text": "The entrance-window alignment should be verified before adding any divider.",
+        "status": "recommended",
+        "confidence": "medium",
+        "method": "low-risk form review",
+        "evidence_refs": ["claim:c1"],
+        "falsifiers": ["A site check shows no shared sightline or direct circulation path."],
+        "based_on": ["claim:c1"],
+        "reversibility": "reversible",
+        "verification": "Check egress width, sightline, door swing, and normal circulation on site.",
+        "high_stakes_domain": "safety",
+        "boundary_ref": "examples/response-contract.json#engineering_architecture_or_safety"
+      }
+    ]
+  }
+}

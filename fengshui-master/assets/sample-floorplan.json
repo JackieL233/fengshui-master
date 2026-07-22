@@ -59,6 +59,7 @@
     {
       "id": "front-door",
       "type": "door",
+      "role": "main_entrance",
       "room": "entry",
       "x": 5,
       "y": 0,
@@ -67,6 +68,7 @@
     {
       "id": "rear-window",
       "type": "window",
+      "role": "rear_exterior",
       "room": "living",
       "x": 5,
       "y": 4.4,

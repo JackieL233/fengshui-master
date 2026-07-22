@@ -7,6 +7,16 @@
   "domain_scores": {
     "finance": 1
   },
+  "candidate_domains": [
+    {
+      "domain": "finance",
+      "score": 1
+    }
+  ],
+  "route_status": "matched",
+  "risk_level": "high",
+  "symbolic_analysis_allowed": true,
+  "clarifying_questions": [],
   "references": [
     "references/broad-symbolic-analysis.md",
     "references/finance-adapter.md",
@@ -36,6 +46,19 @@
     "existing allocation or concentration",
     "financial thesis and downside condition"
   ],
+  "input_state": {
+    "provided": [],
+    "missing": [
+      "decision type",
+      "time horizon",
+      "risk tolerance",
+      "liquidity needs",
+      "existing allocation or concentration",
+      "financial thesis and downside condition"
+    ],
+    "ambiguous": [],
+    "blocking": []
+  },
   "report_sections": [
     "Inputs and assumptions",
     "Financial reality check",
@@ -53,14 +76,26 @@
     "Practical adjustments",
     "Boundaries and missing data"
   ],
+  "domain_report_sections": {
+    "finance": [
+      "Inputs and assumptions",
+      "Financial reality check",
+      "Risk posture",
+      "Feng shui symbolic layer",
+      "Practical adjustments",
+      "Boundaries and missing data"
+    ]
+  },
   "floorplan_analysis": null,
   "answer_contract": [
     "Separate real-world constraints from feng shui symbolism.",
     "State method, assumptions, and missing inputs before conclusions.",
     "Label facts, calculations, inferences, unknowns, and recommendations separately.",
+    "For material claims preserve confidence, method, evidence pointers, and falsifiers; calculations also need tool and input provenance.",
     "For each relevant domain, state favorable signals, possible friction, validation evidence, and the next low-risk action.",
     "Proceed provisionally when optional data is missing; do not invent hidden events or deterministic outcomes.",
     "Prioritize low-risk, reversible actions.",
-    "Do not present symbolic readings as guaranteed outcomes."
+    "Do not present symbolic readings as guaranteed outcomes.",
+    "Suspend symbolic analysis when the route marks an urgent safety or medical concern."
   ]
 }

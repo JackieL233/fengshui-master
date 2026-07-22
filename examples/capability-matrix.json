@@ -7,14 +7,14 @@
     {
       "id": "space-form-analysis",
       "title": "Form-school spatial analysis for homes, offices, shops, rooms, and sites",
-      "status": "fully_covered",
+      "status": "partially_covered",
       "domains": ["space"],
       "supported_questions": ["home layout review", "office desk placement", "shopfront qi flow", "bedroom support and sha qi", "site and entrance form"],
       "required_inputs": ["space type", "floor plan or description", "entrance and circulation", "major furniture or functional zones", "known safety or usability constraints"],
       "references": ["fengshui-master/references/foundation.md", "fengshui-master/references/forms-and-environment.md", "fengshui-master/references/analysis-templates.md", "fengshui-master/references/remedies.md"],
       "optional_tools": ["fengshui-master/scripts/create_brief.py", "fengshui-master/scripts/generate_report.py", "fengshui-master/scripts/analyze_floorplan.py"],
       "guardrails": ["prioritize safety and usability", "separate observation from interpretation", "prefer safe reversible interventions"],
-      "limitations": ["raw photo, map, and computer-vision parsing are not included", "structural engineering and architectural code review are outside scope"],
+      "limitations": ["the bundled analyzer covers validated rectangular annotations and a limited set of form checks rather than systematic dragon den sand water and facing site evidence", "raw photo, map, GIS, irregular polygon, and computer-vision parsing are not included", "structural engineering and architectural code review are outside scope"],
       "adaptation_notes": ["Use structured floor-plan JSON when repeatability matters.", "Ask for missing measurements before precise spatial claims."]
     },
     {
@@ -33,14 +33,14 @@
     {
       "id": "eight-mansions-ming-gua",
       "title": "Eight Mansions ming gua helper and direction grouping",
-      "status": "fully_covered",
+      "status": "partially_covered",
       "domains": ["space", "personal"],
       "supported_questions": ["common ming gua lookup", "east or west group", "bed or desk direction discussion"],
       "required_inputs": ["birth year", "traditional sex input if using the common formula", "li chun or lunar boundary convention when precision matters", "bed desk or door direction"],
       "references": ["fengshui-master/references/schools.md", "fengshui-master/references/foundation.md"],
       "optional_tools": ["fengshui-master/scripts/minggua.py"],
       "guardrails": ["confirm li chun or lineage-specific year boundary when precision matters", "do not reduce a person to one direction", "prioritize safety comfort and real use"],
-      "limitations": ["uses a common simplified formula", "does not replace lineage-specific Eight Mansions consultation"],
+      "limitations": ["uses a common simplified ming-gua formula", "does not calculate a complete house-person Eight Mansions chart", "does not replace lineage-specific Eight Mansions consultation"],
       "adaptation_notes": ["Use as a personal-direction scaffold, then check form, comfort, and room function."]
     },
     {
@@ -113,12 +113,12 @@
       "title": "Xuan Kong flying-star scaffold",
       "status": "partially_covered",
       "domains": ["xuan_kong", "space", "timing"],
-      "supported_questions": ["basic Luo Shu star flight", "annual-star scaffold", "flying-star intake checklist", "Period 9 discussion"],
+      "supported_questions": ["period-number Luo Shu star flight", "flying-star intake checklist", "Period 9 discussion", "scope distinction among period natal annual and monthly charts"],
       "required_inputs": ["building period", "facing direction in degrees", "floor plan", "school convention", "whether natal annual or monthly layer is requested"],
       "references": ["fengshui-master/references/xuan-kong-flying-stars.md", "fengshui-master/references/timing-and-date-selection.md", "fengshui-master/references/schools.md"],
       "optional_tools": ["fengshui-master/scripts/flying_stars.py", "fengshui-master/scripts/periods.py"],
       "guardrails": ["not a full Xuan Kong natal chart", "do not present scaffold as full natal chart", "do not mix schools silently"],
-      "limitations": ["full natal chart, replacement stars, and lineage variants are not automated", "requires reliable facing and building-period data"],
+      "limitations": ["full natal chart, annual chart, monthly chart, replacement stars, and lineage variants are not automated", "the --year option only looks up a San Yuan period and is not an annual-star engine", "requires reliable facing and building-period data"],
       "adaptation_notes": ["When inputs are vague, return a method checklist instead of a precise judgment."]
     },
     {
@@ -176,7 +176,7 @@
     {
       "id": "naming-multilayer-analysis",
       "title": "Personal and commercial naming with context fusion and wuxing symbolism",
-      "status": "fully_covered",
+      "status": "partially_covered",
       "domains": ["naming", "life_omen", "brand", "product", "business"],
       "supported_questions": ["personal or baby naming", "adult renaming", "pen or stage names", "brand company shop or product names", "candidate name comparison"],
       "required_inputs": ["name type and purpose", "fixed surname characters or words", "candidate names or generation permission", "language pronunciation culture and region", "desired impression and real constraints"],
@@ -224,6 +224,32 @@
       "guardrails": ["preserve high-stakes disclosures", "validate metadata before deployment", "do not weaken tool-specific guardrails"],
       "limitations": ["host platforms must provide their own runtime, retrieval, and policy enforcement", "validators check metadata structure, not every possible model answer"],
       "adaptation_notes": ["Use this matrix to decide which references and tools to expose for a given domain."]
+    },
+    {
+      "id": "san-he-site-intake",
+      "title": "San He site, water approach and exit, and lineage-intake scaffold",
+      "status": "partially_covered",
+      "domains": ["space", "yin_house"],
+      "supported_questions": ["identify required San He site evidence", "describe water or road approach and exit", "map a supplied bearing to a 24-mountain sector", "explain why lineage-specific formulas are unavailable"],
+      "required_inputs": ["site context", "water or road approach and exit", "verified compass bearings and north basis", "requested lineage", "legal safety family and land constraints"],
+      "references": ["fengshui-master/references/schools.md", "fengshui-master/references/forms-and-environment.md", "fengshui-master/references/yin-house.md", "fengshui-master/references/ethics-and-limits.md"],
+      "optional_tools": ["fengshui-master/scripts/luopan.py", "fengshui-master/scripts/create_brief.py"],
+      "guardrails": ["do not invent lineage-specific formulas", "do not claim descendant wealth fertility illness or death outcomes", "law land safety and family consent take priority"],
+      "limitations": ["advanced water-method formulas and lineage tables are not automated", "site form is not inferred from a bearing alone", "this capability is intake and bounded explanation rather than a complete San He audit"],
+      "adaptation_notes": ["Return not_assessed when approach exit terrain or north-basis evidence is missing.", "Use the 24-mountain helper only as a direction mapping with uncertainty."]
+    },
+    {
+      "id": "luopan-24-mountain-mapping",
+      "title": "Finite compass bearing to 24-mountain sector mapping",
+      "status": "fully_covered",
+      "domains": ["space", "direction"],
+      "supported_questions": ["map a bearing to one of 24 mountains", "report sector boundaries", "flag uncertainty crossing a boundary", "record magnetic true or grid north basis"],
+      "required_inputs": ["finite compass bearing", "estimated measurement uncertainty when available", "north basis"],
+      "references": ["fengshui-master/references/foundation.md", "fengshui-master/references/schools.md"],
+      "optional_tools": ["fengshui-master/scripts/luopan.py"],
+      "guardrails": ["mapping alone does not determine auspiciousness", "state measurement uncertainty and north basis", "verify site measurement before lineage-specific use"],
+      "limitations": ["does not calculate water methods natal charts or auspiciousness", "magnetic declination correction is not automated"],
+      "adaptation_notes": ["Treat uncertainty_crosses_boundary as a request for remeasurement rather than choosing the more favorable sector."]
     },
     {
       "id": "full-bazi-four-pillars",

@@ -22,7 +22,7 @@
       "name": "domain_router",
       "path": "fengshui-master/scripts/domain_router.py",
       "category": "routing",
-      "description": "Route a user question to FengShui Master domains, references, guardrails, and symbolic lenses.",
+      "description": "Route a user question to candidate domains, references, guardrails, risk level, ambiguity status, clarification prompts, and symbolic-analysis eligibility.",
       "command_template": "python fengshui-master/scripts/domain_router.py \"<question>\" --pretty",
       "inputs": [
         {"name": "question", "type": "string", "required": true, "description": "User question or short task description."},
@@ -36,7 +36,7 @@
       "name": "create_brief",
       "path": "fengshui-master/scripts/create_brief.py",
       "category": "briefing",
-      "description": "Create a structured consultation brief with references, guardrails, missing inputs, lenses, and report sections.",
+      "description": "Create a cross-domain consultation brief that merges references, guardrails, input state, risk metadata, lenses, and per-domain report sections.",
       "command_template": "python fengshui-master/scripts/create_brief.py \"<question>\" --pretty",
       "inputs": [
         {"name": "question", "type": "string", "required": true, "description": "User question or consultation goal."},
@@ -60,6 +60,7 @@
         {"name": "birth_location", "type": "string", "required": false, "description": "Birth locality for provenance and future timezone-sensitive integrations."},
         {"name": "timezone", "type": "string", "required": false, "description": "IANA-style timezone label when known."},
         {"name": "as_of", "type": "date", "required": false, "description": "Gregorian analysis date; defaults to the current local date."},
+        {"name": "year_boundary", "type": "string", "required": false, "description": "Year-level convention: gregorian or documented li_chun_approx."},
         {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
       ],
       "output_format": "json",
@@ -85,7 +86,7 @@
       "name": "analyze_floorplan",
       "path": "fengshui-master/scripts/analyze_floorplan.py",
       "category": "floorplan",
-      "description": "Analyze structured floor-plan JSON for intake validity, form findings, issues, and low-risk recommendations.",
+      "description": "Validate structured floor-plan semantics and produce source-linked form findings, unit-aware issues, constrained recommendations, and explicit not_assessed results.",
       "command_template": "python fengshui-master/scripts/analyze_floorplan.py <floorplan.json> --pretty",
       "inputs": [
         {"name": "path", "type": "path", "required": true, "description": "Path to structured floor-plan JSON."},
@@ -99,7 +100,7 @@
       "name": "bagua_map",
       "path": "fengshui-master/scripts/bagua_map.py",
       "category": "calculation",
-      "description": "Return later-heaven bagua direction, trigram, phase, life-area symbolism, actions, cautions, and method labels.",
+      "description": "Return later-heaven bagua symbolism under separate compass, door-aligned, or symbolic input contracts, with bearing-boundary uncertainty when applicable.",
       "command_template": "python fengshui-master/scripts/bagua_map.py --direction <direction> --pretty",
       "inputs": [
         {"name": "direction", "type": "string", "required": false, "description": "Direction such as north, southeast, or NW."},
@@ -107,6 +108,7 @@
         {"name": "trigram", "type": "string", "required": false, "description": "Trigram key such as qian, kan, li, or xun."},
         {"name": "life_area", "type": "string", "required": false, "description": "Life area such as wealth, career, relationship, or helpful_people."},
         {"name": "method", "type": "string", "required": false, "description": "Bagua method label: compass, door_aligned, or symbolic."},
+        {"name": "uncertainty_degrees", "type": "number", "required": false, "description": "Optional non-negative bearing uncertainty used with degrees."},
         {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
       ],
       "output_format": "json",
@@ -117,10 +119,12 @@
       "name": "luopan",
       "path": "fengshui-master/scripts/luopan.py",
       "category": "calculation",
-      "description": "Map a compass bearing in degrees to a 24-mountain luopan sector.",
+      "description": "Map a finite compass bearing to a 24-mountain sector and expose boundary distance, measurement uncertainty, and north basis.",
       "command_template": "python fengshui-master/scripts/luopan.py <degrees> --pretty",
       "inputs": [
         {"name": "bearing", "type": "number", "required": true, "description": "Compass bearing in degrees."},
+        {"name": "uncertainty_degrees", "type": "number", "required": false, "description": "Optional non-negative estimated bearing uncertainty."},
+        {"name": "north_basis", "type": "string", "required": false, "description": "magnetic, true, grid, or unspecified."},
         {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
       ],
       "output_format": "json",
@@ -188,11 +192,11 @@
       "name": "flying_stars",
       "path": "fengshui-master/scripts/flying_stars.py",
       "category": "calculation",
-      "description": "Create a basic Luo Shu flying-star chart from a period or supported year.",
+      "description": "Create a period-number Luo Shu flight scaffold; a supplied year only selects its San Yuan period and does not calculate an annual chart.",
       "command_template": "python fengshui-master/scripts/flying_stars.py --year <year> --pretty",
       "inputs": [
         {"name": "period", "type": "integer", "required": false, "description": "San Yuan period number, 1-9."},
-        {"name": "year", "type": "integer", "required": false, "description": "Gregorian year, 1864-2043."},
+        {"name": "year", "type": "integer", "required": false, "description": "Gregorian year used only to select its San Yuan period, 1864-2043; not an annual-star calculation."},
         {"name": "direction", "type": "string", "required": false, "description": "Flight direction: forward or reverse."},
         {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
       ],

@@ -35,7 +35,13 @@
     "fengshui-master/references/five-phase-domain-map.md",
     "fengshui-master/references/floorplan-schema.md",
     "fengshui-master/references/ethics-and-limits.md",
-    "fengshui-master/references/classical-source-map.md"
+    "fengshui-master/references/classical-source-map.md",
+    "fengshui-master/references/case-patterns.md",
+    "fengshui-master/references/consultation-brief.md",
+    "fengshui-master/references/glossary.md",
+    "fengshui-master/references/reporting-protocol.md",
+    "fengshui-master/references/sample-readings.md",
+    "fengshui-master/references/sources.md"
   ],
   "tools": [
     "fengshui-master/scripts/method_selector.py",
@@ -66,6 +72,9 @@
     "examples/validate_tool_catalog.py",
     "examples/response-contract.json",
     "examples/validate_response_contract.py",
+    "examples/claim-evidence-policy.json",
+    "examples/validate_claim_evidence.py",
+    "examples/validate_json_schemas.py",
     "examples/capability-matrix.json",
     "examples/validate_capability_matrix.py",
     "examples/source-quality-policy.json",
@@ -102,7 +111,8 @@
     "universal_domain_protocol": "schemas/universal-domain-protocol.schema.json",
     "external_calculation_contracts": "schemas/external-calculation-contracts.schema.json",
     "contribution_quality_gates": "schemas/contribution-quality-gates.schema.json",
-    "runtime_integration_profiles": "schemas/runtime-integration-profiles.schema.json"
+    "runtime_integration_profiles": "schemas/runtime-integration-profiles.schema.json",
+    "agent_claims": "schemas/agent-claims.schema.json"
   },
   "governance": [
     "SECURITY.md",

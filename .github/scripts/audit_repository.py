@@ -187,6 +187,9 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     contribution_quality_gates_validator_path = ROOT / "examples" / "validate_contribution_quality_gates.py"
     runtime_integration_profiles_path = ROOT / "examples" / "runtime-integration-profiles.json"
     runtime_integration_profiles_validator_path = ROOT / "examples" / "validate_runtime_integration_profiles.py"
+    claim_evidence_policy_path = ROOT / "examples" / "claim-evidence-policy.json"
+    claim_evidence_validator_path = ROOT / "examples" / "validate_claim_evidence.py"
+    json_schema_validator_path = ROOT / "examples" / "validate_json_schemas.py"
     manifest_path = ROOT / "portable-skill.json"
     manifest_validator_path = ROOT / "examples" / "validate_portable_manifest.py"
     manifest_schema_path = ROOT / "schemas" / "portable-skill.schema.json"
@@ -203,6 +206,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     external_calculation_contracts_schema_path = ROOT / "schemas" / "external-calculation-contracts.schema.json"
     contribution_quality_gates_schema_path = ROOT / "schemas" / "contribution-quality-gates.schema.json"
     runtime_integration_profiles_schema_path = ROOT / "schemas" / "runtime-integration-profiles.schema.json"
+    agent_claims_schema_path = ROOT / "schemas" / "agent-claims.schema.json"
     integration_path = ROOT / "docs" / "integration-guide.md"
 
     if not portable_path.exists():
@@ -292,6 +296,15 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     if not runtime_integration_profiles_validator_path.exists():
         fail(errors, "missing examples/validate_runtime_integration_profiles.py")
         return
+    if not claim_evidence_policy_path.exists():
+        fail(errors, "missing examples/claim-evidence-policy.json")
+        return
+    if not claim_evidence_validator_path.exists():
+        fail(errors, "missing examples/validate_claim_evidence.py")
+        return
+    if not json_schema_validator_path.exists():
+        fail(errors, "missing examples/validate_json_schemas.py")
+        return
     if not manifest_path.exists():
         fail(errors, "missing portable-skill.json")
         return
@@ -306,6 +319,9 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         return
     if not reference_catalog_schema_path.exists():
         fail(errors, "missing schemas/reference-catalog.schema.json")
+        return
+    if not agent_claims_schema_path.exists():
+        fail(errors, "missing schemas/agent-claims.schema.json")
         return
     if not tool_catalog_schema_path.exists():
         fail(errors, "missing schemas/tool-catalog.schema.json")
@@ -574,6 +590,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         "schemas/external-calculation-contracts.schema.json",
         "schemas/contribution-quality-gates.schema.json",
         "schemas/runtime-integration-profiles.schema.json",
+        "schemas/agent-claims.schema.json",
     ]:
         if term not in readme or term not in portable:
             fail(errors, f"portable schema path missing from public docs: {term}")
@@ -656,6 +673,15 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         fail(errors, "portable manifest missing runtime integration profiles")
     if "examples/validate_runtime_integration_profiles.py" not in manifest.get("evaluation", []):
         fail(errors, "portable manifest missing runtime integration profiles validator")
+    for term in [
+        "examples/claim-evidence-policy.json",
+        "examples/validate_claim_evidence.py",
+        "examples/validate_json_schemas.py",
+    ]:
+        if term not in manifest.get("evaluation", []):
+            fail(errors, f"portable manifest missing {term}")
+    if manifest.get("schemas", {}).get("agent_claims") != "schemas/agent-claims.schema.json":
+        fail(errors, "portable manifest missing agent claims schema")
     response_sections = {
         section.get("name")
         for section in response_contract.get("required_sections", [])
@@ -975,6 +1001,24 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     )
     if runtime_validator.returncode != 0:
         fail(errors, f"runtime integration profiles validator failed: {runtime_validator.stderr.strip()}")
+
+    claim_validator = subprocess.run(
+        [sys.executable, str(claim_evidence_validator_path)],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    if claim_validator.returncode != 0:
+        fail(errors, f"claim evidence validator failed: {claim_validator.stderr.strip()}")
+
+    schema_validator = subprocess.run(
+        [sys.executable, str(json_schema_validator_path)],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    if schema_validator.returncode != 0:
+        fail(errors, f"JSON Schema validator failed: {schema_validator.stderr.strip()}")
 
 
 def audit_bilingual_docs(errors: list[str]) -> None:

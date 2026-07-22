@@ -36,10 +36,12 @@ Domain: space
 - Separate real-world constraints from feng shui symbolism.
 - State method, assumptions, and missing inputs before conclusions.
 - Label facts, calculations, inferences, unknowns, and recommendations separately.
+- For material claims preserve confidence, method, evidence pointers, and falsifiers; calculations also need tool and input provenance.
 - For each relevant domain, state favorable signals, possible friction, validation evidence, and the next low-risk action.
 - Proceed provisionally when optional data is missing; do not invent hidden events or deterministic outcomes.
 - Prioritize low-risk, reversible actions.
 - Do not present symbolic readings as guaranteed outcomes.
+- Suspend symbolic analysis when the route marks an urgent safety or medical concern.
 
 ## Structured Floor-Plan Analysis
 
@@ -50,27 +52,27 @@ Domain: space
 
 ### Findings
 - entry:
-  - Main door is present; confirm whether it is the main qi mouth or only the unit door.
+  - Main entrance front-door is explicitly identified as the qi-mouth candidate.
 - center:
-  - The plan center is closest to Living Room. Keep this area clear, stable, dry, and usable.
+  - The geometric plan center falls within: Living Room. Keep the actual center area clear, stable, dry, and usable.
 - bedroom:
   - Bed feature supplied; review door line, backing, mirror, beam, and head direction before symbolic remedies.
 - desk:
   - Desk feature supplied; command position and back support should outrank personal direction if they conflict.
 - kitchen:
-  - Stove feature supplied; check ventilation, workflow, and water-fire relationship.
+  - Stove feature supplied; check ventilation, workflow, fire safety, and water-fire symbolism in that order.
 
 ### Issues
-- front_back_alignment (medium): A door and window appear aligned; traditionally this can read as qi passing through too quickly.
-- stove_sink_close (low): Stove and sink are close; some traditions read this as fire-water tension.
+- front_back_alignment (medium): The explicitly identified main entrance and a window are axis-aligned within the configured tolerance; some traditions read this as flow passing through too quickly.
+- stove_sink_close (low): Stove and sink are close within the configured unit-aware threshold; some traditions read this as fire-water tension.
 
 ### Recommendations
-- high: Create a pause point between the aligned door and window with lighting, rug, plant, screen, or furniture that does not block circulation.
-- medium: For the bed, prefer solid head support and a view of the door without direct door-line exposure.
-- low: Improve kitchen workflow and consider a practical wood/earth bridge such as a prep surface, mat, or neutral material between stove and sink.
-- medium: For bathrooms, prioritize ventilation, dry surfaces, working drains, and a door that closes properly.
+- high: Create a visual or circulation pause only if it preserves a clear, accessible egress route.
+- medium: Prefer solid head support and a view of the door without direct door-line exposure when comfort and access allow.
+- low: Improve practical prep separation first; treat any material or color bridge as secondary symbolism.
+- medium: Prioritize ventilation, dry surfaces, working drains, leak repair, and doors that operate safely.
 
-Method note: This is a structured intake and form-analysis scaffold. It does not replace visual review, compass verification, or lineage-specific formulas.
+Method note: This is a validated structured-intake and limited form-analysis scaffold. It does not replace visual review, code and accessibility review, compass verification, or lineage-specific formulas.
 
 ## Report Sections
 

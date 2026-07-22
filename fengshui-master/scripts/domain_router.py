@@ -5,18 +5,23 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 
 
 def score_question(question: str, keywords: set[str]) -> int:
-    normalized = question.lower()
-    words = {token.strip(".,?!:;()[]{}\"'").lower() for token in question.split()}
-    score = len(words & keywords)
+    normalized = question.casefold()
+    return sum(1 for keyword in keywords if keyword_matches(normalized, keyword))
 
-    for keyword in keywords:
-        if keyword and keyword in normalized and keyword not in words:
-            score += 1
 
-    return score
+def keyword_matches(normalized_text: str, keyword: str) -> bool:
+    """Match CJK text by substring and Latin text by word or phrase boundary."""
+    normalized_keyword = keyword.casefold().strip()
+    if not normalized_keyword:
+        return False
+    if any(ord(character) > 127 for character in normalized_keyword):
+        return normalized_keyword in normalized_text
+    pattern = rf"(?<![a-z0-9_]){re.escape(normalized_keyword)}(?![a-z0-9_])"
+    return re.search(pattern, normalized_text) is not None
 
 
 DOMAIN_RULES = [
@@ -36,8 +41,6 @@ DOMAIN_RULES = [
             "solstice",
             "newmoon",
             "fullmoon",
-            "new",
-            "full",
             "launch",
             "move",
             "moving",
@@ -192,6 +195,7 @@ DOMAIN_RULES = [
             "finance",
             "market",
             "risk",
+            "fintech",
             "cash",
             "budget",
             "wealth",
@@ -385,6 +389,8 @@ DOMAIN_RULES = [
             "family",
             "friendship",
             "conflict",
+            "violence",
+            "abuse",
             "communication",
             "roommate",
             "关系",
@@ -465,6 +471,9 @@ DOMAIN_RULES = [
             "filing",
             "clause",
             "clauses",
+            "privacy",
+            "legal deadline",
+            "court deadline",
             "法律",
             "合同",
             "契约",
@@ -493,6 +502,20 @@ DOMAIN_RULES = [
         "wellbeing",
         {
             "health",
+            "healthcare",
+            "medical",
+            "patient",
+            "chest pain",
+            "difficulty breathing",
+            "trouble breathing",
+            "self-harm",
+            "suicide",
+            "emergency",
+            "胸痛",
+            "呼吸困难",
+            "自残",
+            "自杀",
+            "紧急情况",
             "sleep",
             "stress",
             "wellbeing",
@@ -534,11 +557,13 @@ DOMAIN_RULES = [
             "mirror",
             "bagua",
             "trigram",
-            "wealth",
-            "career",
-            "relationship",
-            "helpful",
-            "people",
+            "wealth corner",
+            "wealth sector",
+            "career corner",
+            "career sector",
+            "relationship corner",
+            "relationship sector",
+            "helpful people",
             "door",
             "floor",
             "layout",
@@ -547,6 +572,9 @@ DOMAIN_RULES = [
             "store",
             "land",
             "site",
+            "structural danger",
+            "gas leak",
+            "fire emergency",
             "住宅",
             "房子",
             "公寓",
@@ -583,7 +611,58 @@ DOMAIN_RULES = [
 ]
 
 
+HIGH_RISK_DOMAINS = {"finance", "legal_adjacent", "wellbeing"}
+CRITICAL_SAFETY_PATTERNS = {
+    "chest pain",
+    "difficulty breathing",
+    "trouble breathing",
+    "self-harm",
+    "suicide",
+    "medical emergency",
+    "imminent danger",
+    "violence",
+    "legal deadline",
+    "court deadline",
+    "structural danger",
+    "gas leak",
+    "fire emergency",
+    "胸痛",
+    "呼吸困难",
+    "自残",
+    "自杀",
+    "紧急情况",
+    "燃气泄漏",
+    "火灾",
+    "结构危险",
+    "暴力",
+    "法律截止日期",
+}
+
+
+def clarification_questions(domains: list[str], status: str) -> list[str]:
+    if status == "critical_safety":
+        return [
+            "Is anyone in immediate danger or experiencing urgent medical symptoms?",
+            "Which qualified emergency or professional service can you contact now?",
+        ]
+    if status == "needs_clarification":
+        return [
+            "What real-world domain and decision should the reading support?",
+            "Do you want spatial, timing, personal-context, or broad symbolic analysis?",
+        ]
+    if status == "ambiguous":
+        return [
+            f"Which domain should lead the analysis: {', '.join(domains[:3])}?",
+            "What concrete outcome, time horizon, and constraints matter most?",
+        ]
+    return []
+
+
 def route(question: str) -> dict[str, object]:
+    critical_safety = any(
+        keyword_matches(question.casefold(), pattern)
+        for pattern in CRITICAL_SAFETY_PATTERNS
+    )
     scored: list[tuple[int, int, str, list[str], list[str]]] = []
     for index, (domain, keywords, references, guardrails) in enumerate(DOMAIN_RULES):
         score = score_question(question, keywords)
@@ -595,6 +674,13 @@ def route(question: str) -> dict[str, object]:
             "domain": "general",
             "domains": ["general"],
             "domain_scores": {"general": 1},
+            "candidate_domains": [{"domain": "general", "score": 1}],
+            "route_status": "critical_safety" if critical_safety else "needs_clarification",
+            "risk_level": "critical" if critical_safety else "standard",
+            "symbolic_analysis_allowed": not critical_safety,
+            "clarifying_questions": clarification_questions(
+                [], "critical_safety" if critical_safety else "needs_clarification"
+            ),
             "references": [
             "references/broad-symbolic-analysis.md",
             "references/domain-adapters.md",
@@ -603,7 +689,11 @@ def route(question: str) -> dict[str, object]:
                 "references/ethics-and-limits.md",
             ],
             "guardrails": [
-                "Identify the domain first, then apply feng shui as an auxiliary symbolic lens.",
+                (
+                    "Address urgent safety, emergency, medical, or legal-deadline needs before symbolic analysis."
+                    if critical_safety
+                    else "Identify the domain first, then apply feng shui as an auxiliary symbolic lens."
+                ),
             ],
             "lens": [
                 "yin-yang balance",
@@ -616,9 +706,22 @@ def route(question: str) -> dict[str, object]:
 
     scored.sort(key=lambda item: (-item[0], item[1]))
     _, _, primary_domain, _, _ = scored[0]
-    selected = [item for item in scored if item[0] >= 2][:3]
-    if not selected:
-        selected = [scored[0]]
+    selected = scored[:5]
+
+    selected_domains = {item[2] for item in selected}
+    for item in scored:
+        if item[2] in HIGH_RISK_DOMAINS and item[2] not in selected_domains:
+            selected.append(item)
+            selected_domains.add(item[2])
+
+    top_score = scored[0][0]
+    top_domains = [item[2] for item in scored if item[0] == top_score]
+    if critical_safety:
+        route_status = "critical_safety"
+    elif len(top_domains) > 1:
+        route_status = "ambiguous"
+    else:
+        route_status = "matched"
 
     references: list[str] = []
     guardrails: list[str] = []
@@ -634,10 +737,30 @@ def route(question: str) -> dict[str, object]:
             if value not in guardrails:
                 guardrails.append(value)
 
+    if critical_safety:
+        guardrails.insert(
+            0,
+            "Address urgent safety, emergency, medical, or legal-deadline needs before symbolic analysis.",
+        )
+
     return {
         "domain": primary_domain,
         "domains": domains,
         "domain_scores": domain_scores,
+        "candidate_domains": [
+            {"domain": domain, "score": score}
+            for score, _, domain, _, _ in scored[:5]
+        ],
+        "route_status": route_status,
+        "risk_level": (
+            "critical"
+            if critical_safety
+            else "high"
+            if any(domain in HIGH_RISK_DOMAINS for domain in domains)
+            else "standard"
+        ),
+        "symbolic_analysis_allowed": not critical_safety,
+        "clarifying_questions": clarification_questions(top_domains, route_status),
         "references": references,
         "guardrails": guardrails,
         "lens": [

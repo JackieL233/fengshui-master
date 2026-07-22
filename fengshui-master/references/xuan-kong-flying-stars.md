@@ -63,6 +63,8 @@ python fengshui-master/scripts/flying_stars.py --period 9 --pretty
 python fengshui-master/scripts/flying_stars.py --year 2026 --direction reverse --pretty
 ```
 
+`--year` performs only a San Yuan period lookup and then places that **period number** at the center of the explanatory Luo Shu sequence. It does not calculate the annual center star or an annual chart. Use `chart_type`, `input_mode`, `implemented_layers`, and `unavailable_layers` in the JSON output to preserve this distinction.
+
 ## Natal Chart Caution
 
 A full xuan kong natal chart usually needs:
@@ -127,4 +129,4 @@ python fengshui-master/scripts/periods.py 2026 --pretty
 python fengshui-master/scripts/flying_stars.py --year 2026 --pretty
 ```
 
-The period helper identifies the common 20-year cycle. The flying-star helper produces only the basic Luo Shu flight.
+The period helper identifies the common 20-year cycle. The flying-star helper produces only a period-number Luo Shu flight scaffold. Natal, annual, and monthly charts require a documented lineage convention or trusted external engine.
