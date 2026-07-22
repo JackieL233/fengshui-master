@@ -738,12 +738,7 @@ def route(question: str) -> dict[str, object]:
             ),
         ]
         if universal_adaptation:
-            fallback_references.extend(
-                [
-                    "references/five-phase-domain-map.md",
-                    "examples/universal-domain-protocol.json",
-                ]
-            )
+            fallback_references.append("references/five-phase-domain-map.md")
             fallback_guardrails.extend(
                 [
                     "Do not treat cybersecurity as a traditional feng shui domain or invent security facts.",

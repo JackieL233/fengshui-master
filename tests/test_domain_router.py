@@ -268,7 +268,7 @@ class DomainRouterTest(unittest.TestCase):
         self.assertNotIn("cybersecurity", data["domains"])
         self.assertEqual(data["route_status"], "universal_adaptation")
         self.assertEqual(data["risk_level"], "high")
-        self.assertIn("examples/universal-domain-protocol.json", data["references"])
+        self.assertIn("references/domain-adapters.md", data["references"])
         self.assertIn("references/five-phase-domain-map.md", data["references"])
         self.assertIn("qualified security review", " ".join(data["guardrails"]))
 

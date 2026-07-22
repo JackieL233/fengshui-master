@@ -371,7 +371,7 @@
       "runtime_expectations": {
         "required_domains": ["general"],
         "forbidden_domains": ["cybersecurity"],
-        "required_references": ["examples/universal-domain-protocol.json", "references/five-phase-domain-map.md"],
+        "required_references": ["references/domain-adapters.md", "references/five-phase-domain-map.md"],
         "accepted_route_statuses": ["universal_adaptation"],
         "accepted_risk_levels": ["high"],
         "symbolic_analysis_state": "allowed",
