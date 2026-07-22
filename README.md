@@ -39,7 +39,7 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 - Foundational concepts: qi, yin-yang, five phases, bagua, stems/branches, 24 mountains.
 - Broad symbolic feng shui protocol: 观气, 取象, 辨势, conditional 吉凶, 化解, and 复核 for non-spatial readings.
 - Broad symbolic analysis: life-pattern reading, auspiciousness/inauspiciousness framing, personal phase balance, event and decision omens, and "趋吉避凶" planning.
-- Proactive reading protocol: assess current favorable signals, conditional friction, likely manifestations, confirmation/refutation evidence, and practical actions for the next 72 hours, 30 days, and 90 days without inventing hidden events.
+- Proactive reading protocol: after urgent safety triage, lead with a bounded current-posture headline, then assess favorable signals, conditional friction, ordinary manifestations, confirmation/refutation evidence, and practical actions for the next 72 hours, 30 days, and 90 days; ask no more than three precision questions afterward and never invent hidden events.
 - Five-phase domain map: careers, industries, finance, brands, products, learning, relationships, negotiation, and personal behavior.
 - Form analysis: landform, roads, water, buildings, entrances, circulation, sha qi, light, air, clutter.
 - School selection: form school, compass school, san he, san yuan, xuan kong flying stars, eight mansions, symbolic bagua.
@@ -52,7 +52,7 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 - Finance adapter: symbolic feng shui lens for investing, portfolio, budget, cash flow, and market-timing questions with strong financial guardrails.
 - Business, brand, career, relationship, product, learning, wellbeing, and legal-adjacent adapters: specialized non-spatial workflows with native-domain constraints and feng shui symbolism kept separate.
 - Multilayer naming: personal, baby, adult-renaming, generation, pen/stage, brand, company, shop, and product names with meaning, sound, form, cultural, legal, digital, personal-context, and wuxing checks kept distinct.
-- Consultation brief protocol: select methods, route questions, identify references, list missing inputs, apply guardrails, and define report sections before substantial readings.
+- Consultation brief protocol: select methods, route domains, identify references, preserve proactive-first ordering, record later precision inputs, apply guardrails, and define report sections before substantial readings.
 - Reporting protocol: generate Markdown report scaffolds from briefs for reusable deliverables and examples.
 - Structured floor-plan input: JSON schema, sample plan, and analyzer for repeatable room/site intake.
 - Glossary and case patterns: Chinese terminology, response templates, comparison matrices.
@@ -68,7 +68,7 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 | Bagua sector / trigram / life-area mapping | Fully covered | Bagua helper maps direction, bearing, trigram, and life area; does not prove auspiciousness |
 | Broad symbolic protocol beyond space | Fully covered | 观气, 取象, 辨势, 吉凶, 生平, 金融, and decision-support protocol included |
 | Broad life / omen / auspiciousness analysis | Fully covered | Symbolic life-pattern and ji/xiong adapter included; not deterministic fate-telling |
-| Proactive current-state analysis | Fully covered | Evidence labels, relevant-domain scan, favorable/friction hypotheses, validation questions, action horizons, and monitoring signals included; no cold-reading claims |
+| Proactive current-state analysis | Fully covered | Urgent safety triage, provisional headline before questions, evidence labels, relevant-domain scan, favorable/friction hypotheses, falsifiers, action horizons, monitoring signals, and a maximum of three later follow-ups; no cold-reading claims |
 | Personal reading context pack | Fully covered | Combines supplied birth data with bounded year, ming-gua, period, annual-direction, solar-term, and moon-phase scaffolds; not complete bazi |
 | Personal and commercial naming | Fully covered | Context-fused meaning, sound, form, culture, registration/trademark, digital usability, and named wuxing method; no universal character-element or fate claim |
 | Ganzhi year scaffold | Fully covered | Heavenly stem, earthly branch, zodiac, phase, and yin-yang helper included; not complete bazi |
@@ -88,7 +88,7 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 | Business / brand / career / relationship adapters | Fully covered | Specialized references cover strategy, identity, work path, communication, and shared-space questions |
 | Product / learning / wellbeing / legal-adjacent adapters | Fully covered | Specialized references cover UX flow, study planning, health-adjacent environment, and legal-risk preparation |
 | Method and school selection | Fully covered | Method selector distinguishes form school, compass bagua, eight mansions, xuan kong, san he, timing, and broad symbolic analysis |
-| Consultation brief generation | Fully covered | JSON brief generator combines domain routing, guardrails, missing inputs, and optional floor-plan analysis |
+| Consultation brief generation | Fully covered | JSON brief generator combines domain routing, proactive-first delivery, guardrails, later precision inputs, and optional floor-plan analysis |
 | Markdown report generation | Fully covered | Report scaffold generator creates reusable Markdown outputs from consultation briefs |
 | Structured floor-plan JSON | Fully covered | Schema, sample, and intake analyzer included |
 | Image, map, or floor-plan auto parsing | Partially covered | Structured JSON is supported; raw computer-vision or GIS parsing is not included |
@@ -112,6 +112,7 @@ docs/
 schemas/
   portable-skill.schema.json
   portable-evaluation-suite.schema.json
+  user-journey-evaluation-suite.schema.json
   reference-catalog.schema.json
   tool-catalog.schema.json
   response-contract.schema.json
@@ -128,6 +129,7 @@ examples/
   portable-agent-prompts.md
   portable-evaluation-rubric.json
   portable-evaluation-suite.json
+  user-journey-evaluation-suite.json
   reference-catalog.json
   tool-catalog.json
   response-contract.json
@@ -141,6 +143,7 @@ examples/
   contribution-quality-gates.json
   runtime-integration-profiles.json
   validate_portable_evaluation.py
+  validate_user_journey_evaluation.py
   validate_portable_manifest.py
   validate_reference_catalog.py
   validate_tool_catalog.py
@@ -233,6 +236,7 @@ Schema files are provided for platform integrations:
 
 - [`schemas/portable-skill.schema.json`](schemas/portable-skill.schema.json)
 - [`schemas/portable-evaluation-suite.schema.json`](schemas/portable-evaluation-suite.schema.json)
+- [`schemas/user-journey-evaluation-suite.schema.json`](schemas/user-journey-evaluation-suite.schema.json)
 - [`schemas/reference-catalog.schema.json`](schemas/reference-catalog.schema.json)
 - [`schemas/tool-catalog.schema.json`](schemas/tool-catalog.schema.json)
 - [`schemas/response-contract.schema.json`](schemas/response-contract.schema.json)
@@ -254,7 +258,7 @@ Common integration patterns:
 - **RAG systems**: index `fengshui-master/references/`, keep `PORTABLE_SKILL.md` as the top-level behavior policy, and keep `fengshui-master/SKILL.md` as the Codex adapter.
 - **Manual use**: run `method_selector.py`, `create_brief.py`, `domain_router.py`, and `generate_report.py` from the command line to create structured analysis scaffolds before writing the final answer.
 
-For portable agent smoke tests and copyable prompts, see [`examples/portable-agent-prompts.md`](examples/portable-agent-prompts.md). For machine-readable adaptation checks, use [`examples/portable-evaluation-suite.json`](examples/portable-evaluation-suite.json). For adversarial red-team prompts, prompt-injection checks, and scope-inflation checks, use [`examples/adversarial-evaluation-suite.json`](examples/adversarial-evaluation-suite.json). For domain intake and missing-input rules, use [`examples/intake-contracts.json`](examples/intake-contracts.json). For compact golden response fixtures, use [`examples/golden-responses.json`](examples/golden-responses.json). For adapting FengShui Master to domains beyond the built-in list, use [`examples/universal-domain-protocol.json`](examples/universal-domain-protocol.json). For connecting external bazi, zi wei, qimen, liuren, tong shu, or precision astronomy engines, use [`examples/external-calculation-contracts.json`](examples/external-calculation-contracts.json). For contribution and PR quality gates, use [`examples/contribution-quality-gates.json`](examples/contribution-quality-gates.json). For machine-readable runtime setup profiles, use [`examples/runtime-integration-profiles.json`](examples/runtime-integration-profiles.json). For output-quality scoring, use [`examples/portable-evaluation-rubric.json`](examples/portable-evaluation-rubric.json). For final-answer structure and red-line behavior, use [`examples/response-contract.json`](examples/response-contract.json). For RAG metadata and reference routing, use [`examples/reference-catalog.json`](examples/reference-catalog.json). For script metadata and agent tool registration, use [`examples/tool-catalog.json`](examples/tool-catalog.json). For capability, limitation, and roadmap routing, use [`examples/capability-matrix.json`](examples/capability-matrix.json). For source tiers, citation posture, and claim-quality rules, use [`examples/source-quality-policy.json`](examples/source-quality-policy.json). For deployment across non-Codex platforms, follow [`docs/integration-guide.md`](docs/integration-guide.md).
+For portable agent smoke tests and copyable prompts, see [`examples/portable-agent-prompts.md`](examples/portable-agent-prompts.md). For machine-readable adaptation checks, use [`examples/portable-evaluation-suite.json`](examples/portable-evaluation-suite.json). For the 20-scenario proactive UX regression suite, use [`examples/user-journey-evaluation-suite.json`](examples/user-journey-evaluation-suite.json). It verifies that sparse inputs still receive a bounded current-posture reading before no more than three follow-up questions. For adversarial red-team prompts, prompt-injection checks, and scope-inflation checks, use [`examples/adversarial-evaluation-suite.json`](examples/adversarial-evaluation-suite.json). For domain intake and missing-input rules, use [`examples/intake-contracts.json`](examples/intake-contracts.json). For compact golden response fixtures, use [`examples/golden-responses.json`](examples/golden-responses.json). For adapting FengShui Master to domains beyond the built-in list, use [`examples/universal-domain-protocol.json`](examples/universal-domain-protocol.json). For connecting external bazi, zi wei, qimen, liuren, tong shu, or precision astronomy engines, use [`examples/external-calculation-contracts.json`](examples/external-calculation-contracts.json). For contribution and PR quality gates, use [`examples/contribution-quality-gates.json`](examples/contribution-quality-gates.json). For machine-readable runtime setup profiles, use [`examples/runtime-integration-profiles.json`](examples/runtime-integration-profiles.json). For output-quality scoring, use [`examples/portable-evaluation-rubric.json`](examples/portable-evaluation-rubric.json). For final-answer structure and red-line behavior, use [`examples/response-contract.json`](examples/response-contract.json). For RAG metadata and reference routing, use [`examples/reference-catalog.json`](examples/reference-catalog.json). For script metadata and agent tool registration, use [`examples/tool-catalog.json`](examples/tool-catalog.json). For capability, limitation, and roadmap routing, use [`examples/capability-matrix.json`](examples/capability-matrix.json). For source tiers, citation posture, and claim-quality rules, use [`examples/source-quality-policy.json`](examples/source-quality-policy.json). For deployment across non-Codex platforms, follow [`docs/integration-guide.md`](docs/integration-guide.md).
 
 For material-claim provenance, confidence, falsifiers, and cold-reading resistance, use [`examples/claim-evidence-policy.json`](examples/claim-evidence-policy.json) and validate agent claim documents with [`examples/validate_claim_evidence.py`](examples/validate_claim_evidence.py).
 
@@ -269,6 +273,12 @@ Validate the portable evaluation suite:
 
 ```bash
 python examples/validate_portable_evaluation.py
+```
+
+Validate the 20 proactive user journeys:
+
+```bash
+python examples/validate_user_journey_evaluation.py
 ```
 
 Validate the portable manifest:
@@ -393,7 +403,7 @@ Attach a structured floor plan when available:
 python fengshui-master/scripts/create_brief.py "Review this apartment layout" --floorplan fengshui-master/assets/sample-floorplan.json --pretty
 ```
 
-The brief defines references, guardrails, missing inputs, and report sections. It is not the final reading.
+The brief defines references, guardrails, later precision inputs, and proactive report sections. It is not the final reading and does not authorize a questionnaire before the bounded current-posture headline.
 
 Build a bounded personal-reading context pack from supplied birth data and an analysis date:
 

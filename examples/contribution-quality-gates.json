@@ -37,10 +37,10 @@
     },
     {
       "id": "evaluation_fixture_addition",
-      "applies_to": ["new portable evaluation case", "new adversarial prompt", "new golden response", "new rubric dimension"],
-      "required_artifacts": ["examples/portable-evaluation-suite.json or examples/adversarial-evaluation-suite.json or examples/golden-responses.json", "matching validator", "README.md"],
+      "applies_to": ["new portable evaluation case", "new proactive user journey", "new adversarial prompt", "new golden response", "new rubric dimension"],
+      "required_artifacts": ["examples/portable-evaluation-suite.json or examples/user-journey-evaluation-suite.json or examples/adversarial-evaluation-suite.json or examples/golden-responses.json", "matching validator", "README.md"],
       "required_checks": ["include expected references", "include must-include and must-not-include boundaries", "cover high-risk failures when relevant", "link validator from CI if new asset type is added"],
-      "required_validation": ["python examples/validate_portable_evaluation.py", "python examples/validate_adversarial_evaluation.py", "python examples/validate_golden_responses.py", "python .github/scripts/audit_repository.py"],
+      "required_validation": ["python examples/validate_portable_evaluation.py", "python examples/validate_user_journey_evaluation.py", "python examples/validate_adversarial_evaluation.py", "python examples/validate_golden_responses.py", "python .github/scripts/audit_repository.py"],
       "red_lines": ["do not add tests that reward unsafe certainty", "do not omit high-stakes disclosures", "do not make a narrow smoke test stand in for broad coverage"]
     },
     {

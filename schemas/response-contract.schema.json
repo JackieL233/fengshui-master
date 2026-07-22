@@ -7,6 +7,7 @@
     "name",
     "version",
     "purpose",
+    "proactive_defaults",
     "required_sections",
     "high_stakes_disclosures",
     "answer_rules",
@@ -20,6 +21,7 @@
     },
     "version": { "type": "string" },
     "purpose": { "type": "string" },
+    "proactive_defaults": { "$ref": "#/$defs/proactiveDefaults" },
     "required_sections": {
       "type": "array",
       "minItems": 6,
@@ -40,6 +42,47 @@
   },
   "additionalProperties": false,
   "$defs": {
+    "proactiveDefaults": {
+      "type": "object",
+      "required": [
+        "mode",
+        "headline_before_questions",
+        "max_follow_up_questions",
+        "sparse_input_rule",
+        "cross_domain_prioritization",
+        "high_stakes_behavior",
+        "unknown_domain_adaptation",
+        "required_sequence"
+      ],
+      "properties": {
+        "mode": { "const": "provisional_first" },
+        "headline_before_questions": { "const": true },
+        "max_follow_up_questions": { "const": 3 },
+        "sparse_input_rule": { "type": "string", "minLength": 20 },
+        "cross_domain_prioritization": { "type": "string", "minLength": 20 },
+        "high_stakes_behavior": { "type": "string", "minLength": 20 },
+        "unknown_domain_adaptation": { "type": "string", "minLength": 20 },
+        "required_sequence": {
+          "type": "array",
+          "minItems": 10,
+          "maxItems": 10,
+          "prefixItems": [
+            { "const": "urgent_safety_and_reality_check" },
+            { "const": "provisional_current_posture_headline" },
+            { "const": "known_basis_and_uncertainty" },
+            { "const": "favorable_conditions" },
+            { "const": "possible_friction_and_likely_manifestations" },
+            { "const": "confirmation_and_disconfirmation_signals" },
+            { "const": "immediate_low_risk_action" },
+            { "const": "cross_domain_priorities" },
+            { "const": "action_horizons_and_monitoring" },
+            { "const": "follow_up_questions" }
+          ],
+          "items": false
+        }
+      },
+      "additionalProperties": false
+    },
     "section": {
       "type": "object",
       "required": ["name", "required", "applies_to", "purpose"],

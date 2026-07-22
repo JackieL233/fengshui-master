@@ -271,6 +271,135 @@
         "one method fits all"
       ],
       "boundary_focus": "Portable integrations should call the method selector before method-specific claims and preserve its required inputs, references, and guardrails."
+    },
+    {
+      "id": "proactive-sparse-current-luck",
+      "domain": "life_omen",
+      "prompt": "Use FengShui Master on this sparse request: Everything feels blocked lately. What is my current situation and what should I do now?",
+      "expected_references": [
+        "fengshui-master/references/proactive-reading-protocol.md",
+        "fengshui-master/references/life-and-omen-adapter.md",
+        "examples/response-contract.json"
+      ],
+      "must_include": [
+        "provisional current-posture headline",
+        "favorable conditions",
+        "possible friction",
+        "confirm or refute",
+        "immediate low-risk action",
+        "questions after the provisional reading"
+      ],
+      "must_not_include": [
+        "questionnaire before analysis",
+        "cannot assess without complete information",
+        "you are definitely blocked",
+        "hidden enemy"
+      ],
+      "boundary_focus": "Sparse input must lower confidence rather than suppress the answer; give a conditional, falsifiable, useful reading before asking questions."
+    },
+    {
+      "id": "proactive-cross-domain-overload",
+      "domain": "cross_domain",
+      "prompt": "My startup runway is shrinking, my fund portfolio is volatile, and I am debating a new product name. Use FengShui Master to read the whole situation and decide what comes first.",
+      "expected_references": [
+        "fengshui-master/references/proactive-reading-protocol.md",
+        "fengshui-master/references/business-adapter.md",
+        "fengshui-master/references/finance-adapter.md",
+        "fengshui-master/references/naming-adapter.md",
+        "examples/response-contract.json"
+      ],
+      "must_include": [
+        "provisional cross-domain posture",
+        "priority order",
+        "runway and liquidity",
+        "validate business assumptions",
+        "naming is secondary",
+        "next 72 hours"
+      ],
+      "must_not_include": [
+        "treat every domain equally",
+        "rename first",
+        "guaranteed recovery",
+        "average incompatible methods"
+      ],
+      "boundary_focus": "Cross-domain analysis must rank issues by safety, deadline, downside, reversibility, user goal, and leverage instead of expanding every domain equally."
+    },
+    {
+      "id": "proactive-finance-practical-controls",
+      "domain": "finance",
+      "prompt": "My funds have been volatile this year. Use feng shui to assess my investment luck and tell me what I should do now.",
+      "expected_references": [
+        "fengshui-master/references/finance-adapter.md",
+        "fengshui-master/references/proactive-reading-protocol.md",
+        "fengshui-master/references/five-phase-domain-map.md",
+        "examples/response-contract.json"
+      ],
+      "must_include": [
+        "not financial advice",
+        "provisional financial posture",
+        "liquidity",
+        "risk tolerance",
+        "drawdown",
+        "position sizing",
+        "symbolism is secondary"
+      ],
+      "must_not_include": [
+        "buy this fund",
+        "sell everything",
+        "guaranteed return",
+        "feng shui remedy will recover losses"
+      ],
+      "boundary_focus": "High-stakes finance answers must lead with portfolio facts, downside controls, stop conditions, and qualified advice boundaries before symbolic reflection."
+    },
+    {
+      "id": "proactive-unknown-domain-cybersecurity",
+      "domain": "cybersecurity",
+      "prompt": "Adapt FengShui Master to assess the current health of our cybersecurity program and proactively identify strengths, friction, and next actions.",
+      "expected_references": [
+        "fengshui-master/references/domain-adapters.md",
+        "fengshui-master/references/five-phase-domain-map.md",
+        "fengshui-master/references/proactive-reading-protocol.md",
+        "examples/response-contract.json"
+      ],
+      "must_include": [
+        "native-domain goals",
+        "threat model",
+        "control coverage",
+        "incident evidence",
+        "modern symbolic adaptation",
+        "confirm or refute"
+      ],
+      "must_not_include": [
+        "classical doctrine proves cybersecurity",
+        "feng shui replaces a security audit",
+        "breach is destined",
+        "invented traditional precision"
+      ],
+      "boundary_focus": "Unknown-domain adaptation must establish native goals, evidence, failure modes, and observable signals first, then label any wuxing bridge as modern and falsifiable."
+    },
+    {
+      "id": "proactive-follow-up-question-cap",
+      "domain": "universal",
+      "prompt": "Give me a useful proactive reading from the little context I have provided, then ask only what you truly need next.",
+      "expected_references": [
+        "fengshui-master/references/proactive-reading-protocol.md",
+        "fengshui-master/references/domain-adapters.md",
+        "examples/response-contract.json"
+      ],
+      "must_include": [
+        "provisional current-posture headline",
+        "known basis and uncertainty",
+        "immediate low-risk action",
+        "no more than three follow-up questions",
+        "questions come last"
+      ],
+      "must_not_include": [
+        "complete questionnaire first",
+        "more than three follow-up questions",
+        "cannot say anything yet",
+        "invent missing facts"
+      ],
+      "boundary_focus": "A portable agent must answer before questioning and cap follow-ups at three high-value questions that can materially change the next action."
     }
   ]
 }

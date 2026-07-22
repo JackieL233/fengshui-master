@@ -24,6 +24,9 @@ All notable changes to FengShui Master are documented here.
 - Added a dedicated naming domain and `naming-adapter.md` for personal, baby, adult-renaming, pen/stage, brand, company, shop, and product names, with native naming checks separated from method-dependent wuxing symbolism.
 - Added context-fusion priority rules so relevant personal, spatial, timing, business, deterministic, traditional, and symbolic layers are linked with provenance instead of silently mixed or reduced to a fake score.
 - Added `proactive-reading-protocol.md` and a machine-readable proactive scan contract so current-state readings identify favorable signals, conditional friction, validation evidence, immediate actions, and 72-hour / 30-day / 90-day horizons without cold-reading claims.
+- Made `provisional_first` the default across Codex and portable entrypoints, consultation briefs, personal context packs, report scaffolds, response contracts, intake contracts, and bundled examples. Safe readings now lead with a bounded current-posture headline and defer at most three high-value questions until after useful analysis.
+- Added a 20-case user-journey regression suite covering sparse prompts, spatial and personal readings, finance, business, naming, timing, relationships, wellbeing, legal deadlines, emergencies, cross-domain overload, and unknown-domain adaptation.
+- Added stronger emergency behavior: urgent medical or safety routes stop symbolic analysis and suppress nonessential follow-up questions.
 - Improved life/omen consultation briefs so birth year, topic, and reading goal are not reported missing when the question already supplies them.
 - Added bilingual README files, GitHub repository metadata, CI, issue templates, pull request template, deployment checklist, sample reports, and repository audit tooling.
 
@@ -41,6 +44,7 @@ All notable changes to FengShui Master are documented here.
   - `python .github/scripts/quick_validate.py fengshui-master`
   - `python .github/scripts/audit_repository.py`
   - `python examples/validate_portable_evaluation.py`
+  - `python examples/validate_user_journey_evaluation.py`
   - `python examples/validate_portable_manifest.py`
 
 ## v1.0.0

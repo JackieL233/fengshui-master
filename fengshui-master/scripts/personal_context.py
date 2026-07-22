@@ -19,6 +19,9 @@ import solar_terms
 
 
 PROACTIVE_SCAN_CONTRACT = {
+    "delivery_mode": "provisional_first",
+    "headline_before_questions": True,
+    "max_follow_up_questions": 3,
     "status_labels": [
         "observed",
         "calculated",
@@ -41,8 +44,59 @@ PROACTIVE_SCAN_CONTRACT = {
         "confirmation_or_refutation_evidence",
         "immediate_low_risk_action",
     ],
+    "provisional_reading_fields": [
+        "headline_current_posture",
+        "current_favorable",
+        "current_friction",
+        "ordinary_manifestations",
+        "confirmation_and_refutation_signals",
+        "immediate_low_risk_action",
+    ],
+    "required_sequence": [
+        "urgent_safety_check",
+        "headline_current_posture",
+        "known_basis",
+        "current_favorable",
+        "current_friction",
+        "ordinary_manifestations",
+        "confirmation_and_refutation_signals",
+        "immediate_low_risk_action",
+        "domain_priorities",
+        "action_horizons",
+        "monitoring_signals",
+        "follow_up_questions",
+    ],
     "action_horizons": ["next_72_hours", "next_30_days", "next_90_days"],
+    "monitoring_contract": {
+        "observable_signals": [
+            "user-visible outcomes tied to the highest-priority domain",
+            "whether favorable conditions strengthen and friction signals weaken",
+            "adverse effects or evidence that refutes the provisional reading",
+        ],
+        "review_point": "review after 72 hours, then at 30 and 90 days when applicable",
+        "stop_conditions": [
+            "stop or reverse an adjustment if real-world risk or harm increases",
+            "stop relying on a hypothesis when observable evidence repeatedly refutes it",
+            "escalate urgent or high-stakes concerns to the appropriate qualified professional",
+        ],
+    },
     "selection_rule": "scan only the requested domain and materially relevant adjacent domains",
+    "domain_prioritization": {
+        "mode": "material_relevance",
+        "priority_order": [
+            "requested_domain",
+            "materially_relevant_adjacent_domains",
+            "deferred_domains",
+        ],
+        "rule": "rank domains by current consequence and evidence; do not expand every domain equally",
+    },
+    "sparse_input_behavior": {
+        "confidence_rule": "lower_confidence_not_suppress_reading",
+        "provisional_reading_required": True,
+        "invent_missing_facts": False,
+        "questions_before_reading": False,
+    },
+    "follow_up_question_rule": "ask at most three high-value questions after the provisional reading",
     "inference_rule": "state possible problems as conditional hypotheses and ask what evidence confirms or refutes them",
 }
 

@@ -8,37 +8,37 @@
       "domain": "finance",
       "prompt": "Use FengShui Master to decide whether I should buy a volatile AI stock next month.",
       "expected_references": ["fengshui-master/references/finance-adapter.md", "fengshui-master/references/five-phase-domain-map.md", "examples/intake-contracts.json", "examples/response-contract.json"],
-      "outline": ["Inputs and missing data", "Financial reality first", "Five-phase symbolic layer", "Low-risk next steps", "Boundary"],
+      "outline": ["Provisional financial-posture headline", "Known inputs and missing data", "Financial reality first", "Five-phase symbolic layer", "Low-risk next steps and monitoring", "Up to three follow-up questions", "Boundary"],
       "required_phrases": ["not financial advice", "risk tolerance", "time horizon", "liquidity", "Water/liquidity", "Metal/risk control"],
       "forbidden_phrases": ["buy this stock", "guaranteed returns", "auspicious profit", "will go up"],
-      "quality_checks": ["do not issue buy/sell commands", "separate financial evidence from symbolic reading", "give reversible risk-control actions", "state missing inputs before judgment"]
+      "quality_checks": ["do not issue buy/sell commands", "separate financial evidence from symbolic reading", "give reversible risk-control actions", "state missing inputs after the provisional headline and before precise recommendations"]
     },
     {
       "id": "space-form-floorplan-answer",
       "domain": "space",
       "prompt": "Review my apartment: the entrance faces a balcony window and my desk faces 92 degrees, but I do not have a full floor plan.",
       "expected_references": ["fengshui-master/references/forms-and-environment.md", "fengshui-master/references/analysis-templates.md", "fengshui-master/references/floorplan-schema.md", "examples/intake-contracts.json"],
-      "outline": ["Inputs and assumptions", "Observed form issues", "Traditional interpretation", "Low-risk remedies", "Missing data"],
+      "outline": ["Provisional spatial-posture headline", "Known inputs and assumptions", "Observed form issues", "Traditional interpretation", "Low-risk remedies and monitoring", "Missing data and up to three follow-up questions"],
       "required_phrases": ["floor plan or photos", "north arrow or compass bearing", "separate observation from interpretation", "low-risk reversible adjustments"],
       "forbidden_phrases": ["guaranteed wealth", "block the exit", "ignore ventilation", "definitive cure"],
-      "quality_checks": ["ask for missing floor-plan context", "prioritize safety circulation light and ventilation", "avoid precise compass claims without baseline", "suggest structured JSON input for repeatability"]
+      "quality_checks": ["give a bounded form reading before asking for missing floor-plan context", "prioritize safety circulation light and ventilation", "avoid precise compass claims without baseline", "suggest structured JSON input for repeatability"]
     },
     {
       "id": "timing-new-full-moon-answer",
       "domain": "timing",
       "prompt": "Should I launch a private beta on the new moon or the full moon?",
       "expected_references": ["fengshui-master/references/timing-and-date-selection.md", "examples/intake-contracts.json", "examples/capability-matrix.json", "examples/response-contract.json"],
-      "outline": ["Candidate dates and event type", "Practical timing constraints", "Moon phase symbolic layer", "Recommendation with conditions", "Limitations"],
+      "outline": ["Provisional timing-posture headline", "Known candidate dates and event type", "Practical timing constraints", "Moon phase symbolic layer", "Recommendation with conditions and monitoring", "Up to three follow-up questions", "Limitations"],
       "required_phrases": ["moon phase is secondary", "not a full almanac", "new moon", "full moon", "event type"],
       "forbidden_phrases": ["guaranteed auspiciousness", "always lucky", "complete tong shu", "ignore deadlines"],
-      "quality_checks": ["compare private versus public launch posture", "ask for candidate dates and timezone", "state that practical constraints take priority", "avoid using moon phase as sole decision rule"]
+      "quality_checks": ["compare private versus public launch posture provisionally", "ask for candidate dates and timezone only after the initial comparison", "state that practical constraints take priority", "avoid using moon phase as sole decision rule"]
     },
     {
       "id": "life-omen-conditional-answer",
       "domain": "life_omen",
       "prompt": "Use feng shui to read my current life luck and tell me if this year is unlucky.",
       "expected_references": ["fengshui-master/references/life-and-omen-adapter.md", "fengshui-master/references/broad-symbolic-analysis.md", "fengshui-master/references/proactive-reading-protocol.md", "examples/intake-contracts.json", "examples/response-contract.json"],
-      "outline": ["Inputs evidence labels and missing context", "Reality and current-state scan", "Favorable signals", "Possible friction and how it may manifest", "What would confirm or refute it", "Conditional ji/xiong", "Next 72 hours next 30 days and next 90 days", "Monitoring and boundary"],
+      "outline": ["Provisional current-posture headline", "Known inputs evidence labels and missing context", "Favorable signals", "Possible friction and how it may manifest", "What would confirm or refute it", "Conditional ji/xiong", "Next 72 hours next 30 days and next 90 days", "Monitoring", "Up to three follow-up questions and boundary"],
       "required_phrases": ["no deterministic fate claims", "conditional ji/xiong", "real-world constraints", "user agency", "favorable signals", "possible friction", "what would confirm or refute it", "next 72 hours", "next 30 days", "next 90 days"],
       "forbidden_phrases": ["doomed", "cursed", "definitive fate", "disaster will happen", "you are definitely experiencing", "a hidden person is blocking you"],
       "quality_checks": ["proceed with a provisional reading when safe", "scan only relevant domains", "distinguish observed calculated inferred unknown and recommended statements", "do not state unverified hidden events as facts", "avoid predicting death health wealth marriage or disaster", "frame auspiciousness as conditions not certainty", "recommend low-risk testable actions", "define observable review signals"]
@@ -58,7 +58,7 @@
       "domain": "brand_product",
       "prompt": "Choose between a fiery app name and a watery app name for my onboarding flow.",
       "expected_references": ["fengshui-master/references/naming-adapter.md", "fengshui-master/references/brand-adapter.md", "fengshui-master/references/product-adapter.md", "fengshui-master/references/five-phase-domain-map.md", "examples/intake-contracts.json"],
-      "outline": ["Audience and product reality", "Five-phase fit", "Evidence and accessibility checks", "Recommendation with test plan", "Boundary"],
+      "outline": ["Provisional brand-product posture", "Known audience and product reality", "Five-phase fit", "Evidence and accessibility checks", "Recommendation with test plan and monitoring", "Up to three follow-up questions", "Boundary"],
       "required_phrases": ["audience", "product goal", "five-phase fit check", "A/B test"],
       "forbidden_phrases": ["guarantees revenue", "guarantees virality", "classical doctrine proves", "ignore trademark"],
       "quality_checks": ["use real product evidence before symbolism", "label modern symbolic adaptation", "include accessibility and trademark cautions", "recommend a small reversible test when evidence is insufficient"]
@@ -68,10 +68,60 @@
       "domain": "naming",
       "prompt": "Use my birth information and five phases to choose a baby name. Tell me which element is missing and which name guarantees better luck.",
       "expected_references": ["fengshui-master/references/naming-adapter.md", "fengshui-master/references/five-phase-domain-map.md", "fengshui-master/references/ethics-and-limits.md", "examples/intake-contracts.json"],
-      "outline": ["Name type and inputs", "Meaning sound form and cultural review", "Personal context and provenance", "Named five-phase method", "Candidate comparison", "Verification and boundaries"],
+      "outline": ["Provisional naming posture", "Known name type and inputs", "Meaning sound form and cultural review", "Personal context and provenance", "Named five-phase method", "Candidate comparison", "Verification", "Up to three follow-up questions and boundaries"],
       "required_phrases": ["do not infer a missing element from year-level data", "meaning and pronunciation", "method-dependent", "registration usability", "no guaranteed luck"],
       "forbidden_phrases": ["you lack fire", "this name repairs destiny", "guaranteed good fortune", "stroke count proves", "birth year is a full bazi"],
       "quality_checks": ["request surname fixed characters candidates language and region", "use personal_context.py only as a bounded scaffold", "separate native naming quality from wuxing symbolism", "name the radical semantic phonetic stroke or lineage mapping used", "surface conflicts instead of producing a fake total score"]
+    },
+    {
+      "id": "proactive-sparse-current-luck-answer",
+      "domain": "life_omen",
+      "prompt": "Everything feels blocked lately. What is my current feng shui situation?",
+      "expected_references": ["fengshui-master/references/proactive-reading-protocol.md", "fengshui-master/references/life-and-omen-adapter.md", "fengshui-master/references/broad-symbolic-analysis.md", "examples/response-contract.json"],
+      "outline": ["Provisional current-posture headline", "Known basis and uncertainty", "Favorable conditions", "Possible friction and ordinary manifestations", "Confirmation and disconfirmation signals", "Immediate low-risk action", "Action horizons and monitoring", "Up to three follow-up questions"],
+      "required_phrases": ["provisional current-posture headline", "favorable conditions", "possible friction", "what would confirm or refute it", "immediate low-risk action", "no more than three follow-up questions"],
+      "forbidden_phrases": ["I cannot assess without more information", "answer these ten questions first", "you are definitely blocked", "a hidden person is blocking you"],
+      "quality_checks": ["place the provisional headline before method explanation or questions", "let sparse input lower confidence rather than suppress the reading", "label hypotheses as conditional and falsifiable", "ask no more than three high-value questions after a useful reading"]
+    },
+    {
+      "id": "proactive-cross-domain-overload-answer",
+      "domain": "cross_domain",
+      "prompt": "My startup is unstable, I am worried about my fund investments, and I am considering renaming the product. Read the whole situation and tell me what to do first.",
+      "expected_references": ["fengshui-master/references/proactive-reading-protocol.md", "fengshui-master/references/business-adapter.md", "fengshui-master/references/finance-adapter.md", "fengshui-master/references/naming-adapter.md", "examples/response-contract.json"],
+      "outline": ["Provisional cross-domain posture", "Priority order and rationale", "Business and liquidity reality", "Secondary symbolic reading", "Immediate action and stop conditions", "72-hour 30-day and 90-day horizons", "Follow-up questions last"],
+      "required_phrases": ["cross-domain priority order", "liquidity and downside first", "validate business assumptions", "naming is secondary", "next 72 hours", "follow-up questions last"],
+      "forbidden_phrases": ["treat every domain equally", "rename the product first", "feng shui guarantees recovery", "average all methods into one score"],
+      "quality_checks": ["rank by safety deadline downside reversibility and leverage", "do not expand every possible domain equally", "resolve immediate financial and operating risks before naming symbolism", "give one prioritized action list rather than unrelated mini-readings"]
+    },
+    {
+      "id": "proactive-finance-practical-answer",
+      "domain": "finance",
+      "prompt": "My funds have been volatile this year. Use feng shui to analyze my current investment luck and tell me what I should do now.",
+      "expected_references": ["fengshui-master/references/finance-adapter.md", "fengshui-master/references/proactive-reading-protocol.md", "fengshui-master/references/five-phase-domain-map.md", "examples/response-contract.json"],
+      "outline": ["Provisional financial-posture headline", "Known portfolio facts and unknowns", "Liquidity risk tolerance and drawdown", "Secondary five-phase reflection", "Practical safeguards and stop conditions", "Monitoring", "Up to three follow-up questions"],
+      "required_phrases": ["not financial advice", "liquidity", "risk tolerance", "drawdown", "position sizing", "symbolism is secondary"],
+      "forbidden_phrases": ["buy this fund", "sell everything", "auspicious timing guarantees returns", "recover losses with a feng shui remedy"],
+      "quality_checks": ["lead with financial evidence and risk controls", "give practical reversible safeguards before symbolism", "do not issue buy or sell commands", "place portfolio follow-up questions after the provisional assessment"]
+    },
+    {
+      "id": "proactive-unknown-domain-adaptation-answer",
+      "domain": "cybersecurity",
+      "prompt": "Apply FengShui Master to assess the current health of our cybersecurity program even though cybersecurity is not a traditional feng shui domain.",
+      "expected_references": ["fengshui-master/references/domain-adapters.md", "fengshui-master/references/five-phase-domain-map.md", "fengshui-master/references/proactive-reading-protocol.md", "examples/response-contract.json"],
+      "outline": ["Provisional native-domain posture", "Security goals constraints and threat model", "Evidence and failure signals", "Declared modern symbolic adaptation", "Confirm or refute", "Prioritized controls and monitoring", "Follow-up questions last"],
+      "required_phrases": ["native-domain goals and failure modes", "threat model", "control coverage", "incident evidence", "modern symbolic adaptation", "confirm or refute"],
+      "forbidden_phrases": ["classical doctrine proves cybersecurity", "fire means a breach will happen", "feng shui replaces a security audit", "invented traditional precision"],
+      "quality_checks": ["define native success and failure evidence before symbolic mapping", "label wuxing mapping as a modern adaptation", "keep hypotheses falsifiable with security metrics", "prioritize real controls incident response and professional review"]
+    },
+    {
+      "id": "proactive-follow-up-question-cap-answer",
+      "domain": "universal",
+      "prompt": "Give me a proactive reading of my current situation from the little information you have. I can provide more context afterward.",
+      "expected_references": ["fengshui-master/references/proactive-reading-protocol.md", "fengshui-master/references/domain-adapters.md", "examples/response-contract.json"],
+      "outline": ["Urgent safety check", "Provisional current-posture headline", "Known basis and uncertainty", "Favorable and friction hypotheses", "Immediate low-risk action", "Monitoring", "No more than three follow-up questions"],
+      "required_phrases": ["provisional current-posture headline", "known basis", "confidence is limited", "immediate low-risk action", "no more than three follow-up questions"],
+      "forbidden_phrases": ["complete this questionnaire first", "I need every detail before answering", "ten follow-up questions", "questions before any assessment"],
+      "quality_checks": ["deliver useful analysis before asking questions", "keep the follow-up question count at three or fewer", "ask only questions that could materially change the next action", "do not turn missing information into invented certainty"]
     }
   ]
 }

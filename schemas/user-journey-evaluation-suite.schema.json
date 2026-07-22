@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/JackieL233/fengshui-master/schemas/user-journey-evaluation-suite.schema.json",
+  "title": "FengShui Master User Journey Evaluation Suite",
+  "type": "object",
+  "required": ["name", "version", "purpose", "evaluation_layers", "delivery_contract", "cases"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "const": "fengshui-master-user-journey-evaluation-suite"
+    },
+    "version": { "type": "string" },
+    "purpose": { "type": "string" },
+    "evaluation_layers": {
+      "type": "object",
+      "required": [
+        "runtime_structural_checks",
+        "model_evaluator_criteria",
+        "natural_language_grading_executed"
+      ],
+      "properties": {
+        "runtime_structural_checks": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": { "type": "string" }
+        },
+        "model_evaluator_criteria": {
+          "type": "array",
+          "const": ["must_include", "must_not_include", "evaluation_focus"]
+        },
+        "natural_language_grading_executed": { "type": "boolean", "const": false }
+      },
+      "additionalProperties": false
+    },
+    "delivery_contract": {
+      "type": "object",
+      "required": [
+        "mode",
+        "first_response_requirement",
+        "max_follow_up_questions",
+        "sparse_input_rule",
+        "required_sequence"
+      ],
+      "properties": {
+        "mode": { "type": "string", "const": "provisional_first" },
+        "first_response_requirement": {
+          "type": "string",
+          "const": "provisional_current_posture_before_questions"
+        },
+        "max_follow_up_questions": { "type": "integer", "const": 3 },
+        "sparse_input_rule": { "type": "string" },
+        "required_sequence": {
+          "type": "array",
+          "minItems": 10,
+          "uniqueItems": true,
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 20,
+      "items": { "$ref": "#/$defs/journeyCase" }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "journeyCase": {
+      "type": "object",
+      "required": [
+        "id",
+        "domain",
+        "prompt",
+        "input_density",
+        "risk_tier",
+        "expected_references",
+        "must_include",
+        "must_not_include",
+        "evaluation_focus",
+        "max_follow_up_questions",
+        "runtime_expectations"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "domain": { "type": "string" },
+        "prompt": { "type": "string" },
+        "input_density": {
+          "type": "string",
+          "enum": ["sparse", "partial", "rich"]
+        },
+        "risk_tier": {
+          "type": "string",
+          "enum": ["low", "elevated", "high"]
+        },
+        "expected_references": { "$ref": "#/$defs/stringList" },
+        "must_include": { "$ref": "#/$defs/stringList" },
+        "must_not_include": { "$ref": "#/$defs/stringList" },
+        "evaluation_focus": { "type": "string" },
+        "max_follow_up_questions": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "runtime_expectations": { "$ref": "#/$defs/runtimeExpectations" }
+      },
+      "additionalProperties": false
+    },
+    "runtimeExpectations": {
+      "type": "object",
+      "required": [
+        "required_domains",
+        "required_references",
+        "accepted_route_statuses",
+        "accepted_risk_levels",
+        "symbolic_analysis_state",
+        "reality_guardrail_fragments"
+      ],
+      "properties": {
+        "required_domains": { "$ref": "#/$defs/nonEmptyStringList" },
+        "forbidden_domains": { "$ref": "#/$defs/possiblyEmptyStringList" },
+        "required_references": { "$ref": "#/$defs/nonEmptyStringList" },
+        "accepted_route_statuses": { "$ref": "#/$defs/nonEmptyStringList" },
+        "accepted_risk_levels": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "enum": ["standard", "high", "critical"] }
+        },
+        "symbolic_analysis_state": {
+          "type": "string",
+          "enum": ["allowed", "stopped_for_urgent_risk"]
+        },
+        "reality_guardrail_fragments": { "$ref": "#/$defs/possiblyEmptyStringList" }
+      },
+      "additionalProperties": false
+    },
+    "stringList": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": { "type": "string" }
+    },
+    "nonEmptyStringList": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "possiblyEmptyStringList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

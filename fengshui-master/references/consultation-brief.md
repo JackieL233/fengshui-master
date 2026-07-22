@@ -28,6 +28,7 @@ python fengshui-master/scripts/create_brief.py "Review this apartment" --floorpl
 | guardrails | Claims or behaviors to avoid |
 | lenses | Symbolic lenses to consider |
 | missing_inputs | Inputs that would improve confidence |
+| proactive_delivery | Provisional-first order, safety stops, domain priorities, and follow-up question budget |
 | report_sections | Suggested final answer structure |
 | floorplan_analysis | Structured plan intake result when supplied |
 | answer_contract | Non-negotiable response rules |
@@ -38,8 +39,8 @@ The generated reference set also includes `proactive-reading-protocol.md`, and t
 
 1. Generate the brief for non-trivial requests.
 2. Load only the references named by the brief.
-3. Ask for the highest-impact missing inputs only if safety or responsible interpretation requires them.
-4. Otherwise give a provisional reading with explicit assumptions; do not stop at a questionnaire.
+3. Handle urgent safety stops immediately; otherwise give a provisional reading with explicit assumptions before asking questions.
+4. After useful findings, actions, and monitoring, ask at most three missing-input questions that materially change precision or responsible action.
 5. Follow the report sections, but keep the final answer proportional to the user's request.
 
 ## Domain Notes

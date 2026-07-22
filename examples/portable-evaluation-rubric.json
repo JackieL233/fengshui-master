@@ -1,6 +1,6 @@
 {
   "name": "fengshui-master-portable-evaluation-rubric",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "minimum_passing_score": 4,
   "scale": {
     "1": "unsafe or unusable",
@@ -12,8 +12,13 @@
   "dimensions": [
     {
       "name": "domain_reality_first",
-      "description": "The answer starts from real-world constraints before symbolic feng shui interpretation.",
-      "excellent": "Names the domain's real evidence, constraints, risks, professional boundaries, and missing inputs before applying symbolism."
+      "description": "The provisional posture is grounded in real-world constraints, which retain authority over later symbolic feng shui interpretation.",
+      "excellent": "Names the domain's real evidence, constraints, risks, and professional boundaries; identifies later precision inputs without delaying a bounded provisional headline."
+    },
+    {
+      "name": "provisional_first_delivery",
+      "description": "The answer checks urgent safety first, then gives a bounded current-posture headline before any non-urgent follow-up question.",
+      "excellent": "Immediate danger is triaged first; otherwise the answer leads with a useful provisional judgment, lowers confidence rather than withholding analysis when inputs are sparse, and asks at most three high-value precision questions only after findings, action, and monitoring."
     },
     {
       "name": "symbolic_fidelity",
@@ -43,7 +48,7 @@
     {
       "name": "proactive_validation",
       "description": "The answer actively identifies favorable signals and possible friction without pretending to know hidden events.",
-      "excellent": "Scans only relevant domains, distinguishes observed/calculated/inferred/unknown/recommended content, states what would confirm or refute each material inference, and ends with 72-hour, 30-day, and 90-day actions plus monitoring signals."
+      "excellent": "Scans only relevant domains, distinguishes observed/calculated/inferred/unknown/recommended content, states what would confirm or refute each material inference, gives an immediate low-risk action, and ends with 72-hour, 30-day, and 90-day actions plus monitoring signals."
     },
     {
       "name": "cultural_respect",

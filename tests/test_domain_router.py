@@ -29,6 +29,29 @@ class DomainRouterTest(unittest.TestCase):
         self.assertIn("references/ethics-and-limits.md", data["references"])
         self.assertIn("financial advice", data["guardrails"][0])
 
+    def test_fund_volatility_and_performance_chasing_route_to_finance(self):
+        data = run_router(
+            "My funds are volatile and I keep chasing performance after a drawdown"
+        )
+
+        self.assertEqual(data["domain"], "finance")
+        self.assertIn("references/finance-adapter.md", data["references"])
+        self.assertEqual(data["risk_level"], "high")
+
+    def test_recent_fund_performer_language_routes_to_finance(self):
+        data = run_router(
+            "My funds are volatile and I want to chase the best recent performer"
+        )
+
+        self.assertEqual(data["domain"], "finance")
+        self.assertIn("references/finance-adapter.md", data["references"])
+
+    def test_chinese_fund_behavior_routes_to_finance(self):
+        data = run_router("基金净值回撤后我总想追涨追高，应该怎样调整仓位？")
+
+        self.assertEqual(data["domain"], "finance")
+        self.assertIn("references/finance-adapter.md", data["references"])
+
     def test_brand_routes_to_domain_adapter(self):
         data = run_router("Help me choose brand colors and a launch direction")
 
@@ -97,6 +120,16 @@ class DomainRouterTest(unittest.TestCase):
         self.assertEqual(data["domain"], "wellbeing")
         self.assertIn("references/wellbeing-adapter.md", data["references"])
         self.assertIn("Do not diagnose or treat medical conditions.", data["guardrails"])
+
+    def test_sleeping_poorly_fuses_wellbeing_and_space(self):
+        data = run_router(
+            "I have been sleeping poorly. Review my bedroom feng shui."
+        )
+
+        self.assertIn("wellbeing", data["domains"])
+        self.assertIn("space", data["domains"])
+        self.assertIn("references/wellbeing-adapter.md", data["references"])
+        self.assertIn("references/forms-and-environment.md", data["references"])
 
     def test_legal_adjacent_routes_to_legal_adapter(self):
         data = run_router("Use feng shui to think about this contract and legal dispute")
@@ -205,6 +238,47 @@ class DomainRouterTest(unittest.TestCase):
         self.assertEqual(data["risk_level"], "critical")
         self.assertFalse(data["symbolic_analysis_allowed"])
         self.assertIn("before symbolic analysis", " ".join(data["guardrails"]))
+
+    def test_filing_deadline_stops_symbolic_timing_analysis(self):
+        data = run_router(
+            "A filing deadline is tomorrow, but the auspicious date is next week"
+        )
+
+        self.assertIn("legal_adjacent", data["domains"])
+        self.assertIn("timing", data["domains"])
+        self.assertEqual(data["route_status"], "critical_safety")
+        self.assertFalse(data["symbolic_analysis_allowed"])
+
+    def test_exam_money_and_family_pressure_routes_across_reality_domains(self):
+        data = run_router(
+            "I am preparing for an exam, money is tight, and family pressure distracts me"
+        )
+
+        self.assertIn("learning", data["domains"])
+        self.assertIn("finance", data["domains"])
+        self.assertIn("relationship", data["domains"])
+        self.assertEqual(data["risk_level"], "high")
+
+    def test_cybersecurity_uses_high_risk_universal_adaptation(self):
+        data = run_router(
+            "Use FengShui Master to assess our cybersecurity program and weaknesses"
+        )
+
+        self.assertEqual(data["domains"], ["general"])
+        self.assertNotIn("cybersecurity", data["domains"])
+        self.assertEqual(data["route_status"], "universal_adaptation")
+        self.assertEqual(data["risk_level"], "high")
+        self.assertIn("examples/universal-domain-protocol.json", data["references"])
+        self.assertIn("references/five-phase-domain-map.md", data["references"])
+        self.assertIn("qualified security review", " ".join(data["guardrails"]))
+
+    def test_founder_decision_overload_routes_to_business(self):
+        data = run_router(
+            "I am a founder with too many decisions, slow execution, and a team waiting"
+        )
+
+        self.assertEqual(data["domain"], "business")
+        self.assertIn("references/business-adapter.md", data["references"])
 
     def test_legal_deadline_is_critical_and_preserves_legal_domain(self):
         data = run_router("I have a legal deadline today; choose an auspicious filing time")

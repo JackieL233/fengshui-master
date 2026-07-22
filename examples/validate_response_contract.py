@@ -40,7 +40,25 @@ REQUIRED_RULE_TERMS = {
     "provisional reading",
     "confirm or refute",
     "next 72 hours",
+    "provisional current-posture headline",
+    "sparse input",
+    "cross-domain",
+    "high-stakes domains",
+    "unknown domain",
+    "no more than three",
 }
+REQUIRED_PROACTIVE_SEQUENCE = [
+    "urgent_safety_and_reality_check",
+    "provisional_current_posture_headline",
+    "known_basis_and_uncertainty",
+    "favorable_conditions",
+    "possible_friction_and_likely_manifestations",
+    "confirmation_and_disconfirmation_signals",
+    "immediate_low_risk_action",
+    "cross_domain_priorities",
+    "action_horizons_and_monitoring",
+    "follow_up_questions",
+]
 
 
 def fail(errors: list[str], message: str) -> None:
@@ -68,6 +86,31 @@ def main() -> int:
         fail(errors, "contract name must be fengshui-master-response-contract")
     if schema.get("title") != "FengShui Master Response Contract":
         fail(errors, "response contract schema has wrong title")
+
+    proactive = contract.get("proactive_defaults", {})
+    if not isinstance(proactive, dict):
+        fail(errors, "proactive_defaults must be an object")
+        proactive = {}
+    if proactive.get("mode") != "provisional_first":
+        fail(errors, "proactive_defaults mode must be provisional_first")
+    if proactive.get("headline_before_questions") is not True:
+        fail(errors, "proactive_defaults must require headline_before_questions")
+    if proactive.get("max_follow_up_questions") != 3:
+        fail(errors, "proactive_defaults max_follow_up_questions must be 3")
+    if proactive.get("required_sequence") != REQUIRED_PROACTIVE_SEQUENCE:
+        fail(errors, "proactive_defaults required_sequence has the wrong order")
+    for field in [
+        "sparse_input_rule",
+        "cross_domain_prioritization",
+        "high_stakes_behavior",
+        "unknown_domain_adaptation",
+    ]:
+        if not isinstance(proactive.get(field), str) or not proactive[field].strip():
+            fail(errors, f"proactive_defaults missing {field}")
+
+    schema_required = schema.get("required", [])
+    if "proactive_defaults" not in schema_required:
+        fail(errors, "response contract schema must require proactive_defaults")
 
     sections = contract.get("required_sections", [])
     if not isinstance(sections, list) or not sections:

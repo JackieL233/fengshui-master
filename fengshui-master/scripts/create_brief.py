@@ -249,16 +249,222 @@ DOMAIN_SECTIONS = {
 }
 
 
-PROACTIVE_REPORT_SECTIONS = [
-    "Current-state scan",
+PROACTIVE_OPENING_SECTIONS = [
+    "Provisional current posture",
+    "Known basis and confidence",
     "Favorable conditions",
-    "Possible friction and validation questions",
+    "Possible friction and ordinary manifestations",
+    "Confirmation and disconfirmation signals",
+    "Immediate low-risk action",
     "Cross-domain priorities",
+]
+
+
+PROACTIVE_CLOSING_SECTIONS = [
     "Actions: next 72 hours",
     "Actions: next 30 days",
     "Actions: next 90 days",
     "Monitoring signals",
+    "Follow-up questions (maximum 3)",
 ]
+
+
+PROACTIVE_REQUIRED_SEQUENCE = [
+    "safety_precheck",
+    "provisional_current_posture",
+    "known_basis",
+    "favorable_conditions",
+    "possible_friction_and_ordinary_manifestations",
+    "confirmation_and_disconfirmation_signals",
+    "immediate_low_risk_action",
+    "cross_domain_priorities",
+    "actions_72_hours",
+    "actions_30_days",
+    "actions_90_days",
+    "monitoring_signals",
+    "follow_up_questions",
+]
+
+
+MAX_FOLLOW_UP_QUESTIONS = 3
+
+DOMAIN_PRIORITY_TIERS = {
+    "business": 1,
+    "product": 1,
+    "space": 1,
+    "career": 1,
+    "learning": 1,
+    "relationship": 1,
+    "timing": 2,
+    "life_omen": 2,
+    "general": 2,
+    "brand": 3,
+    "naming": 3,
+}
+
+
+HIGH_STAKES_ESSENTIAL_INPUTS = {
+    "finance": [
+        "time horizon",
+        "risk tolerance",
+        "liquidity needs",
+        "existing allocation or concentration",
+        "financial thesis and downside condition",
+    ],
+    "legal_adjacent": [
+        "hard deadlines and required procedures",
+        "stakeholders and incentives",
+        "documents or clauses the user can summarize",
+        "whether qualified legal help is involved",
+    ],
+    "wellbeing": [
+        "specific wellbeing concern",
+        "medical or safety issues already identified",
+        "professional care constraints",
+    ],
+}
+
+
+HIGH_STAKES_ACTION_TERMS = {
+    "finance": [
+        "buy",
+        "sell",
+        "invest",
+        "allocate",
+        "rebalance",
+        "increase",
+        "reduce",
+        "hold",
+        "borrow",
+        "withdraw",
+        "买",
+        "买入",
+        "卖",
+        "卖出",
+        "投资",
+        "加仓",
+        "减仓",
+        "清仓",
+        "调仓",
+        "持有",
+        "借款",
+        "赎回",
+    ],
+    "legal_adjacent": [
+        "sign",
+        "file",
+        "submit",
+        "accept",
+        "reject",
+        "settle",
+        "sue",
+        "appeal",
+        "terminate",
+        "waive",
+        "签",
+        "签署",
+        "提交",
+        "备案",
+        "接受",
+        "拒绝",
+        "和解",
+        "起诉",
+        "上诉",
+        "终止",
+        "放弃",
+    ],
+    "wellbeing": [
+        "start",
+        "stop",
+        "take",
+        "skip",
+        "change",
+        "replace",
+        "increase",
+        "reduce",
+        "开始",
+        "停止",
+        "停用",
+        "服用",
+        "不用",
+        "更换",
+        "增加",
+        "减少",
+    ],
+}
+
+
+def has_high_stakes_action_intent(question: str, domain: str) -> bool:
+    terms = HIGH_STAKES_ACTION_TERMS.get(domain, [])
+    english_terms = [term for term in terms if term.isascii()]
+    chinese_terms = [term for term in terms if not term.isascii()]
+    lowered = question.casefold()
+
+    if english_terms:
+        verbs = "|".join(re.escape(term) for term in english_terms)
+        english_patterns = [
+            rf"\b(?:should|can|may|must|do)\s+(?:i|we)\b.{{0,80}}\b(?:{verbs})\b",
+            rf"\b(?:i|we)\s+(?:want|plan|intend|need|have|am going|are going)\s+to\s+(?:{verbs})\b",
+            rf"\b(?:before|whether|if)\s+(?:i|we)\s+(?:{verbs})\b",
+            rf"\b(?:tell|advise|recommend|help)\s+(?:me|us)\b.{{0,80}}\b(?:{verbs})\b",
+        ]
+        if any(re.search(pattern, lowered) for pattern in english_patterns):
+            return True
+
+    if chinese_terms:
+        verbs = "|".join(re.escape(term) for term in chinese_terms)
+        chinese_patterns = [
+            rf"(?:是否|要不要|该不该|应不应该|能不能|可不可以).{{0,24}}(?:{verbs})",
+            rf"(?:我要|我想|我计划|我准备|准备|打算).{{0,24}}(?:{verbs})",
+            rf"(?:帮我|建议我).{{0,24}}(?:{verbs})",
+            rf"(?:{verbs}).{{0,12}}(?:吗|么|呢|好不好|是否|？|\?)",
+        ]
+        if any(re.search(pattern, question) for pattern in chinese_patterns):
+            return True
+
+    return False
+
+
+def evaluate_high_stakes_evidence(
+    question: str,
+    domains: list[str],
+    missing_inputs: list[str],
+    risk_level: str,
+) -> dict[str, Any]:
+    configured_high_risk_domains = set(
+        getattr(domain_router, "HIGH_RISK_DOMAINS", set())
+    )
+    high_risk_domains = [
+        domain for domain in domains if domain in configured_high_risk_domains
+    ]
+    action_intent_domains = [
+        domain
+        for domain in high_risk_domains
+        if has_high_stakes_action_intent(question, domain)
+    ]
+    missing_by_domain = {
+        domain: [
+            item
+            for item in HIGH_STAKES_ESSENTIAL_INPUTS.get(domain, [])
+            if item in missing_inputs
+        ]
+        for domain in action_intent_domains
+    }
+    missing_by_domain = {
+        domain: items for domain, items in missing_by_domain.items() if items
+    }
+    triggered = (
+        risk_level in {"high", "critical"}
+        and bool(action_intent_domains)
+        and bool(missing_by_domain)
+    )
+    return {
+        "triggered": triggered,
+        "high_risk_domains": high_risk_domains,
+        "decision_or_action_intent": bool(action_intent_domains),
+        "action_intent_domains": action_intent_domains,
+        "missing_essential_evidence": missing_by_domain,
+    }
 
 
 def merge_unique(left: list[str], right: list[str]) -> list[str]:
@@ -267,6 +473,127 @@ def merge_unique(left: list[str], right: list[str]) -> list[str]:
         if value not in result:
             result.append(value)
     return result
+
+
+def build_domain_priorities(
+    domains: list[str], domain_scores: dict[str, Any]
+) -> dict[str, Any]:
+    high_risk_domains = set(getattr(domain_router, "HIGH_RISK_DOMAINS", set()))
+    original_order = {domain: index for index, domain in enumerate(domains)}
+    ordered = sorted(
+        domains,
+        key=lambda domain: (
+            0 if domain in high_risk_domains else 1,
+            DOMAIN_PRIORITY_TIERS.get(domain, 2),
+            -int(domain_scores.get(domain, 0)),
+            original_order[domain],
+        ),
+    )
+    return {
+        "ordered_domains": ordered,
+        "primary_domain": ordered[0] if ordered else "general",
+        "do_not_average_domains": True,
+        "selection_rule": (
+            "Address urgent and high-consequence real-world domains first, then "
+            "resolve operational dependencies before timing, naming, brand, or "
+            "other representational choices; use evidence and relevance within each tier."
+        ),
+        "items": [
+            {
+                "domain": domain,
+                "rank": index + 1,
+                "handling": (
+                    "reality_first"
+                    if domain in high_risk_domains
+                    else "provisional_supporting_analysis"
+                ),
+            }
+            for index, domain in enumerate(ordered)
+        ],
+    }
+
+
+def build_proactive_delivery(
+    question: str,
+    domains: list[str],
+    domain_scores: dict[str, Any],
+    missing_inputs: list[str],
+    symbolic_analysis_allowed: bool,
+    risk_level: str,
+) -> dict[str, Any]:
+    safety_blocked = not symbolic_analysis_allowed
+    high_stakes_evidence = evaluate_high_stakes_evidence(
+        question, domains, missing_inputs, risk_level
+    )
+    high_stakes_blocked = bool(high_stakes_evidence["triggered"])
+    return {
+        "mode": "provisional_first",
+        "recommendation_mode": (
+            "safety_triage_only"
+            if safety_blocked
+            else "bounded_provisional_only"
+            if high_stakes_blocked
+            else "guardrailed_provisional"
+        ),
+        "headline_before_questions": True,
+        "max_follow_up_questions": 0 if safety_blocked else MAX_FOLLOW_UP_QUESTIONS,
+        "follow_up_question_placement": (
+            "not applicable while urgent safety blocks symbolic analysis"
+            if safety_blocked
+            else "after the provisional reading, immediate action, and monitoring signals"
+        ),
+        "required_sequence": list(PROACTIVE_REQUIRED_SEQUENCE),
+        "sparse_input_rule": (
+            "Missing optional inputs lower confidence but do not suppress a useful "
+            "provisional reading; state assumptions, ordinary manifestations, and "
+            "falsifiers before asking up to three high-value questions."
+        ),
+        "domain_priorities": build_domain_priorities(domains, domain_scores),
+        "safety_precheck": {
+            "required": True,
+            "risk_level": risk_level,
+            "status": "blocked" if safety_blocked else "clear",
+            "overrides_required_sequence": safety_blocked,
+        },
+        "stop_conditions": [
+            {
+                "id": "urgent_real_world_risk",
+                "triggered": safety_blocked,
+                "priority": 1,
+                "when": "symbolic_analysis_allowed is false",
+                "blocks": ["symbolic_analysis", "non_urgent_recommendations"],
+                "action": (
+                    "Stop the symbolic reading and direct the user to appropriate "
+                    "urgent medical, emergency, safety, or qualified professional help."
+                ),
+            },
+            {
+                "id": "missing_high_stakes_evidence",
+                **high_stakes_evidence,
+                "priority": 2,
+                "superseded_by": (
+                    "urgent_real_world_risk" if safety_blocked else None
+                ),
+                "when": (
+                    "A high-risk native domain includes decision or action intent "
+                    "and lacks essential real-world evidence or qualified review."
+                ),
+                "blocks": [
+                    "execution_style_recommendations",
+                    "irreversible_recommendations",
+                ],
+                "allows": [
+                    "bounded_educational_analysis",
+                    "bounded_provisional_analysis",
+                    "reversible_preparation_steps",
+                ],
+                "action": (
+                    "Do not recommend execution; provide only bounded, reversible "
+                    "preparation steps and identify the evidence or professional review needed."
+                ),
+            },
+        ],
+    }
 
 
 def remove_provided_life_inputs(question: str, missing_inputs: list[str]) -> list[str]:
@@ -328,6 +655,14 @@ def create_brief(question: str, floorplan_path: str | None = None) -> dict[str, 
     route = domain_router.route(question)
     domain = str(route["domain"])
     domains = [str(value) for value in route.get("domains", [domain])]
+    domain_scores = dict(route.get("domain_scores", {domain: 1}))
+    symbolic_analysis_allowed = bool(
+        route.get("symbolic_analysis_allowed", True)
+    )
+    risk_level = str(route.get("risk_level", "standard"))
+    clarifying_questions = list(route.get("clarifying_questions", []))[
+        :MAX_FOLLOW_UP_QUESTIONS
+    ]
     references = list(route["references"])
     guardrails = list(route["guardrails"])
     report_sections: list[str] = []
@@ -358,14 +693,6 @@ def create_brief(question: str, floorplan_path: str | None = None) -> dict[str, 
         report_sections.insert(insert_at, "Symbolic analysis protocol")
 
     references = merge_unique(references, ["references/proactive-reading-protocol.md"])
-    proactive_insert_at = (
-        report_sections.index("Symbolic analysis protocol") + 1
-        if "Symbolic analysis protocol" in report_sections
-        else min(3, len(report_sections))
-    )
-    for section in reversed(PROACTIVE_REPORT_SECTIONS):
-        if section not in report_sections:
-            report_sections.insert(proactive_insert_at, section)
 
     floorplan_analysis = None
     if floorplan_path:
@@ -388,18 +715,27 @@ def create_brief(question: str, floorplan_path: str | None = None) -> dict[str, 
             ],
         )
 
+    report_sections = merge_unique(PROACTIVE_OPENING_SECTIONS, report_sections)
+    report_sections = merge_unique(report_sections, PROACTIVE_CLOSING_SECTIONS)
+    proactive_delivery = build_proactive_delivery(
+        question,
+        domains,
+        domain_scores,
+        missing_inputs,
+        symbolic_analysis_allowed,
+        risk_level,
+    )
+
     return {
         "question": question,
         "domain": domain,
         "domains": domains,
-        "domain_scores": route.get("domain_scores", {domain: 1}),
+        "domain_scores": domain_scores,
         "candidate_domains": route.get("candidate_domains", []),
         "route_status": route.get("route_status", "matched"),
-        "risk_level": route.get("risk_level", "standard"),
-        "symbolic_analysis_allowed": route.get(
-            "symbolic_analysis_allowed", True
-        ),
-        "clarifying_questions": route.get("clarifying_questions", []),
+        "risk_level": risk_level,
+        "symbolic_analysis_allowed": symbolic_analysis_allowed,
+        "clarifying_questions": clarifying_questions,
         "references": references,
         "guardrails": guardrails,
         "lenses": route["lens"],
@@ -408,7 +744,7 @@ def create_brief(question: str, floorplan_path: str | None = None) -> dict[str, 
             "provided": provided_inputs,
             "missing": missing_inputs,
             "ambiguous": (
-                route.get("clarifying_questions", [])
+                clarifying_questions
                 if route.get("route_status") == "ambiguous"
                 else []
             ),
@@ -416,16 +752,18 @@ def create_brief(question: str, floorplan_path: str | None = None) -> dict[str, 
                 [
                     "Resolve the urgent real-world safety or medical concern before symbolic analysis."
                 ]
-                if not route.get("symbolic_analysis_allowed", True)
+                if not symbolic_analysis_allowed
                 else []
             ),
         },
+        "proactive_delivery": proactive_delivery,
         "report_sections": report_sections,
         "domain_report_sections": domain_report_sections,
         "floorplan_analysis": floorplan_analysis,
         "answer_contract": [
             "Separate real-world constraints from feng shui symbolism.",
-            "State method, assumptions, and missing inputs before conclusions.",
+            "Give a bounded provisional current-posture headline before method detail or follow-up questions.",
+            "State the known basis, assumptions, confidence, and missing inputs without delaying the provisional reading.",
             "Label facts, calculations, inferences, unknowns, and recommendations separately.",
             "For material claims preserve confidence, method, evidence pointers, and falsifiers; calculations also need tool and input provenance.",
             "For each relevant domain, state favorable signals, possible friction, validation evidence, and the next low-risk action.",

@@ -33,6 +33,9 @@ jobs:
       - name: Validate portable evaluation suite
         run: python examples/validate_portable_evaluation.py
 
+      - name: Validate proactive user journeys
+        run: python examples/validate_user_journey_evaluation.py
+
       - name: Validate portable manifest
         run: python examples/validate_portable_manifest.py
 

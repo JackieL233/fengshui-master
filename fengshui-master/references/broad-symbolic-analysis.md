@@ -130,12 +130,15 @@ Never answer "buy/sell" purely from feng shui symbolism.
 
 For substantial broad symbolic readings, use:
 
-1. **Scope and method**: domain, stakes, and symbolic lenses used.
-2. **Reality layer**: facts and constraints before symbolism.
-3. **Symbolic analysis protocol**: brief 观气 / 取象 / 辨势 / 吉凶 summary.
-4. **Ji/xiong assessment**: favorable conditions, risk conditions, mixed areas.
-5. **Actions for 趋吉避凶**: practical and symbolic adjustments.
-6. **Missing inputs and limits**: what would change confidence.
+1. **Provisional current posture**: a bounded, conditional headline before questions or method detail.
+2. **Known basis and limits**: facts, assumptions, confidence, and unknowns.
+3. **Favorable conditions**: support, useful momentum, and opportunity.
+4. **Possible friction and manifestations**: bounded hypotheses about risk, leakage, blockage, or excess.
+5. **Confirm or refute**: observable evidence for and against each material inference.
+6. **Immediate action and priorities**: one reversible action, followed by ranked cross-domain concerns.
+7. **Action horizons and monitoring**: next 72 hours, 30 days, and 90 days; review signals and stop conditions.
+8. **Follow-up questions**: at most three precision questions, asked only after the useful reading.
+9. **Method and boundary**: reality layer, 观气 / 取象 / 辨势 / 吉凶 protocol, cultural limits, and professional limits.
 
 ## Boundaries
 

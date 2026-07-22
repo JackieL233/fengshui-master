@@ -1,104 +1,77 @@
 # FengShui Master Consultation Report
 
-Question: 帮我用风水分析一个人的生平五行吉凶和运势
+Question: 帮我用风水分析一个人的生平、五行吉凶和运势
 Domain: life_omen
 
-## References To Load
-- references/broad-symbolic-analysis.md
-- references/life-and-omen-adapter.md
-- references/proactive-reading-protocol.md
-- references/five-phase-domain-map.md
-- references/foundation.md
-- references/ethics-and-limits.md
+## 当前态势初判
 
-## Guardrails
-- Do not make deterministic fate, health, death, wealth, marriage, or disaster claims.
-- Use feng shui, yin-yang, wuxing, bagua, and timing as symbolic analysis, not guaranteed prediction.
-- Disclose when full bazi, zi wei, qimen, liuren, or almanac calculation is not implemented.
+目前属于**信息未成局、宜先聚焦再判断**的状态，而不是已经可以断定某人吉凶。只有宽泛主题，没有个人资料和现实处境时，仍可先判断：最需要解决的是把“想知道一生命运”收束成一个当下可验证的问题。五行、吉凶和运势可作为整理条件变化的象义框架，不能替代事实或宣称命运已定。置信度：低。
 
-## Symbolic Lenses
-- yin-yang balance
-- five-phase relationships
-- timing and activation
-- form, flow, and containment
-- risk and remedy hierarchy
+## 已知依据与置信度
 
-## Missing Inputs
-- birth year or relevant year
-- current life stage
-- hard real-world constraints
+- 已知：用户希望分析生平、五行、吉凶和运势。
+- 未知：分析对象、出生资料、所在地、当前阶段、具体困境和现实约束。
+- 边界：未进行完整八字、紫微、奇门、六壬或择日计算，也不虚构其结果。
 
-## Answer Contract
-- Separate real-world constraints from feng shui symbolism.
-- State method, assumptions, and missing inputs before conclusions.
-- Label facts, calculations, inferences, unknowns, and recommendations separately.
-- For each relevant domain, state favorable signals, possible friction, validation evidence, and the next low-risk action.
-- Proceed provisionally when optional data is missing; do not invent hidden events or deterministic outcomes.
-- Prioritize low-risk, reversible actions.
-- Do not present symbolic readings as guaranteed outcomes.
+## 当前有利条件
 
-## Report Sections
+- 用户愿意从多个维度复盘处境，可将模糊焦虑转成可观察的问题。
+- 当下议题、空间与时间信息可以逐层补充，不必等待“资料完美”才开始行动。
+- 吉凶可以解释为条件利弊，便于比较可逆选择，而非贴永久标签。
 
-## Inputs and assumptions
+## 潜在困境及日常表现
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- 问题过宽时，容易把通用描述误认成个人事实，表现为“句句都像，但不知道下一步做什么”。
+- 过度追求精确术数可能推迟现实决策，表现为反复补算、换体系或寻找确定答案。
+- 若生活压力真实存在，可能把健康、财务、关系或安全问题象征化，而忽略可验证原因。
 
-## Reality layer
+## 确认或反驳信号
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- 若用户能指出最近三个月反复出现的具体事件、指标或决策，说明问题已经可以进入定向分析。
+- 若所谓判断无法给出观察依据、普通表现和反例，应降低或撤回该判断。
+- 若现实数据、专业意见或安全要求与象义冲突，以现实证据为准。
 
-## Traditional symbolic layer
+## 立即低风险行动
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+先选一个最影响生活的当前议题，记录“事实、感受、约束、希望改变的指标”各一项，再叠加五行和吉凶解释。
 
-## Symbolic analysis protocol
+## 跨领域优先级
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+1. 医疗、安全、法律、财务等高后果现实问题。
+2. 当前最紧迫且可行动的生活议题。
+3. 个人节律、空间与时间条件。
+4. 五行、吉凶及其他传统象义补充。
 
-## Current-state scan
+## 未来 72 小时
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- 明确一个当前议题和一个可验证目标。
+- 建立近三个月事件与状态的简表，区分事实和解释。
+- 只做安全、低成本、可逆的环境或作息调整。
 
-## Favorable conditions
+## 未来 30 天
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- 每周复盘一次目标指标和现实阻力。
+- 比较行动前后的变化，不把偶然巧合直接归因于风水。
+- 若涉及健康、债务、暴力或法律期限，及时使用相应专业支持。
 
-## Possible friction and validation questions
+## 未来 90 天
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- 保留有效调整，停止没有可观察收益的仪式或消费。
+- 只有在资料、方法和历法来源明确时，再增加更精细的传统计算。
 
-## Cross-domain priorities
+## 监测指标
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- 目标问题的频率、强度与影响
+- 已执行行动及其可观察结果
+- 睡眠、现金流、关系冲突或工作进展等现实指标
+- 支持判断与反驳判断的证据是否同时被记录
 
-## Actions: next 72 hours
+## 补充问题（最多 3 个）
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+1. 分析对象的出生日期、尽可能准确的时间、出生地和当前所在地是什么？
+2. 现在最希望判断的是事业、财务、关系、健康、学习还是其他具体处境？
+3. 最近三个月有哪些反复出现的事实、困难、改善或重要决定？
 
-## Actions: next 30 days
+## 方法与边界
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Actions: next 90 days
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Monitoring signals
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Ji/xiong assessment
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Actions for seeking favorable conditions
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Limits and missing data
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Cultural and Professional Boundary
-
-This report is a cultural and symbolic decision-support scaffold. It is not medical, legal, financial, engineering, architectural, tax, psychological, or safety advice.
+本样例先给低置信度初判，再补充信息。输出必须区分事实、计算、推断、未知和建议；不得断言灾祸、死亡、疾病、财富或婚姻结果。风水在此是文化与象义决策辅助，不替代医疗、法律、金融、心理或安全专业意见。

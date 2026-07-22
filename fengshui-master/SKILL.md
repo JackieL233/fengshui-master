@@ -17,11 +17,9 @@ Fuse all relevant available context, not every file indiscriminately. Preserve p
 
 ## First Move
 
-Ask for only the missing inputs needed for the requested analysis. If the user has a floor plan or image, ask for it; if they have a compass reading, ask whether it is the facing direction, sitting direction, door direction, bed head direction, or desk facing direction.
+Run an urgent safety and native-domain risk check first. Once immediate danger has been addressed, always lead with a bounded provisional current-posture headline before asking any non-urgent question. Sparse inputs lower confidence; they never suppress a useful provisional reading or justify opening with a questionnaire.
 
-For quick requests, proceed with stated assumptions and mark them clearly. After essential safety-critical inputs are available, do not stop at method explanation or a questionnaire: provide a useful provisional reading.
-
-Load `references/proactive-reading-protocol.md` for current-state, current-luck, life-phase, cross-domain, or decision readings. Label material findings as `observed`, `calculated`, `inferred`, `unknown`, or `recommended`; scan only relevant domains; and state favorable signals, possible friction, validation evidence, immediate action, and 72-hour / 30-day / 90-day horizons. Never state an unverified hidden event as fact.
+Load `references/proactive-reading-protocol.md` for current-state, current-luck, life-phase, cross-domain, or decision readings. Follow its user-visible order: headline; known basis and assumptions; favorable factors; possible friction and ordinary manifestations; confirmation and disconfirmation signals; one immediate low-risk action; prioritized relevant cross-domain concerns; 72-hour / 30-day / 90-day actions; monitoring; then at most three high-value follow-up questions. Never state an unverified hidden event as fact, use cold reading, claim deterministic fate, or invent precision.
 
 For each material claim, preserve `status`, `confidence`, `method`, `evidence_refs`, and `falsifiers`. Observations need a user or artifact pointer; calculations need tool, input, and method provenance; inferences need concrete basis and falsifiers; unknowns need missing inputs; recommendations need a basis, reversibility, and verification. In the full portable repository, enforce this with `examples/claim-evidence-policy.json`, `schemas/agent-claims.schema.json`, and `examples/validate_claim_evidence.py`.
 
@@ -52,7 +50,7 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
 ## Workflow
 
 1. Define the scope: classic space analysis, broad life/omen reading, auspiciousness assessment, cross-domain decision support, finance, business, brand, career, wellbeing, relationship, home, office, shop, site, room, door, bed, desk, kitchen, water, renovation, naming, date, or general study.
-2. Collect evidence: plan/image, address context if offered, compass bearings, construction or move-in year, occupants' goals, constraints, and what can or cannot change.
+2. Use the evidence already available: plan/image, address context if offered, compass bearings, construction or move-in year, occupants' goals, constraints, and what can or cannot change. Defer non-urgent missing-input questions until after the provisional reading.
 3. Choose frameworks:
    - Use `references/consultation-brief.md` for the standard intake, routing, missing-input, guardrail, and report-section protocol.
    - Use `references/reporting-protocol.md` when turning a brief into a final Markdown report or polished user-facing answer.
@@ -147,13 +145,13 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
 
 Structure substantial readings as:
 
-1. **Inputs and assumptions**: what was provided and what is inferred.
-2. **Method**: the schools or reference frames used.
-3. **Current-state scan**: relevant favorable signals, possible friction, ordinary manifestations, and evidence that would confirm or refute each inference.
-4. **Findings**: outside environment, entrance, circulation, major rooms, personal placements, timing if relevant.
-5. **Recommendations**: ranked actions for the next 72 hours, 30 days, and 90 days with monitoring signals.
-6. **Missing data**: what would improve confidence.
-7. **Cultural note**: when a claim is symbolic, school-specific, or contested.
+1. **Urgent reality check**: address immediate safety or high-stakes constraints.
+2. **Provisional current posture**: give the bounded headline before non-urgent questions.
+3. **Known basis and limits**: inputs, assumptions, method, and confidence.
+4. **Active pattern**: favorable factors, possible friction, ordinary manifestations, and confirmation/disconfirmation signals.
+5. **Action**: one immediate low-risk step, relevant cross-domain priorities, then 72-hour / 30-day / 90-day actions.
+6. **Monitoring**: observable signals and a review point.
+7. **Follow-up**: at most three high-value questions, plus any cultural or precision limits.
 
 ## Deterministic Tools
 

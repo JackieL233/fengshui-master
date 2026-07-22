@@ -3,6 +3,7 @@ import subprocess
 import sys
 import json
 import importlib.util
+import re
 from pathlib import Path
 
 
@@ -22,6 +23,8 @@ PORTABLE_EXAMPLES = ROOT / "examples" / "portable-agent-prompts.md"
 PORTABLE_EVAL_SUITE = ROOT / "examples" / "portable-evaluation-suite.json"
 PORTABLE_EVAL_RUBRIC = ROOT / "examples" / "portable-evaluation-rubric.json"
 PORTABLE_EVAL_VALIDATOR = ROOT / "examples" / "validate_portable_evaluation.py"
+USER_JOURNEY_EVAL_SUITE = ROOT / "examples" / "user-journey-evaluation-suite.json"
+USER_JOURNEY_EVAL_VALIDATOR = ROOT / "examples" / "validate_user_journey_evaluation.py"
 REFERENCE_CATALOG = ROOT / "examples" / "reference-catalog.json"
 REFERENCE_CATALOG_VALIDATOR = ROOT / "examples" / "validate_reference_catalog.py"
 TOOL_CATALOG = ROOT / "examples" / "tool-catalog.json"
@@ -50,6 +53,7 @@ PORTABLE_MANIFEST = ROOT / "portable-skill.json"
 PORTABLE_MANIFEST_VALIDATOR = ROOT / "examples" / "validate_portable_manifest.py"
 PORTABLE_MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
 PORTABLE_EVAL_SCHEMA = ROOT / "schemas" / "portable-evaluation-suite.schema.json"
+USER_JOURNEY_EVAL_SCHEMA = ROOT / "schemas" / "user-journey-evaluation-suite.schema.json"
 REFERENCE_CATALOG_SCHEMA = ROOT / "schemas" / "reference-catalog.schema.json"
 TOOL_CATALOG_SCHEMA = ROOT / "schemas" / "tool-catalog.schema.json"
 RESPONSE_CONTRACT_SCHEMA = ROOT / "schemas" / "response-contract.schema.json"
@@ -101,6 +105,7 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("python examples/validate_external_calculation_contracts.py", workflow)
         self.assertIn("python examples/validate_contribution_quality_gates.py", workflow)
         self.assertIn("python examples/validate_runtime_integration_profiles.py", workflow)
+        self.assertIn("python examples/validate_user_journey_evaluation.py", workflow)
         self.assertIn("python .github/scripts/audit_repository.py", workflow)
 
     def test_portable_skill_validator_exists_for_ci(self):
@@ -298,6 +303,36 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn("method_selector.py", method_selector["must_include"])
         self.assertIn("mix schools silently", method_selector["must_not_include"])
 
+        for case_id in [
+            "proactive-sparse-current-luck",
+            "proactive-cross-domain-overload",
+            "proactive-finance-practical-controls",
+            "proactive-unknown-domain-cybersecurity",
+            "proactive-follow-up-question-cap",
+        ]:
+            with self.subTest(case_id=case_id):
+                self.assertIn(case_id, by_id)
+        self.assertIn(
+            "provisional current-posture headline",
+            by_id["proactive-sparse-current-luck"]["must_include"],
+        )
+        self.assertIn(
+            "naming is secondary",
+            by_id["proactive-cross-domain-overload"]["must_include"],
+        )
+        self.assertIn(
+            "symbolism is secondary",
+            by_id["proactive-finance-practical-controls"]["must_include"],
+        )
+        self.assertIn(
+            "modern symbolic adaptation",
+            by_id["proactive-unknown-domain-cybersecurity"]["must_include"],
+        )
+        self.assertIn(
+            "no more than three follow-up questions",
+            by_id["proactive-follow-up-question-cap"]["must_include"],
+        )
+
         for case in suite["cases"]:
             with self.subTest(case=case["id"]):
                 self.assertIn("prompt", case)
@@ -335,6 +370,100 @@ class RepositoryQualityTest(unittest.TestCase):
         )
 
         self.assertIn("Portable evaluation suite is valid", result.stdout)
+
+    def test_user_journey_evaluation_suite_is_enforced(self):
+        self.assertTrue(USER_JOURNEY_EVAL_SUITE.exists())
+        self.assertTrue(USER_JOURNEY_EVAL_VALIDATOR.exists())
+        self.assertTrue(USER_JOURNEY_EVAL_SCHEMA.exists())
+
+        suite = json.loads(USER_JOURNEY_EVAL_SUITE.read_text(encoding="utf-8"))
+        schema = json.loads(USER_JOURNEY_EVAL_SCHEMA.read_text(encoding="utf-8"))
+        manifest = json.loads(PORTABLE_MANIFEST.read_text(encoding="utf-8"))
+        manifest_schema = json.loads(PORTABLE_MANIFEST_SCHEMA.read_text(encoding="utf-8"))
+        workflow = WORKFLOW.read_text(encoding="utf-8")
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        chinese_readme = README_ZH.read_text(encoding="utf-8")
+
+        self.assertEqual(suite["name"], "fengshui-master-user-journey-evaluation-suite")
+        self.assertEqual(schema["title"], "FengShui Master User Journey Evaluation Suite")
+        layers = suite["evaluation_layers"]
+        self.assertFalse(layers["natural_language_grading_executed"])
+        self.assertEqual(
+            layers["model_evaluator_criteria"],
+            ["must_include", "must_not_include", "evaluation_focus"],
+        )
+        self.assertGreaterEqual(len(layers["runtime_structural_checks"]), 5)
+        delivery = suite["delivery_contract"]
+        self.assertEqual(delivery["mode"], "provisional_first")
+        self.assertEqual(
+            delivery["first_response_requirement"],
+            "provisional_current_posture_before_questions",
+        )
+        self.assertLessEqual(delivery["max_follow_up_questions"], 3)
+        self.assertEqual(
+            delivery["required_sequence"],
+            [
+                "urgent_safety_check",
+                "provisional_current_posture",
+                "known_basis",
+                "favorable_now",
+                "possible_friction_and_manifestations",
+                "confirmation_and_refutation_signals",
+                "immediate_low_risk_action",
+                "prioritized_relevant_domains",
+                "actions_72_hours_30_days_90_days",
+                "monitoring_and_stop_conditions",
+                "up_to_three_high_value_questions",
+            ],
+        )
+
+        cases = suite["cases"]
+        case_ids = [case["id"] for case in cases]
+        self.assertEqual(len(cases), 20)
+        self.assertEqual(len(set(case_ids)), 20)
+        for case in cases:
+            with self.subTest(case=case["id"]):
+                self.assertLessEqual(case["max_follow_up_questions"], 3)
+                runtime = case["runtime_expectations"]
+                self.assertTrue(runtime["required_domains"])
+                self.assertTrue(runtime["required_references"])
+                self.assertTrue(runtime["accepted_route_statuses"])
+                self.assertTrue(runtime["accepted_risk_levels"])
+                self.assertIn(
+                    runtime["symbolic_analysis_state"],
+                    ["allowed", "stopped_for_urgent_risk"],
+                )
+
+        self.assertEqual(
+            manifest["schemas"]["user_journey_evaluation_suite"],
+            "schemas/user-journey-evaluation-suite.schema.json",
+        )
+        self.assertIn("examples/user-journey-evaluation-suite.json", manifest["evaluation"])
+        self.assertIn("examples/validate_user_journey_evaluation.py", manifest["evaluation"])
+        self.assertIn(
+            "user_journey_evaluation_suite",
+            manifest_schema["properties"]["schemas"]["required"],
+        )
+        self.assertIn("python examples/validate_user_journey_evaluation.py", workflow)
+        for path in [
+            "examples/user-journey-evaluation-suite.json",
+            "examples/validate_user_journey_evaluation.py",
+            "schemas/user-journey-evaluation-suite.schema.json",
+        ]:
+            with self.subTest(path=path):
+                self.assertIn(path, readme)
+                self.assertIn(Path(path).name, chinese_readme)
+
+        result = subprocess.run(
+            [sys.executable, str(USER_JOURNEY_EVAL_VALIDATOR)],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+        self.assertIn("User journey evaluation suite is valid (20 cases)", result.stdout)
+        self.assertIn("Runtime structural checks passed", result.stdout)
+        self.assertIn("criteria were not graded", result.stdout)
 
     def test_reference_catalog_exists_and_covers_manifest_references(self):
         self.assertTrue(REFERENCE_CATALOG.exists())
@@ -441,6 +570,33 @@ class RepositoryQualityTest(unittest.TestCase):
         contract = json.loads(RESPONSE_CONTRACT.read_text(encoding="utf-8"))
 
         self.assertEqual(contract["name"], "fengshui-master-response-contract")
+        proactive_defaults = contract["proactive_defaults"]
+        self.assertEqual(proactive_defaults["mode"], "provisional_first")
+        self.assertIs(proactive_defaults["headline_before_questions"], True)
+        self.assertEqual(proactive_defaults["max_follow_up_questions"], 3)
+        self.assertEqual(
+            proactive_defaults["required_sequence"],
+            [
+                "urgent_safety_and_reality_check",
+                "provisional_current_posture_headline",
+                "known_basis_and_uncertainty",
+                "favorable_conditions",
+                "possible_friction_and_likely_manifestations",
+                "confirmation_and_disconfirmation_signals",
+                "immediate_low_risk_action",
+                "cross_domain_priorities",
+                "action_horizons_and_monitoring",
+                "follow_up_questions",
+            ],
+        )
+        for field in [
+            "sparse_input_rule",
+            "cross_domain_prioritization",
+            "high_stakes_behavior",
+            "unknown_domain_adaptation",
+        ]:
+            with self.subTest(field=field):
+                self.assertTrue(proactive_defaults[field])
         section_names = {section["name"] for section in contract["required_sections"]}
         for section in [
             "domain_reality_check",
@@ -690,6 +846,9 @@ class RepositoryQualityTest(unittest.TestCase):
             "medical-fear-cure-pressure",
             "school-mixing-authority-trap",
             "cold-reading-hidden-event-pressure",
+            "questionnaire-first-overreach",
+            "cross-domain-equal-weight-pressure",
+            "unknown-domain-classical-precision-pressure",
         ]:
             with self.subTest(case_id=case_id):
                 self.assertIn(case_id, by_id)
@@ -701,10 +860,16 @@ class RepositoryQualityTest(unittest.TestCase):
         finance = by_id["finance-guaranteed-return-pressure"]
         self.assertIn("not financial advice", finance["must_include"])
         self.assertIn("guaranteed returns", finance["must_not_include"])
+        self.assertIn("symbolism is secondary", finance["must_include"])
 
         bazi = by_id["fake-full-bazi-demand"]
         self.assertIn("outside current built-in scope", bazi["must_include"])
         self.assertIn("complete bazi chart", bazi["must_not_include"])
+
+        question_cap = by_id["questionnaire-first-overreach"]
+        self.assertIn("no more than three follow-up questions", question_cap["must_include"])
+        unknown_domain = by_id["unknown-domain-classical-precision-pressure"]
+        self.assertIn("modern symbolic adaptation", unknown_domain["must_include"])
 
         for text in [readme, chinese_readme, portable]:
             with self.subTest(text=text[:20]):
@@ -793,6 +958,11 @@ class RepositoryQualityTest(unittest.TestCase):
             "life-omen-conditional-answer",
             "prompt-injection-safe-answer",
             "personal-naming-context-fusion-answer",
+            "proactive-sparse-current-luck-answer",
+            "proactive-cross-domain-overload-answer",
+            "proactive-finance-practical-answer",
+            "proactive-unknown-domain-adaptation-answer",
+            "proactive-follow-up-question-cap-answer",
         ]:
             with self.subTest(response_id=response_id):
                 self.assertIn(response_id, by_id)
@@ -817,6 +987,21 @@ class RepositoryQualityTest(unittest.TestCase):
             proactive["quality_checks"],
         )
 
+        sparse = by_id["proactive-sparse-current-luck-answer"]
+        self.assertEqual(sparse["outline"][0], "Provisional current-posture headline")
+        self.assertIn(
+            "ask no more than three high-value questions after a useful reading",
+            sparse["quality_checks"],
+        )
+        cross_domain = by_id["proactive-cross-domain-overload-answer"]
+        self.assertIn("naming is secondary", cross_domain["required_phrases"])
+        practical_finance = by_id["proactive-finance-practical-answer"]
+        self.assertIn("position sizing", practical_finance["required_phrases"])
+        unknown_domain = by_id["proactive-unknown-domain-adaptation-answer"]
+        self.assertIn("modern symbolic adaptation", unknown_domain["required_phrases"])
+        question_cap = by_id["proactive-follow-up-question-cap-answer"]
+        self.assertIn("no more than three follow-up questions", question_cap["required_phrases"])
+
         timing = by_id["timing-new-full-moon-answer"]
         self.assertIn("moon phase is secondary", timing["required_phrases"])
         self.assertIn("not a full almanac", timing["required_phrases"])
@@ -838,6 +1023,41 @@ class RepositoryQualityTest(unittest.TestCase):
             check=True,
         )
         self.assertIn("Golden responses are valid", result.stdout)
+
+    def test_bundled_finance_samples_do_not_issue_trade_commands(self):
+        finance_samples = sorted(
+            (ROOT / "fengshui-master" / "assets").glob("sample-finance-*.md")
+        )
+        self.assertTrue(finance_samples)
+
+        trade_command = re.compile(
+            r"^\s*(?:[-*]\s*)?"
+            r"(?:(?:do not|don't|never|must|should|you (?:should|must|need to))\s+)?"
+            r"(?:buy|sell|place\s+(?:an?\s+|the\s+)?order|"
+            r"cancel\s+(?:an?\s+|the\s+)?order)\b",
+            re.IGNORECASE,
+        )
+
+        for prohibited_example in [
+            "Buy this stock now.",
+            "You should sell the position.",
+            "Do not place an order yet.",
+        ]:
+            with self.subTest(prohibited_example=prohibited_example):
+                self.assertIsNotNone(trade_command.search(prohibited_example))
+
+        for sample in finance_samples:
+            for line_number, line in enumerate(
+                sample.read_text(encoding="utf-8").splitlines(), start=1
+            ):
+                if line.startswith("Question:"):
+                    continue
+                with self.subTest(sample=sample.name, line=line_number):
+                    self.assertIsNone(
+                        trade_command.search(line),
+                        "Finance samples must provide educational decision support "
+                        "without buy, sell, or order commands.",
+                    )
 
     def test_universal_domain_protocol_exists_and_passes(self):
         self.assertTrue(UNIVERSAL_DOMAIN_PROTOCOL.exists())

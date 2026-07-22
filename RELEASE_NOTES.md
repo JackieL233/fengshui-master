@@ -10,6 +10,9 @@ FengShui Master v1 is a Portable AI Skill and Codex-compatible capability pack f
 - JSON Schemas for portable platform integrations:
   - `schemas/portable-skill.schema.json`
   - `schemas/portable-evaluation-suite.schema.json`
+  - `schemas/user-journey-evaluation-suite.schema.json`
+- Proactive-first delivery across all supported runtimes: urgent safety check, bounded current-posture headline, known basis, favorable conditions, possible friction and ordinary manifestations, confirm/refute signals, immediate action, prioritized domains, action horizons, monitoring, then at most three follow-up questions.
+- A machine-readable 20-case user-journey evaluation suite for sparse, cross-domain, high-stakes, and unknown-domain requests.
 - Reference knowledge base for:
   - foundational feng shui concepts
   - form and environment analysis
@@ -55,6 +58,7 @@ python -m unittest discover -s tests
 python .github/scripts/quick_validate.py fengshui-master
 python .github/scripts/audit_repository.py
 python examples/validate_portable_evaluation.py
+python examples/validate_user_journey_evaluation.py
 python examples/validate_portable_manifest.py
 ```
 
@@ -65,6 +69,7 @@ All unit tests pass
 Skill is valid!
 Repository audit passed
 Portable evaluation suite is valid
+User journey evaluation suite is valid (20 cases)
 Portable skill manifest is valid
 ```
 

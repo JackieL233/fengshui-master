@@ -110,13 +110,14 @@ Load `brand-adapter.md` for brands, companies, shops, products, campaigns, or ap
 
 ## Output Pattern
 
-1. **Scope and naming type**: what is being named and which method is requested.
-2. **Inputs and missing data**: fixed characters, candidates, audience/person, language, constraints.
-3. **Native naming review**: meaning, sound, form, cultural and practical fit.
-4. **Context used**: personal, business, spatial, timing, or external chart inputs with provenance.
-5. **Five-phase and feng shui layer**: named symbolic mapping and uncertainty.
-6. **Candidate comparison**: strengths, risks, conflicts, and conditional recommendation.
-7. **Verification**: registration/trademark/dialect/user testing and what could change the result.
+1. **Provisional naming posture**: narrow conditional headline on what currently looks strong, mixed, or weak.
+2. **Known basis**: naming type, fixed characters, candidates, audience/person, language, constraints, and confidence.
+3. **Favorable qualities and possible friction**: meaning, sound, form, cultural/practical fit, and ordinary use problems.
+4. **Confirm or refute**: registration, trademark, dialect, accessibility, search, and user-testing evidence.
+5. **Immediate action and priorities**: one reversible next step and ranked decision criteria.
+6. **Candidate comparison and symbolic layer**: strengths, conflicts, named wuxing method, and uncertainty.
+7. **Monitoring and follow-up**: test results and at most three precision questions.
+8. **Method and boundaries**: context provenance, missing precision, and no guaranteed fate or business outcome.
 
 ## Forbidden Claims
 

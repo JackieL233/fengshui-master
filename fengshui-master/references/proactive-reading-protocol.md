@@ -5,9 +5,11 @@ Use this protocol for current-luck, life-phase, ji/xiong, decision, finance, car
 ## Table of Contents
 
 - Core Proactive Rule
+- Required Delivery Order
 - Evidence Status Labels
 - Minimum Input and Provisional Reading
 - Current-State Scan
+- Cross-Domain Prioritization
 - Domain Record
 - Validation Questions
 - Action Horizons
@@ -17,7 +19,9 @@ Use this protocol for current-luck, life-phase, ji/xiong, decision, finance, car
 
 ## Core Proactive Rule
 
-After essential safety-critical inputs are available, proceed with a useful provisional reading. Do not stop at a framework explanation, a list of questions, or a statement that more data would help.
+Run an urgent safety and native-domain risk check first. Immediate danger may require triage or a safety-critical clarification before interpretation. Once immediate danger has been addressed, always lead with a bounded provisional current-posture headline before method explanation, missing-input discussion, or any non-urgent question.
+
+Sparse inputs lower confidence; they never suppress a useful provisional reading. State the narrowest defensible headline from the known facts, name its assumptions and limits, and then help the user act and verify it. Do not stop at a framework explanation, a list of questions, or a statement that more data would help.
 
 Proactively identify:
 
@@ -28,6 +32,23 @@ Proactively identify:
 5. What low-risk action the user can take now.
 
 Only scan the requested domain and materially relevant adjacent domains. A finance question may need decision load and resource-flow context; it does not automatically require relationship or health claims. A personal current-luck reading may scan several life domains, but must not invent events.
+
+## Required Delivery Order
+
+Use this user-visible sequence for every substantial proactive reading:
+
+1. **Urgent reality check**: address immediate safety, legal, medical, financial, engineering, consent, or other high-stakes constraints.
+2. **Provisional current-posture headline**: give one bounded, conditional summary before non-urgent questions.
+3. **Known basis**: state supplied facts, deterministic outputs, assumptions, unknowns, method, limits, and confidence.
+4. **Favorable factors**: identify current support, readiness, balance, containment, or useful momentum.
+5. **Possible friction and ordinary manifestations**: describe conditional patterns and one to three non-sensational ways they could appear in daily life.
+6. **Confirmation and disconfirmation**: name observable evidence that would strengthen or weaken each material inference.
+7. **Immediate low-risk action**: give one reversible step that remains useful even if the symbolic interpretation is wrong.
+8. **Priorities and horizons**: rank the requested and materially adjacent domains, then give actions for the next 72 hours, 30 days, and 90 days.
+9. **Monitoring**: define observable signals and a review point.
+10. **Follow-up questions**: only now ask up to three questions that would materially change confidence, priority, or action.
+
+Do not place an intake questionnaire, methodology lesson, disclaimer block, or missing-data list ahead of the headline unless immediate safety triage requires it. Keep necessary high-stakes warnings concise so the useful reading remains visible.
 
 ## Evidence Status Labels
 
@@ -45,15 +66,15 @@ Never relabel an inference as an observation. A plausible-sounding statement is 
 
 ## Minimum Input and Provisional Reading
 
-Proceed when the request, target period, and safety posture are understandable. State assumptions and give a provisional scan even if optional birth, floor-plan, financial, or environmental data is missing.
+Proceed when the request and native domain are understandable enough to form a bounded hypothesis. If the target period is absent, default to the present and label that assumption. State assumptions and give a provisional scan even if optional birth, floor-plan, financial, or environmental data is missing.
 
-Ask a concise follow-up before proceeding only when:
+Only immediate danger or a safety-critical ambiguity may require clarification before the headline. Otherwise, give the narrowest useful provisional posture first. Afterward, ask a concise follow-up when:
 
 - The native domain cannot be identified.
-- A safety, medical, legal, financial, privacy, consent, or emergency fact could materially change the response.
+- A safety, medical, legal, financial, privacy, consent, or emergency fact could materially change the next action.
 - The user requests precise calculation but the required date, timezone, bearing, chart, or candidate data is absent.
 
-Missing precision limits confidence; it does not require replacing the answer with a questionnaire.
+Missing precision limits confidence; it does not require replacing the answer with a questionnaire. When precise calculation is unavailable, distinguish the useful qualitative reading from the calculation that cannot yet be made. Never infer missing pillars, bearings, dates, measurements, events, or personal history.
 
 ## Current-State Scan
 
@@ -69,6 +90,16 @@ Choose only relevant rows:
 | Decision load and execution | clear priority, reversible test, feedback loop, sufficient margin | too many active projects, irreversible commitment, weak stop rules, no review point |
 
 The scan is not a hidden-fact detector. It is a structured hypothesis generator grounded in supplied facts, deterministic context, and explicitly named symbolic methods.
+
+## Cross-Domain Prioritization
+
+Rank domains by urgency, user intent, evidence strength, and action dependency. Lead with the native domain; add an adjacent domain only when it materially changes risk, interpretation, or the next action.
+
+- Address safety, legal deadlines, health emergencies, liquidity needs, consent, and other irreversible risks before symbolic optimization.
+- For mixed requests, identify the bottleneck or dependency chain instead of averaging all domains into a generic score.
+- Give the highest-priority domain the most detail. Briefly state why secondary domains matter and what can wait.
+- Do not expand a broad personal reading into unsupported claims about health, money, family, romance, or career merely to appear comprehensive.
+- If priorities cannot yet be distinguished, say so, give a reversible stabilization step, and use one of the follow-up questions to resolve the tie.
 
 ## Domain Record
 
@@ -90,7 +121,7 @@ Turn inferred difficulties into short validation prompts:
 - "The symbolic concern is resource leakage. Check whether subscriptions, fees, frequent strategy changes, or concentration are measurable before accepting that interpretation."
 - "This looks more favorable for preparation than public activation. Would moving the date improve practical readiness, or would it create a larger real-world cost?"
 
-Ask at most three high-impact validation questions in one response. A user correction overrides the inference.
+Ask at most three high-impact validation questions in one response, only after the provisional reading, actions, and monitoring. Do not ask for information already supplied. A user correction overrides the inference.
 
 ## Action Horizons
 
@@ -144,9 +175,11 @@ Allowed:
 
 For a short answer, use:
 
-1. Scope, date, method, and limits.
-2. Current posture in one paragraph.
-3. Two or three relevant domain records.
-4. Top actions for the next 72 hours, 30 days, and 90 days.
-5. Monitoring signals and one to three validation questions.
-6. Missing data and high-stakes boundary.
+1. Urgent reality check, if needed.
+2. Provisional current-posture headline.
+3. Known basis, assumptions, method, limits, and confidence.
+4. Favorable factors; possible friction and ordinary manifestations; confirmation/disconfirmation signals.
+5. One immediate low-risk action and ranked relevant domains.
+6. Top actions for the next 72 hours, 30 days, and 90 days.
+7. Monitoring signals and a review point.
+8. At most three high-value questions, followed by any concise high-stakes boundary.

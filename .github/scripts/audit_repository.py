@@ -60,6 +60,7 @@ def audit_skill_inventory(errors: list[str]) -> None:
 def audit_referenced_files_exist(errors: list[str]) -> None:
     searchable = [
         ROOT / "README.md",
+        ROOT / "README.zh-CN.md",
         ROOT / "PORTABLE_SKILL.md",
         ROOT / "portable-skill.json",
         ROOT / "docs" / "integration-guide.md",
@@ -70,6 +71,7 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "CONTRIBUTING.md",
         ROOT / "schemas" / "portable-skill.schema.json",
         ROOT / "schemas" / "portable-evaluation-suite.schema.json",
+        ROOT / "schemas" / "user-journey-evaluation-suite.schema.json",
         ROOT / "schemas" / "reference-catalog.schema.json",
         ROOT / "schemas" / "tool-catalog.schema.json",
         ROOT / "schemas" / "response-contract.schema.json",
@@ -86,6 +88,8 @@ def audit_referenced_files_exist(errors: list[str]) -> None:
         ROOT / "examples" / "portable-evaluation-rubric.json",
         ROOT / "examples" / "portable-evaluation-suite.json",
         ROOT / "examples" / "validate_portable_evaluation.py",
+        ROOT / "examples" / "user-journey-evaluation-suite.json",
+        ROOT / "examples" / "validate_user_journey_evaluation.py",
         ROOT / "examples" / "validate_portable_manifest.py",
         ROOT / "examples" / "golden-responses.json",
         ROOT / "examples" / "validate_golden_responses.py",
@@ -163,6 +167,8 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     eval_rubric_path = ROOT / "examples" / "portable-evaluation-rubric.json"
     eval_suite_path = ROOT / "examples" / "portable-evaluation-suite.json"
     eval_validator_path = ROOT / "examples" / "validate_portable_evaluation.py"
+    user_journey_eval_path = ROOT / "examples" / "user-journey-evaluation-suite.json"
+    user_journey_eval_validator_path = ROOT / "examples" / "validate_user_journey_evaluation.py"
     reference_catalog_path = ROOT / "examples" / "reference-catalog.json"
     reference_catalog_validator_path = ROOT / "examples" / "validate_reference_catalog.py"
     tool_catalog_path = ROOT / "examples" / "tool-catalog.json"
@@ -194,6 +200,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     manifest_validator_path = ROOT / "examples" / "validate_portable_manifest.py"
     manifest_schema_path = ROOT / "schemas" / "portable-skill.schema.json"
     eval_schema_path = ROOT / "schemas" / "portable-evaluation-suite.schema.json"
+    user_journey_eval_schema_path = ROOT / "schemas" / "user-journey-evaluation-suite.schema.json"
     reference_catalog_schema_path = ROOT / "schemas" / "reference-catalog.schema.json"
     tool_catalog_schema_path = ROOT / "schemas" / "tool-catalog.schema.json"
     response_contract_schema_path = ROOT / "schemas" / "response-contract.schema.json"
@@ -223,6 +230,12 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         return
     if not eval_validator_path.exists():
         fail(errors, "missing examples/validate_portable_evaluation.py")
+        return
+    if not user_journey_eval_path.exists():
+        fail(errors, "missing examples/user-journey-evaluation-suite.json")
+        return
+    if not user_journey_eval_validator_path.exists():
+        fail(errors, "missing examples/validate_user_journey_evaluation.py")
         return
     if not reference_catalog_path.exists():
         fail(errors, "missing examples/reference-catalog.json")
@@ -317,6 +330,9 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     if not eval_schema_path.exists():
         fail(errors, "missing schemas/portable-evaluation-suite.schema.json")
         return
+    if not user_journey_eval_schema_path.exists():
+        fail(errors, "missing schemas/user-journey-evaluation-suite.schema.json")
+        return
     if not reference_catalog_schema_path.exists():
         fail(errors, "missing schemas/reference-catalog.schema.json")
         return
@@ -365,6 +381,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     examples = read(examples_path)
     eval_rubric = json.loads(read(eval_rubric_path))
     eval_suite = json.loads(read(eval_suite_path))
+    user_journey_eval = json.loads(read(user_journey_eval_path))
     reference_catalog = json.loads(read(reference_catalog_path))
     tool_catalog = json.loads(read(tool_catalog_path))
     response_contract = json.loads(read(response_contract_path))
@@ -470,6 +487,63 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         if term not in readme or term not in portable:
             fail(errors, f"portable evaluation validator path missing from public docs: {term}")
 
+    if user_journey_eval.get("name") != "fengshui-master-user-journey-evaluation-suite":
+        fail(errors, "user journey evaluation suite has wrong name")
+    delivery = user_journey_eval.get("delivery_contract", {})
+    if delivery.get("mode") != "provisional_first":
+        fail(errors, "user journey evaluation suite must use provisional_first delivery")
+    if delivery.get("first_response_requirement") != "provisional_current_posture_before_questions":
+        fail(errors, "user journey evaluation suite must answer provisionally before questions")
+    question_budget = delivery.get("max_follow_up_questions")
+    if type(question_budget) is not int or not 0 <= question_budget <= 3:
+        fail(errors, "user journey evaluation suite follow-up question budget must be at most 3")
+    required_sequence = delivery.get("required_sequence", [])
+    expected_sequence = [
+        "urgent_safety_check",
+        "provisional_current_posture",
+        "known_basis",
+        "favorable_now",
+        "possible_friction_and_manifestations",
+        "confirmation_and_refutation_signals",
+        "immediate_low_risk_action",
+        "prioritized_relevant_domains",
+        "actions_72_hours_30_days_90_days",
+        "monitoring_and_stop_conditions",
+        "up_to_three_high_value_questions",
+    ]
+    if required_sequence != expected_sequence:
+        fail(errors, "user journey evaluation suite has an incomplete or out-of-order delivery sequence")
+    journey_cases = user_journey_eval.get("cases", [])
+    if not isinstance(journey_cases, list) or len(journey_cases) != 20:
+        fail(errors, "user journey evaluation suite must contain exactly 20 cases")
+        journey_cases = []
+    journey_ids = [case.get("id") for case in journey_cases if isinstance(case, dict)]
+    if len(journey_ids) != 20 or any(not isinstance(case_id, str) or not case_id for case_id in journey_ids):
+        fail(errors, "all 20 user journey cases must have non-empty string ids")
+    elif len(journey_ids) != len(set(journey_ids)):
+        fail(errors, "user journey evaluation case ids must be unique")
+    for case in journey_cases:
+        if not isinstance(case, dict):
+            fail(errors, "user journey evaluation cases must be objects")
+            continue
+        case_budget = case.get("max_follow_up_questions")
+        if type(case_budget) is not int or not 0 <= case_budget <= 3:
+            fail(errors, f"user journey case {case.get('id')} follow-up question budget must be at most 3")
+
+    for term in [
+        "examples/user-journey-evaluation-suite.json",
+        "examples/validate_user_journey_evaluation.py",
+        "schemas/user-journey-evaluation-suite.schema.json",
+    ]:
+        if term not in readme:
+            fail(errors, f"user journey evaluation path missing from README.md: {term}")
+        if Path(term).name not in chinese:
+            fail(errors, f"user journey evaluation file missing from README.zh-CN.md: {Path(term).name}")
+
+    workflow = read(ROOT / ".github" / "workflows" / "ci.yml")
+    if "python examples/validate_user_journey_evaluation.py" not in workflow:
+        fail(errors, "CI missing proactive user journey validation command")
+
     for term in ["examples/reference-catalog.json", "examples/validate_reference_catalog.py"]:
         if term not in readme or term not in chinese or term not in portable:
             fail(errors, f"reference catalog path missing from public docs: {term}")
@@ -528,6 +602,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         if term not in readme or term not in chinese or term not in portable:
             fail(errors, f"integration guide path missing from public docs: {term}")
     manifest = json.loads(read(manifest_path))
+    manifest_schema = json.loads(read(manifest_schema_path))
     if "docs/integration-guide.md" not in manifest.get("integration", []):
         fail(errors, "portable manifest missing docs/integration-guide.md in integration")
     if "fengshui-master/scripts/method_selector.py" not in manifest.get("tools", []):
@@ -542,6 +617,15 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         fail(errors, "portable manifest missing timing domain")
     if manifest.get("schemas", {}).get("reference_catalog") != "schemas/reference-catalog.schema.json":
         fail(errors, "portable manifest missing reference catalog schema")
+    if manifest.get("schemas", {}).get("user_journey_evaluation_suite") != "schemas/user-journey-evaluation-suite.schema.json":
+        fail(errors, "portable manifest missing user journey evaluation schema")
+    manifest_schema_keys = (
+        manifest_schema.get("properties", {})
+        .get("schemas", {})
+        .get("required", [])
+    )
+    if "user_journey_evaluation_suite" not in manifest_schema_keys:
+        fail(errors, "portable manifest schema does not require user_journey_evaluation_suite")
     if manifest.get("schemas", {}).get("tool_catalog") != "schemas/tool-catalog.schema.json":
         fail(errors, "portable manifest missing tool catalog schema")
     if manifest.get("schemas", {}).get("response_contract") != "schemas/response-contract.schema.json":
@@ -578,6 +662,7 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     for term in [
         "schemas/portable-skill.schema.json",
         "schemas/portable-evaluation-suite.schema.json",
+        "schemas/user-journey-evaluation-suite.schema.json",
         "schemas/reference-catalog.schema.json",
         "schemas/tool-catalog.schema.json",
         "schemas/response-contract.schema.json",
@@ -637,6 +722,12 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
         fail(errors, "tool catalog paths do not match portable manifest tools")
     if "examples/response-contract.json" not in manifest.get("evaluation", []):
         fail(errors, "portable manifest missing response contract")
+    for term in [
+        "examples/user-journey-evaluation-suite.json",
+        "examples/validate_user_journey_evaluation.py",
+    ]:
+        if term not in manifest.get("evaluation", []):
+            fail(errors, f"portable manifest missing {term}")
     if "examples/capability-matrix.json" not in manifest.get("evaluation", []):
         fail(errors, "portable manifest missing capability matrix")
     if "examples/validate_capability_matrix.py" not in manifest.get("evaluation", []):
@@ -884,6 +975,15 @@ def audit_portable_skill_positioning(errors: list[str]) -> None:
     )
     if validator.returncode != 0:
         fail(errors, f"portable evaluation validator failed: {validator.stderr.strip()}")
+
+    user_journey_validator = subprocess.run(
+        [sys.executable, str(user_journey_eval_validator_path)],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    if user_journey_validator.returncode != 0:
+        fail(errors, f"user journey evaluation validator failed: {user_journey_validator.stderr.strip()}")
 
     manifest_validator = subprocess.run(
         [sys.executable, str(manifest_validator_path)],

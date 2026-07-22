@@ -25,6 +25,108 @@ def load_create_brief() -> Any:
 brief_module = load_create_brief()
 
 
+PROACTIVE_SECTIONS = [
+    (
+        "Provisional Current Posture",
+        "State a concise, useful judgment about the user's current conditions from "
+        "the known evidence. Label it provisional and conditional, lower confidence "
+        "when input is sparse, and do not explain the method or ask questions here.",
+    ),
+    (
+        "Known Basis",
+        "List only supplied observations, deterministic calculations, and explicit "
+        "assumptions. Keep unknowns distinct from facts.",
+    ),
+    (
+        "Favorable Now",
+        "Identify the conditions that currently support progress, including ordinary "
+        "real-world signs the user can recognize.",
+    ),
+    (
+        "Possible Friction and Ordinary Manifestations",
+        "Describe only bounded hypotheses about what may be difficult and how each "
+        "could appear in everyday behavior or outcomes. Do not use cold reading or "
+        "claim hidden events as facts.",
+    ),
+    (
+        "Confirm or Refute Signals",
+        "For every material inference, give observable evidence that would strengthen "
+        "it and evidence that would weaken or refute it.",
+    ),
+    (
+        "Immediate Low-Risk Action",
+        "Give one safe, low-cost, reversible, domain-native action the user can take "
+        "now. Reality-based safety and professional constraints override symbolism.",
+    ),
+    (
+        "Prioritized Cross-Domain Concerns",
+        "Rank relevant domains by urgency, dependency, evidence, and reversibility. "
+        "Explain what to address first; do not average conflicts or give every domain "
+        "equal weight.",
+    ),
+    (
+        "Actions: Next 72 Hours",
+        "Give the smallest concrete actions that stabilize the situation and produce "
+        "useful evidence.",
+    ),
+    (
+        "Actions: Next 30 Days",
+        "Give a short execution and review plan tied to the highest-priority concerns.",
+    ),
+    (
+        "Actions: Next 90 Days",
+        "Give conditional longer-horizon actions and state when the plan should be "
+        "revised rather than extended.",
+    ),
+    (
+        "Monitoring",
+        "Name a small set of observable indicators, review dates, and stop conditions "
+        "that show whether the situation is improving.",
+    ),
+]
+
+MAX_FOLLOW_UP_PROMPTS = 3
+
+PROACTIVE_BRIEF_SECTIONS = {
+    "Provisional current posture",
+    "Known basis and confidence",
+    "Favorable conditions",
+    "Possible friction and ordinary manifestations",
+    "Confirmation and disconfirmation signals",
+    "Immediate low-risk action",
+    "Cross-domain priorities",
+    "Actions: next 72 hours",
+    "Actions: next 30 days",
+    "Actions: next 90 days",
+    "Monitoring signals",
+    "Follow-up questions (maximum 3)",
+}
+
+MISSING_INPUT_QUESTIONS = {
+    "decision type": (
+        "What specific decision are you making, and which options are you comparing?"
+    ),
+    "time horizon": (
+        "What is the decision deadline and intended holding or review horizon?"
+    ),
+    "risk tolerance": (
+        "How much loss or volatility can you tolerate without jeopardizing essential goals?"
+    ),
+    "liquidity needs": (
+        "What money must remain liquid for living costs, emergencies, or near-term commitments?"
+    ),
+    "existing allocation or concentration": (
+        "What is your current allocation, including any concentrated positions?"
+    ),
+    "financial thesis and downside condition": (
+        "What evidence supports the financial thesis, and what downside condition would invalidate it?"
+    ),
+    "native domain": "What real-world domain should lead this analysis?",
+    "desired outcome": "What concrete outcome should this analysis support?",
+    "real constraints": "What deadlines, budgets, obligations, or other real constraints apply?",
+}
+
+
 def heading_for(section: str) -> str:
     if "/" in section:
         return section
@@ -37,6 +139,164 @@ def bullet_list(items: list[str]) -> str:
     if not items:
         return "- None supplied.\n"
     return "".join(f"- {item}\n" for item in items)
+
+
+def ordered_domains(brief: dict[str, Any]) -> list[str]:
+    priorities = brief.get("proactive_delivery", {}).get("domain_priorities", {})
+    configured = priorities.get("ordered_domains", [])
+    if isinstance(configured, list) and configured:
+        return [str(value) for value in configured]
+    return [str(value) for value in brief.get("domains", [brief["domain"]])]
+
+
+def render_known_basis(brief: dict[str, Any]) -> list[str]:
+    domains = ", ".join(ordered_domains(brief))
+    provided = list(brief.get("input_state", {}).get("provided", []))
+    lines = [
+        f"- User-supplied question: {brief['question']}",
+        f"- Routed domain priority: {domains or brief['domain']}",
+    ]
+    if provided:
+        lines.append(f"- Explicitly provided inputs: {', '.join(provided)}")
+    else:
+        lines.append(
+            "- Explicit structured inputs: none beyond the question; keep the reading low-confidence and provisional."
+        )
+    return lines
+
+
+def render_domain_priorities(brief: dict[str, Any]) -> list[str]:
+    domains = ordered_domains(brief)
+    return [
+        f"- Priority {index}: {domain}"
+        for index, domain in enumerate(domains, start=1)
+    ]
+
+
+def prioritized_missing_inputs(brief: dict[str, Any]) -> list[str]:
+    missing = [str(value) for value in brief.get("missing_inputs", [])]
+    configured_by_domain = getattr(brief_module, "DOMAIN_MISSING_INPUTS", {})
+    prioritized: list[str] = []
+    for domain in ordered_domains(brief):
+        for value in configured_by_domain.get(domain, []):
+            if value in missing and value not in prioritized:
+                prioritized.append(value)
+    return [*prioritized, *(value for value in missing if value not in prioritized)]
+
+
+def phrase_missing_input(value: str) -> str:
+    normalized = value.strip().rstrip(".?!")
+    if normalized in MISSING_INPUT_QUESTIONS:
+        return MISSING_INPUT_QUESTIONS[normalized]
+    if normalized.casefold().startswith("whether "):
+        return f"Should the analysis account for {normalized[8:]}?"
+    return f"What should the analysis assume about {normalized}?"
+
+
+def follow_up_prompts(brief: dict[str, Any]) -> list[str]:
+    if not brief.get("symbolic_analysis_allowed", True):
+        return []
+    configured_max = brief.get("proactive_delivery", {}).get(
+        "max_follow_up_questions", MAX_FOLLOW_UP_PROMPTS
+    )
+    try:
+        question_budget = min(MAX_FOLLOW_UP_PROMPTS, max(0, int(configured_max)))
+    except (TypeError, ValueError):
+        question_budget = MAX_FOLLOW_UP_PROMPTS
+    if question_budget == 0:
+        return []
+
+    clarifying_questions = [
+        str(value) for value in brief.get("clarifying_questions", [])
+    ]
+    if len(ordered_domains(brief)) > 1:
+        clarifying_questions = [
+            value
+            for value in clarifying_questions
+            if not value.casefold().startswith("which domain should lead")
+        ]
+
+    prompts: list[str] = []
+    candidates = [
+        *clarifying_questions,
+        *(phrase_missing_input(value) for value in prioritized_missing_inputs(brief)),
+    ]
+    for candidate in candidates:
+        prompt = candidate.strip()
+        if not prompt:
+            continue
+        if prompt[-1] not in "?!":
+            prompt = f"{prompt}?"
+        if prompt.casefold() not in {value.casefold() for value in prompts}:
+            prompts.append(prompt)
+        if len(prompts) == question_budget:
+            break
+    return prompts
+
+
+def render_emergency_response(brief: dict[str, Any]) -> list[str]:
+    question = str(brief.get("question", "")).casefold()
+    medical_emergency = any(
+        phrase in question
+        for phrase in ("chest pain", "trouble breathing", "difficulty breathing")
+    )
+    if medical_emergency:
+        guidance = (
+            "Chest pain or trouble breathing may be a medical emergency. Contact "
+            "local emergency services now. Do not delay for feng shui analysis, "
+            "additional questions, or changes to the room. Feng shui cannot diagnose "
+            "these symptoms or determine their cause."
+        )
+    else:
+        guidance = (
+            "This may be an urgent real-world safety issue. Contact the appropriate "
+            "local emergency or qualified professional service now. Do not delay for "
+            "feng shui analysis or additional questions. Feng shui cannot establish "
+            "safety or replace qualified professional judgment."
+        )
+    return [
+        "## Provisional Current Posture",
+        "",
+        guidance,
+        "",
+        "## Cultural and Professional Boundary",
+        "",
+        "Symbolic analysis stops here until the urgent concern has been addressed.",
+        "",
+    ]
+
+
+def render_proactive_sections(brief: dict[str, Any]) -> list[str]:
+    lines: list[str] = []
+
+    for heading, instruction in PROACTIVE_SECTIONS:
+        lines.extend([f"## {heading}", ""])
+        if heading == "Known Basis":
+            lines.extend(render_known_basis(brief))
+            lines.append("")
+            lines.append(instruction)
+        elif heading == "Prioritized Cross-Domain Concerns":
+            lines.extend(render_domain_priorities(brief))
+            lines.append("")
+            lines.append(instruction)
+        else:
+            lines.append(instruction)
+        lines.append("")
+
+    lines.extend(["## Follow-Up Prompts (Maximum 3)", ""])
+    prompts = follow_up_prompts(brief)
+    if prompts:
+        lines.extend(f"- {prompt}" for prompt in prompts)
+    else:
+        lines.append("- No follow-up prompt is required before a useful reading.")
+    lines.extend(
+        [
+            "",
+            "Ask these only after delivering the provisional reading. Do not add more than three follow-up prompts.",
+            "",
+        ]
+    )
+    return lines
 
 
 def render_floorplan_analysis(analysis: dict[str, Any] | None) -> str:
@@ -97,22 +357,30 @@ def generate_report(question: str, floorplan_path: str | None = None) -> str:
         f"Question: {brief['question']}",
         f"Domain: {brief['domain']}",
         "",
-        "## References To Load",
-        bullet_list(brief["references"]).rstrip(),
-        "",
-        "## Guardrails",
-        bullet_list(brief["guardrails"]).rstrip(),
-        "",
-        "## Symbolic Lenses",
-        bullet_list(brief["lenses"]).rstrip(),
-        "",
-        "## Missing Inputs",
-        bullet_list(brief["missing_inputs"]).rstrip(),
-        "",
-        "## Answer Contract",
-        bullet_list(brief["answer_contract"]).rstrip(),
-        "",
     ]
+    if not brief.get("symbolic_analysis_allowed", True):
+        lines.extend(render_emergency_response(brief))
+        return "\n".join(lines)
+    lines.extend(render_proactive_sections(brief))
+
+    lines.extend(
+        [
+            "## Supporting Method and Boundaries",
+            "",
+            "## References To Load",
+            bullet_list(brief["references"]).rstrip(),
+            "",
+            "## Guardrails",
+            bullet_list(brief["guardrails"]).rstrip(),
+            "",
+            "## Symbolic Lenses",
+            bullet_list(brief["lenses"]).rstrip(),
+            "",
+            "## Answer Contract",
+            bullet_list(brief["answer_contract"]).rstrip(),
+            "",
+        ]
+    )
 
     floorplan_section = render_floorplan_analysis(brief.get("floorplan_analysis"))
     if floorplan_section:
@@ -122,6 +390,11 @@ def generate_report(question: str, floorplan_path: str | None = None) -> str:
     lines.append("## Report Sections")
     lines.append("")
     for section in brief["report_sections"]:
+        if section.casefold() in {
+            proactive_section.casefold()
+            for proactive_section in PROACTIVE_BRIEF_SECTIONS
+        }:
+            continue
         lines.append(f"## {heading_for(section)}")
         lines.append("")
         lines.append(

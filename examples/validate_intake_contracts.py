@@ -27,6 +27,25 @@ REQUIRED_DOMAINS = {
     "legal_adjacent",
     "general",
 }
+EXPECTED_DELIVERY_DEFAULTS = {
+    "mode": "provisional_first",
+    "headline_before_questions": True,
+    "max_follow_up_questions": 3,
+    "follow_up_timing": "after_initial_bounded_reading",
+    "sparse_input_effect": "lower_confidence_not_suppress_reading",
+    "missing_input_gate": {
+        "fields": ["required_inputs", "ask_first_if_missing", "blocking_missing_inputs"],
+        "gates": ["precise_conclusions", "personalized_conclusions", "irreversible_recommendations"],
+        "never_gates": ["initial_bounded_reading"],
+    },
+    "initial_bounded_reading": {
+        "required_when_topic_readable": True,
+        "suppressed_only_by": [
+            "urgent_safety_stop",
+            "no_readable_topic_after_one_concise_clarification",
+        ],
+    },
+}
 
 
 def fail(errors: list[str], message: str) -> None:
@@ -55,6 +74,48 @@ def validate_string_list(errors: list[str], domain: str, field: str, values: obj
             fail(errors, f"{domain} {field} contains invalid value")
 
 
+def validate_delivery_defaults(errors: list[str], contracts: dict, schema: dict) -> int:
+    defaults = contracts.get("delivery_defaults")
+    if defaults != EXPECTED_DELIVERY_DEFAULTS:
+        fail(errors, "delivery_defaults must encode the complete provisional-first contract")
+        return EXPECTED_DELIVERY_DEFAULTS["max_follow_up_questions"]
+
+    required = schema.get("required", [])
+    if "delivery_defaults" not in required:
+        fail(errors, "schema must require delivery_defaults")
+    if schema.get("properties", {}).get("delivery_defaults") != {"$ref": "#/$defs/deliveryDefaults"}:
+        fail(errors, "schema delivery_defaults must reference deliveryDefaults")
+
+    delivery_schema = schema.get("$defs", {}).get("deliveryDefaults", {})
+    delivery_required = set(delivery_schema.get("required", []))
+    if delivery_required != set(EXPECTED_DELIVERY_DEFAULTS):
+        fail(errors, "schema deliveryDefaults must require every provisional-first field")
+
+    properties = delivery_schema.get("properties", {})
+    scalar_constants = {
+        "mode": "provisional_first",
+        "headline_before_questions": True,
+        "max_follow_up_questions": 3,
+        "follow_up_timing": "after_initial_bounded_reading",
+        "sparse_input_effect": "lower_confidence_not_suppress_reading",
+    }
+    for field, expected in scalar_constants.items():
+        if properties.get(field, {}).get("const") != expected:
+            fail(errors, f"schema deliveryDefaults {field} must be const {expected!r}")
+
+    gate_properties = properties.get("missing_input_gate", {}).get("properties", {})
+    for field, expected in EXPECTED_DELIVERY_DEFAULTS["missing_input_gate"].items():
+        if gate_properties.get(field, {}).get("const") != expected:
+            fail(errors, f"schema missing_input_gate {field} has wrong semantics")
+
+    reading_properties = properties.get("initial_bounded_reading", {}).get("properties", {})
+    for field, expected in EXPECTED_DELIVERY_DEFAULTS["initial_bounded_reading"].items():
+        if reading_properties.get(field, {}).get("const") != expected:
+            fail(errors, f"schema initial_bounded_reading {field} has wrong semantics")
+
+    return defaults["max_follow_up_questions"]
+
+
 def main() -> int:
     errors: list[str] = []
     manifest = load_json(errors, MANIFEST)
@@ -65,6 +126,7 @@ def main() -> int:
         fail(errors, "intake contracts schema has wrong title")
     if contracts.get("name") != "fengshui-master-intake-contracts":
         fail(errors, "contracts name must be fengshui-master-intake-contracts")
+    max_follow_up_questions = validate_delivery_defaults(errors, contracts, schema)
 
     manifest_eval = set(manifest.get("evaluation", []))
     if "examples/intake-contracts.json" not in manifest_eval:
@@ -104,6 +166,11 @@ def main() -> int:
             validate_string_list(errors, domain, field, entry.get(field))
         if len(entry.get("required_inputs", [])) < 3:
             fail(errors, f"{domain} required_inputs must include at least 3 items")
+        if len(entry.get("ask_first_if_missing", [])) > max_follow_up_questions:
+            fail(
+                errors,
+                f"{domain} ask_first_if_missing exceeds the {max_follow_up_questions}-question budget",
+            )
         if not isinstance(entry.get("summary"), str) or not entry.get("summary"):
             fail(errors, f"{domain} missing summary")
 

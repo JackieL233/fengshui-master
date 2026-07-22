@@ -41,6 +41,8 @@ DOMAIN_RULES = [
             "solstice",
             "newmoon",
             "fullmoon",
+            "auspicious date",
+            "auspicious time",
             "launch",
             "move",
             "moving",
@@ -148,6 +150,7 @@ DOMAIN_RULES = [
             "bazi",
             "birth",
             "year",
+            "everything feels blocked",
             "凶",
             "吉凶",
             "不吉",
@@ -171,6 +174,7 @@ DOMAIN_RULES = [
             "references/five-phase-domain-map.md",
             "references/foundation.md",
             "references/ethics-and-limits.md",
+            "references/timing-and-date-selection.md",
         ],
         [
             "Do not make deterministic fate, health, death, wealth, marriage, or disaster claims.",
@@ -191,6 +195,19 @@ DOMAIN_RULES = [
             "crypto",
             "bitcoin",
             "fund",
+            "funds",
+            "mutual fund",
+            "index fund",
+            "etf",
+            "money",
+            "money is tight",
+            "volatile",
+            "volatility",
+            "recent performer",
+            "drawdown",
+            "performance chasing",
+            "chasing performance",
+            "fomo",
             "financial",
             "finance",
             "market",
@@ -203,6 +220,12 @@ DOMAIN_RULES = [
             "投资",
             "理财",
             "基金",
+            "净值",
+            "回撤",
+            "定投",
+            "仓位",
+            "追涨",
+            "追高",
             "债券",
             "加密",
             "比特币",
@@ -312,7 +335,13 @@ DOMAIN_RULES = [
             "customer",
             "sales",
             "startup",
+            "founder",
             "company",
+            "retail",
+            "shop",
+            "decision",
+            "decisions",
+            "execution",
             "partnership",
             "fundraising",
             "hiring",
@@ -517,6 +546,9 @@ DOMAIN_RULES = [
             "自杀",
             "紧急情况",
             "sleep",
+            "sleeping",
+            "sleeping poorly",
+            "poor sleep",
             "stress",
             "wellbeing",
             "wellness",
@@ -612,6 +644,13 @@ DOMAIN_RULES = [
 
 
 HIGH_RISK_DOMAINS = {"finance", "legal_adjacent", "wellbeing"}
+UNIVERSAL_ADAPTATION_PATTERNS = {
+    "cybersecurity",
+    "cyber security",
+    "security program",
+    "security controls",
+    "information security",
+}
 CRITICAL_SAFETY_PATTERNS = {
     "chest pain",
     "difficulty breathing",
@@ -623,6 +662,7 @@ CRITICAL_SAFETY_PATTERNS = {
     "violence",
     "legal deadline",
     "court deadline",
+    "filing deadline",
     "structural danger",
     "gas leak",
     "fire emergency",
@@ -670,31 +710,63 @@ def route(question: str) -> dict[str, object]:
             scored.append((score, index, domain, references, guardrails))
 
     if not scored:
+        universal_adaptation = any(
+            keyword_matches(question.casefold(), pattern)
+            for pattern in UNIVERSAL_ADAPTATION_PATTERNS
+        )
+        fallback_status = (
+            "critical_safety"
+            if critical_safety
+            else "universal_adaptation"
+            if universal_adaptation
+            else "needs_clarification"
+        )
+        fallback_references = [
+            "references/broad-symbolic-analysis.md",
+            "references/domain-adapters.md",
+            "references/proactive-reading-protocol.md",
+            "references/foundation.md",
+            "references/ethics-and-limits.md",
+        ]
+        fallback_guardrails = [
+            (
+                "Address urgent safety, emergency, medical, or legal-deadline needs before symbolic analysis."
+                if critical_safety
+                else "Use the universal domain protocol: establish domain-native evidence and controls before any symbolic mapping."
+                if universal_adaptation
+                else "Identify the domain first, then apply feng shui as an auxiliary symbolic lens."
+            ),
+        ]
+        if universal_adaptation:
+            fallback_references.extend(
+                [
+                    "references/five-phase-domain-map.md",
+                    "examples/universal-domain-protocol.json",
+                ]
+            )
+            fallback_guardrails.extend(
+                [
+                    "Do not treat cybersecurity as a traditional feng shui domain or invent security facts.",
+                    "Security controls, threat evidence, testing, and qualified security review take priority over symbolism.",
+                ]
+            )
         return {
             "domain": "general",
             "domains": ["general"],
             "domain_scores": {"general": 1},
             "candidate_domains": [{"domain": "general", "score": 1}],
-            "route_status": "critical_safety" if critical_safety else "needs_clarification",
-            "risk_level": "critical" if critical_safety else "standard",
-            "symbolic_analysis_allowed": not critical_safety,
-            "clarifying_questions": clarification_questions(
-                [], "critical_safety" if critical_safety else "needs_clarification"
+            "route_status": fallback_status,
+            "risk_level": (
+                "critical"
+                if critical_safety
+                else "high"
+                if universal_adaptation
+                else "standard"
             ),
-            "references": [
-            "references/broad-symbolic-analysis.md",
-            "references/domain-adapters.md",
-            "references/proactive-reading-protocol.md",
-            "references/foundation.md",
-                "references/ethics-and-limits.md",
-            ],
-            "guardrails": [
-                (
-                    "Address urgent safety, emergency, medical, or legal-deadline needs before symbolic analysis."
-                    if critical_safety
-                    else "Identify the domain first, then apply feng shui as an auxiliary symbolic lens."
-                ),
-            ],
+            "symbolic_analysis_allowed": not critical_safety,
+            "clarifying_questions": clarification_questions([], fallback_status),
+            "references": fallback_references,
+            "guardrails": fallback_guardrails,
             "lens": [
                 "yin-yang balance",
                 "five-phase relationships",

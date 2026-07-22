@@ -52,10 +52,11 @@
     },
     "schemas": {
       "type": "object",
-      "required": ["manifest", "evaluation_suite", "reference_catalog", "tool_catalog", "response_contract", "capability_matrix", "source_quality_policy", "adversarial_evaluation_suite", "intake_contracts", "golden_responses", "universal_domain_protocol", "external_calculation_contracts", "contribution_quality_gates", "runtime_integration_profiles", "agent_claims"],
+      "required": ["manifest", "evaluation_suite", "user_journey_evaluation_suite", "reference_catalog", "tool_catalog", "response_contract", "capability_matrix", "source_quality_policy", "adversarial_evaluation_suite", "intake_contracts", "golden_responses", "universal_domain_protocol", "external_calculation_contracts", "contribution_quality_gates", "runtime_integration_profiles", "agent_claims"],
       "properties": {
         "manifest": { "type": "string" },
         "evaluation_suite": { "type": "string" },
+        "user_journey_evaluation_suite": { "type": "string" },
         "reference_catalog": { "type": "string" },
         "tool_catalog": { "type": "string" },
         "response_contract": { "type": "string" },

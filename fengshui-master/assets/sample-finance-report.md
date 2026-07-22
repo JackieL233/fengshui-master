@@ -3,108 +3,75 @@
 Question: Should I buy this stock next month using feng shui?
 Domain: finance
 
-## References To Load
-- references/broad-symbolic-analysis.md
-- references/finance-adapter.md
-- references/domain-adapters.md
-- references/five-phase-domain-map.md
-- references/ethics-and-limits.md
-- references/timing-and-date-selection.md
-- references/proactive-reading-protocol.md
+## Provisional Current Posture
 
-## Guardrails
-- This is not financial advice.
-- Do not guarantee profit, timing, or risk-free outcomes.
-- Use feng shui as a symbolic decision-support lens alongside real financial analysis.
+The current posture is **wait and verify**, not a prediction that the stock will rise or fall. The wish to choose a favorable month shows useful timing awareness, but there is not yet enough financial evidence to justify a purchase. In five-phase language, activation is ahead of containment: the decision has momentum before its downside rules are defined. Confidence: medium on the decision-process diagnosis, none on future returns.
 
-## Symbolic Lenses
-- yin-yang balance
-- five-phase relationships
-- timing and activation
-- form, flow, and containment
-- risk and remedy hierarchy
+## Known Basis and Confidence
 
-## Missing Inputs
-- decision type
-- time horizon
-- risk tolerance
-- liquidity needs
-- existing allocation or concentration
-- financial thesis and downside condition
+- Fact: the user is considering one stock and a purchase next month.
+- Unknown: thesis, valuation, time horizon, liquidity needs, position size, portfolio concentration, and exit conditions.
+- Boundary: no market data or validated financial calculations were supplied.
 
-## Answer Contract
-- Separate real-world constraints from feng shui symbolism.
-- State method, assumptions, and missing inputs before conclusions.
-- Label facts, calculations, inferences, unknowns, and recommendations separately.
-- For material claims preserve confidence, method, evidence pointers, and falsifiers; calculations also need tool and input provenance.
-- For each relevant domain, state favorable signals, possible friction, validation evidence, and the next low-risk action.
-- Proceed provisionally when optional data is missing; do not invent hidden events or deterministic outcomes.
-- Prioritize low-risk, reversible actions.
-- Do not present symbolic readings as guaranteed outcomes.
-- Suspend symbolic analysis when the route marks an urgent safety or medical concern.
+## Favorable Now
 
-## Report Sections
+- A future decision window creates time for research instead of forcing an immediate trade.
+- The question can be converted into explicit entry, sizing, and stop conditions.
+- Symbolic timing can remain a secondary reflection layer after the financial case passes.
 
-## Inputs and assumptions
+## Possible Friction and Ordinary Manifestations
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- Timing may become a substitute for evidence, appearing as repeated searches for a lucky date while the investment thesis stays vague.
+- Excitement may outrun containment, appearing as an oversized first purchase or money being committed before near-term cash needs are protected.
+- Confirmation bias may appear as collecting only favorable news or symbolic signs.
 
-## Financial reality check
+## Confirm or Refute Signals
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- Confirm the friction hypothesis if the user cannot state the downside case, maximum position size, or reason to exit in writing.
+- Weaken it if a documented thesis survives contrary evidence, liquidity is protected, and the position remains within a precommitted limit.
+- Refute any symbolic timing claim if its recommendation conflicts with financial evidence, legal restrictions, or risk controls.
 
-## Risk posture
+## Immediate Low-Risk Action
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+One user-controlled safeguard is to keep the idea in research status while completing a one-page decision gate. The gate can cover the thesis, strongest contrary evidence, valuation range, maximum tolerable loss, position cap, and conditions for reviewing the decision again.
 
-## Symbolic analysis protocol
+## Prioritized Cross-Domain Concerns
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+1. Protect liquidity and downside capacity.
+2. Validate the investment thesis with current financial evidence.
+3. Check portfolio concentration and execution rules.
+4. Use feng shui or timing symbolism only as a non-binding review prompt.
 
-## Current-state scan
+## Actions: Next 72 Hours
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- The user can complete the decision gate and identify one source that could disprove the thesis.
+- A precommitted position cap can preserve user control before any auspicious date is reviewed.
+- The gate can mark essential cash, debt repayment, or an emergency reserve as protected and unavailable for the idea.
 
-## Favorable conditions
+## Actions: Next 30 Days
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- The user can track the thesis variables and compare the stock with a diversified alternative.
+- A review can include fees, taxes, concentration, and the effect of a material drawdown.
+- Incomplete evidence can leave the idea in research status without forcing an execution decision.
 
-## Possible friction and validation questions
+## Actions: Next 90 Days
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- A scheduled review can test whether the thesis, risk budget, and actual evidence still agree.
+- When falsifiers appear, the user retains control over revising or ending the plan; symbolic remedies do not replace that evidence review.
 
-## Cross-domain priorities
+## Monitoring
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- Thesis variables and contrary evidence
+- Portfolio concentration and available liquidity
+- Deviation from the precommitted position cap
+- Whether urgency rises as the preferred date approaches
 
-## Actions: next 72 hours
+## Follow-Up Questions (Maximum 3)
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+1. What is the investment thesis, time horizon, and condition that would prove the thesis wrong?
+2. What percentage of investable assets would this position represent, and what liquidity must remain untouched?
+3. What current financial data, valuation work, and downside scenario have already been reviewed?
 
-## Actions: next 30 days
+## Supporting Method and Boundaries
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Actions: next 90 days
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Monitoring signals
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Feng shui symbolic layer
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Practical adjustments
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Boundaries and missing data
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Cultural and Professional Boundary
-
-This report is a cultural and symbolic decision-support scaffold. It is not medical, legal, financial, engineering, architectural, tax, psychological, or safety advice.
+This scaffold separates financial facts from feng shui symbolism and prioritizes low-risk, reversible action. Relevant references are `finance-adapter.md`, `timing-and-date-selection.md`, `proactive-reading-protocol.md`, and `ethics-and-limits.md`. It is cultural decision support, not financial, tax, or legal advice, and it does not guarantee profit or favorable timing.

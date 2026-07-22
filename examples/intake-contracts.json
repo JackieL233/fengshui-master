@@ -1,7 +1,23 @@
 {
   "name": "fengshui-master-intake-contracts",
-  "version": "1.0.0",
-  "purpose": "Machine-readable domain intake contracts for deciding what to ask, what can be assumed, when to proceed with caveats, and when a FengShui Master answer must stay at checklist level.",
+  "version": "1.1.0",
+  "purpose": "Machine-readable provisional-first domain intake contracts for deciding what can be assessed immediately, what to ask afterward, and which missing inputs gate only precise or irreversible conclusions.",
+  "delivery_defaults": {
+    "mode": "provisional_first",
+    "headline_before_questions": true,
+    "max_follow_up_questions": 3,
+    "follow_up_timing": "after_initial_bounded_reading",
+    "sparse_input_effect": "lower_confidence_not_suppress_reading",
+    "missing_input_gate": {
+      "fields": ["required_inputs", "ask_first_if_missing", "blocking_missing_inputs"],
+      "gates": ["precise_conclusions", "personalized_conclusions", "irreversible_recommendations"],
+      "never_gates": ["initial_bounded_reading"]
+    },
+    "initial_bounded_reading": {
+      "required_when_topic_readable": true,
+      "suppressed_only_by": ["urgent_safety_stop", "no_readable_topic_after_one_concise_clarification"]
+    }
+  },
   "domains": [
     {
       "domain": "space",

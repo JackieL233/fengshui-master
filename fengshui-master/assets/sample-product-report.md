@@ -3,103 +3,75 @@
 Question: Use feng shui to review this product onboarding flow
 Domain: product
 
-## References To Load
-- references/broad-symbolic-analysis.md
-- references/product-adapter.md
-- references/domain-adapters.md
-- references/five-phase-domain-map.md
-- references/ethics-and-limits.md
-- references/proactive-reading-protocol.md
+## Provisional Current Posture
 
-## Guardrails
-- Do not replace user research, accessibility, security, privacy, analytics, or engineering review.
-- Use feng shui as a metaphor for user flow, support, friction, and leakage.
+The onboarding should be treated as **an unverified flow with possible leakage**, not as a failed design. With no funnel evidence supplied, the useful first reading is to inspect transitions, unclear commitments, and dead ends. In feng shui language, improve the path and containment before adding activation or decoration. Confidence: low until behavioral evidence is available.
 
-## Symbolic Lenses
-- yin-yang balance
-- five-phase relationships
-- timing and activation
-- form, flow, and containment
-- risk and remedy hierarchy
+## Known Basis and Confidence
 
-## Missing Inputs
-- product type and target user
-- main product goal or metric
-- user journey or funnel
-- current friction, drop-off, or confusion
-- engineering, accessibility, privacy, and platform constraints
+- Fact: an existing product onboarding flow is being reviewed.
+- Unknown: target user, product promise, steps, conversion baseline, accessibility findings, privacy obligations, and drop-off locations.
+- Boundary: no user research, analytics, screenshots, or implementation evidence was supplied.
 
-## Answer Contract
-- Separate real-world constraints from feng shui symbolism.
-- State method, assumptions, and missing inputs before conclusions.
-- Label facts, calculations, inferences, unknowns, and recommendations separately.
-- For each relevant domain, state favorable signals, possible friction, validation evidence, and the next low-risk action.
-- Proceed provisionally when optional data is missing; do not invent hidden events or deterministic outcomes.
-- Prioritize low-risk, reversible actions.
-- Do not present symbolic readings as guaranteed outcomes.
+## Favorable Now
 
-## Report Sections
+- A defined onboarding journey can be observed step by step.
+- Most transition problems can be tested with reversible copy, order, and feedback changes.
+- The flow metaphor maps cleanly to measurable completion, hesitation, error, and abandonment signals.
 
-## Inputs and assumptions
+## Possible Friction and Ordinary Manifestations
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- Excess activation may appear as too many choices, permission requests, or calls to action before value is clear.
+- Weak containment may appear as lost progress, unclear next steps, or users leaving to find required information.
+- Poor support may appear as repeated validation errors, inaccessible controls, or help arriving only after abandonment.
 
-## Product reality layer
+## Confirm or Refute Signals
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- Confirm leakage where event data, recordings, support contacts, or usability sessions show repeated hesitation or exit at the same transition.
+- Weaken the hypothesis when users complete the step quickly, understand the consequence, and recover from errors without help.
+- Refute a symbolic interpretation when accessibility, privacy, security, or engineering evidence identifies a different cause.
 
-## Flow and leakage diagnosis
+## Immediate Low-Risk Action
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+Instrument each onboarding transition with start, success, error, backtrack, and abandon events before redesigning the whole flow.
 
-## Symbolic analysis protocol
+## Prioritized Cross-Domain Concerns
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+1. Accessibility, privacy, security, and truthful consent.
+2. The first transition with the largest verified loss.
+3. User comprehension and recovery from errors.
+4. Feng shui symbolism as a vocabulary for flow, support, and containment.
 
-## Current-state scan
+## Actions: Next 72 Hours
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- Draw the current path and mark every required decision, data request, and exit.
+- Validate event coverage and review five representative failed sessions.
+- Fix any blocking accessibility or consent issue immediately.
 
-## Favorable conditions
+## Actions: Next 30 Days
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- Test one hypothesis at the highest-loss transition.
+- Pair conversion data with short usability sessions and support evidence.
+- Keep a control group and document unintended effects.
 
-## Possible friction and validation questions
+## Actions: Next 90 Days
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- Standardize proven onboarding patterns and retire changes that did not improve the target metric.
+- Reassess downstream activation and retention so local conversion gains do not hide later harm.
 
-## Cross-domain priorities
+## Monitoring
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- Completion and qualified activation rates
+- Time, errors, and backtracks per step
+- Accessibility defects and consent abandonment
+- Support contacts and downstream retention
 
-## Actions: next 72 hours
+## Follow-Up Questions (Maximum 3)
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+1. Who is the target user, and what successful outcome should onboarding produce?
+2. Which step has the largest measured drop-off, delay, or error rate?
+3. What accessibility, privacy, security, and platform constraints are non-negotiable?
 
-## Actions: next 30 days
+## Supporting Method and Boundaries
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Actions: next 90 days
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Monitoring signals
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Feng shui symbolic layer
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Product adjustments
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Boundaries and missing data
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Cultural and Professional Boundary
-
-This report is a cultural and symbolic decision-support scaffold. It is not medical, legal, financial, engineering, architectural, tax, psychological, or safety advice.
+This scaffold uses feng shui as a bounded metaphor for product flow and leakage. It does not replace user research, analytics, accessibility, privacy, security, or engineering review. Relevant references are `product-adapter.md`, `domain-adapters.md`, `proactive-reading-protocol.md`, and `ethics-and-limits.md`.

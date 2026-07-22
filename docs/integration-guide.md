@@ -2,7 +2,7 @@
 
 This guide shows how to adapt FengShui Master to common AI runtimes without making it Codex-only. Use `PORTABLE_SKILL.md` as the behavioral policy, `portable-skill.json` as the manifest, and the files under `fengshui-master/references/` as the knowledge base.
 
-For machine-readable runtime setup, use `examples/runtime-integration-profiles.json` and validate it with `examples/validate_runtime_integration_profiles.py`. The profiles mirror this guide for chat assistants, agent frameworks, RAG systems, local CLI workflows, and Codex.
+For machine-readable runtime setup, use `examples/runtime-integration-profiles.json` and validate it with `examples/validate_runtime_integration_profiles.py`. The profiles mirror this guide for chat assistants, agent frameworks, RAG systems, local CLI workflows, and Codex. For proactive-first UX regression testing, use `examples/user-journey-evaluation-suite.json` and validate it with `examples/validate_user_journey_evaluation.py`.
 
 ## Integration Principles
 
@@ -14,9 +14,10 @@ For machine-readable runtime setup, use `examples/runtime-integration-profiles.j
 - Retrieve only the relevant reference files for the domain. Avoid injecting the entire knowledge base when a narrow question only needs one adapter.
 - Use deterministic scripts for calculations that the host can run. If a tool is unavailable, state the missing calculation and avoid invented precision.
 - Keep real-world constraints ahead of symbolic reading, especially for finance, health, law, construction, safety, and relationships.
+- Run the urgent safety check first. Unless immediate danger requires triage, give a bounded provisional current-posture headline before any non-urgent question; ask no more than three precision questions, and only after the useful initial reading and action.
 - Use `examples/response-contract.json` to enforce final-answer sections, high-stakes disclosures, output modes, and red-line behavior.
 - Use `examples/claim-evidence-policy.json` and `schemas/agent-claims.schema.json` to preserve evidence pointers, calculation provenance, confidence, falsifiers, and recommendation verification for material claims.
-- Evaluate adapters with `examples/portable-evaluation-suite.json` and score outputs with `examples/portable-evaluation-rubric.json`.
+- Evaluate adapters with `examples/portable-evaluation-suite.json`, run the 20 proactive user journeys in `examples/user-journey-evaluation-suite.json`, and score outputs with `examples/portable-evaluation-rubric.json`.
 
 ## Minimal Context Pack
 
@@ -24,9 +25,10 @@ For a lightweight assistant, include:
 
 1. `PORTABLE_SKILL.md`
 2. `fengshui-master/references/consultation-brief.md`
-3. `fengshui-master/references/broad-symbolic-analysis.md`
-4. `fengshui-master/references/domain-adapters.md`
-5. `fengshui-master/references/ethics-and-limits.md`
+3. `fengshui-master/references/proactive-reading-protocol.md`
+4. `fengshui-master/references/broad-symbolic-analysis.md`
+5. `fengshui-master/references/domain-adapters.md`
+6. `fengshui-master/references/ethics-and-limits.md`
 
 Add one specialized adapter when the request is clear:
 
@@ -47,11 +49,12 @@ Use this setup for ChatGPT, Claude, Gemini, or similar hosted assistants:
 4. For repeatable testing, run the prompts in `examples/portable-agent-prompts.md`.
 5. Use `examples/response-contract.json` as the final-answer contract.
 6. Reject outputs that violate any red line in `examples/portable-evaluation-rubric.json` or `examples/response-contract.json`.
+7. Run `python examples/validate_user_journey_evaluation.py`, then execute the user journeys against the configured assistant.
 
 Recommended assistant behavior:
 
 ```text
-First classify the domain, then ask only for missing inputs that materially change the reading. Separate observations, traditional symbolism, and practical advice. For finance, law, health, engineering, architecture, or safety, state that the answer is symbolic support only.
+Classify the domain and run an urgent safety and native-domain risk check. Unless immediate danger requires triage, state a bounded provisional current-posture headline before any non-urgent question. Then separate the known basis, favorable factors, possible friction, confirmation and disconfirmation signals, and practical action. Ask at most three precision questions only after that useful initial reading. For finance, law, health, engineering, architecture, or safety, state that the answer is symbolic support only.
 ```
 
 ## Agent Framework Setup
@@ -77,7 +80,7 @@ Use this setup for LangChain, LlamaIndex, AutoGen, CrewAI, semantic kernels, or 
    - `fengshui-master/scripts/periods.py`
    - `fengshui-master/scripts/flying_stars.py`
 7. Require the agent to call or emulate `method_selector.py` before method-specific claims, then call or emulate `domain_router.py` before selecting references.
-8. Run portable evaluation cases after any prompt, retrieval, tool-schema, or response-contract change.
+8. Run the portable evaluation cases and proactive user journeys after any prompt, retrieval, tool-schema, or response-contract change.
 
 Tool result handling:
 
@@ -126,6 +129,7 @@ python fengshui-master/scripts/personal_context.py --birth-date 1998-03-22 --bir
 python fengshui-master/scripts/generate_report.py "Should I buy this stock next month?"
 python examples/validate_portable_manifest.py
 python examples/validate_portable_evaluation.py
+python examples/validate_user_journey_evaluation.py
 python examples/validate_reference_catalog.py
 python examples/validate_tool_catalog.py
 python examples/validate_response_contract.py
@@ -159,16 +163,19 @@ An integration is ready when:
 - The assistant can identify the domain before answering.
 - The assistant retrieves or loads the correct adapter files.
 - The assistant keeps observations, symbolism, and practical recommendations separate.
-- The assistant proceeds with a provisional reading when safe, scans only relevant domains, and labels observed, calculated, inferred, unknown, and recommended content.
+- The assistant runs urgent safety triage first and, when no immediate danger blocks interpretation, leads with a bounded provisional current-posture headline rather than a questionnaire.
+- The assistant asks no more than three high-value precision questions, and only after the initial reading, immediate action, and monitoring guidance.
+- The assistant scans only relevant domains and labels observed, calculated, inferred, unknown, and recommended content.
 - The assistant includes favorable signals, possible friction, confirmation/refutation evidence, 72-hour / 30-day / 90-day actions, and monitoring signals.
 - The assistant never states an unverified hidden event as fact or uses cold-reading agreement as proof.
 - The assistant uses high-stakes disclaimers in the correct domains.
 - The assistant refuses deterministic fortune, medical, legal, financial, engineering, architectural, or safety claims.
 - The assistant follows `examples/response-contract.json` for final-answer sections and red-line behavior.
 - The assistant passes `examples/portable-evaluation-suite.json`.
+- The assistant passes all scenarios in `examples/user-journey-evaluation-suite.json`, validated by `examples/validate_user_journey_evaluation.py`.
 - Human reviewers can score outputs with `examples/portable-evaluation-rubric.json`.
 - The selected runtime profile in `examples/runtime-integration-profiles.json` is satisfied.
 
 ## 中文接入摘要
 
-通用接入时，把 `PORTABLE_SKILL.md` 作为顶层行为规范，把 `fengshui-master/references/` 作为知识库，把 `fengshui-master/scripts/` 作为可选工具。复杂问题先路由领域，再读取对应 adapter 与 `proactive-reading-protocol.md`，最后生成 brief 或报告。关键安全信息足够后应先给临时研判，不停在追问清单；只扫描相关领域，区分事实、计算、推断、未知和建议，并给出有利面、潜在阻力、核验依据、72 小时/30 天/90 天行动与复盘信号。金融、健康、法律、建筑、安全、生平吉凶等问题必须先处理现实约束，不做确定预测、冷读断言或专业替代建议。
+通用接入时，把 `PORTABLE_SKILL.md` 作为顶层行为规范，把 `fengshui-master/references/` 作为知识库，把 `fengshui-master/scripts/` 作为可选工具。复杂问题先路由领域，再读取对应 adapter 与 `proactive-reading-protocol.md`，最后生成 brief 或报告。默认顺序是：先做紧急安全检查；除即时危险必须优先处置外，先给有边界的当前态势初判，再说明依据、有利面、潜在阻力、核验信号和行动，最后最多提出三个会实质提高精度的问题。信息稀疏只降低置信度，不得把回答变成问卷。金融、健康、法律、建筑、安全、生平吉凶等问题必须先处理现实约束，不做确定预测、冷读断言或专业替代建议。用 `examples/user-journey-evaluation-suite.json` 做主动式体验回归，并运行 `python examples/validate_user_journey_evaluation.py` 验证评测文件。

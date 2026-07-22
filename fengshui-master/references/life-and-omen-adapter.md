@@ -23,11 +23,12 @@ Treat broad feng shui as a traditional symbolic language for reading qi, form, t
 
 When the user asks about a life, fortune, or omen, answer in layers:
 
-1. Real-world facts and constraints.
-2. Traditional symbolic reading: yin-yang, five phases, bagua, timing, form/flow.
-3. Risk and opportunity pattern.
-4. Low-risk actions for "趋吉避凶" (seek favorable conditions and reduce avoidable harm).
-5. Missing data and method limits.
+1. Bounded provisional current-posture headline.
+2. Real-world facts, constraints, assumptions, and confidence.
+3. Favorable conditions plus conditional friction and ordinary manifestations.
+4. Evidence that would confirm or refute the inferred pattern.
+5. Low-risk actions for "趋吉避凶" (seek favorable conditions and reduce avoidable harm), action horizons, and monitoring.
+6. At most three follow-up questions, then concise method and boundary notes.
 
 ## Intake
 
@@ -115,12 +116,13 @@ For events, launches, negotiations, purchases, moves, investments, or relationsh
 
 Use this structure for substantial non-spatial life/omen readings:
 
-1. **Scope and limits**: method used; what is not being calculated.
-2. **Reality layer**: concrete facts, constraints, and unknowns.
-3. **Traditional symbolic layer**: yin-yang, five phases, bagua/timing/form metaphors.
-4. **Ji/xiong assessment**: favorable conditions, risk conditions, mixed areas.
-5. **Actions**: practical and symbolic adjustments, prioritized by safety and reversibility.
-6. **Missing data**: what would improve confidence.
+1. **Provisional current posture**: narrow conditional headline before questions.
+2. **Known basis**: concrete facts, constraints, assumptions, confidence, and unknowns.
+3. **Favorable and friction scan**: likely ordinary manifestations and confirm/refute evidence.
+4. **Immediate action and priorities**: practical first, symbolic second, ranked by safety and reversibility.
+5. **Action horizons and monitoring**: 72 hours, 30 days, 90 days, review signals, and stop conditions.
+6. **Follow-up questions**: at most three precision questions.
+7. **Method and limits**: named traditional layer and what is not being calculated.
 
 ## Proactive Current-State Reading
 

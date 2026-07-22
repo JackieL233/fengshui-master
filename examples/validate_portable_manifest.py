@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "portable-skill.json"
 MANIFEST_SCHEMA = ROOT / "schemas" / "portable-skill.schema.json"
 EVALUATION_SCHEMA = ROOT / "schemas" / "portable-evaluation-suite.schema.json"
+USER_JOURNEY_EVALUATION_SCHEMA = ROOT / "schemas" / "user-journey-evaluation-suite.schema.json"
 REFERENCE_CATALOG_SCHEMA = ROOT / "schemas" / "reference-catalog.schema.json"
 TOOL_CATALOG_SCHEMA = ROOT / "schemas" / "tool-catalog.schema.json"
 RESPONSE_CONTRACT_SCHEMA = ROOT / "schemas" / "response-contract.schema.json"
@@ -78,6 +79,7 @@ def main() -> int:
     schema_titles = {
         MANIFEST_SCHEMA: "FengShui Master Portable Skill Manifest",
         EVALUATION_SCHEMA: "FengShui Master Portable Evaluation Suite",
+        USER_JOURNEY_EVALUATION_SCHEMA: "FengShui Master User Journey Evaluation Suite",
         REFERENCE_CATALOG_SCHEMA: "FengShui Master Reference Catalog",
         TOOL_CATALOG_SCHEMA: "FengShui Master Tool Catalog",
         RESPONSE_CONTRACT_SCHEMA: "FengShui Master Response Contract",
@@ -123,6 +125,12 @@ def main() -> int:
         fail(errors, "schemas.manifest must point to schemas/portable-skill.schema.json")
     if schemas.get("evaluation_suite") != "schemas/portable-evaluation-suite.schema.json":
         fail(errors, "schemas.evaluation_suite must point to schemas/portable-evaluation-suite.schema.json")
+    if schemas.get("user_journey_evaluation_suite") != "schemas/user-journey-evaluation-suite.schema.json":
+        fail(
+            errors,
+            "schemas.user_journey_evaluation_suite must point to "
+            "schemas/user-journey-evaluation-suite.schema.json",
+        )
     if schemas.get("reference_catalog") != "schemas/reference-catalog.schema.json":
         fail(errors, "schemas.reference_catalog must point to schemas/reference-catalog.schema.json")
     if schemas.get("tool_catalog") != "schemas/tool-catalog.schema.json":
@@ -170,6 +178,10 @@ def main() -> int:
         fail(errors, "tools missing fengshui-master/scripts/bagua_map.py")
     if "examples/capability-matrix.json" not in manifest.get("evaluation", []):
         fail(errors, "evaluation missing examples/capability-matrix.json")
+    if "examples/user-journey-evaluation-suite.json" not in manifest.get("evaluation", []):
+        fail(errors, "evaluation missing examples/user-journey-evaluation-suite.json")
+    if "examples/validate_user_journey_evaluation.py" not in manifest.get("evaluation", []):
+        fail(errors, "evaluation missing examples/validate_user_journey_evaluation.py")
     if "examples/validate_capability_matrix.py" not in manifest.get("evaluation", []):
         fail(errors, "evaluation missing examples/validate_capability_matrix.py")
     if "examples/source-quality-policy.json" not in manifest.get("evaluation", []):

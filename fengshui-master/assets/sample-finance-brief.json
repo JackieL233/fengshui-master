@@ -59,19 +59,80 @@
     "ambiguous": [],
     "blocking": []
   },
+  "proactive_delivery": {
+    "mode": "provisional_first",
+    "headline_before_questions": true,
+    "max_follow_up_questions": 3,
+    "follow_up_question_placement": "after the provisional reading, immediate action, and monitoring signals",
+    "required_sequence": [
+      "safety_precheck",
+      "provisional_current_posture",
+      "known_basis",
+      "favorable_conditions",
+      "possible_friction_and_ordinary_manifestations",
+      "confirmation_and_disconfirmation_signals",
+      "immediate_low_risk_action",
+      "cross_domain_priorities",
+      "actions_72_hours",
+      "actions_30_days",
+      "actions_90_days",
+      "monitoring_signals",
+      "follow_up_questions"
+    ],
+    "sparse_input_rule": "Missing optional inputs lower confidence but do not suppress a useful provisional reading; state assumptions, ordinary manifestations, and falsifiers before asking up to three high-value questions.",
+    "domain_priorities": {
+      "ordered_domains": [
+        "finance"
+      ],
+      "primary_domain": "finance",
+      "do_not_average_domains": true,
+      "selection_rule": "Address urgent and high-consequence real-world domains first, then rank the remaining routed domains by evidence and relevance.",
+      "items": [
+        {
+          "domain": "finance",
+          "rank": 1,
+          "handling": "reality_first"
+        }
+      ]
+    },
+    "safety_precheck": {
+      "required": true,
+      "risk_level": "high",
+      "status": "clear",
+      "overrides_required_sequence": false
+    },
+    "stop_conditions": [
+      {
+        "id": "urgent_real_world_risk",
+        "triggered": false,
+        "when": "symbolic_analysis_allowed is false",
+        "action": "Stop the symbolic reading and direct the user to appropriate urgent medical, emergency, safety, or qualified professional help."
+      },
+      {
+        "id": "missing_high_stakes_evidence",
+        "triggered": false,
+        "when": "An irreversible or high-stakes decision lacks essential real-world evidence or qualified review.",
+        "action": "Do not recommend execution; provide only bounded, reversible preparation steps and identify the evidence or professional review needed."
+      }
+    ]
+  },
   "report_sections": [
-    "Inputs and assumptions",
-    "Financial reality check",
-    "Risk posture",
-    "Symbolic analysis protocol",
-    "Current-state scan",
+    "Provisional current posture",
+    "Known basis and confidence",
     "Favorable conditions",
-    "Possible friction and validation questions",
+    "Possible friction and ordinary manifestations",
+    "Confirmation and disconfirmation signals",
+    "Immediate low-risk action",
     "Cross-domain priorities",
     "Actions: next 72 hours",
     "Actions: next 30 days",
     "Actions: next 90 days",
     "Monitoring signals",
+    "Follow-up questions (maximum 3)",
+    "Inputs and assumptions",
+    "Financial reality check",
+    "Risk posture",
+    "Symbolic analysis protocol",
     "Feng shui symbolic layer",
     "Practical adjustments",
     "Boundaries and missing data"
@@ -89,7 +150,8 @@
   "floorplan_analysis": null,
   "answer_contract": [
     "Separate real-world constraints from feng shui symbolism.",
-    "State method, assumptions, and missing inputs before conclusions.",
+    "Give a bounded provisional current-posture headline before method detail or follow-up questions.",
+    "State the known basis, assumptions, confidence, and missing inputs without delaying the provisional reading.",
     "Label facts, calculations, inferences, unknowns, and recommendations separately.",
     "For material claims preserve confidence, method, evidence pointers, and falsifiers; calculations also need tool and input provenance.",
     "For each relevant domain, state favorable signals, possible friction, validation evidence, and the next low-risk action.",

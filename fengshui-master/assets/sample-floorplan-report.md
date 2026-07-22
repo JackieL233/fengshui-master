@@ -3,135 +3,76 @@
 Question: Review this apartment layout
 Domain: space
 
-## References To Load
-- references/foundation.md
-- references/analysis-templates.md
-- references/forms-and-environment.md
-- references/remedies.md
-- references/ethics-and-limits.md
-- references/proactive-reading-protocol.md
-- references/floorplan-schema.md
+## Provisional Current Posture
 
-## Guardrails
-- Use observable form and safety before symbolic judgments.
+The supplied compact apartment appears **workable with two manageable flow concerns**, not fundamentally inauspicious. The main practical priorities are safe circulation at the entrance, kitchen separation and ventilation, and stable bed and desk support. The structured plan supports a medium-confidence form reading; compass and lived-experience claims remain provisional until verified.
 
-## Symbolic Lenses
-- yin-yang balance
-- five-phase relationships
-- timing and activation
-- form, flow, and containment
-- risk and remedy hierarchy
+## Known Basis and Confidence
 
-## Missing Inputs
-- floor plan or photos
-- north arrow or compass bearing
-- main door and facing convention
-- occupant goals
-- changes that are allowed or forbidden
-- visual photos for verification
-- compass north or facing direction
-- occupant constraints
+- The plan identifies a south-facing residential unit with the main entrance, living-room center, bed, desk, stove, sink, and windows.
+- The analyzer flags entrance-to-window alignment at medium severity and close stove-sink spacing at low severity.
+- The center falls in the living room; a bed and desk are available for support and door-line review.
+- Photos, on-site measurements, occupant goals, actual drafts, noise, glare, moisture, and compass verification are not supplied.
 
-## Answer Contract
-- Separate real-world constraints from feng shui symbolism.
-- State method, assumptions, and missing inputs before conclusions.
-- Label facts, calculations, inferences, unknowns, and recommendations separately.
-- For material claims preserve confidence, method, evidence pointers, and falsifiers; calculations also need tool and input provenance.
-- For each relevant domain, state favorable signals, possible friction, validation evidence, and the next low-risk action.
-- Proceed provisionally when optional data is missing; do not invent hidden events or deterministic outcomes.
-- Prioritize low-risk, reversible actions.
-- Do not present symbolic readings as guaranteed outcomes.
-- Suspend symbolic analysis when the route marks an urgent safety or medical concern.
+## Favorable Now
 
-## Structured Floor-Plan Analysis
+- The qi-mouth candidate and geometric center are explicit rather than guessed.
+- The main issues are localized and can be tested with low-cost, reversible adjustments.
+- The central living area can support clear circulation if it remains dry, usable, and uncluttered.
 
-- Name: Sample compact apartment
-- Type: residential
-- Facing degrees: 180
-- North degrees: 0
+## Possible Friction and Ordinary Manifestations
 
-### Findings
-- entry:
-  - Main entrance front-door is explicitly identified as the qi-mouth candidate.
-- center:
-  - The geometric plan center falls within: Living Room. Keep the actual center area clear, stable, dry, and usable.
-- bedroom:
-  - Bed feature supplied; review door line, backing, mirror, beam, and head direction before symbolic remedies.
-- desk:
-  - Desk feature supplied; command position and back support should outrank personal direction if they conflict.
-- kitchen:
-  - Stove feature supplied; check ventilation, workflow, fire safety, and water-fire symbolism in that order.
+- Entrance-window alignment may correspond to a fast visual or circulation path, appearing as glare, drafts, little arrival pause, or belongings collecting near the entrance.
+- Close stove-sink spacing may create practical prep conflict, appearing as wet work surfaces, crowding, or awkward hand movement.
+- Weak bed or desk support may appear as discomfort, distraction, door-line exposure, or frequent repositioning.
 
-### Issues
-- front_back_alignment (medium): The explicitly identified main entrance and a window are axis-aligned within the configured tolerance; some traditions read this as flow passing through too quickly.
-- stove_sink_close (low): Stove and sink are close within the configured unit-aware threshold; some traditions read this as fire-water tension.
+## Confirm or Refute Signals
 
-### Recommendations
-- high: Create a visual or circulation pause only if it preserves a clear, accessible egress route.
-- medium: Prefer solid head support and a view of the door without direct door-line exposure when comfort and access allow.
-- low: Improve practical prep separation first; treat any material or color bridge as secondary symbolism.
-- medium: Prioritize ventilation, dry surfaces, working drains, leak repair, and doors that operate safely.
+- Confirm the entrance concern only if on-site observation shows a strong sightline, draft, glare, or disrupted use; weaken it if circulation is calm and egress is already clear.
+- Confirm kitchen friction through measured spacing, workflow observation, moisture, or ventilation problems; refute it if use is safe and comfortable.
+- Reject any remedy that narrows accessible egress, creates a trip hazard, blocks ventilation, or conflicts with building safety.
 
-Method note: This is a validated structured-intake and limited form-analysis scaffold. It does not replace visual review, code and accessibility review, compass verification, or lineage-specific formulas.
+## Immediate Low-Risk Action
 
-## Report Sections
+Walk the entrance-to-window route while carrying everyday items, then remove obstructions and mark where a visual pause could be tested without narrowing egress.
 
-## Inputs and assumptions
+## Prioritized Cross-Domain Concerns
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+1. Fire safety, accessible egress, ventilation, leaks, and electrical condition.
+2. Sleep, work ergonomics, noise, light, and actual circulation.
+3. Entrance pacing and kitchen workflow.
+4. Compass-dependent or personal symbolic refinements after verification.
 
-## Method
+## Actions: Next 72 Hours
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- Verify that doors, drains, ventilation, alarms, and escape routes work safely.
+- Measure the stove-sink gap and observe one normal cooking session.
+- Check bed and desk backing, door visibility, glare, and cable or trip hazards.
 
-## Structured floor-plan findings
+## Actions: Next 30 Days
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- Test one reversible entrance pause, such as furniture orientation or a restrained visual anchor, while preserving clear egress.
+- Improve practical kitchen separation and drying before adding color or material symbolism.
+- Record sleep quality, workspace distraction, drafts, and congestion.
 
-## Current-state scan
+## Actions: Next 90 Days
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- Keep only changes that improve observed comfort, safety, and use.
+- Obtain compass verification and photos before making direction-dependent claims or permanent alterations.
 
-## Favorable conditions
+## Monitoring
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+- Entrance congestion, glare, and drafts
+- Cooking workflow, moisture, and ventilation
+- Sleep comfort and desk focus
+- Clear path width and any new safety hazard
 
-## Possible friction and validation questions
+## Follow-Up Questions (Maximum 3)
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
+1. What are the occupants' main goals and any non-negotiable access, rental, or renovation constraints?
+2. Do photos or lived experience confirm drafts, glare, congestion, moisture, sleep disruption, or workspace distraction?
+3. Has compass north and the facing convention been verified on site?
 
-## Cross-domain priorities
+## Supporting Method and Boundaries
 
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Actions: next 72 hours
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Actions: next 30 days
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Actions: next 90 days
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Monitoring signals
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Form and flow reading
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Recommendations
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Missing data
-
-Draft this section from supplied evidence. Separate observation, traditional interpretation, and practical action.
-
-## Cultural and Professional Boundary
-
-This report is a cultural and symbolic decision-support scaffold. It is not medical, legal, financial, engineering, architectural, tax, psychological, or safety advice.
+This is a validated structured-intake and limited form-analysis scaffold. Observable form and safety outrank symbolism. It does not replace visual inspection, building-code, accessibility, architectural, electrical, fire, or environmental review. Relevant references are `floorplan-schema.md`, `forms-and-environment.md`, `remedies.md`, `proactive-reading-protocol.md`, and `ethics-and-limits.md`.

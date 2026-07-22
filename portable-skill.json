@@ -65,6 +65,8 @@
     "examples/portable-evaluation-rubric.json",
     "examples/portable-evaluation-suite.json",
     "examples/validate_portable_evaluation.py",
+    "examples/user-journey-evaluation-suite.json",
+    "examples/validate_user_journey_evaluation.py",
     "examples/validate_portable_manifest.py",
     "examples/reference-catalog.json",
     "examples/validate_reference_catalog.py",
@@ -100,6 +102,7 @@
   "schemas": {
     "manifest": "schemas/portable-skill.schema.json",
     "evaluation_suite": "schemas/portable-evaluation-suite.schema.json",
+    "user_journey_evaluation_suite": "schemas/user-journey-evaluation-suite.schema.json",
     "reference_catalog": "schemas/reference-catalog.schema.json",
     "tool_catalog": "schemas/tool-catalog.schema.json",
     "response_contract": "schemas/response-contract.schema.json",

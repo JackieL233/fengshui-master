@@ -39,7 +39,7 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 - 基础理论：气、阴阳、五行、八卦、天干地支、二十四山。
 - 广义风水象义协议：观气、取象、辨势、条件式吉凶、化解、复核。
 - 生平与运势：人生阶段、五行偏性、吉凶条件、趋吉避凶行动建议。
-- 主动研判：在关键安全信息足够后直接给出临时研判，主动说明当前有利面、潜在阻力、可能表现、证实或证伪依据，以及未来 72 小时、30 天、90 天的行动，不把未提供的经历说成事实。
+- 主动研判：先做紧急安全检查；除即时危险必须优先处置外，直接给出有边界的当前态势初判，再说明有利面、潜在阻力、日常表现、证实或证伪依据，以及未来 72 小时、30 天、90 天的行动，最后最多提出三个精度问题，不把未提供的经历说成事实。
 - 空间风水：住宅、办公室、商铺、房间、土地、户型、门、床、桌、厨房、卫生间。
 - 形势派与环境：道路、水、山、建筑形体、明堂、煞气、采光、通风、动线。
 - 理气与时空：八宅命卦、三元九运、玄空飞星基础脚手架、太岁、岁破、三煞、二十四节气与月相。
@@ -60,9 +60,9 @@ FengShui Master 不是医疗、法律、金融、工程、建筑、税务、心�
 - 简化的命卦、干支年或飞星脚手架可以替代完整八字、紫微斗数、奇门、六壬或通书择日。
 - 风水象义可以覆盖专业检查、法律义务、金融风控或医学判断。
 
-推荐使用方式是：先看真实约束，再看风水象义，最后给出低风险、可逆、可验证的行动。
+推荐使用方式是：先做紧急安全检查；排除即时危险后，先给当前态势初判，再看真实约束与风水象义，最后给出低风险、可逆、可验证的行动和不超过三个后续精度问题。
 
-对于“我最近运势怎样”一类问题，Skill 不只解释方法，也会在必要安全信息足够后主动扫描相关领域。所有重要判断区分为已知事实、工具计算、条件推断、未知信息和行动建议；潜在困难必须配有核验问题，不能用冷读方式断言用户正在遭遇冲突、破财、疾病或背叛。
+对于“我最近运势怎样”一类问题，Skill 不只解释方法，也不会先发问卷。除即时危险需要优先处置外，它会先主动扫描相关领域并给出有边界的初判，再说明已知事实、工具计算、条件推断、未知信息和行动建议；潜在困难必须配有确认与否证信号，不能用冷读方式断言用户正在遭遇冲突、破财、疾病或背叛。需要提高精度时，初判之后最多追问三个高价值问题。
 
 ## 目录结构
 
@@ -82,6 +82,7 @@ docs/
 schemas/
   portable-skill.schema.json
   portable-evaluation-suite.schema.json
+  user-journey-evaluation-suite.schema.json
   reference-catalog.schema.json
   tool-catalog.schema.json
   response-contract.schema.json
@@ -98,6 +99,7 @@ examples/
   portable-agent-prompts.md
   portable-evaluation-rubric.json
   portable-evaluation-suite.json
+  user-journey-evaluation-suite.json
   reference-catalog.json
   tool-catalog.json
   response-contract.json
@@ -111,6 +113,7 @@ examples/
   contribution-quality-gates.json
   runtime-integration-profiles.json
   validate_portable_evaluation.py
+  validate_user_journey_evaluation.py
   validate_portable_manifest.py
   validate_reference_catalog.py
   validate_tool_catalog.py
@@ -197,6 +200,7 @@ fengshui-master/
 
 - [`schemas/portable-skill.schema.json`](schemas/portable-skill.schema.json)
 - [`schemas/portable-evaluation-suite.schema.json`](schemas/portable-evaluation-suite.schema.json)
+- [`schemas/user-journey-evaluation-suite.schema.json`](schemas/user-journey-evaluation-suite.schema.json)
 - [`schemas/reference-catalog.schema.json`](schemas/reference-catalog.schema.json)
 - [`schemas/tool-catalog.schema.json`](schemas/tool-catalog.schema.json)
 - [`schemas/response-contract.schema.json`](schemas/response-contract.schema.json)
@@ -226,7 +230,7 @@ fengshui-master/
 
 对抗提示、prompt-injection、越权与 scope-inflation 测试见 [`examples/adversarial-evaluation-suite.json`](examples/adversarial-evaluation-suite.json)，并可用 [`examples/validate_adversarial_evaluation.py`](examples/validate_adversarial_evaluation.py) 验证。
 
-领域输入、缺失信息与 ask-first 规则见 [`examples/intake-contracts.json`](examples/intake-contracts.json)，并可用 [`examples/validate_intake_contracts.py`](examples/validate_intake_contracts.py) 验证。
+领域输入、后续精度信息与安全阻断规则见 [`examples/intake-contracts.json`](examples/intake-contracts.json)，并可用 [`examples/validate_intake_contracts.py`](examples/validate_intake_contracts.py) 验证。非关键缺失信息只降低置信度，不得把默认流程改成先问后答。
 
 标准输出骨架和 golden response fixtures 见 [`examples/golden-responses.json`](examples/golden-responses.json)，并可用 [`examples/validate_golden_responses.py`](examples/validate_golden_responses.py) 验证。
 
@@ -243,6 +247,14 @@ fengshui-master/
 ```bash
 python examples/validate_portable_evaluation.py
 ```
+
+验证 20 个主动式用户旅程场景：
+
+```bash
+python examples/validate_user_journey_evaluation.py
+```
+
+该评测集覆盖稀疏输入、跨领域困境、金融与安全高风险请求，以及未知领域适配。它要求智能体先给出有边界的当下态势初判，再提出不超过三个高价值问题。
 
 验证 portable manifest：
 

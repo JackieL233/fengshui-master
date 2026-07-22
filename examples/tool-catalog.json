@@ -36,7 +36,7 @@
       "name": "create_brief",
       "path": "fengshui-master/scripts/create_brief.py",
       "category": "briefing",
-      "description": "Create a cross-domain consultation brief that merges references, guardrails, input state, risk metadata, lenses, and per-domain report sections.",
+      "description": "Create a proactive-first cross-domain consultation brief with a machine-readable delivery sequence, domain priorities, question budget, references, guardrails, input state, risk metadata, lenses, and report sections.",
       "command_template": "python fengshui-master/scripts/create_brief.py \"<question>\" --pretty",
       "inputs": [
         {"name": "question", "type": "string", "required": true, "description": "User question or consultation goal."},
@@ -45,13 +45,13 @@
       ],
       "output_format": "json",
       "risk_level": "medium",
-      "required_guardrails": ["preserve brief guardrails in final answer"]
+      "required_guardrails": ["preserve brief guardrails in final answer", "lead with the provisional posture before questions", "ask no more than three follow-up questions"]
     },
     {
       "name": "personal_context",
       "path": "fengshui-master/scripts/personal_context.py",
       "category": "personal_context",
-      "description": "Combine bounded birth-year, ming gua, current-year, san yuan, annual-direction, solar-term, and moon-phase scaffolds for a personal reading.",
+      "description": "Combine bounded birth-year, ming gua, current-year, san yuan, annual-direction, solar-term, and moon-phase scaffolds with a proactive-first personal-reading contract.",
       "command_template": "python fengshui-master/scripts/personal_context.py --birth-date <YYYY-MM-DD> --as-of <YYYY-MM-DD> --pretty",
       "inputs": [
         {"name": "birth_date", "type": "date", "required": true, "description": "Gregorian birth date in YYYY-MM-DD format."},
@@ -65,13 +65,13 @@
       ],
       "output_format": "json",
       "risk_level": "high",
-      "required_guardrails": ["not a complete bazi", "do not make deterministic fate claims"]
+      "required_guardrails": ["not a complete bazi", "do not make deterministic fate claims", "sparse inputs lower confidence rather than suppress the reading"]
     },
     {
       "name": "generate_report",
       "path": "fengshui-master/scripts/generate_report.py",
       "category": "reporting",
-      "description": "Generate a Markdown consultation report scaffold from a question and optional structured floor plan.",
+      "description": "Generate a proactive-first Markdown consultation scaffold that puts the current posture and actions before method details or follow-up questions.",
       "command_template": "python fengshui-master/scripts/generate_report.py \"<question>\"",
       "inputs": [
         {"name": "question", "type": "string", "required": true, "description": "User question or consultation goal."},
@@ -80,7 +80,7 @@
       ],
       "output_format": "markdown",
       "risk_level": "medium",
-      "required_guardrails": ["treat report as a scaffold not final authority"]
+      "required_guardrails": ["treat report as a scaffold not final authority", "stop symbolic analysis for urgent safety routes", "ask no more than three follow-up questions"]
     },
     {
       "name": "analyze_floorplan",

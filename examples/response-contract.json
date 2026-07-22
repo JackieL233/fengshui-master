@@ -1,13 +1,34 @@
 {
   "name": "fengshui-master-response-contract",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "purpose": "Machine-readable final-answer contract for portable agents, RAG systems, local assistants, and report generators using FengShui Master.",
+  "proactive_defaults": {
+    "mode": "provisional_first",
+    "headline_before_questions": true,
+    "max_follow_up_questions": 3,
+    "sparse_input_rule": "Sparse input lowers confidence but does not suppress a useful conditional reading; state the known basis, avoid invented facts, and ask only high-value questions after the provisional analysis.",
+    "cross_domain_prioritization": "Rank relevant domains by immediate safety, deadline, downside, reversibility, user goal, and practical leverage; lead with the highest-priority domain and do not give every domain equal weight.",
+    "high_stakes_behavior": "For finance, medical or wellbeing, legal-adjacent, engineering, architecture, and safety topics, give native-domain evidence, safeguards, stop conditions, and qualified-professional boundaries before secondary symbolic support.",
+    "unknown_domain_adaptation": "For an unfamiliar domain, first define its native goals, constraints, evidence, failure modes, and observable signals; then declare any wuxing or feng shui mapping as a modern symbolic adaptation and keep it falsifiable.",
+    "required_sequence": [
+      "urgent_safety_and_reality_check",
+      "provisional_current_posture_headline",
+      "known_basis_and_uncertainty",
+      "favorable_conditions",
+      "possible_friction_and_likely_manifestations",
+      "confirmation_and_disconfirmation_signals",
+      "immediate_low_risk_action",
+      "cross_domain_priorities",
+      "action_horizons_and_monitoring",
+      "follow_up_questions"
+    ]
+  },
   "required_sections": [
     {
       "name": "inputs_and_assumptions",
       "required": true,
       "applies_to": ["all"],
-      "purpose": "State user-provided facts, assumptions, uncertainty, and material missing inputs before interpretation."
+      "purpose": "State user-provided facts, assumptions, uncertainty, and material missing inputs without delaying the provisional current-posture headline."
     },
     {
       "name": "domain_reality_check",
@@ -31,7 +52,7 @@
       "name": "proactive_current_state_scan",
       "required": true,
       "applies_to": ["all"],
-      "purpose": "Proactively scan only relevant domains; label observed, calculated, inferred, unknown, and recommended statements; for each domain state favorable signals, possible friction, how it may manifest, what would confirm or refute it, and an immediate low-risk action."
+      "purpose": "Lead with a provisional current-posture headline before questions; scan only relevant domains; label observed, calculated, inferred, unknown, and recommended statements; for each domain state favorable signals, possible friction, how it may manifest, what would confirm or refute it, and an immediate low-risk action."
     },
     {
       "name": "conditional_ji_xiong_assessment",
@@ -91,6 +112,12 @@
     "Load or cite the relevant references selected by the brief, router, reference catalog, or user request.",
     "Compose all relevant available context with provenance, exclude irrelevant context, and surface conflicts instead of averaging incompatible methods.",
     "Proceed with a useful provisional reading after essential safety-critical inputs are available; do not stop at method explanation or a questionnaire.",
+    "Begin every safe substantive reading with a concise provisional current-posture headline before method explanation, missing-input requests, or follow-up questions.",
+    "Treat sparse input as a reason to lower confidence, use conditional hypotheses, and name unknowns; do not withhold the entire reading or begin with an intake questionnaire.",
+    "Prioritize cross-domain findings by safety, deadlines, downside, reversibility, user goals, and practical leverage; do not expand all possible domains equally.",
+    "In high-stakes domains, lead with native-domain evidence, safeguards, stop conditions, and professional boundaries; keep feng shui and wuxing as secondary symbolic support.",
+    "When adapting to an unknown domain, define native goals, constraints, evidence, failure modes, and observable signals before declaring a transparent, falsifiable modern symbolic mapping.",
+    "Ask no more than three high-value follow-up questions, and ask them only after delivering the provisional headline, supporting scan, and at least one immediate low-risk action.",
     "Label material statements as observed, calculated, inferred, unknown, or recommended, and never present an inference as a user-confirmed fact.",
     "For every material claim preserve confidence, method, evidence_refs, and falsifiers; require user or artifact pointers for observations, tool and input provenance for calculations, basis_refs for inferences, missing_inputs for unknowns, and verification for recommendations.",
     "For each relevant scanned domain, state favorable signals, possible friction, how it may manifest, what would confirm or refute it, and one immediate low-risk action.",

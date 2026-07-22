@@ -22,6 +22,14 @@ def run_brief(*args):
     return json.loads(result.stdout)
 
 
+def stop_condition(data, condition_id):
+    return next(
+        condition
+        for condition in data["proactive_delivery"]["stop_conditions"]
+        if condition["id"] == condition_id
+    )
+
+
 class CreateBriefScriptTest(unittest.TestCase):
     def test_finance_question_creates_guardrailed_brief(self):
         data = run_brief("Should I buy this stock next month using feng shui?")
@@ -35,15 +43,26 @@ class CreateBriefScriptTest(unittest.TestCase):
         self.assertIn("time horizon", data["missing_inputs"])
         self.assertIn("references/broad-symbolic-analysis.md", data["references"])
         self.assertIn("Symbolic analysis protocol", data["report_sections"])
-        self.assertIn("Current-state scan", data["report_sections"])
+        self.assertEqual(
+            data["report_sections"][0], "Provisional current posture"
+        )
+        self.assertIn("Known basis and confidence", data["report_sections"])
         self.assertIn("Favorable conditions", data["report_sections"])
         self.assertIn(
-            "Possible friction and validation questions", data["report_sections"]
+            "Possible friction and ordinary manifestations",
+            data["report_sections"],
         )
+        self.assertIn(
+            "Confirmation and disconfirmation signals", data["report_sections"]
+        )
+        self.assertIn("Immediate low-risk action", data["report_sections"])
         self.assertIn("Actions: next 72 hours", data["report_sections"])
         self.assertIn("Actions: next 30 days", data["report_sections"])
         self.assertIn("Actions: next 90 days", data["report_sections"])
         self.assertIn("Monitoring signals", data["report_sections"])
+        self.assertEqual(
+            data["report_sections"][-1], "Follow-up questions (maximum 3)"
+        )
         self.assertIn(
             "Label facts, calculations, inferences, unknowns, and recommendations separately.",
             data["answer_contract"],
@@ -104,11 +123,109 @@ class CreateBriefScriptTest(unittest.TestCase):
         self.assertIn("\n  ", result.stdout)
         self.assertEqual(json.loads(result.stdout)["domain"], "career")
 
-    def test_sample_finance_brief_matches_generator(self):
+    def test_sample_finance_brief_preserves_legacy_generator_fields(self):
         generated = run_brief("Should I buy this stock next month using feng shui?")
         sample = json.loads(SAMPLE_FINANCE_BRIEF.read_text(encoding="utf-8"))
 
-        self.assertEqual(sample, generated)
+        changed_contract_fields = {
+            "proactive_delivery",
+            "report_sections",
+            "answer_contract",
+        }
+        for key, value in sample.items():
+            if key not in changed_contract_fields:
+                self.assertEqual(value, generated[key])
+
+    def test_finance_action_without_native_evidence_blocks_execution_only(self):
+        data = run_brief("Should I buy this stock next month using feng shui?")
+        condition = stop_condition(data, "missing_high_stakes_evidence")
+
+        self.assertTrue(condition["triggered"])
+        self.assertEqual(condition["action_intent_domains"], ["finance"])
+        self.assertIn("risk tolerance", condition["missing_essential_evidence"]["finance"])
+        self.assertIn("execution_style_recommendations", condition["blocks"])
+        self.assertIn("irreversible_recommendations", condition["blocks"])
+        self.assertIn("bounded_educational_analysis", condition["allows"])
+        self.assertIn("bounded_provisional_analysis", condition["allows"])
+        self.assertEqual(
+            data["proactive_delivery"]["recommendation_mode"],
+            "bounded_provisional_only",
+        )
+
+    def test_legal_action_without_native_evidence_blocks_execution_only(self):
+        data = run_brief(
+            "Should I sign this contract using an auspicious feng shui date?"
+        )
+        condition = stop_condition(data, "missing_high_stakes_evidence")
+
+        self.assertIn("legal_adjacent", data["domains"])
+        self.assertTrue(condition["triggered"])
+        self.assertIn("legal_adjacent", condition["action_intent_domains"])
+        self.assertIn(
+            "hard deadlines and required procedures",
+            condition["missing_essential_evidence"]["legal_adjacent"],
+        )
+        self.assertIn("reversible_preparation_steps", condition["allows"])
+
+    def test_high_risk_informational_request_does_not_trigger_evidence_stop(self):
+        data = run_brief(
+            "Explain how the five phases can be used as a symbolic lens in finance."
+        )
+        condition = stop_condition(data, "missing_high_stakes_evidence")
+
+        self.assertEqual(data["risk_level"], "high")
+        self.assertIn("finance", condition["high_risk_domains"])
+        self.assertFalse(condition["decision_or_action_intent"])
+        self.assertFalse(condition["triggered"])
+        self.assertEqual(condition["missing_essential_evidence"], {})
+        self.assertEqual(
+            data["proactive_delivery"]["recommendation_mode"],
+            "guardrailed_provisional",
+        )
+
+    def test_proactive_delivery_is_machine_readable_and_provisional_first(self):
+        data = run_brief("Everything feels blocked lately")
+        contract = data["proactive_delivery"]
+
+        self.assertEqual(contract["mode"], "provisional_first")
+        self.assertTrue(contract["headline_before_questions"])
+        self.assertEqual(contract["max_follow_up_questions"], 3)
+        self.assertEqual(contract["required_sequence"][0], "safety_precheck")
+        self.assertEqual(
+            contract["required_sequence"][1], "provisional_current_posture"
+        )
+        self.assertLess(
+            contract["required_sequence"].index("provisional_current_posture"),
+            contract["required_sequence"].index("follow_up_questions"),
+        )
+        self.assertIn("lower confidence", contract["sparse_input_rule"])
+        self.assertLessEqual(len(data["clarifying_questions"]), 3)
+        self.assertEqual(
+            data["report_sections"][-1], "Follow-up questions (maximum 3)"
+        )
+
+    def test_cross_domain_priorities_put_reality_first_domains_first(self):
+        data = run_brief(
+            "Compare product naming, onboarding, investment risk, and privacy terms"
+        )
+        priorities = data["proactive_delivery"]["domain_priorities"]
+
+        self.assertTrue(priorities["do_not_average_domains"])
+        self.assertEqual(priorities["ordered_domains"][0], "finance")
+        self.assertEqual(priorities["items"][0]["handling"], "reality_first")
+        self.assertLess(
+            priorities["ordered_domains"].index("legal_adjacent"),
+            priorities["ordered_domains"].index("naming"),
+        )
+
+    def test_cross_domain_priorities_put_business_before_naming(self):
+        data = run_brief(
+            "My startup is uncertain, my fund portfolio is down, and I am choosing a new company name"
+        )
+        ordered = data["proactive_delivery"]["domain_priorities"]["ordered_domains"]
+
+        self.assertEqual(ordered[0], "finance")
+        self.assertLess(ordered.index("business"), ordered.index("naming"))
 
     def test_moon_phase_question_creates_timing_brief(self):
         data = run_brief("Should I launch on the new moon or full moon?")
@@ -160,11 +277,27 @@ class CreateBriefScriptTest(unittest.TestCase):
         self.assertEqual(data["input_state"]["missing"], data["missing_inputs"])
 
     def test_critical_safety_route_blocks_symbolic_analysis(self):
-        data = run_brief("I have chest pain in my bedroom; tell me the feng shui cause")
+        data = run_brief(
+            "I have chest pain in my bedroom; should I stop taking my medication because of feng shui?"
+        )
 
         self.assertFalse(data["symbolic_analysis_allowed"])
         self.assertEqual(data["route_status"], "critical_safety")
         self.assertTrue(data["input_state"]["blocking"])
+        safety = data["proactive_delivery"]["safety_precheck"]
+        self.assertEqual(safety["status"], "blocked")
+        self.assertTrue(safety["overrides_required_sequence"])
+        self.assertTrue(
+            data["proactive_delivery"]["stop_conditions"][0]["triggered"]
+        )
+        evidence_stop = stop_condition(data, "missing_high_stakes_evidence")
+        self.assertTrue(evidence_stop["triggered"])
+        self.assertEqual(evidence_stop["superseded_by"], "urgent_real_world_risk")
+        self.assertEqual(
+            data["proactive_delivery"]["recommendation_mode"],
+            "safety_triage_only",
+        )
+        self.assertEqual(data["proactive_delivery"]["max_follow_up_questions"], 0)
 
 
 if __name__ == "__main__":

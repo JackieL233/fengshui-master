@@ -23,6 +23,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ARTIFACTS = {
     "portable-skill.json": "schemas/portable-skill.schema.json",
     "examples/portable-evaluation-suite.json": "schemas/portable-evaluation-suite.schema.json",
+    "examples/user-journey-evaluation-suite.json": "schemas/user-journey-evaluation-suite.schema.json",
     "examples/reference-catalog.json": "schemas/reference-catalog.schema.json",
     "examples/tool-catalog.json": "schemas/tool-catalog.schema.json",
     "examples/response-contract.json": "schemas/response-contract.schema.json",

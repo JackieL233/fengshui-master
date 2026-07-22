@@ -61,6 +61,108 @@ class PersonalContextScriptTest(unittest.TestCase):
             ["next_72_hours", "next_30_days", "next_90_days"],
         )
 
+    def test_proactive_scan_contract_delivers_current_reading_before_questions(self):
+        data = run_context(
+            "--birth-date",
+            "1998-03-22",
+            "--as-of",
+            "2026-07-18",
+        )
+
+        proactive = data["proactive_scan_contract"]
+        self.assertEqual(proactive["delivery_mode"], "provisional_first")
+        self.assertTrue(proactive["headline_before_questions"])
+        self.assertEqual(proactive["max_follow_up_questions"], 3)
+        self.assertEqual(
+            proactive["provisional_reading_fields"],
+            [
+                "headline_current_posture",
+                "current_favorable",
+                "current_friction",
+                "ordinary_manifestations",
+                "confirmation_and_refutation_signals",
+                "immediate_low_risk_action",
+            ],
+        )
+
+        sequence = proactive["required_sequence"]
+        self.assertEqual(
+            sequence,
+            [
+                "urgent_safety_check",
+                "headline_current_posture",
+                "known_basis",
+                "current_favorable",
+                "current_friction",
+                "ordinary_manifestations",
+                "confirmation_and_refutation_signals",
+                "immediate_low_risk_action",
+                "domain_priorities",
+                "action_horizons",
+                "monitoring_signals",
+                "follow_up_questions",
+            ],
+        )
+        self.assertEqual(
+            sequence[-3:],
+            ["action_horizons", "monitoring_signals", "follow_up_questions"],
+        )
+
+        monitoring = proactive["monitoring_contract"]
+        self.assertEqual(
+            list(monitoring),
+            ["observable_signals", "review_point", "stop_conditions"],
+        )
+        self.assertEqual(
+            monitoring["observable_signals"],
+            [
+                "user-visible outcomes tied to the highest-priority domain",
+                "whether favorable conditions strengthen and friction signals weaken",
+                "adverse effects or evidence that refutes the provisional reading",
+            ],
+        )
+        self.assertEqual(
+            monitoring["review_point"],
+            "review after 72 hours, then at 30 and 90 days when applicable",
+        )
+        self.assertEqual(
+            monitoring["stop_conditions"],
+            [
+                "stop or reverse an adjustment if real-world risk or harm increases",
+                "stop relying on a hypothesis when observable evidence repeatedly refutes it",
+                "escalate urgent or high-stakes concerns to the appropriate qualified professional",
+            ],
+        )
+
+    def test_sparse_input_contract_lowers_confidence_and_prioritizes_domains(self):
+        data = run_context(
+            "--birth-date",
+            "1998-03-22",
+            "--as-of",
+            "2026-07-18",
+        )
+
+        proactive = data["proactive_scan_contract"]
+        sparse = proactive["sparse_input_behavior"]
+        self.assertEqual(
+            sparse["confidence_rule"], "lower_confidence_not_suppress_reading"
+        )
+        self.assertTrue(sparse["provisional_reading_required"])
+        self.assertFalse(sparse["invent_missing_facts"])
+        self.assertFalse(sparse["questions_before_reading"])
+
+        prioritization = proactive["domain_prioritization"]
+        self.assertEqual(prioritization["mode"], "material_relevance")
+        self.assertEqual(
+            prioritization["priority_order"],
+            [
+                "requested_domain",
+                "materially_relevant_adjacent_domains",
+                "deferred_domains",
+            ],
+        )
+        self.assertIn("do not expand every domain equally", prioritization["rule"])
+
     def test_missing_sex_omits_ming_gua_without_inventing_it(self):
         data = run_context(
             "--birth-date",
