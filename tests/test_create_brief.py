@@ -1,6 +1,8 @@
+import importlib.util
 import json
 import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -9,6 +11,15 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "fengshui-master" / "scripts" / "create_brief.py"
 SAMPLE_PLAN = ROOT / "fengshui-master" / "assets" / "sample-floorplan.json"
 SAMPLE_FINANCE_BRIEF = ROOT / "fengshui-master" / "assets" / "sample-finance-brief.json"
+
+
+def load_brief_module():
+    spec = importlib.util.spec_from_file_location("create_brief_test", SCRIPT)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"could not load {SCRIPT}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def run_brief(*args):
@@ -298,6 +309,116 @@ class CreateBriefScriptTest(unittest.TestCase):
             "safety_triage_only",
         )
         self.assertEqual(data["proactive_delivery"]["max_follow_up_questions"], 0)
+
+    def test_known_inputs_reuse_suppresses_missing_and_preserves_values(self):
+        module = load_brief_module()
+        known_inputs = {
+            "decision type": "buy a diversified index fund",
+            "time horizon": "the next 12 months",
+        }
+
+        data = module.create_brief(
+            "Should I buy this stock next month using feng shui?",
+            known_inputs=known_inputs,
+        )
+
+        self.assertNotIn("decision type", data["missing_inputs"])
+        self.assertNotIn("time horizon", data["missing_inputs"])
+        self.assertIn("decision type", data["input_state"]["provided"])
+        self.assertIn("time horizon", data["input_state"]["provided"])
+        self.assertEqual(data["input_state"]["provided_values"], known_inputs)
+        self.assertEqual(
+            data["input_state"]["provenance"]["provided_values"],
+            module.HOST_SUPPLIED_CONTEXT_PROVENANCE,
+        )
+        self.assertEqual(data["risk_level"], "high")
+        self.assertNotIn("suitable", json.dumps(data).casefold())
+        self.assertEqual(
+            known_inputs,
+            {
+                "decision type": "buy a diversified index fund",
+                "time horizon": "the next 12 months",
+            },
+        )
+
+    def test_known_inputs_validation_rejects_malformed_values(self):
+        module = load_brief_module()
+        invalid_inputs = [
+            [],
+            "not an object",
+            7,
+            {"unknown label": "value"},
+            {"decision type": "   "},
+            {"decision type": 12},
+        ]
+
+        for known_inputs in invalid_inputs:
+            with self.subTest(known_inputs=known_inputs):
+                with self.assertRaises(ValueError):
+                    module.create_brief("Review my financial decision", known_inputs=known_inputs)
+
+    def test_known_inputs_cli_reads_json_without_writing_it(self):
+        payload = {
+            "event type": "store opening",
+            "local time zone or location": "Shanghai",
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "known-inputs.json"
+            original = json.dumps(payload, ensure_ascii=False, indent=2)
+            path.write_text(original, encoding="utf-8")
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPT),
+                    "Should I launch on an auspicious date?",
+                    "--known-inputs",
+                    str(path),
+                ],
+                cwd=ROOT,
+                text=True,
+                capture_output=True,
+                check=True,
+            )
+
+            data = json.loads(result.stdout)
+            self.assertNotIn("event type", data["missing_inputs"])
+            self.assertNotIn("local time zone or location", data["missing_inputs"])
+            self.assertEqual(data["input_state"]["provided_values"], payload)
+            self.assertEqual(path.read_text(encoding="utf-8"), original)
+            self.assertEqual([item.name for item in Path(directory).iterdir()], [path.name])
+
+    def test_known_inputs_do_not_override_urgent_safety_route(self):
+        module = load_brief_module()
+        known_inputs = {
+            "specific wellbeing concern": "chest pain",
+            "sleep, light, air, noise, and ergonomic context": "bedroom",
+            "medical or safety issues already identified": "chest pain while taking medication",
+            "professional care constraints": "contacting a clinician",
+        }
+
+        data = module.create_brief(
+            "I have chest pain in my bedroom; should I stop taking my medication because of feng shui?",
+            known_inputs=known_inputs,
+        )
+
+        self.assertEqual(data["route_status"], "critical_safety")
+        self.assertFalse(data["symbolic_analysis_allowed"])
+        self.assertTrue(data["input_state"]["blocking"])
+        self.assertEqual(
+            data["proactive_delivery"]["recommendation_mode"],
+            "safety_triage_only",
+        )
+
+    def test_default_call_has_unchanged_input_state_shape(self):
+        module = load_brief_module()
+        data = module.create_brief("Should I buy this stock next month using feng shui?")
+
+        self.assertNotIn("provided_values", data["input_state"])
+        self.assertNotIn("provenance", data["input_state"])
+        self.assertEqual(
+            set(data["input_state"]), {"provided", "missing", "ambiguous", "blocking"}
+        )
 
 
 if __name__ == "__main__":

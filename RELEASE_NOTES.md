@@ -13,6 +13,7 @@ FengShui Master v1 is a Portable AI Skill and Codex-compatible capability pack f
   - `schemas/user-journey-evaluation-suite.schema.json`
 - Proactive-first delivery across all supported runtimes: urgent safety check, bounded current-posture headline, known basis, favorable conditions, possible friction and ordinary manifestations, confirm/refute signals, immediate action, prioritized domains, action horizons, monitoring, then at most three follow-up questions.
 - A machine-readable 20-case user-journey evaluation suite for sparse, cross-domain, high-stakes, and unknown-domain requests.
+- Multi-turn continuity: reuse explicit context, retract corrected inferences, respect declined inputs, and lead follow-ups with changes and the next action. Brief/report tools accept optional known-input context; manual bilingual dialogue scenarios complement automated structural checks.
 - Reference knowledge base for:
   - foundational feng shui concepts
   - form and environment analysis

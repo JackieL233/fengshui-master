@@ -1,13 +1,29 @@
+import contextlib
+import importlib.util
+import io
 import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "fengshui-master" / "scripts" / "generate_report.py"
 SAMPLE_PLAN = ROOT / "fengshui-master" / "assets" / "sample-floorplan.json"
+
+
+def load_generator_module():
+    spec = importlib.util.spec_from_file_location("generate_report", SCRIPT)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"could not load {SCRIPT}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+GENERATOR = load_generator_module()
 
 
 def run_report(*args):
@@ -68,9 +84,9 @@ class GenerateReportScriptTest(unittest.TestCase):
         self.assertEqual(
             prompts,
             [
-                "- What specific decision are you making, and which options are you comparing?",
                 "- What is the decision deadline and intended holding or review horizon?",
                 "- How much loss or volatility can you tolerate without jeopardizing essential goals?",
+                "- What money must remain liquid for living costs, emergencies, or near-term commitments?",
             ],
         )
         self.assertTrue(all(prompt.endswith("?") for prompt in prompts))
@@ -92,9 +108,126 @@ class GenerateReportScriptTest(unittest.TestCase):
             [
                 "- What real-world domain and decision should the reading support?",
                 "- Do you want spatial, timing, personal-context, or broad symbolic analysis?",
-                "- What real-world domain should lead this analysis?",
+                "- What concrete outcome should this analysis support?",
             ],
         )
+        self.assertNotIn("What real-world domain should lead this analysis?", prompts)
+
+    def test_known_input_labels_are_suppressed_and_values_are_provenanced(self):
+        brief = {
+            "question": "Should I buy this stock next month using feng shui?",
+            "domain": "finance",
+            "domains": ["finance"],
+            "symbolic_analysis_allowed": True,
+            "clarifying_questions": [],
+            "missing_inputs": [
+                "decision type",
+                "time horizon",
+                "risk tolerance",
+                "liquidity needs",
+            ],
+            "input_state": {
+                "provided": ["time horizon"],
+                "provided_values": {
+                    "time horizon": "12 months",
+                    "risk tolerance": "moderate",
+                },
+                "provenance": {
+                    "provided_values": (
+                        "host-supplied context from this conversation; not "
+                        "automatically persisted memory or evidence verification"
+                    )
+                },
+            },
+            "proactive_delivery": {
+                "max_follow_up_questions": 3,
+                "domain_priorities": {"ordered_domains": ["finance"]},
+                "stop_conditions": [
+                    {
+                        "id": "missing_high_stakes_evidence",
+                        "missing_essential_evidence": {
+                            "finance": [
+                                "time horizon",
+                                "risk tolerance",
+                                "liquidity needs",
+                            ]
+                        },
+                    }
+                ],
+            },
+        }
+
+        prompts = GENERATOR.follow_up_prompts(brief)
+        basis = "\n".join(GENERATOR.render_known_basis(brief))
+
+        self.assertEqual(
+            prompts,
+            [
+                "What money must remain liquid for living costs, emergencies, or near-term commitments?",
+                "What specific decision are you making, and which options are you comparing?",
+            ],
+        )
+        self.assertNotIn("holding or review horizon", " ".join(prompts))
+        self.assertNotIn("loss or volatility", " ".join(prompts))
+        self.assertIn(
+            "time horizon: 12 months (source: host-supplied context from this conversation; "
+            "not automatically persisted memory or evidence verification)",
+            basis,
+        )
+        self.assertIn(
+            "risk tolerance: moderate (source: host-supplied context from this conversation; "
+            "not automatically persisted memory or evidence verification)",
+            basis,
+        )
+
+    def test_generate_report_forwards_known_inputs_only_when_supplied(self):
+        brief = GENERATOR.brief_module.create_brief("Help me with feng shui")
+        with patch.object(
+            GENERATOR.brief_module, "create_brief", return_value=brief
+        ) as create_brief:
+            GENERATOR.generate_report("Help me with feng shui")
+            create_brief.assert_called_once_with("Help me with feng shui", None)
+
+        with patch.object(
+            GENERATOR.brief_module, "create_brief", return_value=brief
+        ) as create_brief:
+            GENERATOR.generate_report(
+                "Help me with feng shui",
+                known_inputs={"native domain": "space"},
+            )
+            create_brief.assert_called_once_with(
+                "Help me with feng shui",
+                None,
+                known_inputs={"native domain": "space"},
+            )
+
+    def test_main_turns_known_input_validation_into_clean_cli_error(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            known_inputs_path = Path(temp_dir) / "known-inputs.json"
+            known_inputs_path.write_text('{"unknown label": "value"}', encoding="utf-8")
+            stderr = io.StringIO()
+            with patch.object(
+                GENERATOR,
+                "generate_report",
+                side_effect=ValueError(
+                    "known_inputs contains unknown labels: ['unknown label']"
+                ),
+            ), patch.object(
+                sys,
+                "argv",
+                [
+                    str(SCRIPT),
+                    "Review my decision",
+                    "--known-inputs",
+                    str(known_inputs_path),
+                ],
+            ), contextlib.redirect_stderr(stderr):
+                with self.assertRaises(SystemExit) as exit_error:
+                    GENERATOR.main()
+
+            self.assertEqual(exit_error.exception.code, 2)
+            self.assertIn("known_inputs contains unknown labels", stderr.getvalue())
+            self.assertNotIn("Traceback", stderr.getvalue())
 
     def test_cross_domain_concerns_are_explicitly_prioritized(self):
         report = run_report(

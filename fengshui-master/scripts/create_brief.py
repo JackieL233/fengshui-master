@@ -130,6 +130,42 @@ DOMAIN_MISSING_INPUTS = {
 }
 
 
+HOST_SUPPLIED_CONTEXT_PROVENANCE = (
+    "host-supplied context from this conversation; not automatically persisted "
+    "memory or evidence verification"
+)
+
+
+def validate_known_inputs(known_inputs: Any) -> dict[str, str] | None:
+    """Validate and copy host-supplied canonical input values."""
+    if known_inputs is None:
+        return None
+    if not isinstance(known_inputs, dict):
+        raise ValueError("known_inputs must be a JSON object/dict")
+
+    allowed_labels = {
+        label for configured in DOMAIN_MISSING_INPUTS.values() for label in configured
+    }
+    unknown_labels = [
+        label for label in known_inputs if label not in allowed_labels
+    ]
+    if unknown_labels:
+        raise ValueError(f"known_inputs contains unknown labels: {unknown_labels!r}")
+
+    validated: dict[str, str] = {}
+    for label, value in known_inputs.items():
+        if not isinstance(value, str):
+            raise ValueError(
+                f"known_inputs[{label!r}] must be a nonblank string"
+            )
+        if not value.strip():
+            raise ValueError(
+                f"known_inputs[{label!r}] must be a nonblank string"
+            )
+        validated[label] = value
+    return validated
+
+
 DOMAIN_SECTIONS = {
     "finance": [
         "Inputs and assumptions",
@@ -651,7 +687,13 @@ def life_input_state(question: str) -> tuple[list[str], list[str]]:
     return provided, missing
 
 
-def create_brief(question: str, floorplan_path: str | None = None) -> dict[str, Any]:
+def create_brief(
+    question: str,
+    floorplan_path: str | None = None,
+    known_inputs: dict[str, str] | None = None,
+) -> dict[str, Any]:
+    validated_known_inputs = validate_known_inputs(known_inputs)
+    known_input_labels = set(validated_known_inputs or {})
     route = domain_router.route(question)
     domain = str(route["domain"])
     domains = [str(value) for value in route.get("domains", [domain])]
@@ -715,6 +757,14 @@ def create_brief(question: str, floorplan_path: str | None = None) -> dict[str, 
             ],
         )
 
+    if known_input_labels:
+        missing_inputs = [
+            value for value in missing_inputs if value not in known_input_labels
+        ]
+        provided_inputs = merge_unique(
+            provided_inputs, list(validated_known_inputs or {})
+        )
+
     report_sections = merge_unique(PROACTIVE_OPENING_SECTIONS, report_sections)
     report_sections = merge_unique(report_sections, PROACTIVE_CLOSING_SECTIONS)
     proactive_delivery = build_proactive_delivery(
@@ -725,6 +775,28 @@ def create_brief(question: str, floorplan_path: str | None = None) -> dict[str, 
         symbolic_analysis_allowed,
         risk_level,
     )
+
+    input_state: dict[str, Any] = {
+        "provided": provided_inputs,
+        "missing": missing_inputs,
+        "ambiguous": (
+            clarifying_questions
+            if route.get("route_status") == "ambiguous"
+            else []
+        ),
+        "blocking": (
+            [
+                "Resolve the urgent real-world safety or medical concern before symbolic analysis."
+            ]
+            if not symbolic_analysis_allowed
+            else []
+        ),
+    }
+    if validated_known_inputs:
+        input_state["provided_values"] = dict(validated_known_inputs)
+        input_state["provenance"] = {
+            "provided_values": HOST_SUPPLIED_CONTEXT_PROVENANCE,
+        }
 
     return {
         "question": question,
@@ -740,22 +812,7 @@ def create_brief(question: str, floorplan_path: str | None = None) -> dict[str, 
         "guardrails": guardrails,
         "lenses": route["lens"],
         "missing_inputs": missing_inputs,
-        "input_state": {
-            "provided": provided_inputs,
-            "missing": missing_inputs,
-            "ambiguous": (
-                clarifying_questions
-                if route.get("route_status") == "ambiguous"
-                else []
-            ),
-            "blocking": (
-                [
-                    "Resolve the urgent real-world safety or medical concern before symbolic analysis."
-                ]
-                if not symbolic_analysis_allowed
-                else []
-            ),
-        },
+        "input_state": input_state,
         "proactive_delivery": proactive_delivery,
         "report_sections": report_sections,
         "domain_report_sections": domain_report_sections,
@@ -781,12 +838,32 @@ def main() -> None:
     )
     parser.add_argument("question", help="User question or consultation goal.")
     parser.add_argument("--floorplan", help="Optional structured floor-plan JSON path.")
+    parser.add_argument(
+        "--known-inputs",
+        help="Optional JSON object file of canonical input labels and supplied values.",
+    )
     parser.add_argument("--pretty", action="store_true", help="Print indented JSON.")
     args = parser.parse_args()
 
+    known_inputs = None
+    if args.known_inputs is not None:
+        try:
+            known_inputs = json.loads(
+                Path(args.known_inputs).read_text(encoding="utf-8")
+            )
+        except (OSError, json.JSONDecodeError) as exc:
+            parser.error(f"could not read --known-inputs JSON file: {exc}")
+        if not isinstance(known_inputs, dict):
+            parser.error("--known-inputs JSON file must contain an object")
+
+    try:
+        brief = create_brief(args.question, args.floorplan, known_inputs)
+    except (TypeError, ValueError) as exc:
+        parser.error(str(exc))
+
     print(
         json.dumps(
-            create_brief(args.question, args.floorplan),
+            brief,
             ensure_ascii=True,
             indent=2 if args.pretty else None,
         )

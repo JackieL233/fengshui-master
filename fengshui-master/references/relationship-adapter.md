@@ -8,7 +8,7 @@ Use feng shui as a symbolic and environmental support lens for communication, pr
 
 ## Relationship Intake
 
-Ask for:
+Use these as precision inputs, not an opening questionnaire. Reuse explicit conversation context; after a useful provisional reading, ask at most three material questions and skip known or declined fields. Zero questions is valid. Missing essential evidence still limits precise or high-stakes recommendations.
 
 - Relationship type: romantic, family, roommate, friendship, team, client.
 - Goal: reduce conflict, improve communication, support privacy, make shared space calmer, decide timing, or understand pattern.

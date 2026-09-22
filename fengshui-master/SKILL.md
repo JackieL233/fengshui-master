@@ -15,11 +15,21 @@ Keep the answer transparent: state which school or method is being used, what in
 
 Fuse all relevant available context, not every file indiscriminately. Preserve provenance and resolve conflicts in this order: safety/law/native evidence, verified deterministic outputs, named traditional methods, modern symbolic mappings, then aesthetic preference.
 
+## Multi-turn Continuity
+
+Treat the current conversation as working context. Reuse explicit facts, constraints, corrections, and already recorded refusals; do not re-ask known facts or re-request declined inputs. A latest user correction supersedes the earlier value: retract dependent inferences and recalculate only affected outputs, leaving unrelated conclusions unchanged. On a follow-up, briefly orient to any material change or unchanged context and give the next step when useful, in the user's language; if nothing changed, say so and do not invent an update. Do not require literal headings on a tiny follow-up.
+
+Three is a ceiling for follow-up questions, not a quota: zero questions is valid. Honor an explicit "do not ask" request by asking zero questions unless urgent safety requires a necessary clarification; keep any safety guidance concise. Use actual host/user as-of date and timezone for live calculations; dates in examples are illustrative only. Keep birth location separate from present location and analysis timezone. Do not imply persistence, reminders, or external actions without an explicit user request. Keep symbolic mappings as interpretive lenses, never evidence that an event occurred. Keep a useful proactive cultural interpretation when a concrete user fact, artifact, or named deterministic method supports it; otherwise mark the point `unknown` and give the next practical way to verify it. Stay within requested scope; do not promise complete charts or universal predictions.
+
+Before keyword routing, resolve current-turn corrections and negation from the conversation. Preserve the user's actual current topic and reject any route triggered only by a denied, quoted, or stale fact.
+
 ## First Move
 
 Run an urgent safety and native-domain risk check first. Once immediate danger has been addressed, always lead with a bounded provisional current-posture headline before asking any non-urgent question. Sparse inputs lower confidence; they never suppress a useful provisional reading or justify opening with a questionnaire.
 
-Load `references/proactive-reading-protocol.md` for current-state, current-luck, life-phase, cross-domain, or decision readings. Follow its user-visible order: headline; known basis and assumptions; favorable factors; possible friction and ordinary manifestations; confirmation and disconfirmation signals; one immediate low-risk action; prioritized relevant cross-domain concerns; 72-hour / 30-day / 90-day actions; monitoring; then at most three high-value follow-up questions. Never state an unverified hidden event as fact, use cold reading, claim deterministic fate, or invent precision.
+Keep the risk check internal unless the supplied context gives a concrete reason to surface it. A vague "recently unlucky" request should not open with a generic emergency disclaimer. If the only evidence is a feeling of blockage, its source remains unknown: do not select a personalized five-phase imbalance or imply money, health, or relationship problems. Offer neutral, checkable possibilities and a useful low-risk next step.
+
+Load `references/proactive-reading-protocol.md` for current-state, current-luck, life-phase, cross-domain, or decision readings. For a substantial reading, follow its user-visible order: headline; known basis and assumptions; favorable factors; possible friction and ordinary manifestations; confirmation and disconfirmation signals; one immediate low-risk action; prioritized relevant cross-domain concerns; 72-hour / 30-day / 90-day actions; monitoring; then optionally zero to three high-value follow-up questions. Three is a ceiling, and zero is valid. For a short follow-up, briefly cover any material change or unchanged context and the next step when useful, without mandatory headings; include only relevant sections and do not repeat the full intake. Adapt the immediate horizon to the user's actual deadline rather than forcing fixed time bands. Never state an unverified hidden event as fact, use cold reading, claim deterministic fate, or invent precision.
 
 For each material claim, preserve `status`, `confidence`, `method`, `evidence_refs`, and `falsifiers`. Observations need a user or artifact pointer; calculations need tool, input, and method provenance; inferences need concrete basis and falsifiers; unknowns need missing inputs; recommendations need a basis, reversibility, and verification. In the full portable repository, enforce this with `examples/claim-evidence-policy.json`, `schemas/agent-claims.schema.json`, and `examples/validate_claim_evidence.py`.
 
@@ -50,7 +60,7 @@ Load `references/reporting-protocol.md` before turning a scaffold into a final a
 ## Workflow
 
 1. Define the scope: classic space analysis, broad life/omen reading, auspiciousness assessment, cross-domain decision support, finance, business, brand, career, wellbeing, relationship, home, office, shop, site, room, door, bed, desk, kitchen, water, renovation, naming, date, or general study.
-2. Use the evidence already available: plan/image, address context if offered, compass bearings, construction or move-in year, occupants' goals, constraints, and what can or cannot change. Defer non-urgent missing-input questions until after the provisional reading.
+2. Use the evidence already available: plan/image, address context if offered, compass bearings, construction or move-in year, occupants' goals, constraints, and what can or cannot change. On later turns, compare new input with the current conversation instead of restarting intake. Defer non-urgent missing-input questions until after the provisional reading.
 3. Choose frameworks:
    - Use `references/consultation-brief.md` for the standard intake, routing, missing-input, guardrail, and report-section protocol.
    - Use `references/reporting-protocol.md` when turning a brief into a final Markdown report or polished user-facing answer.
@@ -151,7 +161,9 @@ Structure substantial readings as:
 4. **Active pattern**: favorable factors, possible friction, ordinary manifestations, and confirmation/disconfirmation signals.
 5. **Action**: one immediate low-risk step, relevant cross-domain priorities, then 72-hour / 30-day / 90-day actions.
 6. **Monitoring**: observable signals and a review point.
-7. **Follow-up**: at most three high-value questions, plus any cultural or precision limits.
+7. **Follow-up**: zero to three high-value questions, plus any cultural or precision limits; three is a ceiling and zero is valid.
+
+For a short follow-up, briefly orient to any material change or unchanged context and the next step when useful, in the user's language; include only affected outputs, actions, signals, or questions. Do not require literal headings, fill every section, or repeat the full intake when it adds no value.
 
 ## Deterministic Tools
 
@@ -174,6 +186,8 @@ python fengshui-master/scripts/personal_context.py --birth-date 1998-03-22 --bir
 ```
 
 The output records supplied birth data, year-level ganzhi, optional ming gua, current san yuan period, annual directional cautions, approximate solar terms, and approximate moon phase. It deliberately omits month/day/hour pillars and all unsupported full-chart claims.
+
+For live readings, pass a localized `--as-of` or use `--current-timezone <IANA-zone>` to resolve today's date. `--timezone` records birth-context provenance only. Check `inputs.as_of_source`; without a current timezone, the default is the disclosed host-local date, not an inferred residence. Current-timezone lookup needs runtime IANA data; approximate astronomy remains date-only.
 
 Treat the brief as an intake contract, not the final answer.
 

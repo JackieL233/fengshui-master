@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import importlib.util
+import json
 from pathlib import Path
 from typing import Any
 
@@ -126,6 +127,37 @@ MISSING_INPUT_QUESTIONS = {
     "real constraints": "What deadlines, budgets, obligations, or other real constraints apply?",
 }
 
+# These keys intentionally cover only categories emitted by the router or the
+# canonical missing-input labels. Unknown questions continue to use exact-text
+# deduplication instead of speculative natural-language matching.
+INPUT_QUESTION_CATEGORIES = {
+    "decision type": "decision",
+    "time horizon": "time_horizon",
+    "risk tolerance": "risk_tolerance",
+    "liquidity needs": "liquidity",
+    "existing allocation or concentration": "allocation",
+    "financial thesis and downside condition": "financial_thesis",
+    "native domain": "domain",
+    "desired outcome": "desired_outcome",
+    "real constraints": "constraints",
+    "whether spatial, timing, or symbolic analysis is wanted": "analysis_mode",
+}
+
+CLARIFYING_QUESTION_CATEGORIES = {
+    "what real-world domain and decision should the reading support": {
+        "domain",
+        "decision",
+    },
+    "do you want spatial, timing, personal-context, or broad symbolic analysis": {
+        "analysis_mode",
+    },
+    "what concrete outcome, time horizon, and constraints matter most": {
+        "desired_outcome",
+        "time_horizon",
+        "constraints",
+    },
+}
+
 
 def heading_for(section: str) -> str:
     if "/" in section:
@@ -149,15 +181,93 @@ def ordered_domains(brief: dict[str, Any]) -> list[str]:
     return [str(value) for value in brief.get("domains", [brief["domain"]])]
 
 
+def normalize_question_text(value: str) -> str:
+    return " ".join(value.strip().casefold().rstrip(".?!").split())
+
+
+def input_question_category(label: str) -> str:
+    normalized = normalize_question_text(label)
+    return INPUT_QUESTION_CATEGORIES.get(normalized, f"input:{normalized}")
+
+
+def question_categories(prompt: str) -> set[str]:
+    normalized = normalize_question_text(prompt)
+    known_categories = CLARIFYING_QUESTION_CATEGORIES.get(normalized)
+    if known_categories is not None:
+        return set(known_categories)
+
+    if normalized.startswith("which domain should lead the analysis:"):
+        return {"domain"}
+
+    for label, question in MISSING_INPUT_QUESTIONS.items():
+        if normalized == normalize_question_text(question):
+            return {input_question_category(label)}
+    return set()
+
+
+def provided_input_values(brief: dict[str, Any]) -> dict[str, str]:
+    input_state = brief.get("input_state", {})
+    raw_values = input_state.get("provided_values", {})
+    if not isinstance(raw_values, dict):
+        return {}
+    return {str(label): str(value) for label, value in raw_values.items()}
+
+
+def provided_input_provenance(brief: dict[str, Any]) -> dict[str, str]:
+    input_state = brief.get("input_state", {})
+    raw_provenance = input_state.get("provenance", {})
+    if not isinstance(raw_provenance, dict):
+        return {}
+    return {str(label): str(value) for label, value in raw_provenance.items()}
+
+
+def provided_input_labels(brief: dict[str, Any]) -> list[str]:
+    input_state = brief.get("input_state", {})
+    raw_provided = input_state.get("provided", [])
+    labels: list[str] = []
+    if isinstance(raw_provided, dict):
+        labels.extend(str(label) for label in raw_provided)
+    elif isinstance(raw_provided, list):
+        labels.extend(str(label) for label in raw_provided)
+
+    for label in provided_input_values(brief):
+        if normalize_question_text(label) not in {
+            normalize_question_text(value) for value in labels
+        }:
+            labels.append(label)
+    return labels
+
+
 def render_known_basis(brief: dict[str, Any]) -> list[str]:
     domains = ", ".join(ordered_domains(brief))
-    provided = list(brief.get("input_state", {}).get("provided", []))
+    provided = provided_input_labels(brief)
+    values = {
+        normalize_question_text(label): value
+        for label, value in provided_input_values(brief).items()
+    }
+    provenance = provided_input_provenance(brief)
+    provided_values_source = provenance.get("provided_values")
     lines = [
         f"- User-supplied question: {brief['question']}",
         f"- Routed domain priority: {domains or brief['domain']}",
     ]
     if provided:
-        lines.append(f"- Explicitly provided inputs: {', '.join(provided)}")
+        lines.append("- Explicitly provided inputs:")
+        for label in provided:
+            value = values.get(normalize_question_text(label))
+            if value is None:
+                lines.append(
+                    f"  - {label} (source: user-supplied; value not captured)"
+                )
+            else:
+                source = (
+                    provided_values_source
+                    or "user-supplied; not independently verified"
+                )
+                lines.append(
+                    f"  - {label}: {value} "
+                    f"(source: {source})"
+                )
     else:
         lines.append(
             "- Explicit structured inputs: none beyond the question; keep the reading low-confidence and provisional."
@@ -182,6 +292,39 @@ def prioritized_missing_inputs(brief: dict[str, Any]) -> list[str]:
             if value in missing and value not in prioritized:
                 prioritized.append(value)
     return [*prioritized, *(value for value in missing if value not in prioritized)]
+
+
+def prioritized_high_risk_inputs(
+    brief: dict[str, Any], missing: list[str]
+) -> list[str]:
+    proactive = brief.get("proactive_delivery", {})
+    stop_conditions = proactive.get("stop_conditions", [])
+    essential_by_domain: dict[str, list[str]] = {}
+    if isinstance(stop_conditions, list):
+        for condition in stop_conditions:
+            if not isinstance(condition, dict):
+                continue
+            if condition.get("id") != "missing_high_stakes_evidence":
+                continue
+            evidence = condition.get("missing_essential_evidence", {})
+            if not isinstance(evidence, dict):
+                continue
+            for domain, values in evidence.items():
+                if not isinstance(values, list):
+                    continue
+                essential_by_domain.setdefault(str(domain), []).extend(
+                    str(value) for value in values
+                )
+
+    missing_by_key = {normalize_question_text(value): value for value in missing}
+    ordered: list[str] = []
+    domains = [*ordered_domains(brief), *essential_by_domain]
+    for domain in domains:
+        for value in essential_by_domain.get(domain, []):
+            canonical = missing_by_key.get(normalize_question_text(value))
+            if canonical is not None and canonical not in ordered:
+                ordered.append(canonical)
+    return ordered
 
 
 def phrase_missing_input(value: str) -> str:
@@ -213,22 +356,62 @@ def follow_up_prompts(brief: dict[str, Any]) -> list[str]:
         clarifying_questions = [
             value
             for value in clarifying_questions
-            if not value.casefold().startswith("which domain should lead")
+            if not normalize_question_text(value).startswith(
+                "which domain should lead the analysis:"
+            )
         ]
 
-    prompts: list[str] = []
-    candidates = [
-        *clarifying_questions,
-        *(phrase_missing_input(value) for value in prioritized_missing_inputs(brief)),
+    provided_labels = provided_input_labels(brief)
+    provided_categories = {
+        input_question_category(label) for label in provided_labels
+    }
+    missing = [str(value) for value in brief.get("missing_inputs", [])]
+    missing = [
+        value
+        for value in missing
+        if normalize_question_text(value)
+        not in {normalize_question_text(label) for label in provided_labels}
     ]
-    for candidate in candidates:
+    high_risk_inputs = prioritized_high_risk_inputs(brief, missing)
+    regular_missing_inputs = prioritized_missing_inputs(brief)
+    missing_candidates: list[str] = []
+    seen_missing: set[str] = set()
+    for value in [*high_risk_inputs, *regular_missing_inputs]:
+        value_key = normalize_question_text(value)
+        if value_key in seen_missing or value_key not in {
+            normalize_question_text(item) for item in missing
+        }:
+            continue
+        seen_missing.add(value_key)
+        missing_candidates.append(value)
+
+    prompts: list[str] = []
+    selected_categories: set[str] = set()
+    seen_prompts: set[str] = set()
+    candidates = [
+        *((phrase_missing_input(value), {input_question_category(value)})
+          for value in high_risk_inputs),
+        *((value, question_categories(value)) for value in clarifying_questions),
+        *((phrase_missing_input(value), {input_question_category(value)})
+          for value in missing_candidates
+          if value not in high_risk_inputs),
+    ]
+    for candidate, categories in candidates:
         prompt = candidate.strip()
         if not prompt:
             continue
         if prompt[-1] not in "?!":
             prompt = f"{prompt}?"
-        if prompt.casefold() not in {value.casefold() for value in prompts}:
-            prompts.append(prompt)
+        prompt_key = normalize_question_text(prompt)
+        if prompt_key in seen_prompts:
+            continue
+        if categories and categories & provided_categories:
+            continue
+        if categories and categories & selected_categories:
+            continue
+        prompts.append(prompt)
+        seen_prompts.add(prompt_key)
+        selected_categories.update(categories)
         if len(prompts) == question_budget:
             break
     return prompts
@@ -349,8 +532,17 @@ def render_floorplan_analysis(analysis: dict[str, Any] | None) -> str:
     return "\n".join(lines)
 
 
-def generate_report(question: str, floorplan_path: str | None = None) -> str:
-    brief = brief_module.create_brief(question, floorplan_path)
+def generate_report(
+    question: str,
+    floorplan_path: str | None = None,
+    known_inputs: dict[str, str] | None = None,
+) -> str:
+    if known_inputs is None:
+        brief = brief_module.create_brief(question, floorplan_path)
+    else:
+        brief = brief_module.create_brief(
+            question, floorplan_path, known_inputs=known_inputs
+        )
     lines = [
         "# FengShui Master Consultation Report",
         "",
@@ -418,10 +610,30 @@ def main() -> None:
     )
     parser.add_argument("question", help="User question or consultation goal.")
     parser.add_argument("--floorplan", help="Optional structured floor-plan JSON path.")
+    parser.add_argument(
+        "--known-inputs", help="Optional JSON object of canonical input labels to values."
+    )
     parser.add_argument("--output", help="Optional output Markdown path.")
     args = parser.parse_args()
 
-    report = generate_report(args.question, args.floorplan)
+    known_inputs = None
+    if args.known_inputs is not None:
+        try:
+            known_inputs = json.loads(
+                Path(args.known_inputs).read_text(encoding="utf-8")
+            )
+        except (OSError, json.JSONDecodeError) as error:
+            parser.error(f"could not read --known-inputs JSON: {error}")
+        if not isinstance(known_inputs, dict):
+            parser.error("--known-inputs must contain a JSON object")
+
+    try:
+        if known_inputs is None:
+            report = generate_report(args.question, args.floorplan)
+        else:
+            report = generate_report(args.question, args.floorplan, known_inputs)
+    except (TypeError, ValueError) as error:
+        parser.error(str(error))
     if args.output:
         output = Path(args.output)
         output.write_text(report, encoding="utf-8")

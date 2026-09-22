@@ -1,6 +1,6 @@
 {
   "name": "fengshui-master-response-contract",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "purpose": "Machine-readable final-answer contract for portable agents, RAG systems, local assistants, and report generators using FengShui Master.",
   "proactive_defaults": {
     "mode": "provisional_first",
@@ -22,6 +22,18 @@
       "action_horizons_and_monitoring",
       "follow_up_questions"
     ]
+  },
+  "conversation_defaults": {
+    "context_scope": "explicit_current_conversation",
+    "repeat_known_questions": false,
+    "repeat_declined_questions": false,
+    "question_budget_is_target": false,
+    "follow_up_mode": "changes_then_next_action",
+    "correction_policy": "Use the latest explicit user correction, retract affected inferences, and refresh only dependent calculations. If a conflict is unresolved, label it unknown rather than silently merging values.",
+    "freshness_policy": "Resolve now from the host date and relevant local timezone; distinguish birth location from current location. Recheck time-sensitive facts and do not reuse example dates as current readings.",
+    "no_new_evidence_policy": "Say that no change can yet be established; do not invent a changed fortune, event, or successful remedy. Offer an observable check or continue a still-safe action.",
+    "consent_policy": "Reuse only available context. Do not persist sensitive context, schedule reminders, or execute purchases, trades, bookings, or other external actions without the user's request.",
+    "response_depth": "For short follow-ups, compress the reading to the changed assessment, basis, and next step. Zero questions is valid; respect requests for no questions, and adapt horizons to actual deadlines."
   },
   "required_sections": [
     {
@@ -118,10 +130,12 @@
     "In high-stakes domains, lead with native-domain evidence, safeguards, stop conditions, and professional boundaries; keep feng shui and wuxing as secondary symbolic support.",
     "When adapting to an unknown domain, define native goals, constraints, evidence, failure modes, and observable signals before declaring a transparent, falsifiable modern symbolic mapping.",
     "Ask no more than three high-value follow-up questions, and ask them only after delivering the provisional headline, supporting scan, and at least one immediate low-risk action.",
+    "Reuse explicit current-conversation facts; do not ask again for supplied or declined inputs. A correction invalidates affected prior inferences, not the user's credibility.",
+    "On follow-up, explain what changed, what remains uncertain, and the next action before any optional question. No new evidence means no newly asserted change in fortune.",
     "Label material statements as observed, calculated, inferred, unknown, or recommended, and never present an inference as a user-confirmed fact.",
     "For every material claim preserve confidence, method, evidence_refs, and falsifiers; require user or artifact pointers for observations, tool and input provenance for calculations, basis_refs for inferences, missing_inputs for unknowns, and verification for recommendations.",
     "For each relevant scanned domain, state favorable signals, possible friction, how it may manifest, what would confirm or refute it, and one immediate low-risk action.",
-    "End substantial proactive readings with prioritized actions for the next 72 hours, next 30 days, and next 90 days plus observable monitoring signals.",
+    "End substantial proactive readings with prioritized actions for the next 72 hours, next 30 days, and next 90 days plus observable monitoring signals; shorten these horizons when an actual deadline or the user's requested brevity makes them unsuitable.",
     "Use deterministic scripts when available and state limitations when a calculation is approximate or unavailable.",
     "Treat moon phase, annual afflictions, ganzhi, ming gua, and flying-star helpers as limited scaffolds, not complete almanac or natal-chart engines.",
     "Prefer low-cost, reversible, safe, and testable adjustments before symbolic remedies or major changes.",

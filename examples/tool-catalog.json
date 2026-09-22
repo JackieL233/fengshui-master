@@ -41,6 +41,7 @@
       "inputs": [
         {"name": "question", "type": "string", "required": true, "description": "User question or consultation goal."},
         {"name": "floorplan", "type": "path", "required": false, "description": "Optional structured floor-plan JSON path."},
+        {"name": "known_inputs", "type": "path", "required": false, "description": "CLI --known-inputs JSON path: exact intake labels to nonblank supplied strings; unverified context, not saved memory. Python API accepts the object directly."},
         {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
       ],
       "output_format": "json",
@@ -58,8 +59,9 @@
         {"name": "birth_time", "type": "string", "required": false, "description": "Civil birth time in 24-hour HH:MM format; recorded but not converted into an hour pillar."},
         {"name": "sex", "type": "string", "required": false, "description": "Formula input for the common ming gua helper: male or female."},
         {"name": "birth_location", "type": "string", "required": false, "description": "Birth locality for provenance and future timezone-sensitive integrations."},
-        {"name": "timezone", "type": "string", "required": false, "description": "IANA-style timezone label when known."},
-        {"name": "as_of", "type": "date", "required": false, "description": "Gregorian analysis date; defaults to the current local date."},
+        {"name": "timezone", "type": "string", "required": false, "description": "Birth-context IANA timezone provenance; never assumed to be the current location."},
+        {"name": "current_timezone", "type": "string", "required": false, "description": "Current analysis IANA timezone for today's date; requires runtime timezone data."},
+        {"name": "as_of", "type": "date", "required": false, "description": "Explicit Gregorian analysis date; otherwise current_timezone clock or disclosed host-local fallback. Output includes as_of_source."},
         {"name": "year_boundary", "type": "string", "required": false, "description": "Year-level convention: gregorian or documented li_chun_approx."},
         {"name": "pretty", "type": "boolean", "required": false, "description": "Print indented JSON."}
       ],
@@ -76,6 +78,7 @@
       "inputs": [
         {"name": "question", "type": "string", "required": true, "description": "User question or consultation goal."},
         {"name": "floorplan", "type": "path", "required": false, "description": "Optional structured floor-plan JSON path."},
+        {"name": "known_inputs", "type": "path", "required": false, "description": "CLI --known-inputs JSON path; reuses explicit intake context without repeating supplied questions. Values may appear in the report."},
         {"name": "output", "type": "path", "required": false, "description": "Optional output Markdown path."}
       ],
       "output_format": "markdown",

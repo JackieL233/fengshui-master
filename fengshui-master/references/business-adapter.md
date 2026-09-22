@@ -8,7 +8,7 @@ Use feng shui as a symbolic and operational lens for flow, support, leakage, tim
 
 ## Business Intake
 
-Ask for:
+Use these as precision inputs, not an opening questionnaire. Reuse explicit conversation context; after a useful provisional reading, ask at most three material questions and skip known or declined fields. Zero questions is valid. Missing essential evidence still limits precise or high-stakes recommendations.
 
 - Business model and stage.
 - Main goal: revenue, retention, launch, hiring, cash flow, customer experience, partnership, or operations.

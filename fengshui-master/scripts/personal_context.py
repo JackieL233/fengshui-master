@@ -198,11 +198,27 @@ def build_personal_context(
     sex: str | None = None,
     birth_location: str | None = None,
     timezone: str | None = None,
+    current_timezone: str | None = None,
     as_of: date | None = None,
     year_boundary: str = "gregorian",
 ) -> dict[str, Any]:
-    target = as_of or date.today()
     timezone = validate_timezone(timezone)
+    current_zone = None
+    if current_timezone is not None:
+        try:
+            current_zone = ZoneInfo(current_timezone)
+        except (ZoneInfoNotFoundError, ValueError) as exc:
+            raise ValueError(
+                "current timezone is unknown or unavailable in the runtime IANA database; "
+                "supply a localized --as-of and omit --current-timezone, or install timezone data"
+            ) from exc
+    if as_of is not None:
+        target, as_of_source = as_of, "explicit_analysis_date"
+    elif current_zone is not None:
+        target = datetime.now(current_zone).date()
+        as_of_source = "current_timezone_clock"
+    else:
+        target, as_of_source = date.today(), "host_local_date_no_current_timezone"
     birth_effective_year, birth_boundary = effective_year_for_date(
         birth_date, year_boundary
     )
@@ -211,6 +227,13 @@ def build_personal_context(
     )
     birth_year = asdict(ganzhi.ganzhi_for_year(birth_effective_year))
     current_year = asdict(ganzhi.ganzhi_for_year(current_effective_year))
+    if year_boundary == "li_chun_approx":
+        for scaffold in (birth_year, current_year):
+            scaffold["boundary_note"] = (
+                "This wrapper selects the effective year using an approximate February 4 "
+                "Li Chun boundary, then applies the year-label ganzhi helper; "
+                "it does not calculate the exact local Li Chun moment."
+            )
     personal_gua = (
         asdict(minggua.ming_gua(birth_effective_year, sex)) if sex else None
     )
@@ -233,14 +256,18 @@ def build_personal_context(
             "sex": sex,
             "birth_location": birth_location,
             "timezone": timezone,
+            "current_timezone": current_timezone,
             "as_of": target.isoformat(),
+            "as_of_source": as_of_source,
             "year_boundary": year_boundary,
         },
         "input_usage": {
             "birth_date": "used for the selected year-boundary scaffold and approximate date helpers",
             "birth_time": "recorded for external full-chart or precision-calendar work; not used in the bundled year-level calculations",
             "birth_location": "recorded for external locality-sensitive work; not geocoded or used in the bundled calculations",
-            "timezone": "recorded for external precision work; date-only bundled helpers do not use an exact instant",
+            "timezone": "birth-context provenance only; never assumed to be the user's current timezone",
+            "current_timezone": "resolves today's local analysis date when as_of is omitted; does not localize approximate astronomy",
+            "as_of": "explicit date takes precedence; otherwise current_timezone clock or a disclosed host-local fallback",
         },
         "validation_provenance": {
             "timezone": timezone_validation_level(timezone),
@@ -292,14 +319,15 @@ def main() -> None:
     parser.add_argument("--birth-time", type=parse_time)
     parser.add_argument("--sex", choices=["male", "female"])
     parser.add_argument("--birth-location")
-    parser.add_argument("--timezone")
+    parser.add_argument("--timezone", help="Birth-context IANA timezone provenance; not current residence.")
+    parser.add_argument("--current-timezone", help="Current analysis IANA timezone used to resolve today when --as-of is omitted.")
     parser.add_argument(
         "--year-boundary",
         choices=["gregorian", "li_chun_approx"],
         default="gregorian",
         help="Year boundary convention for year-level ganzhi and ming gua scaffolds.",
     )
-    parser.add_argument("--as-of", type=parse_date, default=date.today())
+    parser.add_argument("--as-of", type=parse_date, help="Explicit local analysis date; overrides the current clock.")
     parser.add_argument("--pretty", action="store_true", help="Print indented JSON.")
     args = parser.parse_args()
 
@@ -310,6 +338,7 @@ def main() -> None:
             sex=args.sex,
             birth_location=args.birth_location,
             timezone=args.timezone,
+            current_timezone=args.current_timezone,
             as_of=args.as_of,
             year_boundary=args.year_boundary,
         )

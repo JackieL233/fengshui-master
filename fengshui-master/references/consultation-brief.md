@@ -20,6 +20,8 @@ python fengshui-master/scripts/create_brief.py "Review this apartment" --floorpl
 
 ## Brief Fields
 
+For follow-ups, reuse explicit current-conversation inputs with `--known-inputs <path.json>` (or Python `known_inputs=`). Supply an object whose keys are exact labels in `DOMAIN_MISSING_INPUTS` in `create_brief.py` and whose values are nonblank strings. For example, `{"time horizon": "Three years"}` removes that input from the missing list. Values are unverified supplied context, may appear in the output, and are never stored automatically. Update corrected values before calling; do not encode guesses or declined inputs as facts. The current question still determines routing, so include its already-known topic in elliptical follow-ups.
+
 | Field | Meaning |
 | --- | --- |
 | question | User's consultation goal |
@@ -28,6 +30,7 @@ python fengshui-master/scripts/create_brief.py "Review this apartment" --floorpl
 | guardrails | Claims or behaviors to avoid |
 | lenses | Symbolic lenses to consider |
 | missing_inputs | Inputs that would improve confidence |
+| input_state | Provided and missing labels; optional supplied values and provenance when known-input context is passed |
 | proactive_delivery | Provisional-first order, safety stops, domain priorities, and follow-up question budget |
 | report_sections | Suggested final answer structure |
 | floorplan_analysis | Structured plan intake result when supplied |
@@ -40,7 +43,7 @@ The generated reference set also includes `proactive-reading-protocol.md`, and t
 1. Generate the brief for non-trivial requests.
 2. Load only the references named by the brief.
 3. Handle urgent safety stops immediately; otherwise give a provisional reading with explicit assumptions before asking questions.
-4. After useful findings, actions, and monitoring, ask at most three missing-input questions that materially change precision or responsible action.
+4. After useful findings, actions, and monitoring, ask at most three missing-input questions that materially change precision or responsible action. Skip known and declined inputs; zero questions is valid. The host must omit declined questions from the final answer because the CLI does not store refusal history.
 5. Follow the report sections, but keep the final answer proportional to the user's request.
 
 ## Domain Notes

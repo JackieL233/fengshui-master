@@ -6,6 +6,11 @@ All notable changes to FengShui Master are documented here.
 
 ### Added
 
+- Added multi-turn continuity rules for supplied context, corrections, declined inputs, current-date provenance, concise follow-ups, and evidence-based action review across portable and Codex entrypoints.
+- Added optional `--known-inputs` context to brief/report tools, semantic follow-up deduplication, and priority for missing high-stakes evidence. Supplied values remain unverified context, not a suitability assessment or persistent memory.
+- Added a machine-readable conversation contract and nine manual bilingual multi-turn acceptance scenarios alongside focused runtime regression tests.
+- Added `--current-timezone` and explicit analysis-date provenance to personal context, keeping birth timezone separate; aligned nested ganzhi notes with the selected approximate Li Chun convention.
+
 - Positioned FengShui Master as a portable AI skill and Codex-compatible capability pack.
 - Added `PORTABLE_SKILL.md` for platform-independent agent instructions.
 - Added `portable-skill.json` as a machine-readable manifest for entrypoints, references, tools, evaluation assets, governance files, domains, and guardrails.

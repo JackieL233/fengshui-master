@@ -8,6 +8,7 @@
     "version",
     "purpose",
     "proactive_defaults",
+    "conversation_defaults",
     "required_sections",
     "high_stakes_disclosures",
     "answer_rules",
@@ -22,6 +23,7 @@
     "version": { "type": "string" },
     "purpose": { "type": "string" },
     "proactive_defaults": { "$ref": "#/$defs/proactiveDefaults" },
+    "conversation_defaults": { "$ref": "#/$defs/conversationDefaults" },
     "required_sections": {
       "type": "array",
       "minItems": 6,
@@ -42,6 +44,27 @@
   },
   "additionalProperties": false,
   "$defs": {
+    "conversationDefaults": {
+      "type": "object",
+      "required": [
+        "context_scope", "repeat_known_questions", "repeat_declined_questions",
+        "question_budget_is_target", "follow_up_mode", "correction_policy",
+        "freshness_policy", "no_new_evidence_policy", "consent_policy", "response_depth"
+      ],
+      "properties": {
+        "context_scope": { "const": "explicit_current_conversation" },
+        "repeat_known_questions": { "const": false },
+        "repeat_declined_questions": { "const": false },
+        "question_budget_is_target": { "const": false },
+        "follow_up_mode": { "const": "changes_then_next_action" },
+        "correction_policy": { "type": "string", "minLength": 20 },
+        "freshness_policy": { "type": "string", "minLength": 20 },
+        "no_new_evidence_policy": { "type": "string", "minLength": 20 },
+        "consent_policy": { "type": "string", "minLength": 20 },
+        "response_depth": { "type": "string", "minLength": 20 }
+      },
+      "additionalProperties": false
+    },
     "proactiveDefaults": {
       "type": "object",
       "required": [

@@ -65,6 +65,30 @@ def fail(errors: list[str], message: str) -> None:
     errors.append(message)
 
 
+def validate_conversation_defaults(value: object) -> list[str]:
+    if not isinstance(value, dict):
+        return ["conversation_defaults must be an object"]
+    errors: list[str] = []
+    constants = {
+        "context_scope": "explicit_current_conversation",
+        "repeat_known_questions": False,
+        "repeat_declined_questions": False,
+        "question_budget_is_target": False,
+        "follow_up_mode": "changes_then_next_action",
+    }
+    for field, expected in constants.items():
+        actual = value.get(field)
+        if type(actual) is not type(expected) or actual != expected:
+            errors.append(f"conversation_defaults {field} must be {expected!r}")
+    for field in [
+        "correction_policy", "freshness_policy", "no_new_evidence_policy",
+        "consent_policy", "response_depth",
+    ]:
+        if not isinstance(value.get(field), str) or len(value[field].strip()) < 20:
+            errors.append(f"conversation_defaults missing substantive {field}")
+    return errors
+
+
 def load_json(errors: list[str], path: Path) -> dict:
     if not path.exists():
         fail(errors, f"missing {path.relative_to(ROOT)}")
@@ -86,6 +110,7 @@ def main() -> int:
         fail(errors, "contract name must be fengshui-master-response-contract")
     if schema.get("title") != "FengShui Master Response Contract":
         fail(errors, "response contract schema has wrong title")
+    errors.extend(validate_conversation_defaults(contract.get("conversation_defaults")))
 
     proactive = contract.get("proactive_defaults", {})
     if not isinstance(proactive, dict):
@@ -111,6 +136,8 @@ def main() -> int:
     schema_required = schema.get("required", [])
     if "proactive_defaults" not in schema_required:
         fail(errors, "response contract schema must require proactive_defaults")
+    if "conversation_defaults" not in schema_required:
+        fail(errors, "response contract schema must require conversation_defaults")
 
     sections = contract.get("required_sections", [])
     if not isinstance(sections, list) or not sections:

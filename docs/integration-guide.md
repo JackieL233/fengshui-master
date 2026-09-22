@@ -142,6 +142,37 @@ For structured floor plans:
 python fengshui-master/scripts/analyze_floorplan.py fengshui-master/assets/sample-floorplan.json --pretty
 ```
 
+## Conversation Context
+
+The assistant should reuse explicit facts in the current conversation without asking for them again. Apply the latest correction before calling tools. Preserve declined or unknown inputs as unknown; do not fill them with guesses. Follow-ups should explain changes and the next action, not restart the intake. See the manual multi-turn scenarios in `examples/portable-agent-prompts.md` and `conversation_defaults` in `examples/response-contract.json`.
+
+Both `create_brief.py` and `generate_report.py` accept an optional `--known-inputs <path.json>`. The JSON must be an object mapping exact labels from `DOMAIN_MISSING_INPUTS` in `create_brief.py` to nonempty strings. For example:
+
+```json
+{
+  "decision type": "Review my habit of chasing fund performance; no trade request",
+  "time horizon": "Three years",
+  "liquidity needs": "Emergency savings are held separately"
+}
+```
+
+```bash
+python fengshui-master/scripts/create_brief.py "Review my fund-investing habits" --known-inputs context.json --pretty
+python fengshui-master/scripts/generate_report.py "Review my fund-investing habits" --known-inputs context.json
+```
+
+Python callers can pass the object as `known_inputs=` to either function, avoiding a context file. The tools do not remember previous runs or write context files themselves. The report echoes supplied values, so omit sensitive details that should not enter the output. The host remains responsible for context provenance, relevant scope, conflicts, and retention consent. Unknown labels, blank values and non-string values are rejected. Supplying all fields never proves financial suitability, factual accuracy, or professional review. Current urgent risk still overrides prior context.
+
+The current question determines domain routing. For elliptical follow-ups such as "what next?", the host should state the relevant already-known topic in the tool's question, without inventing new facts. The dictionary does not route topics or parse chat history. A declined field is not a supplied fact: hosts must suppress that optional question in the final answer instead of encoding a fabricated value. Three questions is a ceiling, not a target.
+
+For "now", use the actual analysis date and relevant current timezone; never reuse dates from examples. Birthplace does not establish current residence. Brief/report tools are still scaffolds, not full language-model readings or automatic monitoring services.
+
+`personal_context.py --current-timezone America/New_York` resolves today's date in that zone when `--as-of` is omitted. The legacy `--timezone` flag records birth-context provenance only. Output records `as_of_source`; an explicit `--as-of` wins, and no current timezone means a disclosed host-local fallback. If the runtime lacks IANA data, provide the already-localized `--as-of` and omit `--current-timezone`. Moon/solar-term helpers remain approximate date-only scaffolds, not exact local astronomy.
+
+Windows development dependencies include `tzdata`; portable Python hosts without a system IANA database can install it with `python -m pip install tzdata`. Other script features can still run without it when an explicit analysis date is supplied.
+
+中文接入要点：把本轮对话中用户已明确的信息传给 `known_inputs`，不要自动保存敏感资料。纠正信息后更新输入并撤回受影响的旧结论；用户拒绝提供的信息继续标为未知，不重复追问。追问先说判断变化和下一步，三个问题只是上限。工具会在输出中显示传入值，宿主应控制隐私；“最近/现在”必须绑定真实分析日期，而不是示例日期。
+
 ## Codex Setup
 
 For Codex, copy `fengshui-master/` into the local skills directory and invoke `$fengshui-master`. Codex uses `fengshui-master/SKILL.md`, but the underlying references, scripts, evaluation files, and guardrails are the same portable assets described here.

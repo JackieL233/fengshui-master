@@ -1,12 +1,26 @@
+import importlib.util
 import json
 import subprocess
 import sys
 import unittest
+from unittest.mock import patch
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "fengshui-master" / "scripts" / "personal_context.py"
+
+
+def load_context_module():
+    sys.path.insert(0, str(SCRIPT.parent))
+    try:
+        spec = importlib.util.spec_from_file_location("personal_context_test", SCRIPT)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+    finally:
+        sys.path.pop(0)
 
 
 def run_context(*args):
@@ -39,6 +53,7 @@ class PersonalContextScriptTest(unittest.TestCase):
 
         self.assertEqual(data["method"], "personal-feng-shui-context-scaffold")
         self.assertEqual(data["inputs"]["birth_date"], "1998-03-22")
+        self.assertEqual(data["inputs"]["as_of_source"], "explicit_analysis_date")
         self.assertEqual(data["birth_context"]["year_ganzhi"]["ganzhi_hanzi"], "戊寅")
         self.assertEqual(data["birth_context"]["ming_gua"]["gua_number"], 2)
         self.assertEqual(data["current_context"]["year_ganzhi"]["ganzhi_hanzi"], "丙午")
@@ -208,6 +223,46 @@ class PersonalContextScriptTest(unittest.TestCase):
             "not the exact local solar-term moment",
             data["birth_context"]["year_boundary_provenance"]["precision"],
         )
+        for context in ["birth_context", "current_context"]:
+            self.assertIn("Li Chun", data[context]["year_ganzhi"]["boundary_note"])
+            self.assertNotIn("uses the Gregorian year label", data[context]["year_ganzhi"]["boundary_note"])
+
+    def test_current_timezone_clock_handles_cross_date_boundary(self):
+        module = load_context_module()
+
+        class FixedDatetime(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return datetime(2026, 9, 22, 12, tzinfo=timezone.utc).astimezone(tz)
+
+        with patch.object(module, "datetime", FixedDatetime):
+            with patch.object(module, "ZoneInfo", return_value=timezone(timedelta(hours=14))):
+                east = module.build_personal_context(date(1998, 3, 22), current_timezone="Pacific/Kiritimati")
+            with patch.object(module, "ZoneInfo", return_value=timezone(timedelta(hours=-4))):
+                west = module.build_personal_context(date(1998, 3, 22), current_timezone="America/New_York")
+        self.assertEqual(east["inputs"]["as_of"], "2026-09-23")
+        self.assertEqual(west["inputs"]["as_of"], "2026-09-22")
+        self.assertEqual(east["inputs"]["as_of_source"], "current_timezone_clock")
+
+    def test_explicit_date_overrides_clock_and_birth_timezone_is_not_current(self):
+        module = load_context_module()
+        with patch.object(module, "datetime") as clock:
+            data = module.build_personal_context(date(1998, 3, 22), timezone="Asia/Shanghai", as_of=date(2026, 1, 1))
+        clock.now.assert_not_called()
+        self.assertIsNone(data["inputs"]["current_timezone"])
+        self.assertEqual(data["inputs"]["as_of"], "2026-01-01")
+        self.assertEqual(data["inputs"]["as_of_source"], "explicit_analysis_date")
+
+    def test_host_date_fallback_is_disclosed(self):
+        module = load_context_module()
+        data = module.build_personal_context(date(1998, 3, 22))
+        self.assertEqual(data["inputs"]["as_of_source"], "host_local_date_no_current_timezone")
+
+    def test_unavailable_current_timezone_does_not_silently_use_host_date(self):
+        module = load_context_module()
+        with patch.object(module, "ZoneInfo", side_effect=module.ZoneInfoNotFoundError("unavailable")):
+            with self.assertRaisesRegex(ValueError, "localized --as-of"):
+                module.build_personal_context(date(1998, 3, 22), current_timezone="Pacific/Kiritimati")
 
     def test_invalid_timezone_is_rejected(self):
         result = subprocess.run(

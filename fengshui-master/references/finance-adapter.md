@@ -24,7 +24,7 @@ Always say, when appropriate:
 
 ## Finance Intake
 
-Ask for:
+Use these as precision inputs, not an opening questionnaire. Reuse explicit conversation context; after a useful provisional reading, ask at most three material questions and skip known or declined fields. Zero questions is valid. Missing essential evidence still limits precise or high-stakes recommendations.
 
 - Decision type: buy, sell, hold, rebalance, budget, save, invest, launch business, reduce debt.
 - Time horizon.

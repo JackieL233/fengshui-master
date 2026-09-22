@@ -5,6 +5,7 @@ Use this protocol for current-luck, life-phase, ji/xiong, decision, finance, car
 ## Table of Contents
 
 - Core Proactive Rule
+- Multi-turn Continuity
 - Required Delivery Order
 - Evidence Status Labels
 - Minimum Input and Provisional Reading
@@ -33,6 +34,19 @@ Proactively identify:
 
 Only scan the requested domain and materially relevant adjacent domains. A finance question may need decision load and resource-flow context; it does not automatically require relationship or health claims. A personal current-luck reading may scan several life domains, but must not invent events.
 
+## Multi-turn Continuity
+
+Treat each response as a delta update over the current conversation, not a fresh intake.
+
+- Reuse explicit facts, constraints, corrections, and already supplied context. Respect an explicit refusal to provide a fact; do not ask again unless the user volunteers it or asks to revisit it.
+- The latest user correction supersedes the earlier value. Retract inferences that depend on the corrected fact and recalculate only affected outputs; keep unrelated conclusions unless their evidence also changed.
+- Before keyword routing, resolve current-turn corrections and negation from the conversation. Preserve the user's actual current topic and reject any route triggered only by a denied, quoted, or stale fact.
+- In a follow-up, briefly cover any material change or unchanged context and the next step when useful, in the user's language; do not require literal headings. If there is no new information, say that there is no material update and do not invent a change. Do not repeat the full intake or fill headings that add no value in a short follow-up.
+- Adapt the immediate horizon to the user's actual deadline. A deadline within hours or days takes priority; 72-hour / 30-day / 90-day bands are planning defaults, not mandatory sections.
+- For live calculations, use the actual host/user as-of date and timezone; dates in examples are illustrative only. Keep birth location separate from present location and analysis timezone.
+- Respond in the user's language. Do not imply persistence, reminders, or external actions without an explicit user request. Stay within the requested scope; do not promise complete charts or universal predictions.
+- Keep proactive cultural interpretation when it has a concrete basis in user facts, artifacts, or named deterministic methods. When no concrete basis is available, mark the point `unknown` and state what would verify it. A symbolic mapping is never evidence that an event occurred or will occur.
+
 ## Required Delivery Order
 
 Use this user-visible sequence for every substantial proactive reading:
@@ -46,7 +60,7 @@ Use this user-visible sequence for every substantial proactive reading:
 7. **Immediate low-risk action**: give one reversible step that remains useful even if the symbolic interpretation is wrong.
 8. **Priorities and horizons**: rank the requested and materially adjacent domains, then give actions for the next 72 hours, 30 days, and 90 days.
 9. **Monitoring**: define observable signals and a review point.
-10. **Follow-up questions**: only now ask up to three questions that would materially change confidence, priority, or action.
+10. **Follow-up questions**: only now, and only if useful, optionally ask zero to three questions that would materially change confidence, priority, or action. Three is a ceiling, and zero is valid. Honor an explicit "do not ask" request by asking zero questions unless urgent safety requires a necessary clarification; keep any safety guidance concise.
 
 Do not place an intake questionnaire, methodology lesson, disclaimer block, or missing-data list ahead of the headline unless immediate safety triage requires it. Keep necessary high-stakes warnings concise so the useful reading remains visible.
 
@@ -64,17 +78,25 @@ Attach one of these statuses to every material finding:
 
 Never relabel an inference as an observation. A plausible-sounding statement is still `inferred` until the user confirms it.
 
+A symbolic mapping by itself is an interpretive lens, not evidence that an event occurred or will occur.
+
+When only behavior or feelings are supplied, describe five-phase language as a modern analogy (for example, Wood as exploring options and Metal as setting boundaries). Do not turn "I keep changing plans" into an asserted personal "Wood excess / Metal deficiency" or an unseen chart diagnosis. Keep even a one-step answer tied to the user's description rather than declaring an unverified cause.
+
+If the only supplied evidence is feeling unlucky or blocked, do not pick a personalized phase imbalance, suspected financial leak, illness, or relationship conflict to fill the scan. The source is unknown. Offer a small number of competing, neutrally phrased explanations to check, and distinguish an available next step from evidence of favorable fortune. Surface emergency triage only when the context warrants it, not as a generic opening disclaimer.
+
 ## Minimum Input and Provisional Reading
 
 Proceed when the request and native domain are understandable enough to form a bounded hypothesis. If the target period is absent, default to the present and label that assumption. State assumptions and give a provisional scan even if optional birth, floor-plan, financial, or environmental data is missing.
 
-Only immediate danger or a safety-critical ambiguity may require clarification before the headline. Otherwise, give the narrowest useful provisional posture first. Afterward, ask a concise follow-up when:
+Only immediate danger or a safety-critical ambiguity may require clarification before the headline. Otherwise, give the narrowest useful provisional posture first. Only if useful and permitted, ask a concise follow-up when:
 
 - The native domain cannot be identified.
 - A safety, medical, legal, financial, privacy, consent, or emergency fact could materially change the next action.
 - The user requests precise calculation but the required date, timezone, bearing, chart, or candidate data is absent.
 
 Missing precision limits confidence; it does not require replacing the answer with a questionnaire. When precise calculation is unavailable, distinguish the useful qualitative reading from the calculation that cannot yet be made. Never infer missing pillars, bearings, dates, measurements, events, or personal history.
+
+An adapter's "Ask for" list is an optional precision inventory, not a mandatory questionnaire. When an adapter is retrieved alone, it cannot override this protocol's zero-to-three question ceiling: reuse current-conversation context, honor declined fields, ask only what is useful and permitted, and continue with clearly labeled unknowns when precision is unavailable.
 
 ## Current-State Scan
 
@@ -121,7 +143,7 @@ Turn inferred difficulties into short validation prompts:
 - "The symbolic concern is resource leakage. Check whether subscriptions, fees, frequent strategy changes, or concentration are measurable before accepting that interpretation."
 - "This looks more favorable for preparation than public activation. Would moving the date improve practical readiness, or would it create a larger real-world cost?"
 
-Ask at most three high-impact validation questions in one response, only after the provisional reading, actions, and monitoring. Do not ask for information already supplied. A user correction overrides the inference.
+Ask zero to three high-impact validation questions in one response, only after the provisional reading, actions, and monitoring; three is a ceiling and zero is valid. Do not ask for information already supplied or after an explicit "do not ask" request unless urgent safety requires a necessary clarification. A user correction overrides the inference.
 
 ## Action Horizons
 
@@ -142,9 +164,13 @@ End a substantial proactive reading with prioritized actions:
 - Consolidate what worked, stop ineffective remedies, and reconsider larger timing, allocation, role, naming, or spatial choices using updated evidence.
 - Escalate to a qualified professional when native-domain risk warrants it.
 
+The immediate horizon is relative to the user's deadline. If a deadline is sooner than 72 hours, prioritize the hours or days before it; if it is later, state the next useful checkpoint. Use the 72-hour / 30-day / 90-day bands when they help, not as mandatory headings for a short follow-up.
+
 ## Monitoring and Review
 
 Define two to five observable signals and a review date. Examples include sleep regularity, number of active projects, cash buffer, drawdown, missed deadlines, conversion, conflict frequency, clutter reappearance, or room comfort.
+
+Improvement after an action is not causal proof. Track the action, its start date or time, the outcome measure, and plausible alternatives or parallel changes; compare with a baseline or other reference when possible. Do not infer "luck cured" or "remedy succeeded" from timing alone.
 
 At review time:
 
@@ -164,6 +190,8 @@ Forbidden:
 - "This difficult period will cause illness, breakup, dismissal, or disaster."
 - Listing many vague problems and treating any user agreement as proof of the whole reading.
 - Turning a birth year, zodiac, ming gua, moon phase, solar term, name, room direction, or annual caution into a complete fate diagnosis.
+- Treating any symbolic mapping as evidence that an event has happened or will happen.
+- Broadening a bounded request or promising a complete chart or universal prediction when the required method or inputs are unavailable.
 
 Allowed:
 
@@ -173,7 +201,7 @@ Allowed:
 
 ## Compact Output Shape
 
-For a short answer, use:
+For a short answer or follow-up, use only the relevant items:
 
 1. Urgent reality check, if needed.
 2. Provisional current-posture headline.
@@ -182,4 +210,6 @@ For a short answer, use:
 5. One immediate low-risk action and ranked relevant domains.
 6. Top actions for the next 72 hours, 30 days, and 90 days.
 7. Monitoring signals and a review point.
-8. At most three high-value questions, followed by any concise high-stakes boundary.
+8. Zero to three high-value questions, followed by any concise high-stakes boundary; three is a ceiling and zero is valid.
+
+On a short follow-up, briefly cover any material change or unchanged context and the next step when useful, in the user's language; include only affected outputs, actions, signals, or questions. Do not require literal headings, repeat the full intake, or force every heading.

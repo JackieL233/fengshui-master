@@ -8,7 +8,7 @@ Use feng shui as a symbolic and environmental support lens for attention, rhythm
 
 ## Learning Intake
 
-Ask for:
+Use these as precision inputs, not an opening questionnaire. Reuse explicit conversation context; after a useful provisional reading, ask at most three material questions and skip known or declined fields. Zero questions is valid. Missing essential evidence still limits precise or high-stakes recommendations.
 
 - Subject, level, and deadline.
 - Goal: understanding, exam score, certification, portfolio, language, creative skill.

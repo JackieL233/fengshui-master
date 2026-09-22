@@ -8,7 +8,7 @@ This is not legal advice. Use feng shui only as a symbolic decision-support and 
 
 ## Legal-Adjacent Intake
 
-Ask for:
+Use these as precision inputs, not an opening questionnaire. Reuse explicit conversation context; after a useful provisional reading, ask at most three material questions and skip known or declined fields. Zero questions is valid. Missing essential evidence still limits precise or high-stakes recommendations.
 
 - Decision type: contract review, negotiation, dispute, lease, employment term, compliance, filing, risk planning.
 - Jurisdiction or governing context if the user volunteers it.

@@ -35,7 +35,17 @@ python fengshui-master/scripts/generate_report.py "Review this apartment" --floo
 - Give low-risk, reversible next actions before asking follow-up questions.
 - Label material content as observed, calculated, inferred, unknown, or recommended.
 - For each relevant domain, include favorable signals, possible friction, ordinary manifestations, evidence that would confirm or refute the inference, and an immediate low-risk action.
-- Follow substantial proactive reports with next-72-hour, next-30-day, and next-90-day actions plus observable monitoring signals, then ask at most three high-value questions.
+- Follow substantial proactive reports with next-72-hour, next-30-day, and next-90-day actions plus observable monitoring signals, then optionally ask zero to three high-value questions; three is a ceiling and zero is valid.
+
+## Multi-turn Reports
+
+Treat a follow-up report as a delta over the current conversation, not a new intake. Reuse explicit facts, constraints, corrections, and already recorded refusals; do not re-ask known facts or re-request declined inputs. The latest user correction supersedes the earlier value: retract dependent inferences and recalculate only affected outputs, leaving unrelated conclusions unchanged.
+
+Lead a follow-up with any material change or unchanged context and the next step when useful, in the user's language; do not require literal headings. If there is no material update, say so and do not invent one. Keep only the sections that help answer the follow-up; a short continuation need not fill every heading or repeat the full intake. Adapt the immediate action horizon to the user's actual deadline rather than forcing fixed planning bands. Honor an explicit "do not ask" request by asking zero questions unless urgent safety requires a necessary clarification; keep any safety guidance concise. Before keyword routing, resolve current-turn corrections and negation, preserve the user's actual current topic, and reject any route triggered only by a denied, quoted, or stale fact.
+
+For live calculations, use the actual host/user as-of date and timezone; dates in examples are illustrative only. Keep birth location distinct from present location and analysis timezone. Respond in the user's language. Do not imply persistence, reminders, or external actions without an explicit user request. A symbolic mapping is an interpretive lens, never evidence that an event occurred or will occur. Preserve useful cultural interpretation when concrete basis exists; otherwise label the point `unknown` and state what would verify it. Treat adapter "Ask for" lists as optional precision inventories, not mandatory questionnaires; they cannot override the zero-to-three ceiling or declined fields. Stay within requested scope and do not promise complete charts or universal predictions.
+
+Improvement after a recommendation is not causal proof. Track the action, start date or time, outcome measure, and plausible alternatives or parallel changes; do not infer "luck cured" or "remedy succeeded" from timing alone.
 
 ## Section Guidance
 
@@ -49,7 +59,7 @@ python fengshui-master/scripts/generate_report.py "Review this apartment" --floo
 | Immediate action | One low-risk, reversible, native-domain action |
 | Cross-domain priorities | Ranked concerns by safety, deadline, downside, dependency, and leverage |
 | Action horizons and monitoring | Actions for 72 hours, 30 days, and 90 days; indicators, review point, and stop conditions |
-| Follow-up questions | At most three questions that materially change confidence or action; place them after monitoring |
+| Follow-up questions | Zero to three questions that materially change confidence or action; three is a ceiling, zero is valid, and place any questions after monitoring |
 | Reality layer | Native domain constraints before symbolism |
 | Symbolic analysis protocol | 观气, 取象, 辨势, 吉凶, 化解, and 复核 summary for broad non-spatial readings |
 | Symbolic layer | Yin-yang, five phases, form/flow, timing, bagua, or ji/xiong interpretation |

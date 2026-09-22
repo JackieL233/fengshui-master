@@ -40,6 +40,7 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 - Broad symbolic feng shui protocol: 观气, 取象, 辨势, conditional 吉凶, 化解, and 复核 for non-spatial readings.
 - Broad symbolic analysis: life-pattern reading, auspiciousness/inauspiciousness framing, personal phase balance, event and decision omens, and "趋吉避凶" planning.
 - Proactive reading protocol: after urgent safety triage, lead with a bounded current-posture headline, then assess favorable signals, conditional friction, ordinary manifestations, confirmation/refutation evidence, and practical actions for the next 72 hours, 30 days, and 90 days; ask no more than three precision questions afterward and never invent hidden events.
+- Conversational follow-through: reuse explicit context, retract inferences affected by corrections, explain what changed before the next action, and avoid repeating declined questions. Short follow-ups can be short; three questions is a ceiling, not a target.
 - Five-phase domain map: careers, industries, finance, brands, products, learning, relationships, negotiation, and personal behavior.
 - Form analysis: landform, roads, water, buildings, entrances, circulation, sha qi, light, air, clutter.
 - School selection: form school, compass school, san he, san yuan, xuan kong flying stars, eight mansions, symbolic bagua.
@@ -404,6 +405,8 @@ python fengshui-master/scripts/create_brief.py "Review this apartment layout" --
 ```
 
 The brief defines references, guardrails, later precision inputs, and proactive report sections. It is not the final reading and does not authorize a questionnaire before the bounded current-posture headline.
+
+For repeated consultations, both brief and report tools accept `--known-inputs <path.json>` with explicit input-label/value pairs from the current conversation. See [conversation context integration](docs/integration-guide.md#conversation-context). These values are supplied context, not verified facts or automatically saved memory.
 
 Build a bounded personal-reading context pack from supplied birth data and an analysis date:
 
