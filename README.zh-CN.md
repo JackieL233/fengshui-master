@@ -41,6 +41,7 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 - 生平与运势：人生阶段、五行偏性、吉凶条件、趋吉避凶行动建议。
 - 主动研判：先做紧急安全检查；除即时危险必须优先处置外，直接给出有边界的当前态势初判，再说明有利面、潜在阻力、日常表现、证实或证伪依据，以及未来 72 小时、30 天、90 天的行动，最后最多提出三个精度问题，不把未提供的经历说成事实。
 - 连续对话：沿用当前对话已明确的信息；用户纠正后撤回受影响的旧推断，先说明判断如何变化、下一步做什么，不重复索取已回答或拒绝提供的信息。三个问题是上限，不是必须凑满；短追问可以简短回答。
+- 主动跟进与推送：可以主动提出有明确范围的复盘订阅，经用户授权后按约定时间或新证据提醒。支持本地时区、静默时段、资料时效、每日限额、去重、暂停和撤销，并仅在确认发送回执后更新记录。真正后台推送需要宿主的调度器和私密发送工具；安装 Skill 本身不会启动后台服务。
 - 空间风水：住宅、办公室、商铺、房间、土地、户型、门、床、桌、厨房、卫生间。
 - 形势派与环境：道路、水、山、建筑形体、明堂、煞气、采光、通风、动线。
 - 理气与时空：八宅命卦、三元九运、玄空飞星基础脚手架、太岁、岁破、三煞、二十四节气与月相。
@@ -159,6 +160,7 @@ fengshui-master/
     legal-adjacent-adapter.md
     life-and-omen-adapter.md
     proactive-reading-protocol.md
+    proactive-followup-protocol.md
     five-phase-domain-map.md
     floorplan-schema.md
     ethics-and-limits.md
@@ -175,6 +177,7 @@ fengshui-master/
     solar_terms.py
     create_brief.py
     personal_context.py
+    proactive_checkin.py
     generate_report.py
     periods.py
     flying_stars.py
@@ -348,6 +351,18 @@ Copy-Item -Recurse -Force .\fengshui-master $HOME\.codex\skills\
 ```text
 Use $fengshui-master to analyze ...
 ```
+
+## 主动复盘与推送
+
+例如对 Agent 说：“每周五按我当前时区的 18 点复盘职业计划，仅在约定复盘或有实质变化时私信提醒我。”Agent 应补齐必要的频道和范围信息，用已获许可的资料判断当前态势、指出有利条件和待核验阻力，再给一个行动。暂停或取消应立即阻止后续投递；普通的运势咨询不等于开通订阅。
+
+下面是虚构数据的离线演示，**不会发送消息**：
+
+```bash
+python fengshui-master/scripts/proactive_checkin.py plan examples/proactive-checkin-job.json --now 2026-09-29T09:30:00+08:00
+```
+
+固定日期仅供重现实验；正式接入时省略 `--now`，传入新资料和真实授权。参见[宿主接入与生命周期](docs/proactive-host-integration.md)和[主动跟进协议](fengshui-master/references/proactive-followup-protocol.md)。工具校验推送规则和数据结构，不代表自动核实消息内容的事实或专业适用性。
 
 ## 示例提示词
 

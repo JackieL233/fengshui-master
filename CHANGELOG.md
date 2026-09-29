@@ -6,6 +6,10 @@ All notable changes to FengShui Master are documented here.
 
 ### Added
 
+- Added portable proactive follow-up guidance for in-session initiative, opt-in scheduled reviews, and evidence-change notifications, including useful bounded assessments and pause/unsubscribe behavior.
+- Added `proactive_checkin.py`, an opt-in notification planner and receipt acknowledgment helper with consent-scope binding, evidence freshness, local quiet hours, per-day/cooldown limits, content-based deduplication, and no implicit sending or persistence.
+- Added a proactive job schema, fictional example, host integration recipe, and notification lifecycle regressions. Actual delivery requires a user-authorized scheduler and private channel supplied by the host.
+
 - Added multi-turn continuity rules for supplied context, corrections, declined inputs, current-date provenance, concise follow-ups, and evidence-based action review across portable and Codex entrypoints.
 - Added optional `--known-inputs` context to brief/report tools, semantic follow-up deduplication, and priority for missing high-stakes evidence. Supplied values remain unverified context, not a suitability assessment or persistent memory.
 - Added a machine-readable conversation contract and nine manual bilingual multi-turn acceptance scenarios alongside focused runtime regression tests.

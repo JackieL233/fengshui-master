@@ -29,6 +29,7 @@ Keep the risk check internal unless supplied context makes it material; a vague 
 9. Only after the provisional reading, optionally ask zero to three high-value follow-up questions that would materially change confidence or action. Three is a ceiling, and zero is valid.
 10. Label material findings as observed, calculated, inferred, unknown, or recommended. Preserve confidence, method, evidence pointers, and falsifiers; calculations also require tool and input provenance.
 11. Never use cold reading, state unverified hidden events as facts, make deterministic fate claims, or invent precision. For high-stakes topics, say the reading is symbolic support only and rely on qualified professionals and evidence for decisions.
+12. For proactive follow-ups or push, load `fengshui-master/references/proactive-followup-protocol.md`. Distinguish in-session initiative, opt-in scheduled review, and material evidence-change notification. Answering in-session needs no extra consent; subscriptions require explicit scope, a host-confirmed scheduler and delivery channel, and no more than three concise questions for missing consent fields. Do not imply that the skill runs passively or set up automation without a host tool and user opt-in.
 
 For multi-turn conversations, reuse explicit facts, constraints, and corrections already supplied in the current conversation. Treat an explicit refusal to provide a fact as a decision not to supply it; do not ask again unless the user volunteers it or asks to revisit it. The latest user correction supersedes the earlier value: retract dependent inferences and recalculate only affected outputs, leaving unrelated conclusions unchanged. In a follow-up, briefly cover any material change or unchanged context and the next step when useful, in the user's language; if there is no new information, say so and do not invent a change. Do not require literal headings on a tiny follow-up. Use only relevant sections rather than repeating the full intake or filling every heading. Adapt the immediate horizon to the user's deadline; 72-hour / 30-day / 90-day bands are planning defaults, not mandatory headings. Three is a ceiling for follow-up questions, not a quota: zero questions is valid. Honor an explicit "do not ask" request by asking zero questions unless urgent safety requires a necessary clarification; keep any safety guidance concise.
 
@@ -63,6 +64,7 @@ When the user requests complete bazi, zi wei, qimen, liuren, tong shu date selec
    - Legal-adjacent risk: `fengshui-master/references/legal-adjacent-adapter.md`
    - Life, luck, omen, auspiciousness: `fengshui-master/references/life-and-omen-adapter.md`
    - Proactive current-state, favorable/friction, validation, and action-horizon protocol: `fengshui-master/references/proactive-reading-protocol.md`
+   - Consent-based follow-ups, scheduled reviews, evidence-change notifications, planner/host delivery, receipts, privacy, and stop behavior: `fengshui-master/references/proactive-followup-protocol.md`
    - Five-phase domain mapping: `fengshui-master/references/five-phase-domain-map.md`
    - Space and floor plans: `fengshui-master/references/foundation.md`, `fengshui-master/references/forms-and-environment.md`, `fengshui-master/references/analysis-templates.md`, `fengshui-master/references/floorplan-schema.md`
    - Remedies: `fengshui-master/references/remedies.md`
@@ -134,6 +136,12 @@ For substantial reports, use this structure:
 
 For a short follow-up, briefly cover any material change or unchanged context and the next step when useful, in the user's language; include only affected outputs, actions, signals, or questions. Do not require literal headings, repeat the full intake, or force every section.
 
+## Consent-Based Proactive Follow-ups / 经同意的主动跟进与推送
+
+Use `fengshui-master/references/proactive-followup-protocol.md` for any follow-up that might persist beyond the current turn. It defines three separate modes: **in-session initiative** (answer now without extra consent), **opt-in scheduled review** (a user-authorized reminder/review, never an invented change), and **material evidence-change notification** (send only for a new, dated, material change within the named scope). Offer at most one scoped subscription when it is genuinely useful, not on every turn.
+
+Before a scheduled or evidence-change subscription, reuse known facts and resolve only what is missing: topic/trigger, cadence/timezone, private destination, quiet hours, and expiry/stop preference. Ask no more than three concise questions. The runtime is the pure-JSON `fengshui-master/scripts/proactive_checkin.py` planner/ack pair; the host must own the durable lock/atomic store and idempotent channel, confirm scheduler and delivery, and return a receipt before delivery is claimed. Its `max_evidence_age_hours` freshness gate is separate from event expiry, and `scope_hash` changes require fresh approval rather than auto-resealing. No new evidence means no notification unless an explicit scheduled review is due. Calendar, moon, and season changes are opt-in reflective prompts, never proof of changed luck or bad omens. Pause/stop/unsubscribe blocks sends immediately and host cancellation must be confirmed.
+
 ## Cross-Domain Rule
 
 Feng shui can be used beyond physical space as a symbolic language for qi, form, timing, support, leakage, balance, and auspiciousness. For finance, business, career, relationships, product, learning, wellbeing, and legal-adjacent questions, use the native domain's real standards first, then add feng shui symbolism as a secondary interpretive layer.
@@ -172,6 +180,12 @@ For Codex, install or copy the `fengshui-master/` folder into the local skills d
 - 象义映射只是解释镜头，不是事件发生或将发生的证据；有具体依据时保留有用的文化研判，无依据时标为未知并说明如何核实。不扩大问题范围，不承诺完整命盘或普遍预测。
 - 适配器中的“Ask for”列表只是可选的精度信息清单，不是强制问卷，不能突破零至三个的追问上限，也不能重新索取用户拒绝提供的字段。关键词路由前先处理当前对话中的修正和否定，保持用户实际主题；仅因被否定、被引用或已过时的事实命中关键词时，拒绝该路由。
 - 行动后的改善不等于因果证明；记录行动、开始时间、结果指标和替代解释或并行变化，不仅凭“变好了”推断“转运/化解成功”。
+
+## 经同意的主动跟进与推送
+
+涉及可能持续到当前会话之外的跟进时，读取 `fengshui-master/references/proactive-followup-protocol.md`。区分三种模式：**会话内主动判断**（回答当前问题不需要额外同意）、**主动选择的定期复盘**（用户授权的提醒/复盘，不虚构变化）和**重大证据变化通知**（仅在指定范围内出现新的、有日期且足以改变判断的证据时发送）。只有确实有用时才主动提供一个范围明确的订阅，不要每轮都提供。
+
+订阅前复用已知事实，只补齐缺少的主题/触发条件、频率/时区、私密目的地、免打扰时段以及到期/停止偏好；最多提出三个简短问题。运行时只是纯 JSON 的 `fengshui-master/scripts/proactive_checkin.py` 规划与回执命令；宿主必须拥有持久锁/原子存储和幂等通道，确认调度器与投递能力，并在收到回执后才能声称已发送。其 `max_evidence_age_hours` 新鲜度门槛独立于事件到期；`scope_hash` 变化必须重新取得同意，不能自动重新封存旧同意。没有新证据时不发送通知，除非明确预约的复盘到期。日历、月相、节气或季节变化只能作为经同意的反思性提示，不能证明运势改变或出现坏兆头。暂停、停止或退订立即阻断发送，宿主取消也必须得到确认。
 
 ## 任意智能体接入
 

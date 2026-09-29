@@ -21,6 +21,7 @@ except ImportError:
 
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACTS = {
+    "examples/proactive-checkin-job.json": "schemas/proactive-checkin.schema.json",
     "portable-skill.json": "schemas/portable-skill.schema.json",
     "examples/portable-evaluation-suite.json": "schemas/portable-evaluation-suite.schema.json",
     "examples/user-journey-evaluation-suite.json": "schemas/user-journey-evaluation-suite.schema.json",

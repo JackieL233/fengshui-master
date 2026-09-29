@@ -4,6 +4,24 @@
   "purpose": "Machine-readable script metadata for agent tool registration, CLI wrappers, function calling adapters, and integration smoke tests.",
   "tools": [
     {
+      "name": "proactive_checkin",
+      "path": "fengshui-master/scripts/proactive_checkin.py",
+      "category": "proactive_followup",
+      "description": "Plan scoped opt-in notifications with freshness, local quiet hours, quotas and deduplication; acknowledge provider receipts into a returned state. No scheduler, network sender, or implicit persistence.",
+      "command_template": "python fengshui-master/scripts/proactive_checkin.py plan <job.json>",
+      "inputs": [
+        {"name": "command", "type": "string", "required": true, "description": "plan or ack; ack requires a prior ready decision and confirmed provider receipt."},
+        {"name": "job", "type": "path", "required": true, "description": "JSON subscription, candidate event and latest receipt state."},
+        {"name": "decision", "type": "path", "required": false, "description": "Ready decision JSON required by ack."},
+        {"name": "receipt", "type": "string", "required": false, "description": "Confirmed provider receipt ID required by ack."},
+        {"name": "sent_at", "type": "string", "required": false, "description": "Confirmed aware ISO delivery timestamp required by ack."},
+        {"name": "now", "type": "string", "required": false, "description": "Aware ISO timestamp for reproducible tests; omit for live UTC clock."}
+      ],
+      "output_format": "json",
+      "risk_level": "high",
+      "required_guardrails": ["explicit scoped notification consent", "host must serialize and recheck consent before sending", "planning is not sending", "acknowledge only confirmed receipts", "no semantic or professional validation of supplied message text"]
+    },
+    {
       "name": "method_selector",
       "path": "fengshui-master/scripts/method_selector.py",
       "category": "routing",

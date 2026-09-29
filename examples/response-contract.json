@@ -119,6 +119,9 @@
     }
   ],
   "answer_rules": [
+    "For a user-authorized proactive subscription, use only the retained context and sources allowed by that agreement. Follow proactive-followup-protocol.md for lifecycle, quiet hours, freshness, deduplication, and pause/unsubscribe.",
+    "An outbound check-in must explain why now, give a bounded current assessment, one useful next step and a verification signal. No new evidence means silence unless a periodic review was explicitly requested; a calendar marker is not proof of changed fortune.",
+    "Planning a message is not sending it. Require a confirmed host schedule for later execution and a private delivery receipt before reporting success or advancing the sent ledger.",
     "Route the domain before answering substantial requests.",
     "Use real-world constraints before symbolic feng shui interpretation.",
     "Load or cite the relevant references selected by the brief, router, reference catalog, or user request.",
@@ -152,6 +155,10 @@
     "States unverified hidden events, private conflicts, losses, illness, betrayal, or other cold-reading hypotheses as observed facts."
   ],
   "output_modes": [
+    {
+      "name": "proactive_notification",
+      "description": "A short consented notification: why now, dated basis and uncertainty, current posture, relevant favorable/friction signals, one reversible next step, a check signal, and a pause/unsubscribe path. The host must authorize, schedule and confirm delivery; absent new evidence, only an explicitly scheduled review may notify."
+    },
     {
       "name": "brief_answer",
       "description": "A concise answer may compress sections, but must preserve reality check, method, practical recommendation, missing data, and boundary language."

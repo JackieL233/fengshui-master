@@ -144,6 +144,8 @@ python fengshui-master/scripts/analyze_floorplan.py fengshui-master/assets/sampl
 
 ## Conversation Context
 
+For opt-in scheduled or event-triggered messages, follow [Proactive Host Integration](proactive-host-integration.md). It specifies source permissions, scheduling, private delivery, freshness, quiet hours, revocation, provider receipts, and a local fake-sender demonstration. The passive skill and brief/report generators are not background services; `proactive_checkin.py` is the decision and acknowledgment layer, not a transport.
+
 The assistant should reuse explicit facts in the current conversation without asking for them again. Apply the latest correction before calling tools. Preserve declined or unknown inputs as unknown; do not fill them with guesses. Follow-ups should explain changes and the next action, not restart the intake. See the manual multi-turn scenarios in `examples/portable-agent-prompts.md` and `conversation_defaults` in `examples/response-contract.json`.
 
 Both `create_brief.py` and `generate_report.py` accept an optional `--known-inputs <path.json>`. The JSON must be an object mapping exact labels from `DOMAIN_MISSING_INPUTS` in `create_brief.py` to nonempty strings. For example:

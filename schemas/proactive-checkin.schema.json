@@ -1,0 +1,359 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/JackieL233/fengshui-master/schemas/proactive-checkin.schema.json",
+  "title": "FengShui Master Proactive Check-in Job",
+  "description": "Machine-readable input contract for the proactive check-in runtime. Policy, ordering, consent freshness, delivery idempotency, and semantic safety checks remain runtime or host responsibilities.",
+  "type": "object",
+  "required": ["version", "subscription", "event", "state"],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "subscription": {
+      "$ref": "#/$defs/subscription"
+    },
+    "event": {
+      "$ref": "#/$defs/event"
+    },
+    "state": {
+      "$ref": "#/$defs/state"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000,
+      "pattern": "\\S"
+    },
+    "boundedString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "pattern": "\\S"
+    },
+    "awareDateTime": {
+      "type": "string",
+      "format": "date-time",
+      "minLength": 20,
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]{1,6})?(?:Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])$"
+    },
+    "ianaTimezone": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 300,
+      "pattern": "^[A-Za-z][A-Za-z0-9._+-]*(?:/[A-Za-z0-9._+-]+)*$",
+      "description": "An IANA time-zone identifier. Runtime validation must also resolve it against the host time-zone database."
+    },
+    "consent": {
+      "type": "object",
+      "properties": {
+        "granted": {
+          "type": "boolean"
+        },
+        "recorded_at": {
+          "$ref": "#/$defs/awareDateTime"
+        },
+        "source_ref": {
+          "$ref": "#/$defs/boundedString"
+        },
+        "scope_hash": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "SHA-256 configuration binding for the approved scope; this is not cryptographic proof of user consent. Hosts must not auto-reseal it after a configuration change without explicit user approval."
+        }
+      },
+      "required": ["granted", "recorded_at", "source_ref", "scope_hash"],
+      "additionalProperties": false
+    },
+    "quietHours": {
+      "type": "object",
+      "required": ["start", "end"],
+      "properties": {
+        "start": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 5,
+          "pattern": "^(?:[01][0-9]|2[0-3]):[0-5][0-9]$"
+        },
+        "end": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 5,
+          "pattern": "^(?:[01][0-9]|2[0-3]):[0-5][0-9]$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "subscription": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/boundedString"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "paused", "revoked"]
+        },
+        "consent": {
+          "$ref": "#/$defs/consent"
+        },
+        "domains": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 30,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/boundedString"
+          }
+        },
+        "triggers": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["context_changed", "review_due", "calendar"]
+          }
+        },
+        "channel": {
+          "$ref": "#/$defs/boundedString"
+        },
+        "recipient": {
+          "$ref": "#/$defs/boundedString"
+        },
+        "timezone": {
+          "$ref": "#/$defs/ianaTimezone"
+        },
+        "language": {
+          "type": "string",
+          "enum": ["en", "zh-CN"]
+        },
+        "expires_at": {
+          "$ref": "#/$defs/awareDateTime"
+        },
+        "quiet_hours": {
+          "anyOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/quietHours" }
+          ]
+        },
+        "max_per_day": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20
+        },
+        "min_interval_minutes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10080
+        },
+        "max_evidence_age_hours": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8760,
+          "description": "Runtime independently suppresses stale_evidence when observed evidence exceeds this age, even if the event has not expired."
+        }
+      },
+      "required": [
+        "id",
+        "status",
+        "consent",
+        "domains",
+        "triggers",
+        "channel",
+        "recipient",
+        "timezone",
+        "language",
+        "expires_at",
+        "quiet_hours",
+        "max_per_day",
+        "min_interval_minutes",
+        "max_evidence_age_hours"
+      ],
+      "additionalProperties": false
+    },
+    "event": {
+      "type": "object",
+      "required": [
+        "key",
+        "trigger",
+        "domain",
+        "observed_at",
+        "expires_at",
+        "changed",
+        "risk_level",
+        "basis",
+        "evidence_refs",
+        "assessment",
+        "next_step",
+        "check_signal",
+        "action_type"
+      ],
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/boundedString"
+        },
+        "trigger": {
+          "type": "string",
+          "enum": ["context_changed", "review_due", "calendar"]
+        },
+        "domain": {
+          "$ref": "#/$defs/boundedString"
+        },
+        "observed_at": {
+          "$ref": "#/$defs/awareDateTime"
+        },
+        "expires_at": {
+          "$ref": "#/$defs/awareDateTime"
+        },
+        "changed": {
+          "type": "boolean"
+        },
+        "risk_level": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "basis": {
+          "type": "string",
+          "enum": ["observed", "inferred", "calculated", "reminder"]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 30,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/boundedString"
+          }
+        },
+        "assessment": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "favorable": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "friction": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "next_step": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "check_signal": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "symbolic_note": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "action_type": {
+          "type": "string",
+          "enum": ["reversible_preparation", "reflection", "professional_support"]
+        },
+        "native_basis": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "due_at": {
+          "$ref": "#/$defs/awareDateTime"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": ["trigger"],
+            "properties": {
+              "trigger": {
+                "enum": ["review_due", "calendar"]
+              }
+            }
+          },
+          "then": {
+            "required": ["due_at"]
+          }
+        },
+        {
+          "if": {
+            "anyOf": [
+              {
+                "required": ["risk_level"],
+                "properties": {
+                  "risk_level": { "const": "high" }
+                }
+              },
+              {
+                "required": ["domain"],
+                "properties": {
+                  "domain": {
+                    "enum": [
+                      "finance",
+                      "wellbeing",
+                      "legal_adjacent",
+                      "health",
+                      "medical",
+                      "safety"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "then": {
+            "required": ["native_basis"]
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "delivery": {
+      "type": "object",
+      "required": ["fingerprint", "delivery_id", "receipt_id", "sent_at"],
+      "properties": {
+        "fingerprint": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "delivery_id": {
+          "type": "string",
+          "minLength": 68,
+          "maxLength": 68,
+          "pattern": "^fsm-[0-9a-f]{64}$"
+        },
+        "receipt_id": {
+          "$ref": "#/$defs/boundedString"
+        },
+        "sent_at": {
+          "$ref": "#/$defs/awareDateTime"
+        }
+      },
+      "additionalProperties": false
+    },
+    "state": {
+      "type": "object",
+      "required": ["subscription_id", "revision", "deliveries"],
+      "properties": {
+        "subscription_id": {
+          "$ref": "#/$defs/boundedString"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000000000
+        },
+        "deliveries": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": {
+            "$ref": "#/$defs/delivery"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

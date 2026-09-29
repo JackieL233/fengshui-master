@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "portable-skill.json"
 PROFILES = ROOT / "examples" / "runtime-integration-profiles.json"
 SCHEMA = ROOT / "schemas" / "runtime-integration-profiles.schema.json"
-REQUIRED_PROFILES = {"chat_assistant", "agent_framework", "rag", "local_cli", "codex"}
+REQUIRED_PROFILES = {"chat_assistant", "agent_framework", "rag", "local_cli", "codex", "proactive_host"}
 
 
 def fail(errors: list[str], message: str) -> None:

@@ -23,6 +23,10 @@ Three is a ceiling for follow-up questions, not a quota: zero questions is valid
 
 Before keyword routing, resolve current-turn corrections and negation from the conversation. Preserve the user's actual current topic and reject any route triggered only by a denied, quoted, or stale fact.
 
+## Consent-Based Proactive Follow-ups
+
+For in-session initiative, opt-in scheduled reviews, or material evidence-change notifications, load `references/proactive-followup-protocol.md`. In-session initiative may answer without extra consent, but a subscription or push requires explicit scope and a host-confirmed scheduler and delivery channel. Reuse known facts, ask at most three concise questions for missing topic/trigger, cadence/timezone, private destination, quiet hours, or expiry/stop preferences, and never imply passive autonomous running. The reference routes the pure-JSON `scripts/proactive_checkin.py` planner/ack commands, consent-scope binding, evidence-age gate, privacy-minimal delivery, and immediate stop behavior.
+
 ## First Move
 
 Run an urgent safety and native-domain risk check first. Once immediate danger has been addressed, always lead with a bounded provisional current-posture headline before asking any non-urgent question. Sparse inputs lower confidence; they never suppress a useful provisional reading or justify opening with a questionnaire.

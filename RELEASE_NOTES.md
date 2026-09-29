@@ -4,6 +4,8 @@ FengShui Master v1 is a Portable AI Skill and Codex-compatible capability pack f
 
 ## What is included
 
+- Opt-in proactive review and notification protocol with executable planning/receipt helpers, scoped consent, freshness, quiet hours, quotas, deduplication, and host integration. This is not a self-running background service and does not activate a real subscription on installation.
+
 - Codex entrypoint: `fengshui-master/SKILL.md`
 - Portable entrypoint: `PORTABLE_SKILL.md`
 - Machine-readable manifest: `portable-skill.json`

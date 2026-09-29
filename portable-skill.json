@@ -32,6 +32,7 @@
     "fengshui-master/references/legal-adjacent-adapter.md",
     "fengshui-master/references/life-and-omen-adapter.md",
     "fengshui-master/references/proactive-reading-protocol.md",
+    "fengshui-master/references/proactive-followup-protocol.md",
     "fengshui-master/references/five-phase-domain-map.md",
     "fengshui-master/references/floorplan-schema.md",
     "fengshui-master/references/ethics-and-limits.md",
@@ -48,6 +49,7 @@
     "fengshui-master/scripts/domain_router.py",
     "fengshui-master/scripts/create_brief.py",
     "fengshui-master/scripts/personal_context.py",
+    "fengshui-master/scripts/proactive_checkin.py",
     "fengshui-master/scripts/generate_report.py",
     "fengshui-master/scripts/analyze_floorplan.py",
     "fengshui-master/scripts/bagua_map.py",
@@ -62,6 +64,7 @@
   ],
   "evaluation": [
     "examples/portable-agent-prompts.md",
+    "examples/proactive-checkin-job.json",
     "examples/portable-evaluation-rubric.json",
     "examples/portable-evaluation-suite.json",
     "examples/validate_portable_evaluation.py",
@@ -97,7 +100,8 @@
     "examples/validate_runtime_integration_profiles.py"
   ],
   "integration": [
-    "docs/integration-guide.md"
+    "docs/integration-guide.md",
+    "docs/proactive-host-integration.md"
   ],
   "schemas": {
     "manifest": "schemas/portable-skill.schema.json",
@@ -115,7 +119,8 @@
     "external_calculation_contracts": "schemas/external-calculation-contracts.schema.json",
     "contribution_quality_gates": "schemas/contribution-quality-gates.schema.json",
     "runtime_integration_profiles": "schemas/runtime-integration-profiles.schema.json",
-    "agent_claims": "schemas/agent-claims.schema.json"
+    "agent_claims": "schemas/agent-claims.schema.json",
+    "proactive_checkin": "schemas/proactive-checkin.schema.json"
   },
   "governance": [
     "SECURITY.md",

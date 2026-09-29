@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "subscription": {
+    "id": "demo-career-review",
+    "status": "active",
+    "consent": {"granted": true, "recorded_at": "2026-09-28T09:00:00+08:00", "source_ref": "demo:user-opt-in", "scope_hash": "4dd6c39a8ed03b1022211bc9ef9ad97b3ff07849756ceeaea63acca385a7528e"},
+    "domains": ["career"],
+    "triggers": ["context_changed", "review_due"],
+    "channel": "thread",
+    "recipient": "demo-private-thread",
+    "timezone": "Asia/Shanghai",
+    "language": "en",
+    "expires_at": "2026-12-31T23:59:59+08:00",
+    "quiet_hours": {"start": "22:00", "end": "08:00"},
+    "max_per_day": 1,
+    "min_interval_minutes": 720,
+    "max_evidence_age_hours": 168
+  },
+  "event": {
+    "key": "career-review-2026-09-29",
+    "trigger": "context_changed",
+    "domain": "career",
+    "observed_at": "2026-09-29T09:00:00+08:00",
+    "expires_at": "2026-09-30T09:00:00+08:00",
+    "changed": true,
+    "risk_level": "medium",
+    "basis": "inferred",
+    "evidence_refs": ["demo:user-reported-two-shortlisted-roles"],
+    "assessment": "Your search has moved from open exploration to comparing two concrete roles; this is a provisional reading of the reported shortlist.",
+    "favorable": "Two candidates make a small comparison possible.",
+    "friction": "Actual day-to-day work and skill gaps still need verification.",
+    "next_step": "Compare one real job description per role against a work sample you already have.",
+    "check_signal": "Check whether one role has clearer evidence of fit after the comparison.",
+    "symbolic_note": "As a modern wuxing analogy, Metal represents selection and boundaries, not a calculated personal element deficiency.",
+    "action_type": "reversible_preparation"
+  },
+  "state": {"subscription_id": "demo-career-review", "revision": 0, "deliveries": []}
+}

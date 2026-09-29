@@ -4,6 +4,14 @@
   "purpose": "Machine-readable reference metadata for RAG, agent routing, context packing, and guardrail selection.",
   "references": [
     {
+      "path": "fengshui-master/references/proactive-followup-protocol.md",
+      "title": "Proactive Follow-Up and Notification Protocol",
+      "primary_domain": "proactive_followup",
+      "risk_level": "high",
+      "tags": ["proactive", "opt_in", "notification", "review", "consent", "quiet_hours", "freshness"],
+      "required_guardrails": ["explicit scoped notification consent", "no fabricated changes in fortune", "confirm delivery before acknowledging", "honor pause and revocation"]
+    },
+    {
       "path": "fengshui-master/references/foundation.md",
       "title": "Foundation Reference",
       "primary_domain": "foundation",

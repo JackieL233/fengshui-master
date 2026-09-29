@@ -4,6 +4,15 @@
   "purpose": "Machine-readable integration profiles for installing FengShui Master into common AI runtimes while preserving policy, retrieval, tool, evaluation, and high-stakes safety behavior.",
   "profiles": [
     {
+      "id": "proactive_host",
+      "runtime": "A tool-using agent host with a user-authorized scheduler, private notification channel, and durable state.",
+      "required_assets": ["PORTABLE_SKILL.md", "fengshui-master/references/proactive-followup-protocol.md", "fengshui-master/scripts/proactive_checkin.py", "schemas/proactive-checkin.schema.json", "docs/proactive-host-integration.md", "examples/response-contract.json", "examples/claim-evidence-policy.json", "schemas/agent-claims.schema.json"],
+      "required_steps": ["obtain scoped opt-in and bind the approved configuration with consent_scope_fingerprint", "register and verify the host schedule and private destination", "gather only permitted fresh sources and produce a bounded current-state assessment", "review message claims before planning", "serialize read-plan-send-ack-atomic-save per subscription", "recheck live consent before dispatch and use provider idempotency", "acknowledge only confirmed delivery receipts", "revoke locally before cancelling the host schedule"],
+      "tooling": ["python fengshui-master/scripts/proactive_checkin.py plan <job.json>", "python fengshui-master/scripts/proactive_checkin.py ack <job.json> <decision.json> --receipt <provider-id> --sent-at <aware-ISO-timestamp>", "scheduler and network delivery supplied by the host; not bundled"],
+      "validation_commands": ["python examples/validate_runtime_integration_profiles.py", "python -m unittest discover -s tests -p test_proactive_checkin.py", "python examples/validate_json_schemas.py"],
+      "red_lines": ["do not infer notification consent from an ordinary reading", "do not claim scheduling or delivery without tool confirmation", "do not treat a calendar marker as changed fortune", "do not send stale or unreviewed high-stakes claims", "do not retry an uncertain external send without reconciliation", "do not persist personal birth or financial details in the receipt ledger"]
+    },
+    {
       "id": "chat_assistant",
       "runtime": "Hosted chat assistants such as ChatGPT, Claude, Gemini, or similar custom assistants.",
       "required_assets": ["PORTABLE_SKILL.md", "docs/integration-guide.md", "examples/response-contract.json", "examples/claim-evidence-policy.json", "schemas/agent-claims.schema.json", "examples/portable-agent-prompts.md", "fengshui-master/references/ethics-and-limits.md"],

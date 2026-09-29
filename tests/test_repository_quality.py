@@ -1512,6 +1512,24 @@ class RepositoryQualityTest(unittest.TestCase):
         self.assertIn(".gitattributes", readme)
         self.assertIn(".editorconfig", readme)
 
+    def test_proactive_notification_assets_are_registered(self):
+        manifest = json.loads((ROOT / "portable-skill.json").read_text(encoding="utf-8"))
+        reference = "fengshui-master/references/proactive-followup-protocol.md"
+        tool = "fengshui-master/scripts/proactive_checkin.py"
+        self.assertIn(reference, manifest["references"])
+        self.assertIn(tool, manifest["tools"])
+        self.assertIn("docs/proactive-host-integration.md", manifest["integration"])
+        self.assertEqual(manifest["schemas"]["proactive_checkin"], "schemas/proactive-checkin.schema.json")
+        self.assertIn("examples/proactive-checkin-job.json", manifest["evaluation"])
+        contract = json.loads((ROOT / "examples/response-contract.json").read_text(encoding="utf-8"))
+        self.assertIn("proactive_notification", {item["name"] for item in contract["output_modes"]})
+        profiles = json.loads((ROOT / "examples/runtime-integration-profiles.json").read_text(encoding="utf-8"))
+        profile = next(item for item in profiles["profiles"] if item["id"] == "proactive_host")
+        self.assertIn(tool, profile["required_assets"])
+        for entrypoint in [ROOT / "PORTABLE_SKILL.md", ROOT / "fengshui-master/SKILL.md"]:
+            self.assertIn("proactive-followup-protocol.md", entrypoint.read_text(encoding="utf-8"))
+        self.assertIn(".fengshui-private/", (ROOT / ".gitignore").read_text(encoding="utf-8"))
+
     def test_templates_preserve_safety_boundaries(self):
         template_text = "\n".join(
             path.read_text(encoding="utf-8")

@@ -41,6 +41,7 @@ feng-shui, fengshui, wuxing, five-elements, bagua, chinese-metaphysics, traditio
 - Broad symbolic analysis: life-pattern reading, auspiciousness/inauspiciousness framing, personal phase balance, event and decision omens, and "趋吉避凶" planning.
 - Proactive reading protocol: after urgent safety triage, lead with a bounded current-posture headline, then assess favorable signals, conditional friction, ordinary manifestations, confirmation/refutation evidence, and practical actions for the next 72 hours, 30 days, and 90 days; ask no more than three precision questions afterward and never invent hidden events.
 - Conversational follow-through: reuse explicit context, retract inferences affected by corrections, explain what changed before the next action, and avoid repeating declined questions. Short follow-ups can be short; three questions is a ceiling, not a target.
+- Opt-in proactive follow-ups: agents can offer scoped reviews and evidence-change notifications, with timezone-aware quiet hours, freshness limits, daily quotas, deduplication, pause/revocation, and receipt-confirmed state. A host scheduler and private delivery tool are required for actual pushes; installing the skill alone does not start a background service.
 - Five-phase domain map: careers, industries, finance, brands, products, learning, relationships, negotiation, and personal behavior.
 - Form analysis: landform, roads, water, buildings, entrances, circulation, sha qi, light, air, clutter.
 - School selection: form school, compass school, san he, san yuan, xuan kong flying stars, eight mansions, symbolic bagua.
@@ -189,6 +190,7 @@ fengshui-master/
     legal-adjacent-adapter.md
     life-and-omen-adapter.md
     proactive-reading-protocol.md
+    proactive-followup-protocol.md
     five-phase-domain-map.md
     floorplan-schema.md
     ethics-and-limits.md
@@ -205,6 +207,7 @@ fengshui-master/
     solar_terms.py
     create_brief.py
     personal_context.py
+    proactive_checkin.py
     generate_report.py
     periods.py
     flying_stars.py
@@ -377,6 +380,18 @@ Copy-Item -Recurse -Force .\fengshui-master $HOME\.codex\skills\
 ```
 
 Then ask Codex to use `$fengshui-master`.
+
+## Proactive Follow-Ups
+
+Ask an agent, for example: "Review my career plan every Friday at 18:00 in my current timezone, and notify me privately only about the agreed review or a meaningful change." The agent should confirm the missing delivery details, use permitted sources, give a current assessment and one actionable next step, and respect pause/unsubscribe. Do not infer a subscription from an ordinary request for a reading.
+
+Try the fictional, offline planner example (this never sends a notification):
+
+```bash
+python fengshui-master/scripts/proactive_checkin.py plan examples/proactive-checkin-job.json --now 2026-09-29T09:30:00+08:00
+```
+
+The pinned date is a reproducible demo, not today's date. For actual use omit `--now` and supply fresh evidence and real consent. See [host setup and lifecycle](docs/proactive-host-integration.md) and [the agent protocol](fengshui-master/references/proactive-followup-protocol.md). The planner validates policy and input structure, not the truth or professional suitability of arbitrary message text.
 
 ## Example Prompts
 

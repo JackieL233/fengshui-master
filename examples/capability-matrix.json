@@ -5,6 +5,19 @@
   "statuses": ["fully_covered", "partially_covered", "not_covered"],
   "capabilities": [
     {
+      "id": "consented-proactive-followup",
+      "title": "Proactive assessment and consented notification planning with host delivery",
+      "status": "partially_covered",
+      "domains": ["general", "timing", "life_omen", "career", "finance", "space"],
+      "supported_questions": ["review my situation on an agreed schedule", "notify me about meaningful changes", "offer a useful next step from new evidence", "pause or cancel follow-ups"],
+      "required_inputs": ["explicit scoped consent", "private channel and recipient", "timezone and agreed schedule or triggers", "fresh permitted evidence or requested review", "latest receipt state"],
+      "references": ["fengshui-master/references/proactive-followup-protocol.md", "fengshui-master/references/proactive-reading-protocol.md", "fengshui-master/references/ethics-and-limits.md"],
+      "optional_tools": ["fengshui-master/scripts/proactive_checkin.py", "fengshui-master/scripts/personal_context.py"],
+      "guardrails": ["do not create unsolicited subscriptions", "do not invent changed fortune", "respect consent revocation and quiet hours", "confirm delivery before acknowledging", "use native-domain evidence before symbolism"],
+      "limitations": ["host must supply and verify the scheduler, private transport, source access, locking, durable outbox, and atomic state store", "planner validates policy and structure, not the truth or safety of arbitrary message text", "calendar and personal context helpers are bounded scaffolds, not predictive engines", "no claim of exactly-once network delivery without provider reconciliation"],
+      "adaptation_notes": ["Use docs/proactive-host-integration.md and the fictional offline example for integration.", "A chat-only host can offer a review plan but cannot promise a later message.", "Use a stable event key per meaningful change or scheduled occurrence; do not create a fresh key on each poll."]
+    },
+    {
       "id": "space-form-analysis",
       "title": "Form-school spatial analysis for homes, offices, shops, rooms, and sites",
       "status": "partially_covered",

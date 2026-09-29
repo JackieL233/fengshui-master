@@ -84,6 +84,9 @@ jobs:
       - name: Smoke test domain router
         run: python fengshui-master/scripts/domain_router.py "Should I buy this stock next month?" --pretty
 
+      - name: Smoke test proactive notification planning (no delivery)
+        run: python fengshui-master/scripts/proactive_checkin.py plan examples/proactive-checkin-job.json --now 2026-09-29T09:30:00+08:00
+
       - name: Smoke test naming context fusion
         run: python fengshui-master/scripts/domain_router.py "Compare these app names and onboarding flows for meaning, pronunciation, and conversion" --pretty
 
